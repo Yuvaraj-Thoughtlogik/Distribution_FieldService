@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <data>
+        <record id="equipment_form_view" model="ir.ui.view">
+            <field name="name">equipment.type.view.form</field>
+            <field name="model">equipment.type</field>
+            <field name="arch" type="xml">
+                <form string="Equipment Type">
+                    <sheet>
+                        <field name="name"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="equipment_type_action" model="ir.actions.act_window">
+            <field name="name">Equipment Type</field>
+            <field name="res_model">equipment.type</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <record id="sample_material_form_view" model="ir.ui.view">
+            <field name="name">sample.material.view.form</field>
+            <field name="model">sample.material</field>
+            <field name="arch" type="xml">
+                <form string="Sample material">
+                    <sheet>
+                        <field name="name"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="sample_material_action" model="ir.actions.act_window">
+            <field name="name">Sample material</field>
+            <field name="res_model">sample.material</field>
+            <field name="view_mode">form</field>
+        </record>
+
+        <record id="analysis_analysis_form_view" model="ir.ui.view">
+            <field name="name">analysis.analysis.view.form</field>
+            <field name="model">analysis.analysis</field>
+            <field name="arch" type="xml">
+                <form string="Analysis">
+                    <sheet>
+                        <field name="name"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="analysis_analysis_action" model="ir.actions.act_window">
+            <field name="name">Analysis</field>
+            <field name="res_model">analysis.analysis</field>
+            <field name="view_mode">form</field>
+        </record>
+
+            <record id="preparation_requirements_form_view" model="ir.ui.view">
+            <field name="name">preparation.requirements.view.form</field>
+            <field name="model">preparation.requirements</field>
+            <field name="arch" type="xml">
+                <form string="Sample Preparation Requirements">
+                    <sheet>
+                        <field name="name"/>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="preparation_requirements_action" model="ir.actions.act_window">
+            <field name="name">Sample Preparation Requirements</field>
+            <field name="res_model">preparation.requirements</field>
+            <field name="view_mode">form</field>
+        </record>
+    </data>
+</odoo>

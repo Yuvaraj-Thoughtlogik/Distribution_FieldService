@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_equipment_type,access.equipment_type,model_equipment_type,,1,1,1,1
+access_sample_material,access.sample_material,model_sample_material,,1,1,1,1
+access_analysis_analysis,access.analysis_analysis,model_analysis_analysis,,1,1,1,1
+access_preparation_requirements,access.preparation_requirements,model_preparation_requirements,,1,1,1,1
+

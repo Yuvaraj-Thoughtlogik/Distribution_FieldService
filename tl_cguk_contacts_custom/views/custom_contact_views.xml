@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="custom_contact" model="ir.ui.view">
+            <field name="name">res.partner.inherited</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='phone']" position="before">
+                    <field name="equipment_type" widget="many2many_tags"/>
+
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="department"/>
+                    <field name="email_opt_out"/>
+                    <field name="actively_employee"/>
+                    <field name="source_id"/>
+
+                </xpath>
+
+                <xpath expr="//page[@name='internal_notes']" position="attributes">
+                    <attribute name="string">Miscellaneous Information</attribute>
+                </xpath>
+                <xpath expr="//page[@name='sales_purchases']" position="after">
+                    <page string="Application information" name="application_information">
+                        <group>
+                            <group>
+                                <field name="sample_material" widget="many2many_tags"/>
+                                <field name="sample_material_specification"/>
+                                <field name="preparation_requirements" widget="many2many_tags"/>
+                            </group>
+                            <group>
+                                <field name="analysis_analysis" widget="many2many_tags"/>
+                                <field name="analysis_further"/>
+                                <field name="description_custom"/>
+                            </group>
+                        </group>
+
+                    </page>
+
+
+                </xpath>
+                <xpath expr="//field[@name='title']" position="after">
+                    <field name="secondary_email"/>
+
+                </xpath>
+                <xpath expr="//span[@name='address_name']" position="before">
+                    <field name='first_name'/>
+                    <field name="last_name"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="view_partner_tree_inherit" model="ir.ui.view">
+            <field name="name">res.partner.view.tree.inherit</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='complete_name']" position="after">
+                    <field name="first_name"/>
+                    <field name="last_name"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
