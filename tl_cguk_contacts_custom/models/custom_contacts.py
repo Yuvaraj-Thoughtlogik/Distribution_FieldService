@@ -42,7 +42,7 @@ class Contacts(models.Model):
         readonly=False,
     )
     
-     account_type = fields.Selection([
+    account_type = fields.Selection([
         ('customer', 'Customer'),
         ('vendor', 'Vendor'),
         ('distributor', 'Distributor'),
