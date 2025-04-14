@@ -7,15 +7,17 @@
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//field[@name='phone']" position="before">
+                <group>
                     <field name="equipment_type" widget="many2many_tags"/>
-
+                 </group>
                 </xpath>
                 <xpath expr="//field[@name='vat']" position="after">
+                <group>
                     <field name="department"/>
                     <field name="email_opt_out"/>
                     <field name="actively_employee"/>
                     <field name="source_id"/>
-
+                </group>
                 </xpath>
 
                 <xpath expr="//page[@name='internal_notes']" position="attributes">
