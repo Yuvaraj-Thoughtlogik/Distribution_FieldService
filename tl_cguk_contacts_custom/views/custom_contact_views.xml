@@ -50,6 +50,9 @@
                     <field name='first_name'/>
                     <field name="last_name"/>
                 </xpath>
+                <xpath expr="//field[@name='category_id']" position="after">
+                <field name="account_type"/>
+            </xpath>
             </field>
         </record>
         <record id="view_partner_tree_inherit" model="ir.ui.view">

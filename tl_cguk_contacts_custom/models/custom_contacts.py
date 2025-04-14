@@ -41,6 +41,14 @@ class Contacts(models.Model):
         store=True,
         readonly=False,
     )
+    
+     account_type = fields.Selection([
+        ('customer', 'Customer'),
+        ('vendor', 'Vendor'),
+        ('distributor', 'Distributor'),
+        ('reseller', 'Reseller'),
+        ('prospect', 'Prospect'),
+    ], string='Account Type')
 
     @api.depends('name', 'is_company')
     def _compute_name_parts(self):
