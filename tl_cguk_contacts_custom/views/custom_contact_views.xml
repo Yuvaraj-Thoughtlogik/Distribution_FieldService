@@ -6,18 +6,14 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='phone']" position="before">
-                <group>
+                <xpath expr="//field[@name='function']" position="after">
                     <field name="equipment_type" widget="many2many_tags"/>
-                 </group>
                 </xpath>
-                <xpath expr="//field[@name='vat']" position="after">
-                <group>
-                    <field name="department"/>
-                    <field name="email_opt_out"/>
-                    <field name="actively_employee"/>
-                    <field name="source_id"/>
-                </group>
+                <xpath expr="//div[@class='o_address_format']" position="after">
+                        <field name="department" colspan="2"/>
+                        <field name="email_opt_out"/>
+                        <field name="actively_employee"/>
+                        <field name="source_id"/>
                 </xpath>
 
                 <xpath expr="//page[@name='internal_notes']" position="attributes">
@@ -30,6 +26,7 @@
                                 <field name="sample_material" widget="many2many_tags"/>
                                 <field name="sample_material_specification"/>
                                 <field name="preparation_requirements" widget="many2many_tags"/>
+                                <field name="competitor_equipment"/>
                             </group>
                             <group>
                                 <field name="analysis_analysis" widget="many2many_tags"/>
@@ -51,8 +48,10 @@
                     <field name="last_name"/>
                 </xpath>
                 <xpath expr="//field[@name='category_id']" position="after">
-                <field name="account_type"/>
-            </xpath>
+                    <field name="account_type"/>
+                    <field name="rating"/>
+
+                </xpath>
             </field>
         </record>
         <record id="view_partner_tree_inherit" model="ir.ui.view">

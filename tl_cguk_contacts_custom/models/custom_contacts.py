@@ -13,8 +13,8 @@ class Contacts(models.Model):
     sample_material_specification = fields.Html( string="Sample Material Specification")
     analysis_further = fields.Html(string="Analysis -Further Information")
     secondary_email = fields.Char(string="Secondary Email")
-    description_custom = fields.Text(string="Description")
-    department = fields.Html(string="Department")
+    description_custom = fields.Html(string="Description")
+    department = fields.Text(string="Department")
     # enquiry_source = fields.Selection([('advertisement', 'Advertisement'), ('broker', 'Broker'), ('coldcall', 'Cold Call'), ('employeereferral', 'Employee Referral'), ('externalreferral', 'External Referral'), ('onlinestore', 'OnlineStore'), ('partner', 'Partner'), ('publicrelations', 'Public Relations'), ('salesmailalias', 'Sales Mail Alias'), ('seminarpartner', 'Seminar Partner'), ('seminar-internal', 'Seminar-Internal'),
     #                                    ('tradeshow', 'Trade Show'),
     #                                    ('webcases', 'Web Cases'),
@@ -26,6 +26,8 @@ class Contacts(models.Model):
     #                                    ('facebook', 'Facebook'),
     #                                    ('google+', 'Google+'),], "Enquiry Source")
     source_id = fields.Many2one('utm.source',string='Enquiry Source')
+    competitor_equipment = fields.Html(string="Competitor equipment")
+    rating = fields.Selection([('prospective_customer', 'Prospective customer'), ('active_customer', 'Active Customer'),], "Rating")
 
     first_name = fields.Char(
         'First Name',
@@ -47,7 +49,7 @@ class Contacts(models.Model):
         ('vendor', 'Vendor'),
         ('distributor', 'Distributor'),
         ('reseller', 'Reseller'),
-        ('prospect', 'Prospect'),
+        ('prospect', 'Prospect'),('partner', 'Partner'), ('supplier', 'Supplier')
     ], string='Account Type')
 
     @api.depends('name', 'is_company')
