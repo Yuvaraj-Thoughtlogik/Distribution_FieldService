@@ -32,6 +32,8 @@ class Crm_customisation(models.Model):
     _description = 'Crm_customisation Model'
 
     # first_name = fields.Char(string="First Name")
+
+    company_name = fields.Many2one(comodel_name="res.partner",string="Company name",domain="[('company_type', '=', 'company')]")
     last_name = fields.Char(string="Last Name")
     secondary_email = fields.Char(string="Secondary Email")
     created_by = fields.Char(string="Created By")

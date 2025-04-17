@@ -93,7 +93,7 @@
                             <group name="lead_partner" invisible="type == 'opportunity'">
                                 <!-- Preload all the partner's information -->
                                 <field name="is_partner_visible" invisible='1'/>
-                                <field name="partner_id" widget="res_partner_many2one"
+                                <field name="partner_id" widget="res_partner_many2one" string="Contact Person"
                                        context="{
                                         'default_name': contact_name,
                                         'default_title': title,
@@ -112,21 +112,13 @@
                                         'default_website': website,
                                         'default_lang': lang_code,
                                         'show_vat': True
-                                    }" invisible="not is_partner_visible"/>
-                                <field name="partner_name"/>
+                                    }"
+                                domain="[('is_company', '=', False)]"/>
+                                <field name="company_name" domain="[('is_company', '=', True)]"/>
                                 <field name="manufacturer_ids" widget="many2many_tags"/>
                                 <field name="industry"/>
                                 <field name="rating"/>
                                 <field name="enquiry_status"/>
-                                <!--                                <label for="street" string="Address"/>-->
-                                <!--                                <div class="o_address_format">-->
-                                <!--                                    <field name="street" placeholder="Street..." class="o_address_street"/>-->
-                                <!--                                    <field name="street2" placeholder="Street 2..." class="o_address_street"/>-->
-                                <!--                                    <field name="city" placeholder="City" class="o_address_city"/>-->
-                                <!--                                    <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>-->
-                                <!--                                    <field name="zip" placeholder="ZIP" class="o_address_zip"/>-->
-                                <!--                                    <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>-->
-                                <!--                                </div>-->
                                 <field name="website" widget="url" placeholder="e.g. https://www.odoo.com"/>
                                 <field name="lang_active_count" invisible="1"/>
                                 <field name="lang_code" invisible="1"/>
@@ -137,7 +129,7 @@
                             <group name="opportunity_partner" invisible="type == 'lead'">
                                 <field name="partner_id"
                                        widget="res_partner_many2one"
-                                       string="Contact"
+                                       string="Contact Person"
                                        context="{'res_partner_search_mode': type == 'opportunity' and 'customer' or False,
                                         'default_name': contact_name or partner_name,
                                         'default_street': street,
@@ -159,7 +151,9 @@
                                         'default_lang': lang_code,
                                         'show_vat': True,
                                     }"
+                                       domain="[('is_company', '=', False)]"
                                 />
+                                <field name="company_name" domain="[('is_company', '=', True)]"/>
                                 <field name="manufacturer_ids" widget="many2many_tags"/>
                                 <field name="industry"/>
                                 <field name="rating"/>
@@ -333,7 +327,7 @@
                             <page name="lead" string="Extra Information" invisible="type == 'lead'">
                                 <group>
                                     <group string="Contact Information">
-                                        <field name="partner_name"/>
+                                        <field name="company_name" domain="[('is_company', '=', True)]"/>
                                         <label for="street_page_lead" string="Address"/>
                                         <div class="o_address_format">
                                             <field name="street" id="street_page_lead" placeholder="Street..." class="o_address_street"/>
@@ -386,85 +380,6 @@
                     <chatter reload_on_post="True"/>
                 </form>
             </xpath>
-            <!--            <xpath expr="//field[@name='email_cc']" position="before">-->
-            <!--                &lt;!&ndash; Add your fields or attributes here &ndash;&gt;-->
-            <!--                &lt;!&ndash;            <field name="first_name"/>&ndash;&gt;-->
-            <!--                &lt;!&ndash;            <field name="last_name"/>&ndash;&gt;-->
-            <!--                <field name="secondary_email"/>-->
-            <!--&lt;!&ndash;                <field name="email_opt_out"/>&ndash;&gt;-->
-            <!--            </xpath>-->
-            <!--            <xpath expr="//group[@name='opportunity_partner']" position="after">-->
-            <!--                &lt;!&ndash; Add your fields or attributes here &ndash;&gt;-->
-            <!--                <group name="Enquiry Information" string="Enquiry Information">-->
-            <!--                    <field name="manufacturer_ids" widget="many2many_tags"/>-->
-            <!--                    <field name="industry"/>-->
-            <!--                    <field name="rating"/>-->
-            <!--                    <field name="enquiry_status"/>-->
-            <!--                </group>-->
-            <!--            </xpath>-->
-            <!--            <xpath expr="//notebook/page[@name='extra']" position="before">-->
-            <!--                <page name="Application Information">-->
-            <!--                    <group>-->
-            <!--                        <group>-->
-            <!--                            <field name="sample_material_ids" widget="many2many_tags"/>-->
-            <!--                            <field name="sample_material_special"/>-->
-            <!--                            <field name="analysis_ids" widget="many2many_tags"/>-->
-            <!--                        </group>-->
-            <!--                        <group>-->
-            <!--                            <field name="analysis_further_information"/>-->
-            <!--                            <field name="description_of_analysis"/>-->
-            <!--                            <field name="sample_preparation_ids" widget="many2many_tags"/>-->
-            <!--                        </group>-->
-            <!--                    </group>-->
-            <!--                </page>-->
-            <!--            </xpath>-->
-
-            <!--            <xpath expr="//group[@name='lead_partner']" position="replace">-->
-            <!--                <group name="lead_partner"  invisible="type == 'opportunity'">-->
-            <!--                    <group string="Enquiry Information">-->
-            <!--                    <field name="is_partner_visible" invisible='1'/>-->
-            <!--                    <field name="partner_id" widget="res_partner_many2one"-->
-            <!--                           context="{-->
-            <!--                                        'default_name': contact_name,-->
-            <!--                                        'default_title': title,-->
-            <!--                                        'default_street': street,-->
-            <!--                                        'default_street2': street2,-->
-            <!--                                        'default_city': city,-->
-            <!--                                        'default_state_id': state_id,-->
-            <!--                                        'default_zip': zip,-->
-            <!--                                        'default_country_id': country_id,-->
-            <!--                                        'default_function': function,-->
-            <!--                                        'default_phone': phone,-->
-            <!--                                        'default_mobile': mobile,-->
-            <!--                                        'default_email': email_from,-->
-            <!--                                        'default_user_id': user_id,-->
-            <!--                                        'default_team_id': team_id,-->
-            <!--                                        'default_website': website,-->
-            <!--                                        'default_lang': lang_code,-->
-            <!--                                        'show_vat': True-->
-            <!--                                    }" invisible="not is_partner_visible"/>-->
-            <!--                    <field name="partner_name"/>-->
-            <!--                    <field name="website" widget="url" placeholder="e.g. https://www.odoo.com"/>-->
-            <!--                    </group>-->
-            <!--                    <group string="Address Information">-->
-            <!--                    <label for="street" string="Address"/>-->
-            <!--                    <div class="o_address_format">-->
-            <!--                        <field name="street" placeholder="Street..." class="o_address_street"/>-->
-            <!--                        <field name="street2" placeholder="Street 2..." class="o_address_street"/>-->
-            <!--                        <field name="city" placeholder="City" class="o_address_city"/>-->
-            <!--                        <field name="state_id" class="o_address_state" placeholder="State" options='{"no_open": True}'/>-->
-            <!--                        <field name="zip" placeholder="ZIP" class="o_address_zip"/>-->
-            <!--                        <field name="country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>-->
-            <!--                    </div>-->
-
-            <!--                    </group>-->
-            <!--                    &lt;!&ndash; Preload all the partner's information &ndash;&gt;-->
-            <!--                    <field name="lang_active_count" invisible="1"/>-->
-            <!--                    <field name="lang_code" invisible="1"/>-->
-            <!--                    <field name="lang_id" invisible="lang_active_count &lt;= 1"-->
-            <!--                           options="{'no_quick_create': True, 'no_create_edit': True, 'no_open': True}"/>-->
-            <!--                </group>-->
-            <!--            </xpath>-->
         </field>
     </record>
 </odoo>

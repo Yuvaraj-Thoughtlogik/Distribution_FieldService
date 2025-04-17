@@ -4,10 +4,11 @@
     'author': 'Felix',
     'category': 'Custom',
     'summary': 'Custom module for Odoo',
-    'depends': ['crm'],
+    'depends': ['base','crm'],
     'data': [
         'security/ir.model.access.csv',
-        'views/crm_contact_customisation.xml'
+        'views/crm_contact_customisation.xml',
+        'views/menu.xml',
     ],
     'installable': True,
     'application': True,
