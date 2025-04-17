@@ -4,7 +4,7 @@
     'author': 'Felix',
     'category': 'Custom',
     'summary': 'Custom module for Odoo',
-    'depends': ['base','crm'],
+    'depends': ['base','crm','product'],
     'data': [
         'security/ir.model.access.csv',
         'views/crm_contact_customisation.xml',

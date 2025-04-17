@@ -37,7 +37,6 @@ class Crm_customisation(models.Model):
     _description = 'Crm_customisation Model'
 
     # first_name = fields.Char(string="First Name")
-
     company_name = fields.Many2one(comodel_name="res.partner",string="Company name",domain="[('company_type', '=', 'company')]")
     business_type = fields.Selection(
         [
@@ -82,8 +81,7 @@ class Crm_customisation(models.Model):
             ('junk', 'Junk'),
             ('unqualified', 'Un Qualified'),
             ('future', 'Contact in Future'),
-            ('not_qualified', 'Not Qualified'),
-            
+            ('not_qualified','Not Qualified'),
         ],
         string="Enquiry Status",
         default='not_contacted'  # optional: set a default
@@ -115,16 +113,15 @@ class Crm_customisation(models.Model):
     amount = fields.Float(string="Amount")
     closing_date = fields.Date(string="Closing Date")
     products= fields.Many2one(
-        'crm.lead.product_line',
-        string="Product(s)"
+        'product.product',
+        string="Product"
     )
-    product_line = fields.Many2many(
-        'crm.lead.product_line',
-        string="Product Line"
-    )
+
     # forecast_category = fields.Selection()
     expected_closer_date = fields.Date(string="Expected Closer Date")
 
     detail_of_current_state = fields.Text(string="Detail of current state")
 
     detail_of_next_action = fields.Text(string="Detail of Next Action")
+
+    crm_id = fields.Char(string="Zoho CRM ID")

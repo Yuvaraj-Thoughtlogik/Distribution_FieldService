@@ -93,7 +93,7 @@
                             <group name="lead_partner" invisible="type == 'opportunity'">
                                 <!-- Preload all the partner's information -->
                                 <field name="is_partner_visible" invisible='1'/>
-                                <field name="partner_id" widget="res_partner_many2one" string="Contact Person"
+                                <field name="partner_id" widget="res_partner_many2one" string="Customer"
                                        context="{
                                         'default_name': contact_name,
                                         'default_title': title,
@@ -114,7 +114,8 @@
                                         'show_vat': True
                                     }"
                                 domain="[('is_company', '=', False)]"/>
-                                <field name="company_name" domain="[('is_company', '=', True)]"/>
+<!--                                <field name="company_name" domain="[('is_company', '=', True)]"/>-->
+                                <field name="partner_name"/>
                                 <field name="manufacturer_ids" widget="many2many_tags"/>
                                 <field name="industry"/>
                                 <field name="rating"/>
@@ -129,7 +130,7 @@
                             <group name="opportunity_partner" invisible="type == 'lead'">
                                 <field name="partner_id"
                                        widget="res_partner_many2one"
-                                       string="Contact Person"
+                                       string="Contact"
                                        context="{'res_partner_search_mode': type == 'opportunity' and 'customer' or False,
                                         'default_name': contact_name or partner_name,
                                         'default_street': street,
@@ -153,9 +154,10 @@
                                     }"
                                        domain="[('is_company', '=', False)]"
                                 />
-                                <field name="company_name" domain="[('is_company', '=', True)]"/>
+                                <field name="partner_name"/>
+<!--                                <field name="company_name" domain="[('is_company', '=', True)]"/>-->
                                 <field name="manufacturer_ids" widget="many2many_tags"/>
-                                <field name="products"/>
+                                <field name="products" />
                                 <field name="industry"/>
                                 <field name="rating"/>
                                 <field name="enquiry_status"/>
@@ -253,7 +255,7 @@
                                 </div>
                                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
                                 <field name="business_type"/>
-                                <field name="product_line" widget="many2many_tags"/>
+                                <field name="crm_id"/>
 
                             </group>
                             <group invisible="type == 'opportunity'">
@@ -265,6 +267,7 @@
                                 <field name="priority" widget="priority"/>
                                 <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color', 'no_create_edit': True}"/>
                                 <field name="business_type"/>
+                                <field name="crm_id"/>
                             </group>
                             <h2 style="padding: 30px 15px;padding-bottom: 10px; border-bottom: 1px solid;color: #646464;" invisible="type == 'opportunity'">Address Information</h2>
                             <group/>
