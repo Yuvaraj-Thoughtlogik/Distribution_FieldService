@@ -70,6 +70,7 @@ class Crm_customisation(models.Model):
             ('junk', 'Junk'),
             ('unqualified', 'Un Qualified'),
             ('future', 'Contact in Future'),
+            ('not_qualified', 'Not Qualified'),
         ],
         string="Enquiry Status",
         default='not_contacted'  # optional: set a default
