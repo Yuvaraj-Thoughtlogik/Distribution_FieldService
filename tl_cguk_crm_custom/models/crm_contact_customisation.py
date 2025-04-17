@@ -27,6 +27,11 @@ class SamplePreparationOption(models.Model):
 
     name = fields.Char(required=True)
 
+class ProductLine(models.Model):
+    _name = "crm.lead.product_line"
+
+    name = fields.Char(required=True)
+
 class Crm_customisation(models.Model):
     _inherit = 'crm.lead'
     _description = 'Crm_customisation Model'
@@ -34,6 +39,13 @@ class Crm_customisation(models.Model):
     # first_name = fields.Char(string="First Name")
 
     company_name = fields.Many2one(comodel_name="res.partner",string="Company name",domain="[('company_type', '=', 'company')]")
+    business_type = fields.Selection(
+        [
+            ("expansion_additional_systems","Expansion/ additional systems"),
+            ("new_business","New Business"),
+            ("replacement_of_existing_system","Replacement of existing system"),
+            ("consumables_accessories","Consumables/ Accessories")]
+        ,string="Type")
     last_name = fields.Char(string="Last Name")
     secondary_email = fields.Char(string="Secondary Email")
     created_by = fields.Char(string="Created By")
@@ -71,6 +83,7 @@ class Crm_customisation(models.Model):
             ('unqualified', 'Un Qualified'),
             ('future', 'Contact in Future'),
             ('not_qualified', 'Not Qualified'),
+            
         ],
         string="Enquiry Status",
         default='not_contacted'  # optional: set a default
@@ -101,9 +114,13 @@ class Crm_customisation(models.Model):
     )
     amount = fields.Float(string="Amount")
     closing_date = fields.Date(string="Closing Date")
-    prodcuts = fields.Many2one(
-        'crm.lead.manufacture',
-        string="Manufacturer or Product Line"
+    products= fields.Many2one(
+        'crm.lead.product_line',
+        string="Product(s)"
+    )
+    product_line = fields.Many2many(
+        'crm.lead.product_line',
+        string="Product Line"
     )
     # forecast_category = fields.Selection()
     expected_closer_date = fields.Date(string="Expected Closer Date")
