@@ -6,25 +6,25 @@
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//form[@class='o_lead_opportunity_form']" position="replace">
-                <form class="o_lead_opportunity_form" js_class="crm_form">
-                    <header>
-                        <button name="action_set_won_rainbowman" string="Won"
-                                type="object" class="oe_highlight" data-hotkey="w" title="Mark as won"
-                                invisible="not active or probability == 100 or type == 'lead'"/>
-                        <button name="%(crm.crm_lead_lost_action)d" string="Lost" data-hotkey="l" title="Mark as lost"
-                                type="action" invisible="type == 'lead' or not active and probability &lt; 100"/>
-                        <button name="%(crm.action_crm_lead2opportunity_partner)d" string="Convert to Opportunity" type="action"
-                                class="oe_highlight" invisible="type == 'opportunity' or not active" data-hotkey="v"/>
-                        <button name="toggle_active" string="Restore" type="object" data-hotkey="x"
-                                invisible="probability &gt; 0 or active"/>
-                        <button name="%(crm.crm_lead_lost_action)d" string="Lost" type="action"  data-hotkey="l" title="Mark as lost"
-                                invisible="type == 'opportunity' or probability == 0 and not active"/>
-                        <field name="stage_id" widget="statusbar_duration"
-                               options="{'clickable': '1', 'fold_field': 'fold'}"
-                               domain="['|', ('team_id', '=', team_id), ('team_id', '=', False)]"
-                               invisible="not active or type == 'lead'"/>
-                    </header>
+            <xpath expr="//form[@class='o_lead_opportunity_form']/sheet" position="replace">
+<!--                <form class="o_lead_opportunity_form" js_class="crm_form">-->
+<!--                    <header>-->
+<!--                        <button name="action_set_won_rainbowman" string="Won"-->
+<!--                                type="object" class="oe_highlight" data-hotkey="w" title="Mark as won"-->
+<!--                                invisible="not active or probability == 100 or type == 'lead'"/>-->
+<!--                        <button name="%(crm.crm_lead_lost_action)d" string="Lost" data-hotkey="l" title="Mark as lost"-->
+<!--                                type="action" invisible="type == 'lead' or not active and probability &lt; 100"/>-->
+<!--                        <button name="%(crm.action_crm_lead2opportunity_partner)d" string="Convert to Opportunity" type="action"-->
+<!--                                class="oe_highlight" invisible="type == 'opportunity' or not active" data-hotkey="v"/>-->
+<!--                        <button name="toggle_active" string="Restore" type="object" data-hotkey="x"-->
+<!--                                invisible="probability &gt; 0 or active"/>-->
+<!--                        <button name="%(crm.crm_lead_lost_action)d" string="Lost" type="action"  data-hotkey="l" title="Mark as lost"-->
+<!--                                invisible="type == 'opportunity' or probability == 0 and not active"/>-->
+<!--                        <field name="stage_id" widget="statusbar_duration"-->
+<!--                               options="{'clickable': '1', 'fold_field': 'fold'}"-->
+<!--                               domain="['|', ('team_id', '=', team_id), ('team_id', '=', False)]"-->
+<!--                               invisible="not active or type == 'lead'"/>-->
+<!--                    </header>-->
                     <sheet>
                         <field name="active" invisible="1"/>
                         <field name="company_id" invisible="1"/>
@@ -113,7 +113,7 @@
                                         'default_lang': lang_code,
                                         'show_vat': True
                                     }"
-                                domain="[('is_company', '=', False)]"/>
+                                />
 <!--                                <field name="company_name" domain="[('is_company', '=', True)]"/>-->
                                 <field name="partner_name"/>
                                 <field name="manufacturer_ids" widget="many2many_tags"/>
@@ -152,7 +152,7 @@
                                         'default_lang': lang_code,
                                         'show_vat': True,
                                     }"
-                                       domain="[('is_company', '=', False)]"
+
                                 />
                                 <field name="partner_name"/>
 <!--                                <field name="company_name" domain="[('is_company', '=', True)]"/>-->
@@ -328,7 +328,7 @@
                                     </group>
                                     <group string="Analysis">
                                         <field name="date_open"/>
-                                        <field name="date_closed"/>
+                                        <field name="date_closed" readonly="False"/>
                                     </group>
                                 </group>
                             </page>
@@ -379,15 +379,32 @@
                                         <field name="team_id" options="{'no_open': True, 'no_create': True}" context="{'kanban_view_ref': 'sales_team.crm_team_view_kanban'}"/>
                                         <field name="day_open" />
                                         <field name="day_close"/>
+                                        <field name="date_closed" readonly="False"/>
                                         <field name="type" invisible="1"/>
                                     </group>
                                 </group>
                             </page>
                         </notebook>
                     </sheet>
-                    <chatter reload_on_post="True"/>
-                </form>
+<!--                    <chatter reload_on_post="True"/>-->
+<!--                </form>-->
             </xpath>
+        </field>
+    </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="crm_case_kanban_view_leads_inherit" model="ir.ui.view">
+        <field name="name">crm.lead.kanban.lead.inherit</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <!-- Add your fields or attributes here -->
+                <field name="manufacturer_ids" string="Manufacturer"/>
+                <field name="date_closed"/>
+            </xpath>
+
         </field>
     </record>
 </odoo>

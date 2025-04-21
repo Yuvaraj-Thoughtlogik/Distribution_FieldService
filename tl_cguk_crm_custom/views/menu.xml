@@ -32,4 +32,14 @@
     </record>
     <menuitem id="crm_SamplePreparationOption_categ" name="Sample Preparation Options" parent="crm.crm_menu_config" action="crm_SamplePreparationOption_categ_action"/>
 
+    <record id="calendar_type_of_action_action" model="ir.actions.act_window">
+        <field name="name">Type of Visit</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">calendar.type.visit</field>
+        <field name="view_mode">list,form</field>
+    </record>
+    <!-- This Menu Item Must have a parent -->
+    <menuitem id="calendar_type_of_action_action_categ" name="Types of Visit" parent="calendar.calendar_menu_config" action="calendar_type_of_action_action" sequence="40"/>
+    <!-- This Menu Item Must have a parent -->
+    <menuitem id="calendar_product_line_action_categ" name="Product Line" parent="calendar.calendar_menu_config" action="crm_manufacturer_action" sequence="50"/>
 </odoo>

@@ -32,9 +32,8 @@ class ProductLine(models.Model):
 
     name = fields.Char(required=True)
 
-class Crm_customisation(models.Model):
+class Lead(models.Model):
     _inherit = 'crm.lead'
-    _description = 'Crm_customisation Model'
 
     # first_name = fields.Char(string="First Name")
     company_name = fields.Many2one(comodel_name="res.partner",string="Company name",domain="[('company_type', '=', 'company')]")
@@ -111,7 +110,7 @@ class Crm_customisation(models.Model):
         string='Sample Preparation Requirements'
     )
     amount = fields.Float(string="Amount")
-    closing_date = fields.Date(string="Closing Date")
+    # closing_date = fields.Date(string="Closing Date")
     products= fields.Many2one(
         'product.product',
         string="Product"

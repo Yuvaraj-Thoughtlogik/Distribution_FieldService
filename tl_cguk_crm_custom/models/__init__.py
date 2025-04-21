@@ -1,1 +1,1 @@
-from . import crm_contact_customisation
+from . import  crm_contact_customisation, custom_calender

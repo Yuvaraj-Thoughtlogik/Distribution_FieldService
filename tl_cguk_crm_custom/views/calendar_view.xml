@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!-- Inherit Form View to Modify it -->
+    <record id="view_calendar_event_form_inherit" model="ir.ui.view">
+        <field name="name">calendar.event.form.inherit</field>
+        <field name="model">calendar.event</field>
+        <field name="inherit_id" ref="calendar.view_calendar_event_form"/>
+        <field name="arch" type="xml">
+
+            <!--    form/sheet/group/group[2]/div[3]-->
+            <xpath expr="//form/sheet/group/group[2]/div[3]" position="after">
+                <!-- Add your fields or attributes here -->
+                <field name="product_line" widget="many2many_tags"/>
+                <field name="type_of_visit" widget="many2many_tags"/>
+                <field name="key_points"/>
+                <field name="follow_up_action"/>
+
+            </xpath>
+
+        </field>
+    </record>
+</odoo>
