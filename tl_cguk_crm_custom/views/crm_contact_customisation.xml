@@ -93,6 +93,7 @@
                             <group name="lead_partner" invisible="type == 'opportunity'">
                                 <!-- Preload all the partner's information -->
                                 <field name="is_partner_visible" invisible='1'/>
+                                <field name="partner_name"/>
                                 <field name="partner_id" widget="res_partner_many2one" string="Customer"
                                        context="{
                                         'default_name': contact_name,
@@ -115,7 +116,6 @@
                                     }"
                                 />
 <!--                                <field name="company_name" domain="[('is_company', '=', True)]"/>-->
-                                <field name="partner_name"/>
                                 <field name="manufacturer_ids" widget="many2many_tags"/>
                                 <field name="industry"/>
                                 <field name="rating"/>
@@ -128,6 +128,7 @@
                             </group>
 
                             <group name="opportunity_partner" invisible="type == 'lead'">
+                                <field name="partner_name"/>
                                 <field name="partner_id"
                                        widget="res_partner_many2one"
                                        string="Contact"
@@ -154,7 +155,6 @@
                                     }"
 
                                 />
-                                <field name="partner_name"/>
 <!--                                <field name="company_name" domain="[('is_company', '=', True)]"/>-->
                                 <field name="manufacturer_ids" widget="many2many_tags"/>
                                 <field name="products" />

@@ -4,11 +4,12 @@
     'author': 'Felix',
     'category': 'Custom',
     'summary': 'Custom module for Odoo',
-    'depends': ['base','crm','product','calendar'],
+    'depends': ['base','crm','product','calendar','mail'],
     'data': [
         'security/ir.model.access.csv',
         'views/crm_contact_customisation.xml',
         'views/calendar_view.xml',
+        'views/custom_activity.xml',
         'views/menu.xml',
     ],
     'installable': True,
