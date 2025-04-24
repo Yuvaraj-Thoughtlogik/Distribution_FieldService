@@ -1,4 +1,5 @@
-from odoo import models, fields
+
+from odoo import models, fields, api
 
 
 class Manufacturer(models.Model):
@@ -124,3 +125,23 @@ class Lead(models.Model):
     detail_of_next_action = fields.Text(string="Detail of Next Action")
 
     crm_id = fields.Char(string="Zoho CRM ID")
+
+    manufacturer_id = fields.Many2one("crm.lead.manufacture",string="Manufacturer")
+
+    @api.model_create_multi
+    def create(self, vals_list):
+        # Loop through values before calling super()
+        for vals in vals_list:
+            if vals.get('manufacturer_id'):
+                manufacturer = vals['manufacturer_id']
+                # If manufacturer_ids not set, initialize as list
+                if 'manufacturer_ids' not in vals:
+                    vals['manufacturer_ids'] = [(6, 0, [manufacturer])]
+        leads = super(Lead, self).create(vals_list)
+
+        return leads
+
+class HelpdeskTicket(models.Model):
+    _inherit = "helpdesk.ticket"
+
+    manufacturer_id = fields.Many2one("crm.lead.manufacture", string="Manufacturer")
