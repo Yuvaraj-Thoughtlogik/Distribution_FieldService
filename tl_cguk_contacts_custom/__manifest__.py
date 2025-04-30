@@ -5,7 +5,8 @@
     'summary': 'Create a contact field',
     'author': 'Thoughtlogik Solutions',
     'website': 'www.thoughtlogik.com',
-    'depends': ['contacts' ],
+    'depends': ['base','contacts' ],
+    'post_init_hook': 'post_init_hook',
 
     'data': [
         'security/ir.model.access.csv',

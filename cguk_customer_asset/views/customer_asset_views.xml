@@ -1,0 +1,81 @@
+<odoo>
+  <record id="view_customer_asset_form" model="ir.ui.view">
+    <field name="name">customer.asset.form</field>
+    <field name="model">customer.asset</field>
+    <field name="arch" type="xml">
+      <form string="Customer Asset">
+        <sheet>
+          <div class="oe_button_box" name="button_box"/>
+          <div class="oe_title">
+            <h1>
+              <field name="name" readonly="1"/>
+            </h1>
+            <hr/>
+          </div>
+          <group>
+            <group>
+              <field name="product_id"/>
+              <field name="company_id"/>
+              <field name="contact_id"/>
+              <field name="address" readonly="1"/>
+            </group>
+            <group>
+              <field name="sale_date"/>
+              <field name="install_date"/>
+              <field name="helpdesk_ticket_id"/>
+              <field name="subscription_id"/>
+              <field name="fsm_task_id"/>
+            </group>
+          </group>
+          <notebook>
+            <page string="Service Contract Info">
+              <group>
+                <group>
+                  <field name="active_contract"/>
+                  <field name="contract_start_date"/>
+                </group>
+                <group>
+                  <field name="contract_end_date"/>
+                  <field name="contract_renewal_date"/>
+                </group>
+              </group>
+            </page>
+            <page string="Warranty Info">
+              <group>
+                <field name="under_warranty"/>
+                <field name="warranty_expiry"/>
+              </group>
+            </page>
+          </notebook>
+        </sheet>
+
+        <chatter/>
+      </form>
+
+    </field>
+  </record>
+
+  <record id="view_customer_asset_list" model="ir.ui.view">
+    <field name="name">customer.asset.list</field>
+    <field name="model">customer.asset</field>
+    <field name="arch" type="xml">
+      <list>
+        <field name="name"/>
+        <field name="product_id"/>
+        <field name="sale_date"/>
+        <field name="company_id"/>
+        <field name="contact_id"/>
+      </list>
+    </field>
+  </record>
+
+  <record id="action_customer_asset" model="ir.actions.act_window">
+    <field name="name">Customer Assets</field>
+    <field name="res_model">customer.asset</field>
+    <field name="view_mode">list,form</field>
+  </record>
+
+  <menuitem id="menu_customer_asset_root" name="Customer Assets"/>
+  <menuitem id="menu_customer_asset" name="Assets" parent="menu_customer_asset_root"
+            action="action_customer_asset"/>
+</odoo>

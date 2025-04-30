@@ -9,7 +9,7 @@ class Contacts(models.Model):
     analysis_analysis = fields.Many2many('analysis.analysis', string="Analysis")
     preparation_requirements = fields.Many2many('preparation.requirements', string="Sample Preparation Requirements")
     email_opt_out = fields.Boolean( string="Email Opt Out")
-    actively_employee = fields.Boolean( string="Actively employee")
+    still_in_business = fields.Boolean( string="Still In Business")
     sample_material_specification = fields.Html( string="Sample Material Specification")
     analysis_further = fields.Html(string="Analysis -Further Information")
     secondary_email = fields.Char(string="Secondary Email")

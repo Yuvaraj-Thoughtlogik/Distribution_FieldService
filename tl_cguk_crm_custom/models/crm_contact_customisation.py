@@ -37,7 +37,13 @@ class Lead(models.Model):
     _inherit = 'crm.lead'
 
     # first_name = fields.Char(string="First Name")
-    company_name = fields.Many2one(comodel_name="res.partner",string="Company name",domain="[('company_type', '=', 'company')]")
+    company_name = fields.Many2one(
+        comodel_name="res.partner",
+        string="Company name",
+        domain="[('company_type', '=', 'company')]",
+        compute='_compute_company_name',
+        store=False  # Optional: only if you want it stored in DB
+    )
     business_type = fields.Selection(
         [
             ("expansion_additional_systems","Expansion/ additional systems"),
@@ -128,6 +134,8 @@ class Lead(models.Model):
 
     manufacturer_id = fields.Many2one("crm.lead.manufacture",string="Manufacturer")
 
+    next_contact_date = fields.Date(string="Next Contact Date")
+
     @api.model_create_multi
     def create(self, vals_list):
         # Loop through values before calling super()
@@ -140,6 +148,16 @@ class Lead(models.Model):
         leads = super(Lead, self).create(vals_list)
 
         return leads
+
+    @api.depends('partner_name')
+    def _compute_company_name(self):
+        for record in self:
+            if record.partner_name:
+                # Search for a company with matching name
+                company = self.env['res.partner'].search([('name', '=', record.partner_name)], limit=1)
+                record.company_name = company if company else False
+            else:
+                record.company_name = False
 
 class HelpdeskTicket(models.Model):
     _inherit = "helpdesk.ticket"

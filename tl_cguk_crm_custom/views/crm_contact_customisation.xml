@@ -298,6 +298,7 @@
                             <h2 style="padding: 30px 15px;padding-bottom: 10px;border-bottom: 1px solid;color: #646464;">Detail of Current State</h2>
                             <group/>
                             <group>
+                                <field name="next_contact_date"/>
                                 <field name="detail_of_current_state"/>
                             </group>
                             <group>
