@@ -5,7 +5,42 @@
     <field name="arch" type="xml">
       <form string="Customer Asset">
         <sheet>
-          <div class="oe_button_box" name="button_box"/>
+          <div class="oe_button_box" name="button_box">
+            <button name="action_view_subscription"
+                    string="Subscription"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-refresh">
+              <field name="subscription_id"
+                     widget="statinfo"
+                     string="Subscription"
+                     invisible="1"
+              />
+            </button>
+            <button name="action_view_ticket"
+                    string="Helpdesk Ticket"
+                    invisible ="not helpdesk_ticket_id"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-life-ring">
+              <field name="helpdesk_ticket_id"
+                     widget="statinfo"
+                     string="Helpdesk"
+                     invisible="1"/>
+            </button>
+            <button name="action_view_fsm"
+                    string="FSM Task"
+                    invisible="not fsm_task_id"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-tasks">
+              <field name="fsm_task_id"
+                     widget="statinfo"
+                     string="FSM"
+                     invisible="1"
+              />
+            </button>
+          </div>
           <div class="oe_title">
             <h1>
               <field name="name" readonly="1"/>

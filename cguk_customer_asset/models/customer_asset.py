@@ -36,3 +36,34 @@ class CustomerAsset(models.Model):
             if not val.get("name") or val['name'] == "New":
                 val['name'] = self.env['ir.sequence'].next_by_code("customer.asset")
         return super().create(vals)
+
+    def action_view_subscription(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Subscription',
+            'res_model': 'sale.order',
+            'view_mode': 'form',
+            'res_id': self.subscription_id.id,
+            'target': 'current',
+        }
+    def action_view_ticket(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Helpdesk Ticket',
+            'res_model': 'helpdesk.ticket',
+            'view_mode': 'form',
+            'res_id': self.helpdesk_ticket_id.id,
+            'target': 'current',
+        }
+    def action_view_fsm(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'FSM Task',
+            'res_model': 'project.task',
+            'view_mode': 'form',
+            'res_id': self.fsm_task_id.id,
+            'target': 'current',
+        }

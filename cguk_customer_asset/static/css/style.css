@@ -1,3 +1,6 @@
 th[data-name='track_cpe']{
-width:80px !important;
+    width:80px !important;
+}
+.o-form-buttonbox{
+    gap:10px;
 }
