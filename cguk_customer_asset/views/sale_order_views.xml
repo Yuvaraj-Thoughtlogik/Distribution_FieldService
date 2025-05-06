@@ -7,6 +7,34 @@
       <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field/list/field[@name='product_uom_qty']" position="before">
         <field name="track_cpe"/>
       </xpath>
+      <xpath expr="//field[@name='date_order']" position="after">-->
+        <field name="customer_assets" widget="many2many_tags" invisible="not is_subscription"/>
+      </xpath>
+      <xpath expr="//div[@class='oe_button_box']" position="inside">
+            <!-- Add your fields or attributes here -->
+            <button name="action_view_subscription"
+                    string="Subscription"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-refresh"
+                    invisible = "not subscription_id">
+                <field name="subscription_id"
+                       widget="statinfo"
+                       string="Subscription"
+                />
+            </button>
+            <button name="action_view_sale_order"
+                    string="Sale Order"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-bar-chart"
+                    invisible = "not origin_order_id">
+                <field name="origin_order_id"
+                       widget="statinfo"
+                       string="Sale Order"
+                />
+            </button>
+            </xpath>
     </field>
   </record>
 </odoo>

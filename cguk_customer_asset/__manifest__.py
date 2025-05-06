@@ -1,15 +1,17 @@
 {
-    "name": "Customer Asset",
+    "name": "TL_CGUK_Customer_Assets",
     "version": "1.0",
-    "depends": ["sale", "contacts", "product","helpdesk","project"],
-    "author": "Felix Hilbert",
-    "category": "Sales",
-    "summary": "Track sold equipment per customer",
+    "depends": ["sale", "contacts", "product","helpdesk","project","sale_subscription"],
+    'author': 'Thoughtlogik Solutions',
+    'website': 'www.thoughtlogik.com',
+    "category": "custom",
+    "summary": "Custom module for Track sold equipment per customer",
     "data": [
         "security/ir.model.access.csv",
         'data/sequence.xml',
         "views/customer_asset_views.xml",
-        "views/sale_order_views.xml"
+        "views/sale_order_views.xml",
+        "views/smart_buttons.xml",
     ],
     "assets":{
       'web.assets_backend':[
@@ -17,5 +19,5 @@
       ]
     },
     "installable": True,
-    "application": False
+    "application": True
 }

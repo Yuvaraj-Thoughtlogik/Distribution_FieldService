@@ -25,6 +25,7 @@ class CustomerAsset(models.Model):
     helpdesk_ticket_id = fields.Many2one('helpdesk.ticket', string='Help Desk Ticket')
     subscription_id = fields.Many2one('sale.order', string='Subscription')
     fsm_task_id = fields.Many2one('project.task', string='FSM Task')
+    sale_order_id = fields.Many2one('sale.order', string='Sale Order')
 
     @api.depends('company_id')
     def _compute_address(self):
@@ -65,5 +66,55 @@ class CustomerAsset(models.Model):
             'res_model': 'project.task',
             'view_mode': 'form',
             'res_id': self.fsm_task_id.id,
+            'target': 'current',
+        }
+    def action_view_sale_order(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Sale Order',
+            'res_model': 'sale.order',
+            'view_mode': 'form',
+            'res_id': self.sale_order_id.id,
+            'target': 'current',
+        }
+
+class HelpdeskTicket(models.Model):
+    _inherit = "helpdesk.ticket"
+
+    customer_assets = fields.One2many(
+        comodel_name="customer.asset",
+        inverse_name="helpdesk_ticket_id",
+        string="Customer Assets",
+    )
+
+    def action_view_customer_asset(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Customer Assets',
+            'res_model': 'customer.asset',
+            'view_mode': 'form',
+            'res_id': self.customer_assets.id,
+            'target': 'current',
+        }
+
+class FSM(models.Model):
+    _inherit = "project.task"
+
+    customer_assets = fields.One2many(
+        comodel_name="customer.asset",
+        inverse_name="fsm_task_id",
+        string="Customer Assets",
+    )
+
+    def action_view_customer_asset(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Customer Assets',
+            'res_model': 'customer.asset',
+            'view_mode': 'form',
+            'res_id': self.customer_assets.id,
             'target': 'current',
         }

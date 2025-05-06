@@ -14,7 +14,16 @@
               <field name="subscription_id"
                      widget="statinfo"
                      string="Subscription"
-                     invisible="1"
+              />
+            </button>
+            <button name="action_view_sale_order"
+                    string="Sale Order"
+                    type="object"
+                    class="oe_stat_button"
+                    icon="fa-bar-chart">
+              <field name="sale_order_id"
+                     widget="statinfo"
+                     string="Sale Order"
               />
             </button>
             <button name="action_view_ticket"
@@ -59,6 +68,7 @@
               <field name="install_date"/>
               <field name="helpdesk_ticket_id"/>
               <field name="subscription_id"/>
+              <field name="sale_order_id"/>
               <field name="fsm_task_id"/>
             </group>
           </group>
