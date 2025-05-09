@@ -1,40 +1,53 @@
 <odoo>
-  <record id="sale_order_line_inherit_form" model="ir.ui.view">
-    <field name="name">sale.order.line.inherit.form</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">
-      <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field/list/field[@name='product_uom_qty']" position="before">
-        <field name="track_cpe"/>
-      </xpath>
-      <xpath expr="//field[@name='date_order']" position="after">-->
-        <field name="customer_assets" widget="many2many_tags" invisible="not is_subscription"/>
-      </xpath>
-      <xpath expr="//div[@class='oe_button_box']" position="inside">
-            <!-- Add your fields or attributes here -->
-            <button name="action_view_subscription"
-                    string="Subscription"
-                    type="object"
-                    class="oe_stat_button"
-                    icon="fa-refresh"
-                    invisible = "not subscription_id">
-                <field name="subscription_id"
-                       widget="statinfo"
-                       string="Subscription"
-                />
-            </button>
-            <button name="action_view_sale_order"
-                    string="Sale Order"
-                    type="object"
-                    class="oe_stat_button"
-                    icon="fa-bar-chart"
-                    invisible = "not origin_order_id">
-                <field name="origin_order_id"
-                       widget="statinfo"
-                       string="Sale Order"
-                />
-            </button>
+    <record id="sale_order_line_inherit_form" model="ir.ui.view">
+        <field name="name">sale.order.line.inherit.form</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <!--            <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field/list/field[@name='product_uom_qty']" position="before">-->
+            <!--                <field name="track_cpe"/>-->
+            <!--            </xpath>-->
+            <xpath expr="//field[@name='payment_term_id']" position="before">
+                <field name="subscription_customer_assets_ids" widget="many2many_tags" invisible="not is_subscription"/>
+                <field name="is_subscription"/>
             </xpath>
-    </field>
-  </record>
+            <xpath expr="//div[@class='oe_button_box']" position="inside">
+                <button name="action_view_sale_customer_assets"
+                        string="Customer Assets"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-cubes"
+                        invisible="not sale_customer_assets_ids">
+                </button>
+                <button name="action_view_subscription_customer_assets"
+                        string="Customer Assets"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-cubes"
+                        invisible="not subscription_customer_assets_ids">
+                </button>
+            </xpath>
+        </field>
+    </record>
+    <!-- Inherit Form View to Modify it -->
+    <record id="view_picking_form_track_cpe" model="ir.ui.view">
+        <field name="name">stock.picking.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//form/sheet/notebook/page[@name='operations']/field[@name='move_ids_without_package']/list/field[@name='product_id']" position="after">
+                <field name="track_cpe"/>
+            </xpath>
+            <xpath expr="//div[@class='oe_button_box']" position="inside">
+                <button name="action_view_customer_assets"
+                        string="Customer Assets"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-cubes"
+                        invisible="not customer_assets_ids">
+                </button>
+            </xpath>
+        </field>
+    </record>
 </odoo>

@@ -1,14 +1,78 @@
 from odoo import models, fields, api
 
-class SaleOrderLine(models.Model):
-    _inherit = 'sale.order.line'
+class StockMove(models.Model):
+    _inherit = 'stock.move'
 
     track_cpe = fields.Boolean(string='Track CPE')
+
+    @api.model
+    def create(self, vals):
+        move = super().create(vals)
+        move._create_customer_assets()
+        return move
+
+    def write(self, vals):
+        res = super().write(vals)
+        self._create_customer_assets()
+        return res
+
+    def _create_customer_assets(self):
+        customer_asset = self.env['customer.asset']
+        for move in self:
+            for move_line in move.move_line_ids:
+                lot_id = move_line.lot_id.id if move_line.lot_id else False
+                print("lot_id-->",move_line.lot_id)
+                existing_asset = customer_asset.search([
+                    ('product_id', '=', move.product_id.id),
+                    ('stock_picking_id', '=', move.picking_id.id),
+                    ('sale_order_id', '=', move.picking_id.sale_id.id),
+                    ('move_line_id', '=', move_line.id),
+                ], limit=1)
+
+                if move.track_cpe:
+                    values = {
+                        'product_id': move.product_id.id,
+                        'product_lot_id': lot_id,
+                        'sale_date': move.picking_id.sale_id.date_order,
+                        'company_id': move.picking_id.partner_id.parent_id.id,
+                        'contact_id': move.picking_id.sale_id.partner_id.id,
+                        'sale_order_id': move.picking_id.sale_id.id,
+                        'stock_picking_id': move.picking_id.id,
+                        'move_line_id': move_line.id,
+                    }
+
+                    if not existing_asset:
+                        customer_asset.create(values)
+                    else:
+                        existing_asset.write(values)
+                else:
+                    if existing_asset:
+                        existing_asset.unlink()
+
+class StockMoveLine(models.Model):
+    _inherit = 'stock.move.line'
+
+    def unlink(self):
+        customer_asset = self.env['customer.asset']
+        for line in self:
+            # Find and unlink related customer asset
+            related_asset = customer_asset.search([
+                ('move_line_id', '=', line.id)
+            ])
+            if related_asset:
+                related_asset.unlink()
+        return super().unlink()
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
-    customer_assets = fields.One2many(
+    sale_customer_assets_ids = fields.One2many(
+        comodel_name="customer.asset",
+        string="Customer Assets",
+        inverse_name="sale_order_id",
+        domain="[('contact_id', '=', partner_id)]"
+    )
+    subscription_customer_assets_ids = fields.One2many(
         comodel_name="customer.asset",
         string="Customer Assets",
         inverse_name="subscription_id",
@@ -17,68 +81,80 @@ class SaleOrder(models.Model):
 
     renewal_date = fields.Date(string="Renewal Date")
 
-    def action_confirm(self):
-        res = super(SaleOrder, self).action_confirm()
-
-        for order in self:
-            # Create a subscription order (with plan_id to make it a recurring subscription)
-            subscription_plan = self.env['sale.subscription.plan']
-            yearly_plan = subscription_plan.search([('name', '=', 'Yearly')], limit=1)
-
-            # Create it if not found
-            if not yearly_plan:
-                yearly_plan = subscription_plan.create({
-                    'name': 'Yearly',
-                    'recurring_rule_type': 'year',
-                    'recurring_interval': 1,
-                    'user_extend': True,  # or False — depends on your logic
-                    'user_closable': True,  # optional fields
-                    'user_quantity': True,
-                })
-
-            # Now create the subscription order
-            subscription = self.env['sale.order'].create({
-                'partner_id': order.partner_id.id,
-                'company_id': order.company_id.id,
-                'date_order': order.date_order,
-                'plan_id': yearly_plan.id,
-                'start_date': fields.Date.today(),
-                'origin_order_id':order.id,
-                'origin': order.name,
-                'is_subscription': True,
-            })
-            order.subscription_id = subscription.id
-            # Create customer assets linked to the subscription
-            for line in order.order_line:
-                if line.track_cpe and line.product_id:
-                    self.env['customer.asset'].create({
-                        'product_id': line.product_id.id,
-                        'sale_date': order.date_order,
-                        'company_id': order.company_id.id,
-                        'contact_id': order.partner_id.id,
-                        'sale_order_id': order.id,
-                        'address': order.partner_shipping_id.contact_address,
-                        'subscription_id': subscription.id,
-                    })
-        return res
-
-    def action_view_subscription(self):
+    def action_view_subscription_customer_assets(self):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Subscription',
-            'res_model': 'sale.order',
-            'view_mode': 'form',
-            'res_id': self.subscription_id.id,
+            'name': 'Related Customer Assets',
+            'res_model': 'customer.asset',  # replace with actual model
+            'view_mode': 'list,form',
+            'domain': [('subscription_id', '=', self.id)],  # or use correct relation field
             'target': 'current',
         }
-    def action_view_sale_order(self):
+    def action_view_sale_customer_assets(self):
         self.ensure_one()
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Sale Order',
-            'res_model': 'sale.order',
-            'view_mode': 'form',
-            'res_id': self.origin_order_id.id,
+            'name': 'Related Customer Assets',
+            'res_model': 'customer.asset',  # replace with actual model
+            'view_mode': 'list,form',
+            'domain': [('sale_order_id', '=', self.id)],  # or use correct relation field
+            'target': 'current',
+        }
+
+class StockPicking(models.Model):
+    _inherit = 'stock.picking'
+
+    customer_assets_ids = fields.One2many(
+        comodel_name="customer.asset",
+        string="Customer Assets",
+        inverse_name="stock_picking_id",
+        domain="[('contact_id', '=', partner_id)]"
+    )
+
+    # @api.model
+    # def create(self, vals):
+    #     picking = super().create(vals)
+    #     picking._create_customer_assets()
+    #     return picking
+    #
+    # def write(self, vals):
+    #     res = super().write(vals)
+    #     self._create_customer_assets()
+    #     return res
+
+    # def _create_customer_assets(self):
+    #     customer_asset = self.env['customer.asset']
+    #     for picking in self:
+    #         for move in picking.move_ids_without_package:
+    #             existing_asset = customer_asset.search([
+    #                 ('product_id', '=', move.product_id.id),
+    #                 ('stock_picking_id', '=', picking.id),
+    #                 ('sale_order_id', '=', picking.sale_id.id),
+    #                 ('product_serial_No','=',move.lot_ids.name),
+    #             ], limit=1)
+    #
+    #             if not existing_asset and move.track_cpe:
+    #                 customer_asset.create({
+    #                     'product_id': move.product_id.id,
+    #                     'product_serial_No':move.lot_ids.name,
+    #                     'sale_date': picking.sale_id.date_order,
+    #                     'company_id': picking.partner_id.parent_id.id,
+    #                     'contact_id': picking.sale_id.partner_id.id,
+    #                     'sale_order_id': picking.sale_id.id,
+    #                     'stock_picking_id': picking.id,
+    #                 })
+    #
+    #             elif existing_asset and not move.track_cpe:
+    #                 existing_asset.unlink()
+
+    def action_view_customer_assets(self):
+        self.ensure_one()
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Related Customer Assets',
+            'res_model': 'customer.asset',  # replace with actual model
+            'view_mode': 'list,form',
+            'domain': [('stock_picking_id', '=', self.id)],  # or use correct relation field
             'target': 'current',
         }

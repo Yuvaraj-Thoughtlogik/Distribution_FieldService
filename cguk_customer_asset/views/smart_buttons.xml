@@ -7,20 +7,15 @@
         <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="customer_assets" widget="many2many_tags"/>
+                <field name="customer_assets_id"/>
             </xpath>
             <xpath expr="//div[@class='oe_button_box']" position="inside">
                 <!-- Add your fields or attributes here -->
-                <button name="action_view_customer_asset"
+                <button name="action_view_customer_assets"
                         string="Customer Asset"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-cubes">
-                    <field name="customer_assets"
-                           widget="statinfo"
-                           string="Customer Asset"
-                           invisible="1"
-                    />
                 </button>
             </xpath>
 
@@ -32,20 +27,15 @@
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='milestone_id']" position="before">
-                <field name="customer_assets" widget="many2many_tags"/>
+                <field name="customer_assets_id"/>
             </xpath>
             <xpath expr="//div[@class='oe_button_box']" position="inside">
                 <!-- Add your fields or attributes here -->
-                <button name="action_view_customer_asset"
+                <button name="action_view_customer_assets"
                         string="Customer Asset"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-cubes">
-                    <field name="customer_assets"
-                           widget="statinfo"
-                           string="Customer Asset"
-                           invisible="1"
-                    />
                 </button>
             </xpath>
 
