@@ -1,16 +1,28 @@
 from odoo import models, fields, api
+import typing
+from odoo.addons.base.models.res_country import Country, CountryState
+if typing.TYPE_CHECKING:
+    from odoo.addons.base.models.res_users import UsersView as ResUsers
+    from odoo.addons.base.models.res_bank import ResPartnerBank
+    from odoo.addons.base.models.res_country import Country, CountryState
+    from odoo.addons.base.models.res_company import Company as ResCompany
 
 class CustomerAsset(models.Model):
     _name = 'customer.asset'
     _description = 'Customer Asset'
     _inherit = ['mail.thread', 'mail.activity.mixin']
-    _rec_name = 'display_name'
+    _rec_name = 'name'
 
+    name = fields.Char(string="Customer Asset No", compute='_compute_name_from_lot', store=True)
+    product_serial_No = fields.Char(
+        string="Serial Number",
+        related="product_lot_id.name",
+        store=True,
+        readonly=True
+    )
 
-    name = fields.Char(string="Customer Asset No", required=True,default="New")
-    product_serial_No = fields.Char(string="Equipment Serial No",compute="_compute_serial_no", store=True)
+    # product_serial_No = fields.Char(string="Equipment Serial No",compute="_compute_serial_no", store=True)
     product_lot_id = fields.Many2one('stock.lot',string="Lot ID")
-    display_name = fields.Char(compute="_compute_display_name", store=True)
     product_id = fields.Many2one('product.product', string='Product', required=True)
     sale_date = fields.Date(string='Sale Date')
     install_date = fields.Date(string='Install Date')
@@ -20,15 +32,113 @@ class CustomerAsset(models.Model):
     contract_start_date = fields.Date(string='Start Date')
     contract_end_date = fields.Date(string='End Date')
     contract_renewal_date = fields.Date(string='Renewal Date')
-    company_id = fields.Many2one('res.partner',compute="_compute_company", string='Company',domain="[('is_company','=',True)]",store=True)
-    contact_id = fields.Many2one('res.partner', string='Contact',domain="[('is_company','!=','True')]")
-    address = fields.Char(string='Address', compute='_compute_address', store=True)
+    company_id = fields.Many2one('res.partner',compute="_compute_address_company", string='Company',domain="[('is_company','=',True)]",store=True)
+    contact_id = fields.Many2one('res.partner', string='Contact',domain="[('is_company','!=','True')]",readonly=False,store=True)
+    # address = fields.Char(string='Address', compute='_compute_address', store=True)
+    street = fields.Char()
+    street2 = fields.Char()
+    zip = fields.Char(change_default=True)
+    city = fields.Char()
+    state_id: CountryState = fields.Many2one(
+        "res.country.state",
+        string='State',
+        ondelete='restrict',
+        domain="[('country_id', '=?', country_id)]"
+    )
+    country_id: Country = fields.Many2one(
+        'res.country',
+        string='Country',
+        ondelete='restrict'
+    )
+    country_code = fields.Char(
+        related='country_id.code',
+        string="Country Code"
+    )
+
     helpdesk_ticket_id = fields.Many2one('helpdesk.ticket', string='Help Desk Ticket')
     subscription_id = fields.Many2one('sale.order', string='Subscription',domain="[('is_subscription','=',True)]")
     fsm_task_id = fields.Many2one('project.task', string='FSM Task')
     sale_order_id = fields.Many2one('sale.order', string='Sale Order',domain="[('is_subscription','=',False)]")
     stock_picking_id = fields.Many2one('stock.picking', string='Stock Picking')
     move_line_id = fields.Many2one('stock.move.line', string='Move Line')
+    delivery_address_id = fields.Many2one(
+        'res.partner',
+        string='Service Address',
+        compute='_compute_delivery_address',
+        store=True,
+        readonly=False
+    )
+    same_as_main_address= fields.Boolean(string="Same as main address?")
+
+    delivery_street = fields.Char()
+    delivery_street2 = fields.Char()
+    delivery_zip = fields.Char(change_default=True)
+    delivery_city = fields.Char()
+    delivery_state_id: CountryState = fields.Many2one("res.country.state", string='State', ondelete='restrict',
+                                             domain="[('country_id', '=?', delivery_country_id)]")
+    delivery_country_id: Country = fields.Many2one('res.country', string='Country', ondelete='restrict')
+    delivery_country_code = fields.Char(related='delivery_country_id.code', string="Country Code")
+
+
+    @api.depends('product_lot_id')
+    def _compute_name_from_lot(self):
+        for rec in self:
+            rec.name = rec.product_lot_id.name if rec.product_lot_id else "New"
+
+    @api.depends('contact_id')
+    def _compute_address_company(self):
+        for rec in self:
+            rec.company_id = rec.contact_id.parent_id if rec.contact_id else ''
+        self._compute_main_address()
+        self._compute_delivery_address()
+
+    @api.depends('contact_id','company_id')
+    def _compute_delivery_address(self):
+        for record in self:
+            delivery = self.env['res.partner'].search([
+                ('parent_id', '=', record.company_id.id),
+                ('type', '=', 'delivery')
+            ], limit=1)
+            record.delivery_address_id = delivery or False
+            # Populate address fields from the delivery address
+            record.delivery_street = delivery.street or ''
+            record.delivery_street2 = delivery.street2 or ''
+            record.delivery_zip = delivery.zip or ''
+            record.delivery_city = delivery.city or ''
+            record.delivery_state_id = delivery.state_id.id if delivery.state_id else False
+            record.delivery_country_id = delivery.country_id.id if delivery.country_id else False
+
+    @api.depends('contact_id','company_id')
+    def _compute_main_address(self):
+        for rec in self:
+            company = rec.company_id
+            if company:
+                rec.street = company.street
+                rec.street2 = company.street2
+                rec.zip = company.zip
+                rec.city = company.city
+                rec.state_id = company.state_id.id
+                rec.country_id = company.country_id.id
+            else:
+                rec.street = ''
+                rec.street2 = ''
+                rec.zip = ''
+                rec.city = ''
+                rec.state_id = False
+                rec.country_id = False
+
+    @api.onchange('same_as_main_address')
+    def _onchange_same_as_main_address(self):
+        if self.same_as_main_address:
+            # Copy main address to delivery
+            self.delivery_street = self.street
+            self.delivery_street2 = self.street2
+            self.delivery_zip = self.zip
+            self.delivery_city = self.city
+            self.delivery_state_id = self.state_id
+            self.delivery_country_id = self.country_id
+        else:
+           self._compute_delivery_address()
 
     @api.depends('product_lot_id')
     def _compute_serial_no(self):
@@ -36,33 +146,10 @@ class CustomerAsset(models.Model):
             if rec.product_lot_id:
                 rec.product_serial_No = rec.product_lot_id.name
 
-    @api.depends('name', 'product_serial_No')
-    def _compute_display_name(self):
-        for rec in self:
-            if rec.product_lot_id:
-                rec.display_name = f"{rec.name} - {rec.product_serial_No}"
-            else:
-                rec.display_name = rec.name
-
-    @api.depends('company_id')
-    def _compute_address(self):
-        for rec in self:
-            rec.address = rec.company_id.contact_address if rec.company_id else ''
-
     @api.depends('contact_id')
     def _compute_company(self):
         for rec in self:
             rec.company_id = rec.contact_id.parent_id if rec.contact_id else ''
-
-    @api.model_create_multi
-    def create(self, vals):
-        for val in vals:
-            if not val.get("name") or val['name'] == "New":
-                val['name'] = self.env['ir.sequence'].next_by_code("customer.asset")
-        return super().create(vals)
-
-    def _compute_serial_number(self):
-        pass
 
     def action_view_subscription(self):
         self.ensure_one()
