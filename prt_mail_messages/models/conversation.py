@@ -19,7 +19,7 @@
 
 from odoo import api, fields, models, tools
 from odoo.tools.mail import parse_contact_from_email
-
+from odoo.tools import email_split
 from .tools import _prepare_date_display
 
 
@@ -244,7 +244,7 @@ class Conversation(models.Model):
             return set()
         return {
             self.get_or_create_partner_id_by_email(email)
-            for email in tools.email_split_and_format(email_list)
+            for email in email_split(email_list)
         }
 
     @api.model
