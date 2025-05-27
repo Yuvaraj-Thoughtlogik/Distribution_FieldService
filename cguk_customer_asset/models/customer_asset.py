@@ -18,7 +18,7 @@ class CustomerAsset(models.Model):
         string="Serial Number",
         related="product_lot_id.name",
         store=True,
-        readonly=True
+        readonly=False
     )
 
     # product_serial_No = fields.Char(string="Equipment Serial No",compute="_compute_serial_no", store=True)
@@ -59,7 +59,7 @@ class CustomerAsset(models.Model):
     subscription_id = fields.Many2one('sale.order', string='Subscription',domain="[('is_subscription','=',True)]")
     fsm_task_id = fields.Many2one('project.task', string='FSM Task')
     sale_order_id = fields.Many2one('sale.order', string='Sale Order',domain="[('is_subscription','=',False)]")
-    stock_picking_id = fields.Many2one('stock.picking', string='Stock Picking')
+    stock_picking_id = fields.Many2one('stock.picking', string='Delivery Order')
     move_line_id = fields.Many2one('stock.move.line', string='Move Line')
     delivery_address_id = fields.Many2one(
         'res.partner',
