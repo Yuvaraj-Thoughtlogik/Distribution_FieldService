@@ -55,9 +55,9 @@ class CustomerAsset(models.Model):
         string="Country Code"
     )
 
-    helpdesk_ticket_id = fields.Many2one('helpdesk.ticket', string='Help Desk Ticket')
+    helpdesk_ticket_id = fields.One2many('helpdesk.ticket', string='Help Desk Ticket',inverse_name="customer_assets_id",)
     subscription_id = fields.Many2one('sale.order', string='Subscription',domain="[('is_subscription','=',True)]")
-    fsm_task_id = fields.Many2one('project.task', string='FSM Task')
+    fsm_task_id = fields.One2many('project.task', string='FSM Task',inverse_name="customer_assets_id",)
     sale_order_id = fields.Many2one('sale.order', string='Sale Order',domain="[('is_subscription','=',False)]")
     stock_picking_id = fields.Many2one('stock.picking', string='Delivery Order')
     move_line_id = fields.Many2one('stock.move.line', string='Move Line')
@@ -163,12 +163,13 @@ class CustomerAsset(models.Model):
         }
     def action_view_ticket(self):
         self.ensure_one()
+
         return {
             'type': 'ir.actions.act_window',
-            'name': 'Helpdesk Ticket',
-            'res_model': 'helpdesk.ticket',
-            'view_mode': 'form',
-            'res_id': self.helpdesk_ticket_id.id,
+            'name': 'Helpdesk Tickets',
+            'res_model': 'helpdesk.ticket',  # replace with actual model
+            'view_mode': 'list,form',
+            'domain': [('customer_assets_id', '=', self.id)],  # or use correct relation field
             'target': 'current',
         }
     def action_view_fsm(self):
@@ -177,10 +178,11 @@ class CustomerAsset(models.Model):
             'type': 'ir.actions.act_window',
             'name': 'FSM Task',
             'res_model': 'project.task',
-            'view_mode': 'form',
-            'res_id': self.fsm_task_id.id,
+            'view_mode': 'list,form',
+            'domain': [('customer_assets_id', '=', self.id)],  # or use correct relation field
             'target': 'current',
         }
+
     def action_view_sale_order(self):
         self.ensure_one()
         return {
@@ -209,32 +211,32 @@ class HelpdeskTicket(models.Model):
     customer_assets_id = fields.Many2one(
         comodel_name="customer.asset",
         string="Customer Assets",
-        domain="[('contact_id', '=', partner_id)]"
+        domain="[('company_id', '=', partner_id)]"
     )
 
-    @api.model
-    def create(self, vals):
-        ticket = super().create(vals)
-        if vals.get('customer_assets_id'):
-            asset = self.env['customer.asset'].browse(vals['customer_assets_id'])
-            asset.helpdesk_ticket_id = ticket.id
-        return ticket
-
-    def write(self, vals):
-        for rec in self:
-            old_asset = rec.customer_assets_id
-            res = super(HelpdeskTicket, rec).write(vals)
-
-            if 'customer_assets_id' in vals:
-                # Clear the old asset if it's different
-                if old_asset and old_asset.id != vals['customer_assets_id']:
-                    old_asset.helpdesk_ticket_id = False
-
-                # Set the new asset
-                new_asset = rec.customer_assets_id
-                if new_asset:
-                    new_asset.helpdesk_ticket_id = rec.id
-        return True
+    # @api.model
+    # def create(self, vals):
+    #     ticket = super().create(vals)
+    #     if vals.get('customer_assets_id'):
+    #         asset = self.env['customer.asset'].browse(vals['customer_assets_id'])
+    #         asset.helpdesk_ticket_id = ticket.id
+    #     return ticket
+    #
+    # def write(self, vals):
+    #     for rec in self:
+    #         old_asset = rec.customer_assets_id
+    #         res = super(HelpdeskTicket, rec).write(vals)
+    #
+    #         if 'customer_assets_id' in vals:
+    #             # Clear the old asset if it's different
+    #             if old_asset and old_asset.id != vals['customer_assets_id']:
+    #                 old_asset.helpdesk_ticket_id = False
+    #
+    #             # Set the new asset
+    #             new_asset = rec.customer_assets_id
+    #             if new_asset:
+    #                 new_asset.helpdesk_ticket_id = rec.id
+    #     return True
 
     def action_view_customer_assets(self):
         self.ensure_one()
@@ -254,32 +256,32 @@ class FSM(models.Model):
     customer_assets_id = fields.Many2one(
         comodel_name="customer.asset",
         string="Customer Assets",
-        domain="[('contact_id', '=', partner_id)]"
+        domain="[('company_id', '=', partner_id)]"
     )
 
-    @api.model
-    def create(self, vals):
-        task = super().create(vals)
-        if vals.get('customer_assets_id'):
-            asset = self.env['customer.asset'].browse(vals['customer_assets_id'])
-            asset.fsm_task_id = task.id
-        return task
-
-    def write(self, vals):
-        for rec in self:
-            old_asset = rec.customer_assets_id
-            res = super(FSM, rec).write(vals)
-
-            if 'customer_assets_id' in vals:
-                # Clear old asset link
-                if old_asset and old_asset.id != vals['customer_assets_id']:
-                    old_asset.fsm_task_id = False
-
-                # Set new asset link
-                new_asset = rec.customer_assets_id
-                if new_asset:
-                    new_asset.fsm_task_id = rec.id
-        return True
+    # @api.model
+    # def create(self, vals):
+    #     task = super().create(vals)
+    #     if vals.get('customer_assets_id'):
+    #         asset = self.env['customer.asset'].browse(vals['customer_assets_id'])
+    #         asset.fsm_task_id = task.id
+    #     return task
+    #
+    # def write(self, vals):
+    #     for rec in self:
+    #         old_asset = rec.customer_assets_id
+    #         res = super(FSM, rec).write(vals)
+    #
+    #         if 'customer_assets_id' in vals:
+    #             # Clear old asset link
+    #             if old_asset and old_asset.id != vals['customer_assets_id']:
+    #                 old_asset.fsm_task_id = False
+    #
+    #             # Set new asset link
+    #             new_asset = rec.customer_assets_id
+    #             if new_asset:
+    #                 new_asset.fsm_task_id = rec.id
+    #     return True
 
     def action_view_customer_assets(self):
         self.ensure_one()
