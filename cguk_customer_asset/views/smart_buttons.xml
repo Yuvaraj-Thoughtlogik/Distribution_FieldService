@@ -15,7 +15,9 @@
                         string="Customer Asset"
                         type="object"
                         class="oe_stat_button"
+                        invisible="not customer_assets_id"
                         icon="fa-cubes">
+                    <field name="customer_assets_id" widget="statinfo" />
                 </button>
             </xpath>
 
@@ -35,7 +37,9 @@
                         string="Customer Asset"
                         type="object"
                         class="oe_stat_button"
+                        invisible="not customer_assets_id"
                         icon="fa-cubes">
+                    <field name="customer_assets_id" widget="statinfo" />
                 </button>
             </xpath>
 

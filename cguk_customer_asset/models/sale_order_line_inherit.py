@@ -3,7 +3,7 @@ from odoo import models, fields, api
 class StockMove(models.Model):
     _inherit = 'stock.move'
 
-    track_cpe = fields.Boolean(string='Track CPE')
+    track_cpe = fields.Boolean(string='Track CPE',compute='_compute_track_cpe',store=True,readonly=False)
 
     @api.model
     def create(self, vals):
@@ -29,7 +29,7 @@ class StockMove(models.Model):
                     ('move_line_id', '=', move_line.id),
                 ], limit=1)
 
-                if move.track_cpe:
+                if move.track_cpe or  move.product_id.product_tmpl_id.track_cpe:
                     values = {
                         'product_id': move.product_id.id,
                         'product_lot_id': lot_id,
@@ -48,6 +48,12 @@ class StockMove(models.Model):
                 else:
                     if existing_asset:
                         existing_asset.unlink()
+
+    @api.depends('product_id')
+    def _compute_track_cpe(self):
+        for move in self:
+            if move.product_id.product_tmpl_id.track_cpe:
+                move.track_cpe = True
 
 class StockMoveLine(models.Model):
     _inherit = 'stock.move.line'
@@ -81,6 +87,19 @@ class SaleOrder(models.Model):
 
     renewal_date = fields.Date(string="Renewal Date")
 
+    sale_customer_assets_count = fields.Integer(string="Customer Assets", compute="_compute_sale_customer_assets_count")
+    subscription_customer_assets_count = fields.Integer(string="Customer Assets", compute="_compute_subscription_customer_assets_count")
+
+    @api.depends('sale_customer_assets_ids')
+    def _compute_sale_customer_assets_count(self):
+        for record in self:
+            record.sale_customer_assets_count = len(record.sale_customer_assets_ids)
+
+    @api.depends('subscription_customer_assets_ids')
+    def _compute_subscription_customer_assets_count(self):
+        for record in self:
+            record.subscription_customer_assets_count = len(record.subscription_customer_assets_ids)
+
     def action_view_subscription_customer_assets(self):
         self.ensure_one()
         return {
@@ -111,43 +130,13 @@ class StockPicking(models.Model):
         inverse_name="stock_picking_id",
         domain="[('contact_id', '=', partner_id)]"
     )
+    customer_assets_count = fields.Integer(string="Customer Assets",compute="_compute_customer_assets_count")
 
-    # @api.model
-    # def create(self, vals):
-    #     picking = super().create(vals)
-    #     picking._create_customer_assets()
-    #     return picking
-    #
-    # def write(self, vals):
-    #     res = super().write(vals)
-    #     self._create_customer_assets()
-    #     return res
-
-    # def _create_customer_assets(self):
-    #     customer_asset = self.env['customer.asset']
-    #     for picking in self:
-    #         for move in picking.move_ids_without_package:
-    #             existing_asset = customer_asset.search([
-    #                 ('product_id', '=', move.product_id.id),
-    #                 ('stock_picking_id', '=', picking.id),
-    #                 ('sale_order_id', '=', picking.sale_id.id),
-    #                 ('product_serial_No','=',move.lot_ids.name),
-    #             ], limit=1)
-    #
-    #             if not existing_asset and move.track_cpe:
-    #                 customer_asset.create({
-    #                     'product_id': move.product_id.id,
-    #                     'product_serial_No':move.lot_ids.name,
-    #                     'sale_date': picking.sale_id.date_order,
-    #                     'company_id': picking.partner_id.parent_id.id,
-    #                     'contact_id': picking.sale_id.partner_id.id,
-    #                     'sale_order_id': picking.sale_id.id,
-    #                     'stock_picking_id': picking.id,
-    #                 })
-    #
-    #             elif existing_asset and not move.track_cpe:
-    #                 existing_asset.unlink()
-
+    @api.depends('customer_assets_ids')
+    def _compute_customer_assets_count(self):
+        for pick in self:
+                pick.customer_assets_count = len(pick.customer_assets_ids)
+    
     def action_view_customer_assets(self):
         self.ensure_one()
         return {
@@ -158,3 +147,8 @@ class StockPicking(models.Model):
             'domain': [('stock_picking_id', '=', self.id)],  # or use correct relation field
             'target': 'current',
         }
+
+class ProductTemplate(models.Model):
+    _inherit = 'product.template'
+
+    track_cpe = fields.Boolean(string='Track CPE')

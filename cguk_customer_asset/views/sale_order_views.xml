@@ -4,9 +4,6 @@
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <!--            <xpath expr="//form/sheet/notebook/page[@name='order_lines']/field/list/field[@name='product_uom_qty']" position="before">-->
-            <!--                <field name="track_cpe"/>-->
-            <!--            </xpath>-->
             <xpath expr="//field[@name='payment_term_id']" position="before">
                 <field name="subscription_customer_assets_ids" widget="many2many_tags" invisible="not is_subscription"/>
                 <field name="is_subscription"/>
@@ -18,6 +15,7 @@
                         class="oe_stat_button"
                         icon="fa-cubes"
                         invisible="not sale_customer_assets_ids">
+                    <field name="sale_customer_assets_count" widget="statinfo" string="Customer Assets"/>
                 </button>
                 <button name="action_view_subscription_customer_assets"
                         string="Customer Assets"
@@ -25,6 +23,7 @@
                         class="oe_stat_button"
                         icon="fa-cubes"
                         invisible="not subscription_customer_assets_ids">
+                    <field name="subscription_customer_assets_count" widget="statinfo" string="Customer Assets"/>
                 </button>
             </xpath>
         </field>
@@ -46,8 +45,23 @@
                         class="oe_stat_button"
                         icon="fa-cubes"
                         invisible="not customer_assets_ids">
+                    <field name="customer_assets_count" widget="statinfo" string="Customer Assets"/>
                 </button>
             </xpath>
+        </field>
+    </record>
+    <!-- Inherit Form View to Modify it -->
+    <record id="product_template_only_form_view_trackcpe" model="ir.ui.view">
+        <field name="name">product.template.product.form.trackCPE</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='invoice_policy']" position="before">
+                <!-- Add your fields or attributes here -->
+                <field name="track_cpe"/>
+            </xpath>
+
         </field>
     </record>
 </odoo>

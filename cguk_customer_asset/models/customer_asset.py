@@ -2,10 +2,7 @@ from odoo import models, fields, api
 import typing
 from odoo.addons.base.models.res_country import Country, CountryState
 if typing.TYPE_CHECKING:
-    from odoo.addons.base.models.res_users import UsersView as ResUsers
-    from odoo.addons.base.models.res_bank import ResPartnerBank
     from odoo.addons.base.models.res_country import Country, CountryState
-    from odoo.addons.base.models.res_company import Company as ResCompany
 
 class CustomerAsset(models.Model):
     _name = 'customer.asset'
@@ -214,30 +211,6 @@ class HelpdeskTicket(models.Model):
         domain="[('company_id', '=', partner_id)]"
     )
 
-    # @api.model
-    # def create(self, vals):
-    #     ticket = super().create(vals)
-    #     if vals.get('customer_assets_id'):
-    #         asset = self.env['customer.asset'].browse(vals['customer_assets_id'])
-    #         asset.helpdesk_ticket_id = ticket.id
-    #     return ticket
-    #
-    # def write(self, vals):
-    #     for rec in self:
-    #         old_asset = rec.customer_assets_id
-    #         res = super(HelpdeskTicket, rec).write(vals)
-    #
-    #         if 'customer_assets_id' in vals:
-    #             # Clear the old asset if it's different
-    #             if old_asset and old_asset.id != vals['customer_assets_id']:
-    #                 old_asset.helpdesk_ticket_id = False
-    #
-    #             # Set the new asset
-    #             new_asset = rec.customer_assets_id
-    #             if new_asset:
-    #                 new_asset.helpdesk_ticket_id = rec.id
-    #     return True
-
     def action_view_customer_assets(self):
         self.ensure_one()
         return {
@@ -249,6 +222,18 @@ class HelpdeskTicket(models.Model):
             'target': 'current',
         }
 
+    # def action_generate_fsm_task(self):
+    #     self.ensure_one()
+    #     if not self.partner_id and (self.partner_name or self.partner_email):
+    #         self.partner_id = self._find_or_create_partner(self.partner_name, self.partner_email, self.company_id.id)
+    #
+    #     action = super(HelpdeskTicket, self).action_generate_fsm_task()
+    #
+    #     # Add your custom context
+    #     action['context'].update({
+    #         'default_customer_assets_id': self.customer_assets_id,
+    #     })
+    #     return action
 
 class FSM(models.Model):
     _inherit = "project.task"
@@ -256,32 +241,12 @@ class FSM(models.Model):
     customer_assets_id = fields.Many2one(
         comodel_name="customer.asset",
         string="Customer Assets",
-        domain="[('company_id', '=', partner_id)]"
+        domain="[('company_id', '=', partner_id)]",
+        compute = '_compute_customer_assets_id',
+        store=True,
+        readonly=False,
     )
 
-    # @api.model
-    # def create(self, vals):
-    #     task = super().create(vals)
-    #     if vals.get('customer_assets_id'):
-    #         asset = self.env['customer.asset'].browse(vals['customer_assets_id'])
-    #         asset.fsm_task_id = task.id
-    #     return task
-    #
-    # def write(self, vals):
-    #     for rec in self:
-    #         old_asset = rec.customer_assets_id
-    #         res = super(FSM, rec).write(vals)
-    #
-    #         if 'customer_assets_id' in vals:
-    #             # Clear old asset link
-    #             if old_asset and old_asset.id != vals['customer_assets_id']:
-    #                 old_asset.fsm_task_id = False
-    #
-    #             # Set new asset link
-    #             new_asset = rec.customer_assets_id
-    #             if new_asset:
-    #                 new_asset.fsm_task_id = rec.id
-    #     return True
 
     def action_view_customer_assets(self):
         self.ensure_one()
@@ -293,3 +258,9 @@ class FSM(models.Model):
             'res_id': self.customer_assets_id.id,
             'target': 'current',
         }
+    @api.depends('helpdesk_ticket_id')
+    def _compute_customer_assets_id(self):
+        print("helpdesk_ticket_id-->",self.helpdesk_ticket_id)
+        for task in self:
+            if task.helpdesk_ticket_id and task.helpdesk_ticket_id.customer_assets_id:
+                task.customer_assets_id = task.helpdesk_ticket_id.customer_assets_id.id

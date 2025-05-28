@@ -1,7 +1,7 @@
 {
     'name': 'Crm and Contact customisation',
     'version': '1.1',
-    'author': 'Felix',
+    'author': 'ThoughtLogik',
     'category': 'Custom',
     'summary': 'Custom module for Odoo',
     'depends': ['base','crm','product','calendar','mail','helpdesk'],
