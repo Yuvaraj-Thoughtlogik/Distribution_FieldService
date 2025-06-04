@@ -52,9 +52,9 @@ class CustomerAsset(models.Model):
         string="Country Code"
     )
 
-    helpdesk_ticket_id = fields.One2many('helpdesk.ticket', string='Help Desk Ticket',inverse_name="customer_assets_id",)
+    helpdesk_ticket_ids = fields.Many2many('helpdesk.ticket', string='Help Desk Ticket',compute="_compute_helpdesk_tickets",store=True,readonly=False)
+    fsm_task_ids = fields.Many2many('project.task', string='FSM Task',compute="_compute_fsm_tasks",store=True,readonly=False)
     subscription_id = fields.Many2one('sale.order', string='Subscription',domain="[('is_subscription','=',True)]")
-    fsm_task_id = fields.One2many('project.task', string='FSM Task',inverse_name="customer_assets_id",)
     sale_order_id = fields.Many2one('sale.order', string='Sale Order',domain="[('is_subscription','=',False)]")
     stock_picking_id = fields.Many2one('stock.picking', string='Delivery Order')
     move_line_id = fields.Many2one('stock.move.line', string='Move Line')
@@ -76,6 +76,18 @@ class CustomerAsset(models.Model):
     delivery_country_id: Country = fields.Many2one('res.country', string='Country', ondelete='restrict')
     delivery_country_code = fields.Char(related='delivery_country_id.code', string="Country Code")
 
+    @api.depends('fsm_task_ids')
+    def _compute_fsm_tasks(self):
+        for asset in self:
+            for task in asset.fsm_task_ids:
+                if asset.id not in task.customer_assets_ids.ids:
+                    task.customer_assets_ids = [(4, asset.id)]
+    @api.depends('helpdesk_ticket_ids')
+    def _compute_helpdesk_tickets(self):
+        for asset in self:
+            for ticket in asset.helpdesk_ticket_ids:
+                if asset.id not in ticket.customer_assets_ids.ids:
+                    ticket.customer_assets_ids = [(4, asset.id)]
 
     @api.depends('product_lot_id')
     def _compute_name_from_lot(self):
@@ -176,7 +188,7 @@ class CustomerAsset(models.Model):
             'name': 'FSM Task',
             'res_model': 'project.task',
             'view_mode': 'list,form',
-            'domain': [('customer_assets_id', '=', self.id)],  # or use correct relation field
+            'domain': [('customer_assets_ids', 'in', self.id)],  # or use correct relation field
             'target': 'current',
         }
 
@@ -205,62 +217,80 @@ class CustomerAsset(models.Model):
 class HelpdeskTicket(models.Model):
     _inherit = "helpdesk.ticket"
 
-    customer_assets_id = fields.Many2one(
+    parent_company = fields.Many2one(string='Parent Company', related='partner_id.parent_id')
+    customer_assets_ids = fields.Many2many(
         comodel_name="customer.asset",
         string="Customer Assets",
-        domain="[('company_id', '=', partner_id)]"
+        compute="_compute_customer_assets_id",
+        store=True,
+        readonly=False,
+        domain="['|', ('contact_id', '=', partner_id), '|', ('company_id', '=', partner_id), ('company_id', '=', parent_company)]"
     )
+
+    customer_assets_count = fields.Integer(string="Customer Assets", compute="_compute_customer_assets_count")
+
+    @api.depends('customer_assets_ids')
+    def _compute_customer_assets_count(self):
+        for record in self:
+            record.customer_assets_count = len(record.customer_assets_ids)
 
     def action_view_customer_assets(self):
         self.ensure_one()
+
         return {
             'type': 'ir.actions.act_window',
             'name': 'Related Customer Assets',
-            'res_model': 'customer.asset',  # replace with actual model
-            'view_mode': 'form',
-            'res_id': self.customer_assets_id.id,
+            'res_model': 'customer.asset',
+            'view_mode': 'list,form',
+            'domain': [('helpdesk_ticket_ids', 'in', self.id)],  # or use correct relation field
             'target': 'current',
         }
-
-    # def action_generate_fsm_task(self):
-    #     self.ensure_one()
-    #     if not self.partner_id and (self.partner_name or self.partner_email):
-    #         self.partner_id = self._find_or_create_partner(self.partner_name, self.partner_email, self.company_id.id)
-    #
-    #     action = super(HelpdeskTicket, self).action_generate_fsm_task()
-    #
-    #     # Add your custom context
-    #     action['context'].update({
-    #         'default_customer_assets_id': self.customer_assets_id,
-    #     })
-    #     return action
+    @api.depends('customer_assets_ids')
+    def _compute_customer_assets_id(self):
+        for ticket in self:
+            for asset in ticket.customer_assets_ids:
+                if asset and ticket.id not in asset.helpdesk_ticket_ids.ids:
+                    asset.helpdesk_ticket_ids = [(4, ticket.id)]
 
 class FSM(models.Model):
     _inherit = "project.task"
 
-    customer_assets_id = fields.Many2one(
+    parent_company = fields.Many2one(string='Parent Company',related='partner_id.parent_id')
+    customer_assets_ids = fields.Many2many(
         comodel_name="customer.asset",
         string="Customer Assets",
-        domain="[('company_id', '=', partner_id)]",
-        compute = '_compute_customer_assets_id',
+        compute="_compute_customer_assets_id",
         store=True,
         readonly=False,
+        domain="['|', ('contact_id', '=', partner_id), '|', ('company_id', '=', partner_id), ('company_id', '=', parent_company)]"
+
     )
 
+    customer_assets_count = fields.Integer(string="Customer Assets", compute="_compute_customer_assets_count")
 
+    @api.depends('customer_assets_ids')
+    def _compute_customer_assets_count(self):
+        for record in self:
+            record.customer_assets_count = len(record.customer_assets_ids)
     def action_view_customer_assets(self):
         self.ensure_one()
+
         return {
             'type': 'ir.actions.act_window',
             'name': 'Related Customer Assets',
-            'res_model': 'customer.asset',  # replace with actual model
-            'view_mode': 'form',
-            'res_id': self.customer_assets_id.id,
+            'res_model': 'customer.asset',
+            'view_mode': 'list,form',
+            'domain': [('fsm_task_ids', 'in', self.id)],  # or use correct relation field
             'target': 'current',
         }
-    @api.depends('helpdesk_ticket_id')
+
+    @api.depends('helpdesk_ticket_id','customer_assets_ids')
     def _compute_customer_assets_id(self):
-        print("helpdesk_ticket_id-->",self.helpdesk_ticket_id)
         for task in self:
             if task.helpdesk_ticket_id and task.helpdesk_ticket_id.customer_assets_id:
-                task.customer_assets_id = task.helpdesk_ticket_id.customer_assets_id.id
+                asset_id = task.helpdesk_ticket_id.customer_assets_id.id
+                if asset_id and asset_id not in task.customer_assets_ids.ids:
+                    task.customer_assets_ids = [(4, asset_id)]
+            for asset in task.customer_assets_ids:
+                if asset and task.id not in asset.fsm_task_ids.ids:
+                    asset.fsm_task_ids = [(4, task.id)]

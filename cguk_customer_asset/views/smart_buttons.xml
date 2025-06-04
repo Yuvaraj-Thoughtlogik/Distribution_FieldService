@@ -7,17 +7,17 @@
         <field name="inherit_id" ref="helpdesk.helpdesk_ticket_view_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='partner_id']" position="after">
-                <field name="customer_assets_id"/>
+                <field name="customer_assets_ids" widget="many2many_tags"  />
             </xpath>
             <xpath expr="//div[@class='oe_button_box']" position="inside">
                 <!-- Add your fields or attributes here -->
-                <button name="action_view_customer_assets"
-                        string="Customer Asset"
+                 <button name="action_view_customer_assets"
+                        string="Customer Assets"
                         type="object"
                         class="oe_stat_button"
-                        invisible="not customer_assets_id"
+                        invisible="not customer_assets_ids"
                         icon="fa-cubes">
-                    <field name="customer_assets_id" widget="statinfo" />
+                    <field name="customer_assets_count" widget="statinfo" string="Customer Assets"/>
                 </button>
             </xpath>
 
@@ -29,17 +29,18 @@
         <field name="inherit_id" ref="project.view_task_form2"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='milestone_id']" position="before">
-                <field name="customer_assets_id"/>
+                <field name="customer_assets_ids" widget="many2many_tags"  />
+                
             </xpath>
             <xpath expr="//div[@class='oe_button_box']" position="inside">
                 <!-- Add your fields or attributes here -->
                 <button name="action_view_customer_assets"
-                        string="Customer Asset"
+                        string="Customer Assets"
                         type="object"
                         class="oe_stat_button"
-                        invisible="not customer_assets_id"
+                        invisible="not customer_assets_ids"
                         icon="fa-cubes">
-                    <field name="customer_assets_id" widget="statinfo" />
+                    <field name="customer_assets_count" widget="statinfo" string="Customer Assets"/>
                 </button>
             </xpath>
 

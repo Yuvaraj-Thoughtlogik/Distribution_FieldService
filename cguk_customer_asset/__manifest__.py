@@ -12,6 +12,7 @@
         "views/customer_asset_views.xml",
         "views/sale_order_views.xml",
         "views/smart_buttons.xml",
+        "views/product_template_views.xml",
     ],
     "assets":{
       'web.assets_backend':[

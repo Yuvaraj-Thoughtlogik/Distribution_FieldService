@@ -30,22 +30,22 @@
             </button>
             <button name="action_view_ticket"
                     string="Helpdesk Ticket"
-                    invisible ="not helpdesk_ticket_id"
+                    invisible ="not helpdesk_ticket_ids"
                     type="object"
                     class="oe_stat_button"
                     icon="fa-life-ring">
-              <field name="helpdesk_ticket_id"
+              <field name="helpdesk_ticket_ids"
                      widget="statinfo"
                      string="Helpdesk"
                      invisible="1"/>
             </button>
             <button name="action_view_fsm"
                     string="FSM Task"
-                    invisible="not fsm_task_id"
+                    invisible="not fsm_task_ids"
                     type="object"
                     class="oe_stat_button"
                     icon="fa-tasks">
-              <field name="fsm_task_id"
+              <field name="fsm_task_ids"
                      widget="statinfo"
                      string="FSM"
                      invisible="1"
@@ -100,14 +100,14 @@
             <group>
               <field name="sale_date"/>
               <field name="install_date"/>
-              <field name="helpdesk_ticket_id"
+              <field name="helpdesk_ticket_ids"
                      context="{
                      'default_partner_id': contact_id,
                      'default_customer_assets_id': id
                  }" widget="many2many_tags"/>
               <field name="subscription_id"/>
               <field name="sale_order_id"/>
-              <field name="fsm_task_id" widget="many2many_tags"/>
+              <field name="fsm_task_ids" widget="many2many_tags"/>
               <field name="stock_picking_id"/>
             </group>
           </group>
@@ -117,17 +117,6 @@
                 <group>
                   <field name="active_contract"/>
                   <field name="contract_renewal_date"/>
-<!--                  <field name="delivery_address_id"/>-->
-<!--                  <label for="delivery_street" string="Address"/>-->
-<!--                  <div class="o_address_format">-->
-<!--                    <field name="delivery_street" placeholder="Street..." class="o_address_street"/>-->
-<!--                    <field name="delivery_street2" placeholder="Street 2..." class="o_address_street"/>-->
-<!--                    <field name="delivery_city" placeholder="City" class="o_address_city"/>-->
-<!--                    <field name="delivery_state_id" class="o_address_state" placeholder="State" options="{'no_open': True, 'no_quick_create': True}" context="{'default_delivery_country_id': delivery_country_id}"/>-->
-<!--                    <field name="delivery_zip" placeholder="ZIP" class="o_address_zip"/>-->
-<!--                    <field name="delivery_country_id" placeholder="Country" class="o_address_country" options='{"no_open": True, "no_create": True}'/>-->
-<!--                    <field name="delivery_country_code" />-->
-<!--                  </div>-->
                 </group>
                 <group>
                   <field name="contract_start_date"/>

@@ -13,6 +13,8 @@ class StockMove(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
+        for record in self:
+            print("res -->", record.picking_type_id.name)
         self._create_customer_assets()
         return res
 
@@ -29,13 +31,13 @@ class StockMove(models.Model):
                     ('move_line_id', '=', move_line.id),
                 ], limit=1)
 
-                if move.track_cpe or  move.product_id.product_tmpl_id.track_cpe:
+                if move.track_cpe or  (move.product_id.product_tmpl_id.track_cpe and move.picking_type_id.code == 'outgoing'):
                     values = {
                         'product_id': move.product_id.id,
                         'product_lot_id': lot_id,
                         'sale_date': move.picking_id.sale_id.date_order,
-                        'company_id': move.picking_id.partner_id.parent_id.id,
-                        'contact_id': move.picking_id.sale_id.partner_id.id,
+                        'company_id': move.picking_id.partner_id.parent_id.id if move.picking_id.sale_id.partner_id.is_company else False,
+                        'contact_id': move.picking_id.sale_id.partner_id.id if not move.picking_id.sale_id.partner_id.is_company else False,
                         'sale_order_id': move.picking_id.sale_id.id,
                         'stock_picking_id': move.picking_id.id,
                         'move_line_id': move_line.id,
@@ -52,7 +54,7 @@ class StockMove(models.Model):
     @api.depends('product_id')
     def _compute_track_cpe(self):
         for move in self:
-            if move.product_id.product_tmpl_id.track_cpe:
+            if move.product_id.product_tmpl_id.track_cpe and move.picking_type_id.code == 'outgoing':
                 move.track_cpe = True
 
 class StockMoveLine(models.Model):
@@ -132,6 +134,14 @@ class StockPicking(models.Model):
     )
     customer_assets_count = fields.Integer(string="Customer Assets",compute="_compute_customer_assets_count")
 
+    hide_track_cpe = fields.Boolean(
+        compute='_compute_hide_track_cpe',
+        store=False
+    )
+
+    def _compute_hide_track_cpe(self):
+        for rec in self:
+            rec.hide_track_cpe = rec.picking_type_id.code != 'outgoing'
     @api.depends('customer_assets_ids')
     def _compute_customer_assets_count(self):
         for pick in self:
