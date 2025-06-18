@@ -2,7 +2,7 @@
 {
     'name': 'TL_CGUK_CRM',
     'version': '1.3',
-    'summary': 'Create a crm custom fields',
+    'summary': 'Create a crm custom field',
     'author': 'Thoughtlogik Solutions',
     'website': 'www.thoughtlogik.com',
     'depends': ['base','crm','product','calendar','mail','helpdesk'],
