@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_repair_order_form_inherit_customer_assets" model="ir.ui.view">
+        <field name="name">repair.order.form.inherit.customer.assets</field>
+        <field name="model">repair.order</field>
+        <field name="inherit_id" ref="repair.view_repair_order_form"/>
+        <field name="arch" type="xml">
+            <!-- Add the new field after the 'partner_id' field -->
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="customer_asset_ids" widget="many2many_tags"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

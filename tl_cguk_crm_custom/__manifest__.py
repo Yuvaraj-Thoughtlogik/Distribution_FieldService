@@ -1,9 +1,10 @@
+# -*- coding: utf-8 -*-
 {
-    'name': 'Crm and Contact customisation',
-    'version': '1.1',
-    'author': 'ThoughtLogik',
-    'category': 'Custom',
-    'summary': 'Custom module for Odoo',
+    'name': 'TL_CGUK_CRM',
+    'version': '1.3',
+    'summary': 'Create a crm field',
+    'author': 'Thoughtlogik Solutions',
+    'website': 'www.thoughtlogik.com',
     'depends': ['base','crm','product','calendar','mail','helpdesk'],
     'post_init_hook': 'hooks.post_init_hook',
     'data': [

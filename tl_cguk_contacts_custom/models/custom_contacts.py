@@ -1,3 +1,5 @@
+import re
+
 from odoo import models,fields,api
 
 
@@ -8,25 +10,15 @@ class Contacts(models.Model):
     sample_material = fields.Many2many('sample.material', string="Sample material")
     analysis_analysis = fields.Many2many('analysis.analysis', string="Analysis")
     preparation_requirements = fields.Many2many('preparation.requirements', string="Sample Preparation Requirements")
+    sample_material_specification = fields.Text( string="Sample Material Specification")
+    analysis_further = fields.Text(string="Analysis -Further Information",compute="_compute_html_to_text",store=True,readonly=False)
+    description_custom = fields.Text(string="Description")
+    competitor_equipment = fields.Text(string="Competitor equipment")
     email_opt_out = fields.Boolean( string="Email Opt Out")
     still_in_business = fields.Boolean( string="Still In Business")
-    sample_material_specification = fields.Html( string="Sample Material Specification")
-    analysis_further = fields.Html(string="Analysis -Further Information")
     secondary_email = fields.Char(string="Secondary Email")
-    description_custom = fields.Html(string="Description")
-    department = fields.Text(string="Department")
-    # enquiry_source = fields.Selection([('advertisement', 'Advertisement'), ('broker', 'Broker'), ('coldcall', 'Cold Call'), ('employeereferral', 'Employee Referral'), ('externalreferral', 'External Referral'), ('onlinestore', 'OnlineStore'), ('partner', 'Partner'), ('publicrelations', 'Public Relations'), ('salesmailalias', 'Sales Mail Alias'), ('seminarpartner', 'Seminar Partner'), ('seminar-internal', 'Seminar-Internal'),
-    #                                    ('tradeshow', 'Trade Show'),
-    #                                    ('webcases', 'Web Cases'),
-    #                                    ('webdownload', 'Web Download'),
-    #                                    ('webresearch', 'Web Research'),
-    #                                    ('webmail', 'Web Mail'),
-    #                                    ('chat', 'Chat'),
-    #                                    ('twitter', 'Twitter'),
-    #                                    ('facebook', 'Facebook'),
-    #                                    ('google+', 'Google+'),], "Enquiry Source")
+    department = fields.Char(string="Department")
     source_id = fields.Many2one('utm.source',string='Enquiry Source')
-    competitor_equipment = fields.Html(string="Competitor equipment")
     rating = fields.Selection([('prospective_customer', 'Prospective customer'), ('active_customer', 'Active Customer'),], "Rating")
 
     first_name = fields.Char(
@@ -51,6 +43,14 @@ class Contacts(models.Model):
         ('reseller', 'Reseller'),
         ('prospect', 'Prospect'),('partner', 'Partner'), ('supplier', 'Supplier')
     ], string='Account Type')
+
+    @api.depends('analysis_further','competitor_equipment','sample_material_specification','description_custom')
+    def _compute_html_to_text(self):
+        for record in self:
+            record.analysis_further = re.sub('<[^<]+?>', '', record.analysis_further or '')
+            record.sample_material_specification = re.sub('<[^<]+?>', '', record.sample_material_specification or '')
+            record.description_custom = re.sub('<[^<]+?>', '', record.description_custom or '')
+            record.competitor_equipment = re.sub('<[^<]+?>', '', record.competitor_equipment or '')
 
     @api.depends('name', 'is_company')
     def _compute_name_parts(self):

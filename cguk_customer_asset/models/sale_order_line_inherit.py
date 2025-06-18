@@ -13,8 +13,6 @@ class StockMove(models.Model):
 
     def write(self, vals):
         res = super().write(vals)
-        for record in self:
-            print("res -->", record.picking_type_id.name)
         self._create_customer_assets()
         return res
 
@@ -23,7 +21,6 @@ class StockMove(models.Model):
         for move in self:
             for move_line in move.move_line_ids:
                 lot_id = move_line.lot_id.id if move_line.lot_id else False
-                print("lot_id-->",move_line.lot_id)
                 existing_asset = customer_asset.search([
                     ('product_id', '=', move.product_id.id),
                     ('stock_picking_id', '=', move.picking_id.id),
@@ -31,7 +28,7 @@ class StockMove(models.Model):
                     ('move_line_id', '=', move_line.id),
                 ], limit=1)
 
-                if move.track_cpe or  (move.product_id.product_tmpl_id.track_cpe and move.picking_type_id.code == 'outgoing'):
+                if (move.track_cpe or  move.product_id.product_tmpl_id.track_cpe) and move.picking_type_id.code == 'outgoing':
                     values = {
                         'product_id': move.product_id.id,
                         'product_lot_id': lot_id,
@@ -74,17 +71,18 @@ class StockMoveLine(models.Model):
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
+    parent_company = fields.Many2one(string='Parent Company', related='partner_id.parent_id')
     sale_customer_assets_ids = fields.One2many(
         comodel_name="customer.asset",
         string="Customer Assets",
         inverse_name="sale_order_id",
-        domain="[('contact_id', '=', partner_id)]"
+        domain="['|', ('contact_id', '=', partner_id), '|', ('company_id', '=', partner_id), ('company_id', '=', parent_company)]"
     )
     subscription_customer_assets_ids = fields.One2many(
         comodel_name="customer.asset",
         string="Customer Assets",
         inverse_name="subscription_id",
-        domain="[('contact_id', '=', partner_id)]"
+        domain="['|', ('contact_id', '=', partner_id), '|', ('company_id', '=', partner_id), ('company_id', '=', parent_company)]"
     )
 
     renewal_date = fields.Date(string="Renewal Date")

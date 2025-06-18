@@ -25,10 +25,10 @@ class CustomerAsset(models.Model):
     install_date = fields.Date(string='Install Date')
     under_warranty = fields.Boolean(string='Under Warranty?')
     warranty_expiry = fields.Date(string='Warranty Expiry Date')
-    active_contract = fields.Boolean(string='Active?')
-    contract_start_date = fields.Date(string='Start Date')
-    contract_end_date = fields.Date(string='End Date')
-    contract_renewal_date = fields.Date(string='Renewal Date')
+    active_contract = fields.Boolean(string='Active?',compute='_compute_active_contract')
+    contract_start_date = fields.Date(string='Start Date',related="subscription_id.start_date")
+    contract_end_date = fields.Date(string='End Date',related="subscription_id.end_date")
+    contract_renewal_date = fields.Date(string='Renewal Date',related="subscription_id.next_invoice_date")
     company_id = fields.Many2one('res.partner',compute="_compute_address_company", string='Company',domain="[('is_company','=',True)]",store=True)
     contact_id = fields.Many2one('res.partner', string='Contact',domain="[('is_company','!=','True')]",readonly=False,store=True)
     # address = fields.Char(string='Address', compute='_compute_address', store=True)
@@ -56,8 +56,11 @@ class CustomerAsset(models.Model):
     fsm_task_ids = fields.Many2many('project.task', string='FSM Task',compute="_compute_fsm_tasks",store=True,readonly=False)
     subscription_id = fields.Many2one('sale.order', string='Subscription',domain="[('is_subscription','=',True)]")
     sale_order_id = fields.Many2one('sale.order', string='Sale Order',domain="[('is_subscription','=',False)]")
-    stock_picking_id = fields.Many2one('stock.picking', string='Delivery Order')
+    stock_picking_id = fields.Many2one('stock.picking', string='Delivery Order',domain="[('picking_type_code', '=', 'outgoing')]")
     move_line_id = fields.Many2one('stock.move.line', string='Move Line')
+    repair_order_id = fields.Many2one(
+        comodel_name='repair.order',
+        string='Repair Order')
     delivery_address_id = fields.Many2one(
         'res.partner',
         string='Service Address',
@@ -76,6 +79,26 @@ class CustomerAsset(models.Model):
     delivery_country_id: Country = fields.Many2one('res.country', string='Country', ondelete='restrict')
     delivery_country_code = fields.Char(related='delivery_country_id.code', string="Country Code")
 
+    trigger_wizard = fields.Boolean(default=False)
+
+    def action_open_lot_selector(self):
+        return {
+            'name': 'Select Lot for Product',
+            'type': 'ir.actions.act_window',
+            'res_model': 'select.lot.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_product_id': self.product_id.id,
+                'default_asset_id': self.id,
+            }
+        }
+
+    @api.depends('subscription_id')
+    def _compute_active_contract(self):
+        for record in self:
+            record.active_contract = bool(record.subscription_id)
+
     @api.depends('fsm_task_ids')
     def _compute_fsm_tasks(self):
         for asset in self:
@@ -88,6 +111,7 @@ class CustomerAsset(models.Model):
             for ticket in asset.helpdesk_ticket_ids:
                 if asset.id not in ticket.customer_assets_ids.ids:
                     ticket.customer_assets_ids = [(4, asset.id)]
+
 
     @api.depends('product_lot_id')
     def _compute_name_from_lot(self):
@@ -213,6 +237,21 @@ class CustomerAsset(models.Model):
             'target': 'current',
         }
 
+    def action_view_repair_order(self):
+        self.ensure_one()
+        if self.repair_order_id:
+            return {
+                'type': 'ir.actions.act_window',
+                'name': 'Repair Order',
+                'res_model': 'repair.order',
+                'view_mode': 'form',
+                'res_id': self.repair_order_id.id,
+                'target': 'current',
+            }
+        else:
+            return {'type': 'ir.actions.act_window_close'}
+
+
 
 class HelpdeskTicket(models.Model):
     _inherit = "helpdesk.ticket"
@@ -294,3 +333,5 @@ class FSM(models.Model):
             for asset in task.customer_assets_ids:
                 if asset and task.id not in asset.fsm_task_ids.ids:
                     asset.fsm_task_ids = [(4, task.id)]
+
+

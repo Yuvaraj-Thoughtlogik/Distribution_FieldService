@@ -8,15 +8,17 @@
     "summary": "Custom module for Track sold equipment per customer",
     "data": [
         "security/ir.model.access.csv",
-        # 'data/sequence.xml',
         "views/customer_asset_views.xml",
         "views/sale_order_views.xml",
         "views/smart_buttons.xml",
         "views/product_template_views.xml",
+        "views/repair.xml",
+        'wizard/lot_selection.xml'
     ],
     "assets":{
       'web.assets_backend':[
           "cguk_customer_asset/static/css/style.css",
+          "cguk_customer_asset/static/src/js/lot_wizard.js",
       ]
     },
     "installable": True,
