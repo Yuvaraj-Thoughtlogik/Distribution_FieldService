@@ -2,6 +2,31 @@
 from odoo import models, fields, api
 
 
+class SampleMaterialOption(models.Model):
+    _name = 'crm.lead.sample_material_option'
+    _description = 'Sample Material Option'
+
+    name = fields.Char(required=True)
+
+
+class AnalysisOption(models.Model):
+    _name = 'crm.lead.analysis_option'
+    _description = 'Analysis Option'
+
+    name = fields.Char(required=True)
+
+
+class SamplePreparationOption(models.Model):
+    _name = 'crm.lead.sample_preparation_option'
+    _description = 'Sample Preparation Requirement'
+
+    name = fields.Char(required=True)
+
+class ProductLine(models.Model):
+    _name = "crm.lead.product_line"
+
+    name = fields.Char(required=True)
+
 class Manufacturer(models.Model):
     _name = 'crm.lead.manufacture'
     _description = 'Manufacturer or Product Line'
