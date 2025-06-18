@@ -286,12 +286,12 @@
                             <h2 style="padding: 30px 15px;padding-bottom: 10px;border-bottom: 1px solid;color: #646464;">Application Information</h2>
                             <group/>
                             <group>
-                                <field name="sample_material_ids" widget="many2many_tags"/>
+                                <field name="sample_material1_ids" widget="many2many_tags"/>
                                 <field name="sample_material_special"/>
-                                <field name="sample_preparation_ids" widget="many2many_tags"/>
+                                <field name="sample_preparation1_ids" widget="many2many_tags"/>
                             </group>
                             <group>
-                                <field name="analysis_ids" widget="many2many_tags"/>
+                                <field name="analysis1_ids" widget="many2many_tags"/>
                                 <field name="analysis_further_information"/>
                                 <field name="description_of_analysis"/>
                             </group>
