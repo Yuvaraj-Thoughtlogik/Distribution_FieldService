@@ -24,21 +24,4 @@ class Meeting(models.Model):
 
     follow_up_action = fields.Text(string= "Follow up Actions")
 
-    description = fields.Text(string='Description',readonly="not user_can_edit")
-
-    @api.model
-    def create(self, vals):
-        if 'description' in vals and vals['description']:
-            vals['description'] = self.strip_html_keep_text(vals['description'])
-        return super().create(vals)
-
-    def write(self, vals):
-        res = super().write(vals)
-        for record in self:
-            if record.description:
-                clean_text = strip_html_keep_text(record.description)
-                if record.description != clean_text:
-                    record.sudo().write({'description': clean_text})
-        return res
-
 
