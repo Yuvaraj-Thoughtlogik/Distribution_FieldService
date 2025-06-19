@@ -1,6 +1,6 @@
 <odoo>
-    <!-- This Menu Item Must have a parent -->
-    <!-- This Menu Item must have a parent and an action -->
+    <!--  This Menu Item Must have a parent  -->
+    <!--  This Menu Item must have a parent and an action  -->
     <record id="crm_manufacturer_action" model="ir.actions.act_window">
         <field name="name">Manufacturer</field>
         <field name="type">ir.actions.act_window</field>
@@ -11,35 +11,32 @@
     <record id="crm_SampleMaterialOption_categ_action" model="ir.actions.act_window">
         <field name="name">Sample Material Option</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">sample.material</field>
+        <field name="res_model">crm.lead.sample_material_option</field>
         <field name="view_mode">list,form</field>
     </record>
     <menuitem id="crm_SampleMaterialOption_categ" name="Sample Material Options" parent="crm.crm_menu_config" action="crm_SampleMaterialOption_categ_action"/>
-
     <record id="crm_AnalysisOption_categ_action" model="ir.actions.act_window">
         <field name="name">Analysis Option</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">analysis.analysis</field>
+        <field name="res_model">crm.lead.analysis_option</field>
         <field name="view_mode">list,form</field>
     </record>
     <menuitem id="crm_AnalysisOption_categ" name="Analysis Options" parent="crm.crm_menu_config" action="crm_AnalysisOption_categ_action"/>
-
     <record id="crm_SamplePreparationOption_categ_action" model="ir.actions.act_window">
         <field name="name">Sample Preparation Option</field>
         <field name="type">ir.actions.act_window</field>
-        <field name="res_model">preparation.requirements</field>
+        <field name="res_model">crm.lead.sample_preparation_option</field>
         <field name="view_mode">list,form</field>
     </record>
     <menuitem id="crm_SamplePreparationOption_categ" name="Sample Preparation Options" parent="crm.crm_menu_config" action="crm_SamplePreparationOption_categ_action"/>
-
     <record id="calendar_type_of_action_action" model="ir.actions.act_window">
         <field name="name">Type of Visit</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">calendar.type.visit</field>
         <field name="view_mode">list,form</field>
     </record>
-    <!-- This Menu Item Must have a parent -->
+    <!--  This Menu Item Must have a parent  -->
     <menuitem id="calendar_type_of_action_action_categ" name="Types of Visit" parent="calendar.calendar_menu_config" action="calendar_type_of_action_action" sequence="40"/>
-    <!-- This Menu Item Must have a parent -->
+    <!--  This Menu Item Must have a parent  -->
     <menuitem id="calendar_product_line_action_categ" name="Product Line" parent="calendar.calendar_menu_config" action="crm_manufacturer_action" sequence="50"/>
 </odoo>

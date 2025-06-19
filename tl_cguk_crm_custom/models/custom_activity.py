@@ -1,13 +1,14 @@
 
-
-from odoo import fields,models,api
+from odoo import fields ,models ,api
 
 class MailActivitySchedule(models.TransientModel):
     _inherit = "mail.activity.schedule"
 
 
-    status = fields.Selection([("not_started","Not Started"),("started","Started"),("completed","Completed")],string="Status",default="not_started")
-    priority = fields.Selection([("high","High"),("normal","Normal"),("low","Low")],string="Priority",default="normal")
+    status = fields.Selection([("not_started" ,"Not Started") ,("started" ,"Started") ,("completed" ,"Completed")]
+                              ,string="Status" ,default="not_started")
+    priority = fields.Selection([("high" ,"High") ,("normal" ,"Normal") ,("low" ,"Low")] ,string="Priority"
+                                ,default="normal")
 
 
     def _action_schedule_activities(self):
@@ -21,7 +22,7 @@ class MailActivitySchedule(models.TransientModel):
             status = self.status,
             priority = self.priority
         )
-    
+
 
 class MailActivity(models.Model):
     _inherit = "mail.activity"
@@ -31,10 +32,10 @@ class MailActivity(models.Model):
             ("not_started", "Not Started"),
             ("started", "Started"),
             ("completed", "Completed")
-        ],string="Status", default="not_started")
+        ] ,string="Status", default="not_started")
     priority = fields.Selection(
         [
-            ("high","High"),
-            ("normal","Normal"),
-            ("low","Low")
-        ],string="Priority",default="normal")
+            ("high" ,"High"),
+            ("normal" ,"Normal"),
+            ("low" ,"Low")
+        ] ,string="Priority" ,default="normal")
