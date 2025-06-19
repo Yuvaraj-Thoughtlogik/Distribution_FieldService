@@ -2,12 +2,6 @@
 from odoo import models, fields, api
 
 
-class Manufacturer(models.Model):
-    _name = 'crm.lead.manufacture'
-    _description = 'Manufacturer or Product Line'
-
-    name = fields.Char(string="Name", required=True)
-
 class SampleMaterialOption(models.Model):
     _name = 'crm.lead.sample_material_option'
     _description = 'Sample Material Option'
@@ -32,6 +26,12 @@ class ProductLine(models.Model):
     _name = "crm.lead.product_line"
 
     name = fields.Char(required=True)
+
+class Manufacturer(models.Model):
+    _name = 'crm.lead.manufacture'
+    _description = 'Manufacturer or Product Line'
+
+    name = fields.Char(string="Name", required=True)
 
 class Lead(models.Model):
     _inherit = 'crm.lead'
@@ -116,6 +116,21 @@ class Lead(models.Model):
         'crm.lead.sample_preparation_option',
         string='Sample Preparation Requirements'
     )
+    sample_material1_ids = fields.Many2many(
+        'sample.material',
+        string='Sample Material'
+    )
+
+    analysis1_ids = fields.Many2many(
+        'analysis.analysis',
+        string='Analysis'
+    )
+
+
+    sample_preparation1_ids = fields.Many2many(
+        'preparation.requirements',
+        string='Sample Preparation Requirements'
+    )
     amount = fields.Float(string="Amount")
     # closing_date = fields.Date(string="Closing Date")
     products= fields.Many2one(
@@ -136,18 +151,47 @@ class Lead(models.Model):
 
     next_contact_date = fields.Date(string="Next Contact Date")
 
-    @api.model_create_multi
-    def create(self, vals_list):
-        # Loop through values before calling super()
-        for vals in vals_list:
-            if vals.get('manufacturer_id'):
-                manufacturer = vals['manufacturer_id']
-                # If manufacturer_ids not set, initialize as list
-                if 'manufacturer_ids' not in vals:
-                    vals['manufacturer_ids'] = [(6, 0, [manufacturer])]
-        leads = super(Lead, self).create(vals_list)
+    def _update_partner_fields(self):
+        for lead in self:
+            partner = lead.partner_id
+            parent_partner = partner.parent_id
 
-        return leads
+            def append_many2many_field(partner_obj, field_name, records):
+                for rec in records:
+                    partner_obj.write({field_name: [(4, rec.id)]})
+
+            if partner:
+                append_many2many_field(partner, 'sample_material', lead.sample_material1_ids)
+                append_many2many_field(partner, 'analysis_analysis', lead.analysis1_ids)
+                append_many2many_field(partner, 'preparation_requirements', lead.sample_preparation1_ids)
+
+                partner.write({
+                    'sample_material_specification': lead.sample_material_special or '',
+                    'analysis_further': lead.analysis_further_information or '',
+                    'description_custom': lead.description_of_analysis or '',
+                })
+
+            if parent_partner:
+                append_many2many_field(parent_partner, 'sample_material', lead.sample_material1_ids)
+                append_many2many_field(parent_partner, 'analysis_analysis', lead.analysis1_ids)
+                append_many2many_field(parent_partner, 'preparation_requirements', lead.sample_preparation1_ids)
+
+                parent_partner.write({
+                    'sample_material_specification': lead.sample_material_special or '',
+                    'analysis_further': lead.analysis_further_information or '',
+                    'description_custom': lead.description_of_analysis or '',
+                })
+
+    @api.model
+    def create(self, vals):
+        record = super(Lead, self).create(vals)
+        record._update_partner_fields()
+        return record
+
+    def write(self, vals):
+        res = super(Lead, self).write(vals)
+        self._update_partner_fields()
+        return res
 
     @api.depends('partner_name')
     def _compute_company_name(self):
