@@ -1,6 +1,10 @@
+from email.policy import default
+
 from odoo import models, fields, api
 import typing
 from odoo.addons.base.models.res_country import Country, CountryState
+from odoo.api import readonly
+
 if typing.TYPE_CHECKING:
     from odoo.addons.base.models.res_country import Country, CountryState
 
@@ -18,7 +22,6 @@ class CustomerAsset(models.Model):
         readonly=False
     )
 
-    # product_serial_No = fields.Char(string="Equipment Serial No",compute="_compute_serial_no", store=True)
     product_lot_id = fields.Many2one('stock.lot',string="Lot ID")
     product_id = fields.Many2one('product.product', string='Product', required=True)
     sale_date = fields.Date(string='Sale Date')
@@ -29,10 +32,11 @@ class CustomerAsset(models.Model):
     contract_start_date = fields.Date(string='Start Date',related="subscription_id.start_date")
     contract_end_date = fields.Date(string='End Date',related="subscription_id.end_date")
     contract_renewal_date = fields.Date(string='Renewal Date',related="subscription_id.next_invoice_date")
-    company_id = fields.Many2one('res.partner',compute="_compute_address_company", string='Company',domain="[('is_company','=',True)]",store=True)
+    company_id = fields.Many2one('res.partner', string='Company',domain="[('is_company','=',True)]",store=True)
     contact_id = fields.Many2one('res.partner', string='Contact',domain="[('is_company','!=','True')]",readonly=False,store=True)
     # address = fields.Char(string='Address', compute='_compute_address', store=True)
-    street = fields.Char()
+    compute_address = fields.Boolean("Compute Address",default=True,compute='_compute_address')
+    street = fields.Char(compute='_compute_address',store=True,readonly=False)
     street2 = fields.Char()
     zip = fields.Char(change_default=True)
     city = fields.Char()
@@ -58,8 +62,9 @@ class CustomerAsset(models.Model):
     sale_order_id = fields.Many2one('sale.order', string='Sale Order',domain="[('is_subscription','=',False)]")
     stock_picking_id = fields.Many2one('stock.picking', string='Delivery Order',domain="[('picking_type_code', '=', 'outgoing')]")
     move_line_id = fields.Many2one('stock.move.line', string='Move Line')
-    repair_order_id = fields.Many2one(
+    repair_order_ids = fields.One2many(
         comodel_name='repair.order',
+        inverse_name='customer_asset_id',
         string='Repair Order')
     delivery_address_id = fields.Many2one(
         'res.partner',
@@ -70,7 +75,7 @@ class CustomerAsset(models.Model):
     )
     same_as_main_address= fields.Boolean(string="Same as main address?")
 
-    delivery_street = fields.Char()
+    delivery_street = fields.Char(compute='_compute_address',store=True,readonly=False)
     delivery_street2 = fields.Char()
     delivery_zip = fields.Char(change_default=True)
     delivery_city = fields.Char()
@@ -78,21 +83,6 @@ class CustomerAsset(models.Model):
                                              domain="[('country_id', '=?', delivery_country_id)]")
     delivery_country_id: Country = fields.Many2one('res.country', string='Country', ondelete='restrict')
     delivery_country_code = fields.Char(related='delivery_country_id.code', string="Country Code")
-
-    trigger_wizard = fields.Boolean(default=False)
-
-    def action_open_lot_selector(self):
-        return {
-            'name': 'Select Lot for Product',
-            'type': 'ir.actions.act_window',
-            'res_model': 'select.lot.wizard',
-            'view_mode': 'form',
-            'target': 'new',
-            'context': {
-                'default_product_id': self.product_id.id,
-                'default_asset_id': self.id,
-            }
-        }
 
     @api.depends('subscription_id')
     def _compute_active_contract(self):
@@ -113,17 +103,29 @@ class CustomerAsset(models.Model):
                     ticket.customer_assets_ids = [(4, asset.id)]
 
 
-    @api.depends('product_lot_id')
+    @api.depends('product_serial_No')
     def _compute_name_from_lot(self):
         for rec in self:
-            rec.name = rec.product_lot_id.name if rec.product_lot_id else "New"
+            rec.name = rec.product_serial_No if rec.product_serial_No else "New"
 
-    @api.depends('contact_id')
+    @api.onchange('contact_id')
+    def _compute_address_contact(self):
+        for rec in self:
+            rec.company_id = rec.contact_id.parent_id if rec.contact_id else ''
+            self._compute_main_address()
+            self._compute_delivery_address()
+
+    @api.onchange( 'company_id')
     def _compute_address_company(self):
         for rec in self:
             rec.company_id = rec.contact_id.parent_id if rec.contact_id else ''
-        self._compute_main_address()
-        self._compute_delivery_address()
+            self._compute_main_address()
+            self._compute_delivery_address()
+    @api.depends('contact_id', 'company_id')
+    def _compute_address(self):
+        for rec in self:
+            self._compute_main_address()
+            self._compute_delivery_address()
 
     @api.depends('contact_id','company_id')
     def _compute_delivery_address(self):
@@ -172,17 +174,6 @@ class CustomerAsset(models.Model):
             self.delivery_country_id = self.country_id
         else:
            self._compute_delivery_address()
-
-    @api.depends('product_lot_id')
-    def _compute_serial_no(self):
-        for rec in self:
-            if rec.product_lot_id:
-                rec.product_serial_No = rec.product_lot_id.name
-
-    @api.depends('contact_id')
-    def _compute_company(self):
-        for rec in self:
-            rec.company_id = rec.contact_id.parent_id if rec.contact_id else ''
 
     def action_view_subscription(self):
         self.ensure_one()
@@ -239,18 +230,14 @@ class CustomerAsset(models.Model):
 
     def action_view_repair_order(self):
         self.ensure_one()
-        if self.repair_order_id:
-            return {
-                'type': 'ir.actions.act_window',
-                'name': 'Repair Order',
-                'res_model': 'repair.order',
-                'view_mode': 'form',
-                'res_id': self.repair_order_id.id,
-                'target': 'current',
-            }
-        else:
-            return {'type': 'ir.actions.act_window_close'}
-
+        return {
+            'type': 'ir.actions.act_window',
+            'name': 'Repairs',
+            'res_model': 'repair.order',
+            'view_mode': 'list,form',
+            'domain': [('customer_asset_id', '=', self.id)],  # or use correct relation field
+            'target': 'current',
+        }
 
 
 class HelpdeskTicket(models.Model):

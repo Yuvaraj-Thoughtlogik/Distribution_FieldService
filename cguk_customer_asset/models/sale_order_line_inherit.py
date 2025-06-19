@@ -29,12 +29,15 @@ class StockMove(models.Model):
                 ], limit=1)
 
                 if (move.track_cpe or  move.product_id.product_tmpl_id.track_cpe) and move.picking_type_id.code == 'outgoing':
+                    partner = move.picking_id.sale_id.partner_id
+                    print(partner.is_company,"-----",partner)
                     values = {
                         'product_id': move.product_id.id,
                         'product_lot_id': lot_id,
                         'sale_date': move.picking_id.sale_id.date_order,
-                        'company_id': move.picking_id.partner_id.parent_id.id if move.picking_id.sale_id.partner_id.is_company else False,
-                        'contact_id': move.picking_id.sale_id.partner_id.id if not move.picking_id.sale_id.partner_id.is_company else False,
+                        'company_id': partner.id if partner.is_company else partner.parent_id.id,
+                        'contact_id': partner.id,
+                        'compute_address':True,
                         'sale_order_id': move.picking_id.sale_id.id,
                         'stock_picking_id': move.picking_id.id,
                         'move_line_id': move_line.id,

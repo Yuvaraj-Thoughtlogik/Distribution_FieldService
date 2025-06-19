@@ -62,8 +62,8 @@
                      string="Delivery Order"
               />
             </button>
-            <button name="action_view_repair_order" string="Repair Order" invisible="not repair_order_id" type="object" class="oe_stat_button" icon="fa-wrench">
-              <field name="repair_order_id" widget="statinfo" string="Repair Order"/>
+            <button name="action_view_repair_order" string="Repair Order" invisible="not repair_order_ids" type="object" class="oe_stat_button" icon="fa-wrench">
+<!--              <field name="repair_order_ids" widget="statinfo" string="Repair Order"/>-->
             </button>
           </div>
           <div class="oe_title">
@@ -74,12 +74,14 @@
           </div>
           <group>
             <group>
-              <label for="product_id"/>
-              <div class="o_row">
-                <field name="product_id" options="{'no_open': True}"/>
-                <button name="action_open_lot_selector" string="Select Lot"
-                        type="object" />
-              </div>
+              <!--              <label for="product_id"/>-->
+              <field name="product_id"/>
+
+              <!--              <div class="o_row">-->
+              <!--                <field name="product_id" options="{'no_open': True}"/>-->
+              <!--                <button name="action_open_lot_selector" string="Select Lot"-->
+              <!--                        type="object" />-->
+              <!--              </div>-->
               <field name="product_serial_No"/>
               <field name="contact_id"/>
               <field name="company_id" readonly="0"/>
@@ -117,7 +119,7 @@
               <field name="sale_order_id"/>
               <field name="fsm_task_ids" widget="many2many_tags"/>
               <field name="stock_picking_id"/>
-              <field name="repair_order_id"/>
+              <field name="repair_order_ids" widget="many2many_tags"/>
             </group>
           </group>
           <notebook>
