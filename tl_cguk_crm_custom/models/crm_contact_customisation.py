@@ -99,60 +99,38 @@ class Lead(models.Model):
 
     #Application Information
     sample_material_ids = fields.Many2many(
-
         'crm.lead.sample_material_option',
-
         string='Sample Material'
-
     )
-
     sample_material_special = fields.Char(string="Sample material Special")
- 
+
     analysis_ids = fields.Many2many(
-
         'crm.lead.analysis_option',
-
         string='Analysis'
-
     )
-
     analysis_further_information = fields.Char(string="Analysis future information")
- 
+
     description_of_analysis = fields.Char(string="Description of Analysis")
- 
+
     sample_preparation_ids = fields.Many2many(
-
         'crm.lead.sample_preparation_option',
-
         string='Sample Preparation Requirements'
-
     )
-
     sample_material1_ids = fields.Many2many(
-
         'sample.material',
-
         string='Sample Material'
-
     )
- 
+
     analysis1_ids = fields.Many2many(
-
         'analysis.analysis',
-
         string='Analysis'
-
     )
- 
- 
+
+
     sample_preparation1_ids = fields.Many2many(
-
         'preparation.requirements',
-
         string='Sample Preparation Requirements'
-
     )
- 
     amount = fields.Float(string="Amount")
     # closing_date = fields.Date(string="Closing Date")
     products= fields.Many2one(
@@ -183,9 +161,9 @@ class Lead(models.Model):
                     partner_obj.write({field_name: [(4, rec.id)]})
 
             if partner:
-                append_many2many_field(partner, 'sample_material', lead.sample_material1_ids)
-                append_many2many_field(partner, 'analysis_analysis', lead.analysis1_ids)
-                append_many2many_field(partner, 'preparation_requirements', lead.sample_preparation1_ids)
+                append_many2many_field(partner, 'sample_material', lead.sample_material_ids)
+                append_many2many_field(partner, 'analysis_analysis', lead.analysis_ids)
+                append_many2many_field(partner, 'preparation_requirements', lead.sample_preparation_ids)
 
                 partner.write({
                     'sample_material_specification': lead.sample_material_special or '',
@@ -194,9 +172,9 @@ class Lead(models.Model):
                 })
 
             if parent_partner:
-                append_many2many_field(parent_partner, 'sample_material', lead.sample_material1_ids)
-                append_many2many_field(parent_partner, 'analysis_analysis', lead.analysis1_ids)
-                append_many2many_field(parent_partner, 'preparation_requirements', lead.sample_preparation1_ids)
+                append_many2many_field(parent_partner, 'sample_material', lead.sample_material_ids)
+                append_many2many_field(parent_partner, 'analysis_analysis', lead.analysis_ids)
+                append_many2many_field(parent_partner, 'preparation_requirements', lead.sample_preparation_ids)
 
                 parent_partner.write({
                     'sample_material_specification': lead.sample_material_special or '',

@@ -1,3 +1,6 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_manufacturer_user,access.crm.lead.manufacture,model_crm_lead_manufacture,base.group_user,1,1,1,1
+access_sample_material_option_user,access.crm.lead.sample_material_option,model_crm_lead_sample_material_option,base.group_user,1,1,1,1
+access_analysis_option_user,access.crm.lead.analysis_option,model_crm_lead_analysis_option,base.group_user,1,1,1,1
+access_sample_preparation_option_user,access.crm.lead.sample_preparation_option,model_crm_lead_sample_preparation_option,base.group_user,1,1,1,1
 access_calendar_type_visit_user,access.calendar.type.visit,model_calendar_type_visit,base.group_user,1,1,1,1
