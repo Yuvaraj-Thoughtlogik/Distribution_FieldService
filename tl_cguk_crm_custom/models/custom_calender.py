@@ -24,7 +24,7 @@ class Meeting(models.Model):
 
     follow_up_action = fields.Text(string= "Follow up Actions")
 
-    description = fields.Text(string='Description',readonly="nor user_can_edit")
+    description = fields.Text(string='Description',readonly="not user_can_edit")
 
     @api.model
     def create(self, vals):
