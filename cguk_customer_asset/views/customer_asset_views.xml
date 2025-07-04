@@ -83,8 +83,9 @@
               <!--                        type="object" />-->
               <!--              </div>-->
               <field name="product_serial_No"/>
-              <field name="contact_id"/>
               <field name="company_id" readonly="0"/>
+              <field name="contact_id" invisible="not company_id" domain="[('parent_id','=',company_id)]"/>
+              <field name="contact_id" invisible="company_id" domain="[('is_company','=',False)]"/>
               <label for="street" string="Main Address"/>
               <div class="o_address_format">
                 <field name="street" placeholder="Street..." class="o_address_street"/>
@@ -161,7 +162,7 @@
         <field name="product_serial_No"/>
         <field name="stock_picking_id"/>
         <field name="sale_date"/>
-        <field name="contact_id"/>
+        <field name="company_id"/>
       </list>
     </field>
   </record>

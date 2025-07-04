@@ -33,7 +33,7 @@ class CustomerAsset(models.Model):
     contract_end_date = fields.Date(string='End Date',related="subscription_id.end_date")
     contract_renewal_date = fields.Date(string='Renewal Date',related="subscription_id.next_invoice_date")
     company_id = fields.Many2one('res.partner', string='Company',domain="[('is_company','=',True)]",store=True)
-    contact_id = fields.Many2one('res.partner', string='Contact',domain="[('is_company','!=','True')]",readonly=False,store=True)
+    contact_id = fields.Many2one('res.partner', string='Contact')
     # address = fields.Char(string='Address', compute='_compute_address', store=True)
     compute_address = fields.Boolean("Compute Address",default=True,compute='_compute_address')
     street = fields.Char(compute='_compute_address',store=True,readonly=False)
@@ -84,6 +84,7 @@ class CustomerAsset(models.Model):
     delivery_country_id: Country = fields.Many2one('res.country', string='Country', ondelete='restrict')
     delivery_country_code = fields.Char(related='delivery_country_id.code', string="Country Code")
 
+
     @api.depends('subscription_id')
     def _compute_active_contract(self):
         for record in self:
@@ -115,12 +116,32 @@ class CustomerAsset(models.Model):
             self._compute_main_address()
             self._compute_delivery_address()
 
-    @api.onchange( 'company_id')
-    def _compute_address_company(self):
+    @api.onchange('company_id')
+    def _onchange_company_id(self):
         for rec in self:
-            rec.company_id = rec.contact_id.parent_id if rec.contact_id else ''
-            self._compute_main_address()
-            self._compute_delivery_address()
+            # Clear contact if it doesn't belong to this company
+            if rec.contact_id and rec.contact_id.parent_id != rec.company_id:
+                rec.contact_id = False
+            rec._compute_main_address()
+            rec._compute_delivery_address()
+
+    @api.onchange('company_id')
+    def _onchange_company_id(self):
+        for rec in self:
+            domain = [('is_company', '=', False)]
+            if rec.company_id:
+                domain.append(('parent_id', '=', rec.company_id.id))
+
+                # If contact is not a child of the selected company, reset it
+                if rec.contact_id and rec.contact_id.parent_id != rec.company_id:
+                    rec.contact_id = False
+
+            return {
+                'domain': {
+                    'contact_id': domain
+                }
+            }
+
     @api.depends('contact_id', 'company_id')
     def _compute_address(self):
         for rec in self:
@@ -147,6 +168,7 @@ class CustomerAsset(models.Model):
     def _compute_main_address(self):
         for rec in self:
             company = rec.company_id
+            contact = rec.contact_id
             if company:
                 rec.street = company.street
                 rec.street2 = company.street2
@@ -154,6 +176,14 @@ class CustomerAsset(models.Model):
                 rec.city = company.city
                 rec.state_id = company.state_id.id
                 rec.country_id = company.country_id.id
+
+            elif contact:
+                rec.street = contact.street
+                rec.street2 = contact.street2
+                rec.zip = contact.zip
+                rec.city = contact.city
+                rec.state_id = contact.state_id.id
+                rec.country_id = contact.country_id.id
             else:
                 rec.street = ''
                 rec.street2 = ''

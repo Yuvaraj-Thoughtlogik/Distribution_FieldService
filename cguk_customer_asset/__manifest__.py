@@ -13,6 +13,8 @@
         "views/smart_buttons.xml",
         "views/product_template_views.xml",
         "views/repair.xml",
+        "views/res_partner.xml",
+
         # 'wizard/lot_selection.xml'
     ],
     "assets":{
