@@ -14,6 +14,7 @@
         "views/product_template_views.xml",
         "views/repair.xml",
         "views/res_partner.xml",
+        'views/reports.xml'
 
         # 'wizard/lot_selection.xml'
     ],
