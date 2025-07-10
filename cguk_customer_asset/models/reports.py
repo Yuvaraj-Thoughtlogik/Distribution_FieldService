@@ -45,3 +45,38 @@ class SaleOrderLine(models.Model):
             discount_factor = (1 - (line.discount or 0.0) / 100)
             total = line.price_unit * line.product_uom_qty * discount_factor
             line.order_line_total_price = float_round(total, precision_rounding=line.currency_id.rounding)
+            
+            
+class SaleOrder(models.Model):
+    _inherit = 'sale.order'
+ 
+    individual_name = fields.Char(
+        string='Individual Name',
+        compute='_compute_partner_details',
+        store=True
+    )
+ 
+    company_name = fields.Char(
+        string='Company Name',
+        compute='_compute_partner_details',
+        store=True
+    )
+ 
+    contact_address = fields.Text(
+        string='Contact Address',
+        compute='_compute_partner_details',
+        store=True
+    )
+ 
+    @api.depends('partner_id')
+    def _compute_partner_details(self):
+        for order in self:
+            partner = order.partner_id
+            order.individual_name = partner.name or ''
+            order.company_name = partner.parent_id.name if partner.parent_id else ''
+            # Get address without name
+            address_fields = partner._display_address().split('\n')
+            if len(address_fields) > 1:
+                order.contact_address = '\n'.join(address_fields[1:])
+            else:
+                order.contact_address = ''

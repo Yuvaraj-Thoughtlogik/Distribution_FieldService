@@ -25,5 +25,19 @@
 
         </field>
     </record>
+    
+    <record id="view_order_form_inherit_partner_fields" model="ir.ui.view">
+      <field name="name">sale.order.form.inherit.partner.details</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="arch" type="xml">
+      <!-- Insert after partner_id -->
+      <xpath expr="//field[@name='partner_id']" position="after">
+      <field name="individual_name" readonly="1" invisible="1"/>
+      <field name="company_name" readonly="1" invisible="1"/>
+      <field name="contact_address" widget="text" readonly="1" invisible="1"/>
+      </xpath>
+  </field>
+  </record>
 
 </odoo>
