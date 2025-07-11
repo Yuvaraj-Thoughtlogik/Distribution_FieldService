@@ -80,3 +80,8 @@ class SaleOrder(models.Model):
                 order.contact_address = '\n'.join(address_fields[1:])
             else:
                 order.contact_address = ''
+                
+class ResCompany(models.Model):
+    _inherit = 'res.company'
+ 
+    footer_logo = fields.Binary("Footer Logo")
