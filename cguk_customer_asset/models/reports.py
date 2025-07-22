@@ -95,16 +95,17 @@ class SaleOrder(models.Model):
             'partner_state_id', 'partner_zip', 'partner_country_id'
     )
     def _compute_related_address(self):
-         for order in self:
-             lines = [
+            for order in self:
+                lines = [
                     order.partner_street or '',
                     order.partner_street2 or '',
                     order.partner_city or '',
                     order.partner_state_id.name if order.partner_state_id else '',
                     order.partner_zip or '',
                     order.partner_country_id.name if order.partner_country_id else ''
-              ]
-              order.related_address = '\n'.join(filter(None, lines))
+                ]
+                # Filter out empty lines and join with newline
+                order.related_address = '\n'.join(filter(None, lines))
                 
 class ResCompany(models.Model):
     _inherit = 'res.company'
