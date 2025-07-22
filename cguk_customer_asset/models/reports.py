@@ -90,11 +90,11 @@ class SaleOrder(models.Model):
             else:
                 order.contact_address = ''
                 
-     @api.depends(
+    @api.depends(
             'partner_street', 'partner_street2', 'partner_city',
             'partner_state_id', 'partner_zip', 'partner_country_id'
-        )
-     def _compute_related_address(self):
+    )
+    def _compute_related_address(self):
          for order in self:
              lines = [
                     order.partner_street or '',
