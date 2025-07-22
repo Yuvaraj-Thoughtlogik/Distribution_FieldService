@@ -67,6 +67,15 @@ class SaleOrder(models.Model):
         compute='_compute_partner_details',
         store=True
     )
+    partner_street = fields.Char(related='partner_id.street', store=True)
+    partner_street2 = fields.Char(related='partner_id.street2', store=True)
+    partner_city = fields.Char(related='partner_id.city', store=True)
+    partner_state_id = fields.Many2one(related='partner_id.state_id', store=True)
+    partner_zip = fields.Char(related='partner_id.zip', store=True)
+    partner_country_id = fields.Many2one(related='partner_id.country_id', store=True)
+    related_address = fields.Char(string="Full Address", compute="_compute_related_address", store=True)    
+ 
+ 
  
     @api.depends('partner_id')
     def _compute_partner_details(self):
@@ -80,6 +89,23 @@ class SaleOrder(models.Model):
                 order.contact_address = '\n'.join(address_fields[1:])
             else:
                 order.contact_address = ''
+                
+     @api.depends(
+            'partner_street', 'partner_street2', 'partner_city',
+            'partner_state_id', 'partner_zip', 'partner_country_id'
+        )
+     def _compute_related_address(self):
+         for order in self:
+             lines = [
+                    order.partner_street or '',
+                    order.partner_street2 or '',
+                    order.partner_city or '',
+                    order.partner_state_id.name if order.partner_state_id else '',
+                    order.partner_zip or '',
+                    order.partner_country_id.name if order.partner_country_id else ''
+                ]
+                # Filter out empty lines and join with newline
+                order.related_address = '\n'.join(filter(None, lines))
                 
 class ResCompany(models.Model):
     _inherit = 'res.company'

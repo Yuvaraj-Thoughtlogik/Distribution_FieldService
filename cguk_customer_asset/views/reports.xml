@@ -34,6 +34,7 @@
       <!-- Insert after partner_id -->
       <xpath expr="//field[@name='partner_id']" position="after">
       <field name="individual_name" readonly="1" invisible="1"/>
+      <field name="related_address" widget="text" invisible="1"/>
       <field name="company_name" readonly="1" invisible="1"/>
       <field name="contact_address" widget="text" readonly="1" invisible="1"/>
       </xpath>
