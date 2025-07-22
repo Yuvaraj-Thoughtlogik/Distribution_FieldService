@@ -103,9 +103,9 @@ class SaleOrder(models.Model):
                     order.partner_state_id.name if order.partner_state_id else '',
                     order.partner_zip or '',
                     order.partner_country_id.name if order.partner_country_id else ''
-                ]
+              ]
                 # Filter out empty lines and join with newline
-                order.related_address = '\n'.join(filter(None, lines))
+              order.related_address = '\n'.join(filter(None, lines))
                 
 class ResCompany(models.Model):
     _inherit = 'res.company'
