@@ -8,9 +8,7 @@ class TypeOfVisit(models.Model):
     name = fields.Char(string="Name")
 
 
-def strip_html_keep_text(html_string):
-    soup = BeautifulSoup(html_string, "html.parser")
-    return soup.get_text()
+
 
 
 class Meeting(models.Model):
@@ -26,6 +24,10 @@ class Meeting(models.Model):
 
     description = fields.Text(string='Description',readonly="not user_can_edit")
 
+    def strip_html_keep_text(self, html_string):
+        soup = BeautifulSoup(html_string, "html.parser")
+        return soup.get_text()
+
     @api.model
     def create(self, vals):
         if 'description' in vals and vals['description']:
@@ -40,5 +42,6 @@ class Meeting(models.Model):
                 if record.description != clean_text:
                     record.sudo().write({'description': clean_text})
         return res
+
 
 

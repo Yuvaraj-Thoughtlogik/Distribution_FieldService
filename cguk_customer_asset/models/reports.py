@@ -73,7 +73,11 @@ class SaleOrder(models.Model):
     partner_state_id = fields.Many2one(related='partner_id.state_id', store=True)
     partner_zip = fields.Char(related='partner_id.zip', store=True)
     partner_country_id = fields.Many2one(related='partner_id.country_id', store=True)
-    related_address = fields.Char(string="Full Address", compute="_compute_related_address", store=True)    
+    related_address = fields.Char(string="Full Address", compute="_compute_related_address", store=True)  
+    report_type = fields.Selection([
+        ('gerhardt', 'Gerhardt'),
+        ('fristch', 'Fritsch'),
+    ], string='Report Type', default='gerhardt')
  
  
  
@@ -111,3 +115,4 @@ class ResCompany(models.Model):
     _inherit = 'res.company'
  
     footer_logo = fields.Binary("Footer Logo")
+    fritsch_logo = fields.Binary("Fritsch Logo")
