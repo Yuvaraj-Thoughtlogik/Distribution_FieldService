@@ -38,10 +38,10 @@ class Meeting(models.Model):
         res = super().write(vals)
         for record in self:
             if record.description:
-                clean_text = strip_html_keep_text(record.description)
+                clean_text = self.strip_html_keep_text(record.description)
                 if record.description != clean_text:
                     record.sudo().write({'description': clean_text})
         return res
 
 
-
+   
