@@ -116,3 +116,13 @@ class ResCompany(models.Model):
  
     footer_logo = fields.Binary("Footer Logo")
     fritsch_logo = fields.Binary("Fritsch Logo")
+    
+class SaleOrderLine(models.Model):
+    _inherit = 'sale.order.line'
+ 
+    cost_price = fields.Float(
+        string='Cost Price',
+        related='product_id.standard_price',
+        readonly=True,
+        store=False
+    )
