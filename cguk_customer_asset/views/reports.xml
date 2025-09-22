@@ -76,4 +76,15 @@
     </field>
 </record>
 
+<record id="view_order_form_inherit_cost_price_option" model="ir.ui.view">
+    <field name="name">sale.order.form.inherit.cost.price.option</field>
+    <field name="model">sale.order</field>
+    <field name="inherit_id" ref="sale.view_order_form"/>
+    <field name="arch" type="xml">
+    <xpath expr="//field[@name='sale_order_option_ids']/list/field[@name='discount']" position="after">
+    <field name="cost_price" readonly="1" invisible="1" column_invisible="1"/>
+    </xpath>
+    </field>
+</record>
+
 </odoo>

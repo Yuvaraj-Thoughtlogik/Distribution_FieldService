@@ -126,3 +126,12 @@ class SaleOrderLine(models.Model):
         readonly=True,
         store=False
     )
+    
+class SaleOrderOption(models.Model):
+    _inherit = 'sale.order.option'
+ 
+    cost_price = fields.Float(
+        string='Cost Price',
+        related='product_id.standard_price',
+        readonly=True,
+    )
