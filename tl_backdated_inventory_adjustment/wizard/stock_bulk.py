@@ -1,5 +1,14 @@
 from odoo import models, fields, api
+from datetime import datetime
 
+#from odoo import fields, models, _
+
+from odoo.osv import expression
+
+from odoo.tools.misc import format_date, format_datetime
+
+from datetime import timedelta,time
+ 
 
 class Stock_Move(models.Model):
     _inherit = 'stock.move'
@@ -97,3 +106,114 @@ class stock_valuation_layer(models.Model):
             #'inv_backdated': self.inv_backdated,
             #'backdated_remark': self.backdated_remark,
         #})
+
+ 
+class StockQuantityHistory(models.TransientModel):
+
+    _inherit = 'stock.quantity.history'
+
+    inventory_datetime = fields.Date('Inventory at Date',
+
+                                         help="Choose a date to get the inventory at that date",
+
+                                         default=fields.Datetime.now)
+ 
+    def open_at_date(self):
+
+        # Get the user's timezone, default to UTC if not set
+
+        user_tz = pytz.timezone(self.env.user.tz or 'UTC')
+ 
+        active_model = self.env.context.get('active_model')
+ 
+        # Helper: convert date to datetime range in user TZ, then to UTC
+
+        def get_utc_range(date):
+
+            start_user = user_tz.localize(datetime.combine(date, time.min))
+
+            end_user = user_tz.localize(datetime.combine(date, time.max))
+
+            return start_user.astimezone(pytz.utc), end_user.astimezone(pytz.utc), start_user, end_user
+ 
+        dt_start_utc, dt_end_utc, dt_start_user, dt_end_user = get_utc_range(self.inventory_datetime)
+ 
+        if active_model == 'stock.valuation.layer':
+
+            action = self.env["ir.actions.actions"]._for_xml_id("stock_account.stock_valuation_layer_action")
+
+            action['views'] = [
+
+                (self.env.ref('stock_account.stock_valuation_layer_valuation_at_date_tree_inherited').id, 'list'),
+
+                (self.env.ref('stock_account.stock_valuation_layer_form').id, 'form'),
+
+                (self.env.ref('stock_account.stock_valuation_layer_pivot').id, 'pivot'),
+
+                (self.env.ref('stock_account.stock_valuation_layer_graph').id, 'graph')
+
+            ]
+ 
+            action['domain'] = [
+
+                ('create_date', '>=', dt_start_utc),
+
+                ('create_date', '<=', dt_end_utc),
+
+                ('product_id.is_storable', '=', True)
+
+            ]
+ 
+            # Display in user timezone
+
+            action['display_name'] = format_datetime(self.env, dt_start_user.replace(tzinfo=None))
+
+            action['context'] = "{}"
+
+            return action
+ 
+        # Product.product branch
+
+        tree_view_id = self.env.ref('stock.view_stock_product_tree').id
+
+        form_view_id = self.env.ref('stock.product_form_view_procurement_button').id
+
+        domain = [('is_storable', '=', True)]
+
+        product_id = self.env.context.get('product_id', False)
+
+        product_tmpl_id = self.env.context.get('product_tmpl_id', False)
+
+        if product_id:
+
+            domain = expression.AND([domain, [('id', '=', product_id)]])
+
+        elif product_tmpl_id:
+
+            domain = expression.AND([domain, [('product_tmpl_id', '=', product_tmpl_id)]])
+ 
+        action = {
+
+            'type': 'ir.actions.act_window',
+
+            'views': [(tree_view_id, 'list'), (form_view_id, 'form')],
+
+            'view_mode': 'list,form',
+
+            'name': _('Products'),
+
+            'res_model': 'product.product',
+
+            'domain': domain,
+
+            'context': dict(self.env.context, to_date=dt_end_utc),
+
+            'display_name': format_datetime(self.env, dt_start_user.replace(tzinfo=None))
+
+            # show start of day in user TZ
+
+        }
+
+        return action
+ 
+        
