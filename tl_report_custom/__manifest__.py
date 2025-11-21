@@ -4,10 +4,16 @@
     'author': 'Felix',
     'category': 'Custom',
     'summary': 'Custom Reports for Inventory',
-    'depends': ['stock'],
+    'depends': ['stock','sale'],
     'data': [
-        'report/report_stockpicking_operations_inherit.xml'
+        'report/report_stockpicking_operations_inherit.xml',
+        'views/sale_order_view.xml'
     ],
+    'assets':{
+        'web.assets_backend':[
+            'tl_report_custom/static/src/css/style.css',
+        ]
+    },
     'installable': True,
     'application': True,
 }
