@@ -113,36 +113,46 @@ class StockQuantityHistory(models.TransientModel):
 
     _inherit = 'stock.quantity.history'
 
-    inventory_datetime = fields.Date('Inventory at Date',
+    inventory_datetime = fields.Date(
 
-                                         help="Choose a date to get the inventory at that date",
+        string='Inventory at Date',
 
-                                         default=fields.Datetime.now)
+        help="Choose a date to get the inventory at that date",
+
+        default=fields.Date.context_today
+
+    )
  
     def open_at_date(self):
-
-        # Get the user's timezone, default to UTC if not set
-
+ 
         user_tz = pytz.timezone(self.env.user.tz or 'UTC')
  
         active_model = self.env.context.get('active_model')
  
-        # Helper: convert date to datetime range in user TZ, then to UTC
+        # Convert DATE → UTC end-of-day
 
-        def get_utc_range(date):
-
-            start_user = user_tz.localize(datetime.combine(date, time.min))
+        def get_utc_end(date):
 
             end_user = user_tz.localize(datetime.combine(date, time.max))
 
-            return start_user.astimezone(pytz.utc), end_user.astimezone(pytz.utc), start_user, end_user
+            return end_user.astimezone(pytz.utc), end_user
  
-        dt_start_utc, dt_end_utc, dt_start_user, dt_end_user = get_utc_range(self.inventory_datetime)
+        dt_end_utc, dt_end_user = get_utc_end(self.inventory_datetime)
  
+        # ----------------------------------------------------------------------
+
+        # 1) Stock Valuation Layer
+
+        # ----------------------------------------------------------------------
+
         if active_model == 'stock.valuation.layer':
 
-            action = self.env["ir.actions.actions"]._for_xml_id("stock_account.stock_valuation_layer_action")
+            action = self.env["ir.actions.actions"]._for_xml_id(
 
+                "stock_account.stock_valuation_layer_action"
+
+            )
+ 
             action['views'] = [
 
                 (self.env.ref('stock_account.stock_valuation_layer_valuation_at_date_tree_inherited').id, 'list'),
@@ -151,40 +161,44 @@ class StockQuantityHistory(models.TransientModel):
 
                 (self.env.ref('stock_account.stock_valuation_layer_pivot').id, 'pivot'),
 
-                (self.env.ref('stock_account.stock_valuation_layer_graph').id, 'graph')
+                (self.env.ref('stock_account.stock_valuation_layer_graph').id, 'graph'),
 
             ]
  
-            action['domain'] = [
+            # *** NEW: all records created BEFORE or ON entered date ***
 
-                ('create_date', '>=', dt_start_utc),
+            action['domain'] = [
 
                 ('create_date', '<=', dt_end_utc),
 
-                ('product_id.is_storable', '=', True)
+                ('product_id.is_storable', '=', True),
 
             ]
  
-            # Display in user timezone
+            # For label
 
-            action['display_name'] = format_datetime(self.env, dt_start_user.replace(tzinfo=None))
+            action['display_name'] = format_datetime(self.env, dt_end_user.replace(tzinfo=None))
 
             action['context'] = "{}"
-
+ 
             return action
  
-        # Product.product branch
+        # ----------------------------------------------------------------------
+
+        # 2) Product.product
+
+        # ----------------------------------------------------------------------
 
         tree_view_id = self.env.ref('stock.view_stock_product_tree').id
 
         form_view_id = self.env.ref('stock.product_form_view_procurement_button').id
-
+ 
         domain = [('is_storable', '=', True)]
+ 
+        product_id = self.env.context.get('product_id')
 
-        product_id = self.env.context.get('product_id', False)
-
-        product_tmpl_id = self.env.context.get('product_tmpl_id', False)
-
+        product_tmpl_id = self.env.context.get('product_tmpl_id')
+ 
         if product_id:
 
             domain = expression.AND([domain, [('id', '=', product_id)]])
@@ -209,12 +223,9 @@ class StockQuantityHistory(models.TransientModel):
 
             'context': dict(self.env.context, to_date=dt_end_utc),
 
-            'display_name': format_datetime(self.env, dt_start_user.replace(tzinfo=None))
-
-            # show start of day in user TZ
+            'display_name': format_datetime(self.env, dt_end_user.replace(tzinfo=None)),
 
         }
-
+ 
         return action
  
-        
