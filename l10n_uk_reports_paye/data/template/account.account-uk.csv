@@ -1,0 +1,4 @@
+id,code,name,account_type,reconcile
+"220211","220211","HMRC - PAYE Tax Payable","liability_payable","True"
+"220212","220212","HMRC - PAYE NIC Payable","liability_payable","True"
+"220213","220213","HMRC - PAYE Loans Payable","liability_payable","True"

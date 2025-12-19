@@ -1,0 +1,679 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!-- Basic Pay: Re-define this from hr_payroll_data to change the computation-->
+        <record id="default_basic_salary" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="name">Basic Salary</field>
+            <field name="sequence">1</field>
+            <field name="code">BASIC</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = payslip.paid_amount > 0 and 'WORK100' in worked_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">if contract.date_end:
+  result_qty = 0
+  result = ((((contract.wage * 12) / 52) / contract.resource_calendar_id.full_time_required_hours) ) #* contract.standard_calendar_id.hours_per_day) # daily rate
+  if 'WORK100' in worked_days:
+    result_qty += worked_days['WORK100'].number_of_hours
+  if 'LEAVE110' in worked_days:
+    result_qty += worked_days['LEAVE110'].number_of_hours
+else:
+    result = payslip.paid_amount</field>
+            <field name="struct_id" ref="hr_payroll.default_structure"/>
+        </record>
+        <!-- Net Pay: Re-define this from hr_payroll_data to change the computation-->
+        <record id="default_net_salary" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.NET"/>
+            <field name="name">Net Salary</field>
+            <field name="sequence">100</field>
+            <field name="code">NET</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+#direct_pension = result_rules['TPENE']['total'] if result_rules['TPENE']['total'] else 0.00
+#result = round(categories['BASIC'] + categories['ALW'] - categories['DED'] - categories['PAYE'] - categories['NTD'] - categories['SS'] + categories['NTP'] - direct_pension,2)
+result = round(categories['BASIC'] + categories['ALW'] + categories['SP'] + categories['NIO'] - categories['SS'] - categories['NTD']  + categories['NTP'] - categories['PAYE'] - categories['DED']  ,2)
+        </field>
+        <field name="struct_id" ref="hr_payroll.default_structure"/>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="l10n_uk_hr_mileage_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.NTP"/>
+            <field name="name">Mileage</field>
+            <field name="sequence">39</field>
+            <field name="code">MIL</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'MIL' in inputs</field>
+            <field name="amount_python_compute">
+result_qty = inputs['MIL'].amount
+result = 0.45
+            </field>
+            <field name="struct_id" ref="hr_payroll.default_structure"/>
+        </record>
+        <record id="l10n_uk_hr_mobile_phone_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="name">Mobile Phone</field>
+            <field name="sequence">20</field>
+            <field name="code">MPH</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'MPH' in inputs</field>
+            <field name="amount_python_compute">
+result = inputs['MPH'].amount
+            </field>
+            <field name="struct_id" ref="hr_payroll.default_structure"/>
+        </record>
+        <!-- Gross Pay: Re-define this from hr_payroll_data to change the order-->
+        <record id="default_gross_salary_rule" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.GROSS"/>
+            <field name="name">Taxable Pay</field>
+            <field name="sequence">39</field>
+            <field name="code">GROSS</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result = categories['BASIC'] + round(categories['ALW'],2)
+result -= categories['NTD'] if categories['NTD'] else 0.00
+result -= categories['SS'] if categories['SS'] else 0.00
+result += result_rules['TPENE']['total'] if result_rules['TPENE']['total'] else 0.00
+            </field>
+            <field name="struct_id" ref="hr_payroll.default_structure"/>
+        </record>
+        <!-- Commissions -->
+        <record id="l10n_uk_hr_commission_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="code">COM</field>
+            <field name="name">Commission</field>
+            <field name="sequence">10</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'COM' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs['COM'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <!-- Bonus -->
+        <record id="l10n_uk_hr_bonus_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="code">BONUS</field>
+            <field name="name">Bonus</field>
+            <field name="sequence">15</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'BONUS' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs['BONUS'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <!-- Overtime -->
+        <record id="l10n_uk_hr_overtime_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="code">OT</field>
+            <field name="name">Overtime</field>
+            <field name="sequence">11</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'OT' in inputs or 'OVERTIME' in worked_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">#Note: you may have both manually entered overtime and attendance
+result_qty = 0
+if 'OVERTIME' in worked_days:
+    result_qty += worked_days['OVERTIME'].number_of_hours
+    result = worked_days['OVERTIME'].amount * 1.5 # over-write the rate
+
+if 'OT' in inputs:
+    result = (contract.wage * 12 / 52 / contract.standard_calendar_id.full_time_required_hours) * 1.5
+    result_qty += inputs['OT'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <!-- Unpaid Leave -->
+        <record id="l10n_uk_hr_unpaid_leave_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="code">UPL</field>
+            <field name="name">Unpaid Leave</field>
+            <field name="sequence">11</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'UPL' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = -inputs['UPL'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+
+        <!-- Non-Taxable Deduction & Salary Sacrifice -->
+        <record id="l10n_uk_hr_non_taxable_deduction_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.NTD"/>
+            <field name="code">NTD</field>
+            <field name="name">Non-Taxable Deduction</field>
+            <field name="sequence">20</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'NTD' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result_name = inputs['NTD'].name
+result = inputs['NTD'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+
+        <record id="l10n_uk_hr_salary_sacrifice_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="code">SS</field>
+            <field name="name">Salary Sacrifice</field>
+            <field name="sequence">11</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'SS' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+if inputs['SS'].name:
+  result_name = 'Salary Sacrifice: ' + inputs['SS'].name
+result = - inputs['SS'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+
+        <!--  Allowances -->
+        <record id="l10n_uk_hr_allowance_car_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.ALW"/>
+            <field name="code">CAR</field>
+            <field name="name">Car Allowance</field>
+            <field name="sequence">21</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'CAR' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs['CAR'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <!-- Taxable Benefit subject to Class1A Employers National Insurance -->
+        <record id="l10n_uk_hr_taxable_benefit_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.BIK"/>
+            <field name="code">TBENE</field>
+            <field name="name">Taxable Benefit</field>
+            <field name="sequence">21</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'TBENE' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs['TBENE'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <!-- Contractual Benefits -->
+        <!-- Contractual Maternity Leave -->
+        <record id="l10n_uk_hr_cmp_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.BASIC"/>
+            <field name="code">CMP</field>
+            <field name="name">Contractual Maternity Pay</field>
+            <field name="sequence">20</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'CMP' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs['CMP'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+
+
+        <!-- Statutory Leave Payments -->
+        <record id="l10n_uk_hr_ssp_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.SP"/>
+            <field name="code">SSP</field>
+            <field name="name">Statutory Sick Pay</field>
+            <field name="sequence">20</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'LEAVE310' in worked_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._rule_parameter('UK_SSP_Rate') / 5
+result_qty = worked_days['LEAVE310'].number_of_days</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <record id="l10n_uk_hr_smp_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.SP"/>
+            <field name="code">SMP</field>
+            <field name="name">Statutory Maternity Pay</field>
+            <field name="sequence">20</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = ('LEAVE320' in worked_days) or ('SMP' in inputs)</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">if 'LEAVE320' in worked_days:
+  result = payslip._rule_parameter('UK_SMP_Leave_Rate')/5
+  result_rate = 100
+  result_qty = 5 * 4
+else:
+  result = inputs['SMP'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <record id="l10n_uk_hr_spp_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.SP"/>
+            <field name="code">SPP</field>
+            <field name="name">Statutory Paternity Pay</field>
+            <field name="sequence">20</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'LEAVE330' in worked_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># Employees are not eligible if their normal weekly wage is below 125
+if (contract.resource_calendar_id.full_time_required_hours * contract.hourly_wage) > 125:
+  result = payslip._rule_parameter('UK_Parental_Leave_Rate')/5 # weekly rate
+  result_qty = worked_days['LEAVE330'].number_of_days
+else:
+  result = 0.00</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <record id="l10n_uk_hr_sap_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.SP"/>
+            <field name="code">SAP</field>
+            <field name="name">Statutory Adoption Pay</field>
+            <field name="sequence">20</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'LEAVE340' in worked_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = 0</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <record id="l10n_uk_hr_spb_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.SP"/>
+            <field name="code">SPB</field>
+            <field name="name">Statutory Parental Bereavement Pay</field>
+            <field name="sequence">20</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'LEAVE350' in worked_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = 0</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <record id="l10n_uk_hr_spl_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.SP"/>
+            <field name="code">SPL</field>
+            <field name="name">Statutory Shared Parental Pay</field>
+            <field name="sequence">20</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'LEAVE360' in worked_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute"># Employees are not eligible if their normal weekly wage is below 125
+if (contract.resource_calendar_id.full_time_required_hours * contract.hourly_wage) > 125:
+  result = payslip._rule_parameter('UK_Parental_Leave_Rate')/5 # weekly rate
+  result_qty = inputs['PAT'].amount
+else:
+  result = 0.00</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <record id="l10n_uk_hr_snn_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.SP"/>
+            <field name="code">SNP</field>
+            <field name="name">Statutory Neonatal Pay</field>
+            <field name="sequence">20</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'LEAVE370' in worked_days</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = 0</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+
+        <record id="l10n_uk_hr_statutory_recovery_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.DIS"/>
+            <field name="code">SPR</field>
+            <field name="name">Statutory Recovery</field>
+            <field name="sequence">300</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = round(categories['SP'],2) > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = categories['SP']
+result_rate = payslip._calc_statutory_recovery_rate(localdict)
+            </field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+
+        <record id="l10n_uk_hr_employee_ni_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="code">NI</field>
+            <field name="name">Employee NI</field>
+            <field name="sequence">41</field>
+            <field name="condition_select">none</field>
+            <field name="condition_python">result = true</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = round(payslip._get_employee_ni(localdict),2)</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+
+        <record id="l10n_uk_hr_employer_ni_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.COMP"/>
+            <field name="code">NIC</field>
+            <field name="name">Employer NIC</field>
+            <field name="sequence">41</field>
+            <field name="condition_select">none</field>
+            <field name="condition_python">result = true</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_employee_cost_dashboard" eval="True"/>
+            <field name="appears_on_payroll_report" eval="True"/>
+            <field name="appears_on_payslip">False</field>
+            <field name="amount_python_compute">result = round(payslip._get_employer_ni(localdict),2)</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <record id="l10n_uk_hr_employer_ni_1a_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.COMP"/>
+            <field name="code">NIC1A</field>
+            <field name="name">Employer NIC (Class 1A)</field>
+            <field name="sequence">41</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = categories['BIK'] > 0</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_employee_cost_dashboard" eval="True"/>
+            <field name="appears_on_payroll_report" eval="True"/>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="amount_python_compute">result = 0 * payslip._rule_parameter('UK_PAYE_NIC1AB')</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+
+        <record id="l10n_uk_hr_PAYE_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.PAYE"/>
+            <field name="name">UK PAYE Monthly</field>
+            <field name="code">PAYE</field>
+            <field name="sequence">40</field>
+            <field name="condition_select">none</field>
+            <field name="condition_python">result = result_rules['GROSS']['total'] > 0</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._calc_tax_amount(localdict)</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <!-- Pensions -->
+        <record id="l10n_uk_hr_pension_employee_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="name">Employee Pension Contribution</field>
+            <field name="code">PENE</field>
+            <field name="sequence">41</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = contract.is_autoenrolment</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result_rate = contract.employee_pension_contribution
+result = round(payslip._employee_qualifying_earnings(localdict),2)
+if contract.is_pension_relief_at_source():
+    result_rate = result_rate * (1 - (payslip._rule_parameter('UK_PAYE_E_R2')/100))
+</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <record id="l10n_uk_hr_pension_employer_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.COMP"/>
+            <field name="name">Employer Pension Contribution</field>
+            <field name="code">PENC</field>
+            <field name="sequence">41</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = contract.is_autoenrolment and result_rules['GROSS']['total'] > 0 </field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">if contract.employer_pension_contribution_amount > 0:  # AVC overrides employee contribution
+  result = round(payslip._employee_qualifying_earnings(localdict),4) # contract.employer_pension_contribution_amount
+  result_rate = contract.employer_pension_contribution_amount / round(payslip._employee_qualifying_earnings(localdict),4) * 100
+else:
+  result_rate = contract.employer_pension_contribution
+  result = round(payslip._employee_qualifying_earnings(localdict),4)</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+        <record id="l10n_uk_hr_pension_tax_benefit_employee_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.DIS"/>
+            <field name="name">Employee Pension Tax Benefit</field>
+            <field name="code">TPENE</field>
+            <field name="sequence">35</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = contract.is_autoenrolment and contract.is_pension_direct_pay()</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result_rate = contract.employee_pension_contribution
+result = -round(payslip._employee_qualifying_earnings(localdict),2)
+</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+
+        <!-- Student & Postgraduate Loans -->
+        <record id="l10n_uk_hr_student_loan_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="name">Student Loan</field>
+            <field name="code">SLOAN</field>
+            <field name="sequence">50</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.has_student_loan</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result_rate = payslip._rule_parameter('UK_SL_Rate')
+result = payslip._calc_student_loan_amount(localdict) * 100 / result_rate</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+        </record>
+
+        <record id="l10n_uk_hr_postgraduate_loan_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="name">Postgraduate Loan</field>
+            <field name="code">PLOAN</field>
+            <field name="sequence">50</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.has_post_graduate_loan</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result_rate = payslip._rule_parameter('UK_PL_Rate')
+result = payslip._calc_postgrad_loan_amount(localdict) * 100 / result_rate</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+        </record>
+        <!-- Loan Repayment -->
+        <record id="l10n_uk_hr_loan_repayment_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="hr_payroll.DED"/>
+            <field name="name">Loan Repayment</field>
+            <field name="code">LRP</field>
+            <field name="sequence">70</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'LRP' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = inputs['LRP'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="appears_on_employee_cost_dashboard">False</field>
+            <field name="appears_on_payroll_report">False</field>
+        </record>
+        <!-- Jury Service -->
+        <record id="l10n_uk_hr_sjs_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.SP"/>
+            <field name="code">SJS</field>
+            <field name="name">Statutory Jury Service</field>
+            <field name="sequence">20</field>
+            <field name="appears_on_payslip">True</field>
+            <field name="appears_on_employee_cost_dashboard">True</field>
+            <field name="appears_on_payroll_report">True</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = ('SJS' in inputs) or ('WORK401' in worked_days)</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">if 'WORK401' in worked_days:
+    result = 0
+else:
+    result = inputs['SJS'].amount</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+        </record>
+
+        <!-- Employee NIC threshold (for P60) -->
+
+        <!-- Step 1: up to ST https://assets.publishing.service.gov.uk/media/678e18a9ea48a571517acf3a/PAYErout-v23-0.odt -->
+        <record id="l10n_uk_nic_st_monthly" model="hr.salary.rule">
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="category_id" ref="l10n_uk_hr_payroll.DIS"/>
+            <field name="name">Earnings up to ST</field>
+            <field name="code">NIC.ST</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="sequence">105</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payroll_report" eval="True"/>
+            <field name="amount_python_compute">threshold = payslip._rule_parameter('UK_PAYE_NI')[0][1]/12
+left = max(result_rules['NICT']['total'], 0)
+result = round(min(threshold, left),2)</field>
+        </record>
+        <!-- Step 2: ST to LEL -->
+        <record id="l10n_uk_nic_lel_monthly" model="hr.salary.rule">
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="category_id" ref="l10n_uk_hr_payroll.DIS"/>
+            <field name="name">ST up to LEL</field>
+            <field name="code">NIC.LEL</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="sequence">106</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payroll_report" eval="True"/>
+            <field name="amount_python_compute">
+threshold = (payslip._rule_parameter('UK_PAYE_NI')[1][1]-payslip._rule_parameter('UK_PAYE_NI')[0][1])/12
+left = max(result_rules['NICT']['total'] - result_rules['NIC.ST']['total'], 0)
+result = round(min(threshold, left),2)</field>
+        </record>
+        <!-- Step 3: LEL to PT -->
+        <record id="l10n_uk_nic_pt_monthly" model="hr.salary.rule">
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="category_id" ref="l10n_uk_hr_payroll.DIS"/>
+            <field name="name">LEL to PT</field>
+            <field name="code">NIC.PT</field>
+            <field name="sequence">107</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payroll_report" eval="True"/>
+            <field name="amount_python_compute">
+threshold = (payslip._rule_parameter('UK_PAYE_NI')[2][1]-payslip._rule_parameter('UK_PAYE_NI')[1][1])/12
+left = max(result_rules['NICT']['total'] - result_rules['NIC.ST']['total'] - result_rules['NIC.LEL']['total'], 0)
+result = round(min(threshold, left),2)</field>
+        </record>
+        <!-- Step 4: PT to FUST/IZUST -->
+        <record id="l10n_uk_nic_fust_monthly" model="hr.salary.rule">
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="category_id" ref="l10n_uk_hr_payroll.DIS"/>
+            <field name="name">PT to FUST/IZUST</field>
+            <field name="code">NIC.FUST</field>
+            <field name="sequence">108</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payroll_report" eval="True"/>
+            <field name="amount_python_compute">
+threshold = (payslip._rule_parameter('UK_PAYE_NI')[3][1]-payslip._rule_parameter('UK_PAYE_NI')[2][1])/12
+left = max(result_rules['NICT']['total'] - result_rules['NIC.ST']['total'] - result_rules['NIC.LEL']['total'] - result_rules['NIC.PT']['total'], 0)
+result = round(min(threshold, left),2)</field>
+        </record>
+        <!-- Step 5: FUST/IZUST to UEL -->
+        <record id="l10n_uk_nic_uel_monthly" model="hr.salary.rule">
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="category_id" ref="l10n_uk_hr_payroll.DIS"/>
+            <field name="name">FUST/IZUST to UEL</field>
+            <field name="code">NIC.UEL</field>
+            <field name="sequence">109</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payroll_report" eval="True"/>
+            <field name="amount_python_compute">
+threshold = (payslip._rule_parameter('UK_PAYE_NI')[4][1]-payslip._rule_parameter('UK_PAYE_NI')[3][1])/12
+left = max(result_rules['NICT']['total'] - result_rules['NIC.ST']['total'] - result_rules['NIC.LEL']['total'] - result_rules['NIC.PT']['total'] - result_rules['NIC.FUST']['total'],0)
+result = round(min(threshold, left),2)</field>
+        </record>
+        <!-- Step 6: Above UEL -->
+        <record id="l10n_uk_nic_above_uel_monthly" model="hr.salary.rule">
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="category_id" ref="l10n_uk_hr_payroll.DIS"/>
+            <field name="name">Above UEL</field>
+            <field name="code">NIC.AUEL</field>
+            <field name="sequence">110</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="appears_on_payroll_report" eval="True"/>
+            <field name="amount_python_compute">
+threshold = (payslip._rule_parameter('UK_PAYE_NI')[5][1]-payslip._rule_parameter('UK_PAYE_NI')[4][1])/12
+left = max(result_rules['NICT']['total'] - result_rules['NIC.ST']['total'] - result_rules['NIC.LEL']['total'] - result_rules['NIC.PT']['total'] - result_rules['NIC.FUST']['total'] - result_rules['NIC.UEL']['total'], 0)
+result = round(min(threshold, left),2)</field>
+        </record>
+        <!-- Gross taxable for NIC -->
+        <record id="l10n_uk_gross_taxable_nic_monthly" model="hr.salary.rule">
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="category_id" ref="l10n_uk_hr_payroll.DIS"/>
+            <field name="name">Gross Taxable for National Insurance Contribution</field>
+            <field name="code">NICT</field>
+            <field name="sequence">104</field>
+            <field name="appears_on_payslip" eval="False"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result = round(categories['BASIC'] + categories['ALW'] + categories['BIK'],2)
+result -= categories['NTD'] if categories['NTD'] else 0.00 # Remove Non-Taxable Deductions
+result -= categories['SS'] if categories['SS'] else 0.00 # Remove Salary Sacrifice
+#result += categories['SP'] if categories['SP'] else 0.00 # Add Statutory Pay
+            </field>
+        </record>
+            <!-- Other Disclosure -->
+        <record id="l10n_uk_disclosure_monthly" model="hr.salary.rule">
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="category_id" ref="l10n_uk_hr_payroll.DIS"/>
+            <field name="name">Other Disclosure</field>
+            <field name="code">DIS</field>
+            <field name="sequence">200</field>
+            <field name="appears_on_payslip" eval="True"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = 'DIS' in inputs</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">
+result= inputs['DIS'].amount
+result_name = inputs['DIS'].name
+            </field>
+        </record>
+
+        <!--
+        <record id="l10n_uk_employment_allowance_monthly" model="hr.salary.rule">
+            <field name="category_id" ref="l10n_uk_hr_payroll.DIS"/>
+            <field name="name">Employment Allowance Claimed</field>
+            <field name="code">EMPALL</field>
+            <field name="sequence">110</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.claimEmploymentAllowance</field>
+            <field name="amount_select">code</field>
+            <field name="amount_python_compute">result = payslip._calcYTDEmploymentAllowance(localdict, round(result_rules['NIC']['total']+result_rules['NI']['total'],2))</field>
+            <field name="struct_id" ref="l10n_uk_hr_payroll.uk_hr_payroll_employee_structure"/>
+            <field name="active">False</field>
+            <field name="appears_on_employee_cost_dashboard" eval="False"/>
+            <field name="appears_on_payroll_report" eval="False"/>
+            <field name="appears_on_payslip" eval="False"/>
+        </record>
+        -->
+    </data>
+</odoo>

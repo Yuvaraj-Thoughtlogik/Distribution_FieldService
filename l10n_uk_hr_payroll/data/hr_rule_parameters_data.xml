@@ -1,0 +1,1029 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <!--  Pension Contributions -->
+        <record id="rule_parameter_UK_PEN_MinRate" model="hr.rule.parameter">
+            <field name="name">UK Pension Minimum Total Contribution Rate</field>
+            <field name="code">UK_PEN_MinRate</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PEN_MinRate_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">8</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PEN_MinRate"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PEN_MinRate_Full" model="hr.rule.parameter">
+            <field name="name">UK Pension Minimum Total Contribution Rate (Full Pay)</field>
+            <field name="code">UK_PEN_MinRate_Full</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PEN_MinRate_Full_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">7</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PEN_MinRate_Full"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PEN_CO_Rate" model="hr.rule.parameter">
+            <field name="name">UK Pensions Company Minimum Contribution Rates</field>
+            <field name="code">UK_PEN_CO_Rate</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PEN_CO_Rate_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">3</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PEN_CO_Rate"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PEN_SMINM" model="hr.rule.parameter">
+            <field name="name">UK Pension Statutory Minimum (Monthly)</field>
+            <field name="code">UK_PEN_SMINM</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PEN_SMINM_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">520</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PEN_SMINM"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_UK_PEN_SMINW" model="hr.rule.parameter">
+            <field name="name">UK Pension Statutory Minimum (Weekly)</field>
+            <field name="code">UK_PEN_SMINW</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PEN_SMINW_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">120</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PEN_SMINW"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PEN_SMAXM" model="hr.rule.parameter">
+            <field name="name">UK Pension Statutory Maximum (Monthly)</field>
+            <field name="code">UK_PEN_SMAXM</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PEN_SMAXM_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">4189.16</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PEN_SMAXM"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_UK_PEN_SMAXW" model="hr.rule.parameter">
+            <field name="name">UK Pension Statutory Maximum (Weekly)</field>
+            <field name="code">UK_PEN_SMAXW</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PEN_SMAXW_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">966.73</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PEN_SMAXW"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <!-- PAYE Tax Rates England & Northern Ireland -->
+        <record id="rule_parameter_UK_PAYE_E_R1" model="hr.rule.parameter">
+            <field name="name">UK - England PAYE Tax Rates 1</field>
+            <field name="code">UK_PAYE_E_R1</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_R1_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">10</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_R1"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_E_R2" model="hr.rule.parameter">
+            <field name="name">UK - England PAYE Tax Rates 2</field>
+            <field name="code">UK_PAYE_E_R2</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_R2_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">20</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_R2"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_E_R3" model="hr.rule.parameter">
+            <field name="name">UK - England PAYE Tax Rates 3</field>
+            <field name="code">UK_PAYE_E_R3</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_R3_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">40</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_R3"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_E_R4" model="hr.rule.parameter">
+            <field name="name">UK - England PAYE Tax Rates 4</field>
+            <field name="code">UK_PAYE_E_R4</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_R4_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">45</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_R4"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_E_G" model="hr.rule.parameter">
+            <field name="name">UK - England PAYE Tax Rates G Pointer</field>
+            <field name="code">UK_PAYE_E_G</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_G_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">2</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_G"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_E_MaxRate" model="hr.rule.parameter">
+            <field name="name">UK - England PAYE Tax Max Rate</field>
+            <field name="code">UK_PAYE_E_MaxRate</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_MaxRate_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">50</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_MaxRate"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <!--  England & Northern Ireland Tax Bands / Thresholds -->
+        <record id="rule_parameter_UK_PAYE_E_B1" model="hr.rule.parameter">
+            <field name="name">UK - England PAYE Tax Band 1</field>
+            <field name="code">UK_PAYE_E_B1</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B1_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">0</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B1"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_E_B2" model="hr.rule.parameter">
+            <field name="name">UK - England PAYE Tax Band 2</field>
+            <field name="code">UK_PAYE_E_B2</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B2_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">34500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B2"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B2_2019" model="hr.rule.parameter.value">
+            <field name="parameter_value">37500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B2"/>
+            <field name="date_from" eval="datetime(2019, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B2_2020" model="hr.rule.parameter.value">
+            <field name="parameter_value">37500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B2"/>
+            <field name="date_from" eval="datetime(2020, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_UK_PAYE_E_B2_2021" model="hr.rule.parameter.value">
+            <field name="parameter_value">37700</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B2"/>
+            <field name="date_from" eval="datetime(2021, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B2_2022" model="hr.rule.parameter.value">
+            <field name="parameter_value">37700</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B2"/>
+            <field name="date_from" eval="datetime(2022, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B2_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">37700</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B2"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B2_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">37700</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B2"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_E_B3" model="hr.rule.parameter">
+            <field name="name">UK - England PAYE Tax Band 3</field>
+            <field name="code">UK_PAYE_E_B3</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B3_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">115500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B3"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B3_2019" model="hr.rule.parameter.value">
+            <field name="parameter_value">112500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B3"/>
+            <field name="date_from" eval="datetime(2019, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B3_2020" model="hr.rule.parameter.value">
+            <field name="parameter_value">112500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B3"/>
+            <field name="date_from" eval="datetime(2020, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B3_2021" model="hr.rule.parameter.value">
+            <field name="parameter_value">112300</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B3"/>
+            <field name="date_from" eval="datetime(2021, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B3_2022" model="hr.rule.parameter.value">
+            <field name="parameter_value">112300</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B3"/>
+            <field name="date_from" eval="datetime(2022, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B3_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">87440</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B3"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B3_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">87440</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B3"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_E_B3_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">87440</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_E_B3"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+
+        <!-- Wales PAYE Tax Rates -->
+        <record id="rule_parameter_UK_PAYE_C_R1" model="hr.rule.parameter">
+            <field name="name">UK - Wales PAYE Tax Rates 1</field>
+            <field name="code">UK_PAYE_C_R1</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_R1_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">10</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_R1"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_C_R2" model="hr.rule.parameter">
+            <field name="name">UK - Wales PAYE Tax Rates 2</field>
+            <field name="code">UK_PAYE_C_R2</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_R2_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">20</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_R2"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_C_R3" model="hr.rule.parameter">
+            <field name="name">UK - Wales PAYE Tax Rates 3</field>
+            <field name="code">UK_PAYE_C_R3</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_R3_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">40</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_R3"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_C_R4" model="hr.rule.parameter">
+            <field name="name">UK - Wales PAYE Tax Rates 4</field>
+            <field name="code">UK_PAYE_C_R4</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_R4_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">45</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_R4"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_C_G" model="hr.rule.parameter">
+            <field name="name">UK - Wales PAYE Tax Rates G Pointer</field>
+            <field name="code">UK_PAYE_C_G</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_G_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">2</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_G"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_C_MaxRate" model="hr.rule.parameter">
+            <field name="name">UK - Wales PAYE Tax Max Rate</field>
+            <field name="code">UK_PAYE_C_MaxRate</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_MaxRate_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">50</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_MaxRate"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <!--  Wales Tax Bands / Thresholds -->
+        <record id="rule_parameter_UK_PAYE_C_B1" model="hr.rule.parameter">
+            <field name="name">UK - Wales PAYE Tax Band 1</field>
+            <field name="code">UK_PAYE_C_B1</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B1_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">0</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B1"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_C_B2" model="hr.rule.parameter">
+            <field name="name">UK - Wales PAYE Tax Band 2</field>
+            <field name="code">UK_PAYE_C_B2</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B2_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">34500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B2"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B2_2019" model="hr.rule.parameter.value">
+            <field name="parameter_value">37500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B2"/>
+            <field name="date_from" eval="datetime(2019, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B2_2020" model="hr.rule.parameter.value">
+            <field name="parameter_value">37500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B2"/>
+            <field name="date_from" eval="datetime(2020, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_UK_PAYE_C_B2_2021" model="hr.rule.parameter.value">
+            <field name="parameter_value">37700</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B2"/>
+            <field name="date_from" eval="datetime(2021, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B2_2022" model="hr.rule.parameter.value">
+            <field name="parameter_value">37700</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B2"/>
+            <field name="date_from" eval="datetime(2022, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B2_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">37700</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B2"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B2_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">37700</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B2"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_C_B3" model="hr.rule.parameter">
+            <field name="name">UK - Wales PAYE Tax Band 3</field>
+            <field name="code">UK_PAYE_C_B3</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B3_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">115500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B3"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B3_2019" model="hr.rule.parameter.value">
+            <field name="parameter_value">112500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B3"/>
+            <field name="date_from" eval="datetime(2019, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B3_2020" model="hr.rule.parameter.value">
+            <field name="parameter_value">112500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B3"/>
+            <field name="date_from" eval="datetime(2020, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B3_2021" model="hr.rule.parameter.value">
+            <field name="parameter_value">112300</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B3"/>
+            <field name="date_from" eval="datetime(2021, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B3_2022" model="hr.rule.parameter.value">
+            <field name="parameter_value">112300</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B3"/>
+            <field name="date_from" eval="datetime(2022, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B3_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">87440</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B3"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B3_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">87440</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B3"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_C_B3_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">87440</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_C_B3"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+        <!-- PAYE Tax Rates Scotland -->
+        <record id="rule_parameter_UK_PAYE_S_R1" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Rates 1</field>
+            <field name="code">UK_PAYE_S_R1</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_R1_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">19</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_R1"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_S_R2" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Rates 2</field>
+            <field name="code">UK_PAYE_S_R2</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_R2_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">20</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_R2"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_S_R3" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Rates 3</field>
+            <field name="code">UK_PAYE_S_R3</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_R3_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">21</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_R3"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_S_R4" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Rates 4</field>
+            <field name="code">UK_PAYE_S_R4</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_R4_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">41</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_R4"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_R4_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">42</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_R4"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_UK_PAYE_S_R5" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Rates 5</field>
+            <field name="code">UK_PAYE_S_R5</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_R5_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">46</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_R5"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_R5_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">47</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_R5"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_R5_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">45</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_R5"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_UK_PAYE_S_R6" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Rates 6</field>
+            <field name="code">UK_PAYE_S_R6</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_R6_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">46</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_R6"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_R6_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">47</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_R6"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_R6_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">48</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_R6"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_S_G" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Rates G Pointer</field>
+            <field name="code">UK_PAYE_S_G</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_G_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">2</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_G"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_S_MaxRate" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Max Rate</field>
+            <field name="code">UK_PAYE_S_MaxRate</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_MaxRate_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">50</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_MaxRate"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+
+        <!--  Scotland Tax Bands / Thresholds -->
+        <record id="rule_parameter_UK_PAYE_S_B1" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Band 1</field>
+            <field name="code">UK_PAYE_S_B1</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B1_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">2000</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B1"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B1_2019" model="hr.rule.parameter.value">
+            <field name="parameter_value">2049</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B1"/>
+            <field name="date_from" eval="datetime(2019, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B1_2020" model="hr.rule.parameter.value">
+            <field name="parameter_value">2085</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B1"/>
+            <field name="date_from" eval="datetime(2020, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B1_2021" model="hr.rule.parameter.value">
+            <field name="parameter_value">2097</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B1"/>
+            <field name="date_from" eval="datetime(2021, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B1_2022" model="hr.rule.parameter.value">
+            <field name="parameter_value">2162</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B1"/>
+            <field name="date_from" eval="datetime(2022, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B1_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">2162</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B1"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B1_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">2306</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B1"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B1_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">2826</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B1"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_S_B2" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Band 2</field>
+            <field name="code">UK_PAYE_S_B2</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B2_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">10,150</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B2"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B2_2019" model="hr.rule.parameter.value">
+            <field name="parameter_value">10395</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B2"/>
+            <field name="date_from" eval="datetime(2019, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B2_2020" model="hr.rule.parameter.value">
+            <field name="parameter_value">10573</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B2"/>
+            <field name="date_from" eval="datetime(2020, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_UK_PAYE_S_B2_2021" model="hr.rule.parameter.value">
+            <field name="parameter_value">10629</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B2"/>
+            <field name="date_from" eval="datetime(2021, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B2_2022" model="hr.rule.parameter.value">
+            <field name="parameter_value">10956</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B2"/>
+            <field name="date_from" eval="datetime(2022, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B2_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">10956</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B2"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B2_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">11685</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B2"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B2_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">12094</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B2"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_S_B3" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Band 3</field>
+            <field name="code">UK_PAYE_S_B3</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B3_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">19430</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B3"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B3_2019" model="hr.rule.parameter.value">
+            <field name="parameter_value">18486</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B3"/>
+            <field name="date_from" eval="datetime(2019, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B3_2020" model="hr.rule.parameter.value">
+            <field name="parameter_value">18272</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B3"/>
+            <field name="date_from" eval="datetime(2020, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B3_2021" model="hr.rule.parameter.value">
+            <field name="parameter_value">18366</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B3"/>
+            <field name="date_from" eval="datetime(2021, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B3_2022" model="hr.rule.parameter.value">
+            <field name="parameter_value">17974</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B3"/>
+            <field name="date_from" eval="datetime(2022, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B3_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">17974</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B3"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B3_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">17101</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B3"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B3_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">16171</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B3"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_S_B4" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Band 4</field>
+            <field name="code">UK_PAYE_S_B4</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B4_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">118420</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B4"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B4_2019" model="hr.rule.parameter.value">
+            <field name="parameter_value">119070</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B4"/>
+            <field name="date_from" eval="datetime(2019, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B4_2020" model="hr.rule.parameter.value">
+            <field name="parameter_value">118908</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B4"/>
+            <field name="date_from" eval="datetime(2020, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B4_2021" model="hr.rule.parameter.value">
+            <field name="parameter_value">118908</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B4"/>
+            <field name="date_from" eval="datetime(2021, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B4_2022" model="hr.rule.parameter.value">
+            <field name="parameter_value">94048</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B4"/>
+            <field name="date_from" eval="datetime(2022, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B4_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">31338</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B4"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B4_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">31338</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B4"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B4_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">31338</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B4"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_PAYE_S_B5" model="hr.rule.parameter">
+            <field name="name">UK - Scotland PAYE Tax Band 5</field>
+            <field name="code">UK_PAYE_S_B5</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B5_2018" model="hr.rule.parameter.value">
+            <field name="parameter_value">9999999999</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B5"/>
+            <field name="date_from" eval="datetime(2018, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B5_2019" model="hr.rule.parameter.value">
+            <field name="parameter_value">9999999999</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B5"/>
+            <field name="date_from" eval="datetime(2019, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B5_2020" model="hr.rule.parameter.value">
+            <field name="parameter_value">9999999999</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B5"/>
+            <field name="date_from" eval="datetime(2020, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B5_2021" model="hr.rule.parameter.value">
+            <field name="parameter_value">9999999999</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B5"/>
+            <field name="date_from" eval="datetime(2021, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B5_2022" model="hr.rule.parameter.value">
+            <field name="parameter_value">9999999999</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B5"/>
+            <field name="date_from" eval="datetime(2022, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B5_2023" model="hr.rule.parameter.value">
+            <field name="parameter_value">9999999999</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B5"/>
+            <field name="date_from" eval="datetime(2023, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_PAYE_S_B5_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">50140</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PAYE_S_B5"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <!--  National Insurance -->
+        <record id="rule_parameter_UK_NI_Employer" model="hr.rule.parameter">
+            <field name="name">UK - National Insurance Employers</field>
+            <field name="code">UK_PAYE_NIC</field>
+            <field name="country_id" ref="base.uk"/>
+
+        </record>
+        <record id="rule_parameter_value_UK_NI_Employer_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">
+                [
+                ( 0.00, 6396.00, 0.0, 0.0, 0.0, 0.0),
+                ( 6396.01, 9100.00, 0.0, 0.0, 0.0, 0.0),
+                ( 9100.01, 12570.00, 13.8, 0.0, 0.0, 0.0),
+                (12570.01, 25000.00, 13.8, 0.0, 0.0, 0.0),
+                (25000.01, 50270.00, 13.8, 0.0, 13.8, 13.8),
+                (50270.01, 999999999.99, 13.8, 13.8, 13.8, 13.8)
+                ]
+            </field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_NI_Employer"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_NI_Employer_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">
+                [
+                ( 0.00, 5000.00, 0.0, 0.0, 0.0, 0.0),
+                ( 5000.01, 6500.00, 15.0, 0.0, 0.0, 0.0),
+                ( 6500.01, 12570.00, 15.0, 0.0, 0.0, 0.0),
+                (12570.01, 25000.00, 15.0, 0.0, 0.0, 0.0),
+                (25000.01, 50270.00, 15.0, 0.0, 15.0, 15.0),
+                (50270.01, 999999999.99, 15.0, 15.0, 15.0, 15.0)
+                ]
+            </field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_NI_Employer"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+        <!-- National Insurance
+         https://www.gov.uk/government/publications/rates-and-allowances-national-insurance-contributions/rates-and-allowances-national-insurance-contributions
+         https://www.gov.uk/guidance/rates-and-thresholds-for-employers-2025-to-2026
+         -->
+
+        <record id="rule_parameter_UK_NI_Employee" model="hr.rule.parameter">
+            <field name="name">UK - National Insurance Employees</field>
+            <field name="code">UK_PAYE_NI</field>
+            <field name="country_id" ref="base.uk"/>
+
+        </record>
+        <record id="rule_parameter_value_UK_NI_Employee_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">
+                [
+                ( 0.00, 6396.00, 0.0, 0.0, 0.0, 0.0),
+                ( 6396.01, 9100.00, 0.0, 0.0, 0.0, 0.0),
+                ( 9100.01, 12570.00, 0.0, 0.0, 0.0, 0.0),
+                (12570.01, 25000.00, 8.0, 1.85, 0.0, 2.0),
+                (25000.01, 50270.00, 8.0, 1.85, 0.0, 2.0),
+                (50270.01, 999999999.99, 2.0, 2.0, 0.0, 2.0)
+                ]
+            </field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_NI_Employee"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_NI_Employee_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">
+                [
+                ( 0.00, 5000.00, 0.0, 0.0, 0.0, 0.0),
+                ( 5000.01, 6500.00, 0.0, 0.0, 0.0, 0.0),
+                ( 6500.01, 12570.00, 0.0, 0.0, 0.0, 0.0),
+                (12570.01, 25000.00, 8.0, 1.85, 0.0, 2.0),
+                (25000.01, 50270.00, 8.0, 1.85, 0.0, 2.0),
+                (50270.01, 999999999.99, 2.0, 2.0, 0.0, 2.0)
+                ]
+            </field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_NI_Employee"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_NI_Employer_class1ab" model="hr.rule.parameter">
+            <field name="name">UK - National Insurance Employers (Class 1A &amp; 1B)</field>
+            <field name="code">UK_PAYE_NIC1AB</field>
+            <field name="country_id" ref="base.uk"/>
+
+        </record>
+        <record id="rule_parameter_UK_NI_Employer_class1ab_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">13.8</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_NI_Employer_class1ab"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_UK_NI_Employer_class1ab_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">15.0</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_NI_Employer_class1ab"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+        <record id="rule_parameter_UK_EmploymentAllowance" model="hr.rule.parameter">
+            <field name="name">UK - Employment Allowance</field>
+            <field name="code">UK_EMP_ALL</field>
+            <field name="country_id" ref="base.uk"/>
+
+        </record>
+        <record id="rule_parameter_UK_EmploymentAllowance_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">5000</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_EmploymentAllowance"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_UK_EmploymentAllowance_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">10500</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_EmploymentAllowance"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+
+        <!-- Student Loans -->
+
+        <!-- Student Loan Rate -->
+        <record id="rule_parameter_UK_SL_Rate" model="hr.rule.parameter">
+            <field name="name">UK - Student Loan Repayment Rate</field>
+            <field name="code">UK_SL_Rate</field>
+            <field name="country_id" ref="base.uk"/>
+
+        </record>
+        <record id="rule_parameter_value_UK_SL_Rate_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">9</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_SL_Rate"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <!-- Student Loan Thresholds -->
+        <record id="rule_parameter_UK_SL_Threshold" model="hr.rule.parameter">
+            <field name="name">UK - Student Threshold</field>
+            <field name="code">UK_SL_Threshold</field>
+            <field name="country_id" ref="base.uk"/>
+
+        </record>
+        <record id="rule_parameter_value_UK_SL_Threshold_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">
+                [
+                ( 1, 2172.00),
+                ( 2, 2372.00),
+                ( 4, 2728.00),
+                ( 5, 2083.00)
+                ]
+            </field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_SL_Threshold"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_SL_Threshold_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">
+                [
+                ( 1, 2082.00),
+                ( 2, 2274.00),
+                ( 4, 2616.00),
+                ( 5, 2083.00)
+                ]
+            </field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_SL_Threshold"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <!-- Postgraduate Loan Rate -->
+        <record id="rule_parameter_UK_PL_Rate" model="hr.rule.parameter">
+            <field name="name">UK - Postgraduate Loan Repayment Rate</field>
+            <field name="code">UK_PL_Rate</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PL_Rate_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">6</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PL_Rate"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <!-- Postgraduate Loan Thresholds -->
+        <record id="rule_parameter_UK_PL_Threshold" model="hr.rule.parameter">
+            <field name="name">UK - Postgraduate Loan Threshold</field>
+            <field name="code">UK_PL_Threshold</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_PL_Threshold_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">1750</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_PL_Threshold"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <!-- Statutory Maternity Pay Rate-->
+        <record id="rule_parameter_UK_Statutory_Maternity_Pay_Rate" model="hr.rule.parameter">
+            <field name="name">UK - Statutory Maternity Pay (Weekly) Rate</field>
+            <field name="code">UK_SMP_Leave_Rate</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_UK_Statutory_Maternity_Pay_Rate_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">184.03</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_Statutory_Maternity_Pay_Rate"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_UK_Statutory_Maternity_Pay_Rate_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">187.18</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_Statutory_Maternity_Pay_Rate"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+        <!-- Parental Leave -->
+        <record id="rule_parameter_UK_Parental_Leave_Rate" model="hr.rule.parameter">
+            <field name="name">UK - Parental Leave (Weekly) Rate</field>
+            <field name="code">UK_Parental_Leave_Rate</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_Parental_Leave_Rate_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">184.03</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_Parental_Leave_Rate"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+        <record id="rule_parameter_value_UK_Parental_Leave_Rate_2025" model="hr.rule.parameter.value">
+            <field name="parameter_value">187.18</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_Parental_Leave_Rate"/>
+            <field name="date_from" eval="datetime(2025, 4, 6).date()"/>
+        </record>
+
+        <!-- Parental Leave Recovery Rate Standard-->
+        <record id="rule_parameter_UK_SPL_Rate" model="hr.rule.parameter">
+            <field name="name">UK - Statutory Parental Leave Recovery Rate</field>
+            <field name="code">UK_SPL_RATE</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_SPL_Rate_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">92</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_SPL_Rate"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <!-- Parental Leave -->
+        <record id="rule_parameter_UK_SPL_SE_Rate" model="hr.rule.parameter">
+            <field name="name">UK - Statutory Parental Leave Recovery Rate - Small Employer</field>
+            <field name="code">UK_SPL_SE_RATE</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_SPL_SE_Rate_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">103</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_SPL_SE_Rate"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <!-- Statutory Sick Leave -->
+        <record id="rule_parameter_UK_SSP_Rate" model="hr.rule.parameter">
+            <field name="name">UK - Statutory Sick Pay (Weekly)</field>
+            <field name="code">UK_SSP_Rate</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_UK_SSP_Rate_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">118.75</field>
+            <field name="rule_parameter_id" ref="rule_parameter_UK_SSP_Rate"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <!-- Call Out Rate 1 -->
+        <record id="rule_parameter_uk_call_out_1" model="hr.rule.parameter">
+            <field name="name">UK - Call Out Rate 1</field>
+            <field name="code">UK_CALL_OUT_1</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+        <record id="rule_parameter_value_uk_call_out_1_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">35</field>
+            <field name="rule_parameter_id" ref="rule_parameter_uk_call_out_1"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+        <!-- Call Out Rate 2 -->
+        <record id="rule_parameter_uk_call_out_2" model="hr.rule.parameter">
+            <field name="name">UK - Call Out Rate 2</field>
+            <field name="code">UK_CALL_OUT_2</field>
+            <field name="country_id" ref="base.uk"/>
+        </record>
+
+        <record id="rule_parameter_value_uk_call_out_2_2024" model="hr.rule.parameter.value">
+            <field name="parameter_value">75</field>
+            <field name="rule_parameter_id" ref="rule_parameter_uk_call_out_2"/>
+            <field name="date_from" eval="datetime(2024, 4, 6).date()"/>
+        </record>
+
+
+    </data>
+</odoo>

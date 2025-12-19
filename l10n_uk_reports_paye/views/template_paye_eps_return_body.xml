@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="hmrc_paye_eps_return_body" name="HMRC PAYE EPS Return Request Body">
+        <Body t-att="{'xmlns': 'http://www.govtalk.gov.uk/CM/envelope' if not ir_mark else None}">
+            <IRenvelope t-att="{'xmlns': document['namespaces']['year']}">
+                <IRheader>
+                    <Keys>
+                        <Key Type="TaxOfficeNumber" t-out="credentials.get('tax_office_number', '*****')"/>
+                        <Key Type="TaxOfficeReference" t-out="credentials.get('tax_office_reference', '*****')"/>
+                    </Keys>
+                    <PeriodEnd t-out="document.get('period_end','XXXX-XX-XX')"/>
+                    <DefaultCurrency>GBP</DefaultCurrency>
+                    <IRmark Type="generic" t-out="ir_mark or ''"/>
+                    <Sender>Employer</Sender>
+                </IRheader>
+                <EmployerPaymentSummary>
+                    <EmpRefs>
+                        <OfficeNo t-out="credentials.get('tax_office_number', '*****')"/>
+                        <PayeRef t-out="credentials.get('tax_office_reference', '*****')"/>
+                        <AORef t-out="credentials.get('accounts_office_reference', '*****')"/>
+                        <COTAXRef t-if="credentials.get('unique_taxpayer_reference')"
+                                  t-out="credentials.get('unique_taxpayer_reference')"/>
+                    </EmpRefs>
+                    <EmpAllceInd t-if="eps['use_employment_allowance']">yes</EmpAllceInd>
+                    <EmpAllceInd t-else="">no</EmpAllceInd>
+                    <DeMinimisStateAid t-if="eps['use_employment_allowance']"><NA>yes</NA></DeMinimisStateAid>
+                    <RecoverableAmountsYTD t-if="float(eps.get('cis_suffered','0.00')) > 0">
+                        <SMPRecovered t-if="eps['smp_recovered']" t-out="eps['smp_recovered']"/>
+                        <SPPRecovered t-if="eps['spp_recovered']" t-out="eps['spp_recovered']"/>
+                        <SAPRecovered t-if="eps['sap_recovered']" t-out="eps['sap_recovered']"/>
+                        <ShPPRecovered t-if="eps['shpp_recovered']" t-out="eps['shpp_recovered']"/>
+                        <SPBPRecovered t-if="eps['spbp_recovered']" t-out="eps['spbp_recovered']"/>
+                        <SNCPRecovered t-if="eps['sncp_recovered']" t-out="eps['sncp_recovered']"/>
+                        <NICCompensationOnSMP t-if="eps['smp_nic_recovered']" t-out="eps['smp_nic_recovered']"/>
+                        <NICCompensationOnSPP t-if="eps['spp_nic_recovered']" t-out="eps['spp_nic_recovered']"/>
+                        <NICCompensationOnSAP t-if="eps['sap_nic_recovered']" t-out="eps['sap_nic_recovered']"/>
+                        <NICCompensationOnShPP t-if="eps['shpp_nic_recovered']" t-out="eps['shpp_nic_recovered']"/>
+                        <NICCompensationOnSPBP t-if="eps['spbp_nic_recovered']" t-out="eps['spbp_nic_recovered']"/>
+                        <NICCompensationOnSNCP t-if="eps['sncp_nic_recovered']" t-out="eps['sncp_nic_recovered']"/>
+                        <CISDeductionsSuffered t-if="eps['cis_suffered']" t-out="eps['cis_suffered']"/>
+                    </RecoverableAmountsYTD>
+                    <ApprenticeshipLevy t-if="eps['apprenticeship_level_due_ytd']">
+                        <LevyDueYTD t-if="eps['apprenticeship_level_due_ytd']"
+                                    t-out="eps['apprenticeship_level_due_ytd']"/>
+                        <TaxMonth t-if="eps['tax_month']" t-out="eps['tax_month']"/>
+                        <AnnualAllce t-if="eps['apprenticeship_annual_allowance']"
+                                     t-out="eps['apprenticeship_annual_allowance']"/>
+                    </ApprenticeshipLevy>
+                    <RelatedTaxYear t-out="document['related_tax_year']"/>
+                </EmployerPaymentSummary>
+            </IRenvelope>
+        </Body>
+    </template>
+</odoo>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <data noupdate="1">
+        <!-- Dashboard Warnings -->
+
+        <!-- National Insurance Number (NINO) is required in HMRC FPS Report -->
+        <record id="hr_payroll_dashboard_warning_employee_without_identification" model="hr.payroll.dashboard.warning">
+            <field name="name">Employees Without Identification Number</field>
+            <field name="country_id" ref="base.uk"/>
+            <field name="evaluation_code">
+employees_wo_id = self.env['hr.employee'].search([('l10n_uk_ni_code', '=', False),])
+if employees_wo_id:
+    warning_count = len(employees_wo_id)
+    warning_records = employees_wo_id</field>
+        </record>
+        <!-- Tax Code is required in HMRC FPS Report -->
+        <record id="hr_payroll_dashboard_warning_employee_without_taxcode" model="hr.payroll.dashboard.warning">
+            <field name="name">Employees without Tax Code</field>
+            <field name="country_id" ref="base.uk"/>
+            <field name="evaluation_code">
+employees_wo_id = self.env['hr.employee'].search([('l10n_uk_tax_code', '=', False), ])
+if employees_wo_id:
+    warning_count = len(employees_wo_id)
+    warning_records = employees_wo_id</field>
+        </record>
+        <!-- Remind HR users when auto-enrolment is due -->
+        <record id="hr_payroll_dashboard_warning_contract_autoenrolment" model="hr.payroll.dashboard.warning">
+            <field name="name">Contracts with Auto-Enrolment Due</field>
+            <field name="country_id" ref="base.uk"/>
+            <field name="evaluation_code">
+contracts_wo_id = self.env['hr.contract'].search([('next_autoenrolment_date', '=', False),('is_autoenrolment','=',True)])
+if contracts_wo_id:
+    warning_count = len(contracts_wo_id)
+    warning_records = contracts_wo_id</field>
+        </record>
+        <!-- Not all employees will be enrolled in a pension fund, but must follow auto enrolment processes -->
+        <record id="hr_payroll_dashboard_warning_contract_pension_fund" model="hr.payroll.dashboard.warning">
+            <field name="name">Contracts without Pension Funds</field>
+            <field name="country_id" ref="base.uk"/>
+            <field name="evaluation_code">
+contracts_wo_id = self.env['hr.contract'].search([('pension_fund', '=', False),('is_autoenrolment','=', True),])
+if contracts_wo_id:
+    warning_count = len(contracts_wo_id)
+    warning_records = contracts_wo_id</field>
+        </record>
+        <!-- Gender is required in HMRC FPS Report -->
+        <record id="hr_payroll_dashboard_warning_employee_without_gender" model="hr.payroll.dashboard.warning">
+            <field name="name">Employees without Gender</field>
+            <field name="country_id" ref="base.uk"/>
+            <field name="evaluation_code">
+employees_wo_id = self.env['hr.employee'].search([('gender', 'not in', ('male','female')), ])
+if employees_wo_id:
+    warning_count = len(employees_wo_id)
+    warning_records = employees_wo_id</field>
+        </record>
+        <!-- Date of Birth is required in HMRC FPS Report -->
+        <record id="hr_payroll_dashboard_warning_employee_without_dob" model="hr.payroll.dashboard.warning">
+            <field name="name">Employees without Date of Birth</field>
+            <field name="country_id" ref="base.uk"/>
+            <field name="evaluation_code">
+employees_wo_id = self.env['hr.employee'].search([('birthday', '=', False), ])
+if employees_wo_id:
+    warning_count = len(employees_wo_id)
+    warning_records = employees_wo_id</field>
+        </record>
+    </data>
+</odoo>

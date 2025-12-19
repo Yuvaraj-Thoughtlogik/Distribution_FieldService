@@ -1,0 +1,32 @@
+<odoo>
+    <!-- Payslip View -->
+
+    <!-- Payslip Run -->
+    <record id="hr_payslip_run_view_form" model="ir.ui.view">
+        <field name="name">hr_payslip_run_view_form</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+        <field name="priority">70</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_report_filename']" position="before">
+                <field name="payment_date" string="Payment Date"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_pay_payslip_wizard" model="ir.ui.view">
+        <field name="name">pay.payslip.wizard.form</field>
+        <field name="model">payslip.payment.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Confirm Payment">
+                <group>
+                    <field name="payment_date"/>
+                </group>
+                <footer>
+                    <button string="Confirm" type="object" name="confirm_payment" class="btn-primary"/>
+                    <button string="Cancel" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

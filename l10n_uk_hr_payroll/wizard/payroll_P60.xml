@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_l10n_uk_hr_p60_by_employees" model="ir.ui.view">
+        <field name="name">l10n_uk_hr_p60_by_employees</field>
+        <field name="model">l10n_uk_hr_payroll_p60</field>
+        <field name="arch" type="xml">
+            <form string="P60 by Employees">
+                <span nolabel="1" colspan="2">This wizard will generate P60 substitute form for all selected employee(s) for the specified year.</span>
+                <separator/>
+                <div class="o_row">
+                    <label for="year"/>
+                    <field name="year" class="o_hr_narrow_field" options="{'type': 'number'}"/>
+                </div>
+                <separator string="Employees"/>
+                <field name="employee_ids" nolabel="1"/>
+                <footer>
+                    <button string="Generate" name="generate_p60" type="object" class="oe_highlight" data-hotkey="q"/>
+                    <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="z"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

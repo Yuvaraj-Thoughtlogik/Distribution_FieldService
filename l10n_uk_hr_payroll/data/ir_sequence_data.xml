@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="l10n_uk_pension_nest_sequence" model="ir.sequence">
+            <field name="name">Pension Submission: NEST Sequence</field>
+            <field name="code">pension_NEST</field>
+            <field name="implementation">standard</field>
+            <field name="prefix">NEST</field>
+            <field name="padding">10</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+        <record id="l10n_uk_pension_true_potential_sequence" model="ir.sequence">
+            <field name="name">Pension Submission: True Potential Sequence</field>
+            <field name="code">pension_True_Potential</field>
+            <field name="implementation">standard</field>
+            <field name="prefix">TP</field>
+            <field name="padding">10</field>
+            <field name="number_increment">1</field>
+            <field name="number_next_actual">1</field>
+            <field name="company_id" eval="False"/>
+        </record>
+    </data>
+</odoo>

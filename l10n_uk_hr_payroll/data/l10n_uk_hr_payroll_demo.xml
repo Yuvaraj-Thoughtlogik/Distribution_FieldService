@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+        <record id="res_company_uk" model="res.company">
+            <field name="name">My UK Company Ltd</field>
+            <field name="country_id" ref="base.uk"/>
+            <field name="currency_id" ref="base.GBP"/>
+            <field name="company_registry">07115072</field>
+            <field name="street">Buckingham Palace</field>
+            <field name="zip">SW1A 1AA</field>
+            <field name="city">London</field>
+            <field name="vat">GB123456782</field>
+            <field name="phone">01932918917</field>
+            <field name="resource_calendar_id" ref="l10n_uk_hr_payroll.hr_payroll_resource_calendar_std"/>
+        </record>
+        <record id="base.user_admin" model="res.users">
+            <field name="company_ids" eval="[(4, ref('res_company_uk'))]"/>
+        </record>
+
+    </data>
+    <data noupdate="1">
+        <record id="l10n_uk_hr_payroll.res_bank_natwest" model="res.bank">
+            <field name="name">Natwest</field>
+            <field name="bic">NWBKGB2L</field>
+        </record>
+
+        <record id="hr_department_finance" model="hr.department">
+            <field name="name">Finance</field>
+            <field name="company_id" ref="res_company_uk"/>
+        </record>
+        <record id="hr_department_sales" model="hr.department">
+            <field name="name">Sales</field>
+            <field name="company_id" ref="res_company_uk"/>
+        </record>
+        <record id="hr_department_marketing" model="hr.department">
+            <field name="name">Marketing</field>
+            <field name="company_id" ref="res_company_uk"/>
+        </record>
+        <record id="hr_department_operations" model="hr.department">
+            <field name="name">Operations</field>
+            <field name="company_id" ref="res_company_uk"/>
+        </record>
+
+        <record id="hr_department_admin" model="hr.department">
+            <field name="name">Management &amp; Admin</field>
+            <field name="company_id" ref="res_company_uk"/>
+        </record>
+    </data>
+
+    <data noupdate="1">
+        <record id="job_uk_1" model="hr.job">
+            <field name="name">IT</field>
+            <field name="department_id" ref="hr_department_admin"/>
+            <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+        </record>
+
+        <record id="employee_1" model="hr.employee">
+            <field name="name">Tim Ambrose</field>
+            <field name="job_id" ref="job_uk_1"/>
+            <field name="country_id" ref="base.uk"/>
+            <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+            <field name="gender">male</field>
+        </record>
+        <record id="res_partner_1" model="res.partner">
+            <field name="name">Tim Ambrose</field>
+            <field name="street">8415 Larry Parkway</field>
+            <field name="city">Pentre</field>
+            <field name="zip">SY4 0LL</field>
+            <field name="country_id" ref="base.uk"/>
+            <field name="phone">+44476543210</field>
+            <field name="email">tambrose@example.com</field>
+            <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+        </record>
+        <record id="res_partner_1_work_address" model="res.partner">
+            <field name="name">London Offices</field>
+            <field name="street">Kennington Oval</field>
+            <field name="city">London</field>
+            <field name="zip">SE11 5SS</field>
+            <field name="country_id" ref="base.uk"/>
+            <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+        </record>
+    </data>
+    <!--
+    <data noupdate="1">
+        <record id="res_partner_bank_account_1" model="res.partner.bank">
+            <field name="acc_number">GB10561132778404</field>
+            <field name="bank_id" ref="res_bank_natwest"/>
+            <field name="partner_id" ref="res_partner_1"/>
+            <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+            <field name="allow_out_payment" eval="True"/>
+        </record>
+    </data>
+    -->
+    <!--
+    <data noupdate="0">
+        <record id="hr_employee_1" model="hr.employee">
+            <field name="name">Tim Ambrose</field>
+            <field name="work_contact_id" ref="res_partner_1"/>
+            <field name="gender">male</field>
+            <field name="marital">single</field>
+            <field name="job_title">IT</field>
+            <field name="private_street">8415 Larry Parkway</field>
+            <field name="private_city">Pentre</field>
+            <field name="private_zip">SY4 0LL</field>
+            <field name="private_country_id" ref="base.uk"/>
+            <field name="private_phone">+44476543210</field>
+            <field name="private_email">tambrose@example.com</field>
+            <field name="address_id" ref="res_partner_1_work_address"/>
+            <field name="birthday">1991-07-28</field>
+            <field name="country_of_birth" ref="base.uk"/>
+            <field name="country_id" ref="base.uk"/>
+            <field name="resource_calendar_id" ref="l10n_uk_hr_payroll.hr_payroll_resource_calendar_std"/>
+            <field name="identification_id">MP596510K</field>
+            <field name="l10n_uk_ni_code">MP596510K</field>
+            <field name="PensionFund" ref="l10n_uk_pension_fund_nest"/>
+            <field name="bank_account_id" ref="res_partner_bank_account_1"/>
+            <field name="company_id" ref="res_company_uk"/>
+        </record>
+    </data>
+    -->
+</odoo>

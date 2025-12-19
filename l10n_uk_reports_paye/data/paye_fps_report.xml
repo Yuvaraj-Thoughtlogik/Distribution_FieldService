@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo auto_sequence="1">
+    <data>
+        <record id="tax_report_paye_eps" model="account.report">
+            <field name="name">PAYE EPS</field>
+            <field name="root_report_id" ref="account.generic_tax_report"/>
+            <field name="custom_handler_model_id" ref="model_paye_tax_report_handler"/>
+            <field name="country_id" ref="base.uk"/>
+            <field name="filter_fiscal_position" eval="False"/>
+            <field name="filter_multi_company">disabled</field>
+            <field name="filter_hide_0_lines">never</field>
+            <field name="filter_period_comparison" eval="False"/>
+            <field name="default_opening_date_filter">previous_tax_period</field>
+            <field name="availability_condition">country</field>
+            <field name="column_ids">
+                <record id="paye_report_tax" model="account.report.column">
+                    <field name="name">Tax</field>
+                    <field name="expression_label">tax</field>
+                </record>
+                <record id="paye_report_employee_nic" model="account.report.column">
+                    <field name="name">Employee NIC</field>
+                    <field name="expression_label">employee_nics</field>
+                </record>
+                <record id="paye_report_employer_nic" model="account.report.column">
+                    <field name="name">Employer NIC</field>
+                    <field name="expression_label">employer_nics</field>
+                </record>
+                <record id="paye_report_student_loan" model="account.report.column">
+                    <field name="name">Student Loan</field>
+                    <field name="expression_label">student_loan</field>
+                </record>
+                <record id="paye_report_postgrad_loan" model="account.report.column">
+                    <field name="name">PostGrad Loan</field>
+                    <field name="expression_label">postgrad_loan</field>
+                </record>
+            </field>
+            <field name="line_ids">
+                <record id="account_uk_paye_report_line_employees" model="account.report.line">
+                    <field name="name">Employees</field>
+                    <field name="groupby">employee_id, move_id</field>
+                    <field name="code">PAYE_TAX</field>
+                    <field name="hide_if_zero" eval="True"/>
+                    <field name="expression_ids">
+                        <record id="account_uk_paye_report_line_tax" model="account.report.expression">
+                            <field name="label">tax</field>
+                            <field name="engine">domain</field>
+                            <field name="formula"
+                                   eval="[('display_type', '=', 'employee'), ('move_id.move_type', 'in', ('in_invoice', 'in_refund'))]"/>
+                            <field name="subformula">sum</field>
+                        </record>
+                        <record id="account_uk_paye_report_line_employee_nics" model="account.report.expression">
+                            <field name="label">employee_nics</field>
+                            <field name="engine">domain</field>
+                            <field name="formula"
+                                   eval="[('display_type', '=', 'product'), ('move_id.move_type', 'in', ('in_invoice', 'in_refund')), ('tax_tag_ids', 'not any', [('name', 'in', ('+CISPB', '-CISPB'))])]"/>
+                            <field name="subformula">sum</field>
+                        </record>
+                        <record id="account_uk_paye_report_line_employer_nics" model="account.report.expression">
+                            <field name="label">employer_nics</field>
+                            <field name="engine">tax_tags</field>
+                            <field name="formula">NIC</field>
+                        </record>
+                        <record id="account_uk_paye_report_line_student_loan" model="account.report.expression">
+                            <field name="label">student_loan</field>
+                            <field name="engine">tax_tags</field>
+                            <field name="formula">SLOAN</field>
+                        </record>
+                        <record id="account_uk_paye_report_line_postgrad_loan" model="account.report.expression">
+                            <field name="label">postgrad_loan</field>
+                            <field name="engine">tax_tags</field>
+                            <field name="formula">PLOAN</field>
+                        </record>
+                    </field>
+                </record>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="l10n_uk_hr_payroll.res_company_uk" model="res.company">
+        <field name="currency_id" ref="base.GBP"/>
+        <field name="street">Roxford Close</field>
+        <field name="zip">TW17 8RS</field>
+        <field name="city">Upper Halliford</field>
+        <field name="resource_calendar_id" ref="l10n_uk_hr_payroll.hr_payroll_resource_calendar_std"/>
+    </record>
+    <record id="base.user_admin" model="res.users">
+        <field name="company_ids" eval="[(4, ref('l10n_uk_hr_payroll.res_company_uk'))]"/>
+    </record>
+    <record id="base.user_demo" model="res.users">
+        <field name="company_ids" eval="[(4, ref('l10n_uk_hr_payroll.res_company_uk'))]"/>
+    </record>
+
+    <record id="hr_department_rduk" model="hr.department">
+        <field name="name">RD UK</field>
+        <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+    </record>
+
+    <record id="job_developer_british" model="hr.job">
+        <field name="name">Experienced Developer UK</field>
+        <field name="department_id" ref="hr_department_rduk"/>
+        <field name="no_of_recruitment">5</field>
+        <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+    </record>
+
+    <record id="hr_employee_sharon" model="hr.employee">
+        <field name="name">Sharon Jacket</field>
+        <field name="work_phone">0751 415 926</field>
+        <field name="job_id" ref="job_developer_british"/>
+        <field name="country_id" ref="base.uk"/>
+        <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+        <field name="image_1920" type="base64" file="hr/static/img/employee_al-image.jpg"/>
+        <field name="private_street">Hotline St. 82d</field>
+        <field name="private_city">London</field>
+        <field name="private_zip">SW1 3EL</field>
+        <field name="private_country_id" ref="base.uk"/>
+        <field name="private_phone">0751 415 926</field>
+        <field name="private_email">sharon.jacket@example.com</field>
+        <field name="birthday">1978-08-09</field>
+        <field name="gender">female</field>
+    </record>
+
+    <record id="res_partner_dennis" model="res.partner">
+        <field name="name">Dennis Cactus</field>
+        <field name="street">Buckingham Palace St.</field>
+        <field name="city">London</field>
+        <field name="zip">SW1 3EL</field>
+        <field name="country_id" ref="base.uk"/>
+        <field name="phone">0751 415 926</field>
+        <field name="email">dennis.cactus@example.com</field>
+        <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+    </record>
+
+    <record id="user_dennis" model="res.users">
+        <field name="partner_id" ref="l10n_uk_hr_payroll_account.res_partner_dennis"/>
+        <field name="login">denniscactus@example.com</field>
+        <field name="password">denniscactus55</field>
+        <field name="signature" type="html"><span>--<br/>+D. Cactus</span></field>
+        <field name="company_ids" eval="[(4, ref('l10n_uk_hr_payroll.res_company_uk'))]"/>
+        <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+        <field name="groups_id" eval="[(6,0,[ref('base.group_user')])]"/>
+        <field name="image_1920" type="base64" file="hr/static/img/employee_al-image.jpg"/>
+    </record>
+
+    <record id="res_partner_dennis_work_address" model="res.partner">
+        <field name="name">UK Offices</field>
+        <field name="street">Devolve Blvd. 344</field>
+        <field name="city">London</field>
+        <field name="zip">SW1 3EL</field>
+        <field name="country_id" ref="base.uk"/>
+        <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+    </record>
+
+    <record id="res_partner_dennis_private_address" model="res.partner">
+        <field name="name">Dennis Cactus</field>
+        <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+    </record>
+
+
+    <record id="res_partner_bank_account_dennis" model="res.partner.bank">
+        <field name="acc_number">UK20002904010518489266398616</field>
+        <field name="bank_id" ref="l10n_uk_hr_payroll.res_bank_natwest"/>
+        <field name="partner_id" ref="l10n_uk_hr_payroll_account.res_partner_dennis_private_address"/>
+        <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+    </record>
+
+    <record id="hr_employee_dennis" model="hr.employee">
+        <field name="name">Dennis Cactus (deca)</field>
+        <field name="gender">male</field>
+        <field name="marital">single</field>
+        <field name="job_title">Software Developer</field>
+        <field name="work_phone">0751 415 926</field>
+        <field name="private_street">Dennaton St. 82d</field>
+        <field name="private_city">London</field>
+        <field name="private_zip">SW1 3EL</field>
+        <field name="private_country_id" ref="base.uk"/>
+        <field name="private_phone">0751 415 926</field>
+        <field name="private_email">dennis.cactus@example.com</field>
+        <field name="address_id" ref="l10n_uk_hr_payroll_account.res_partner_dennis_work_address"/>
+        <field name="emergency_contact">Jonathan Cactus</field>
+        <field name="emergency_phone">(075) 3186203</field>
+        <field name="birthday">1991-07-28</field>
+        <field name="place_of_birth">Sweden</field>
+        <field name="country_of_birth" ref="base.se"/>
+        <field name="certificate">master</field>
+        <field name="study_field">Civil Engineering</field>
+        <field name="study_school">Stockholm University</field>
+        <field name="parent_id" ref="l10n_uk_hr_payroll_account.hr_employee_sharon"/>
+        <field name="country_id" ref="base.uk"/>
+        <field name="resource_calendar_id" ref="resource.resource_calendar_std"/>
+        <field name="identification_id">314159265358979</field>
+        <field name="bank_account_id" ref="l10n_uk_hr_payroll_account.res_partner_bank_account_dennis"/>
+        <field name="image_1920" type="base64" file="hr/static/img/employee_al-image.jpg"/>
+        <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+        <field name="user_id" ref="l10n_uk_hr_payroll_account.user_dennis"/>
+        <field name="l10n_uk_ni_code">AA1335547</field>
+    </record>
+
+    <record id="hr_contract_cdi_dennis_previous" model="hr.contract">
+        <field name="name">CDD - Dennis Cactus - Experienced Developer</field>
+        <field name="department_id" ref="hr_department_rduk"/>
+        <field name="employee_id" ref="hr_employee_dennis"/>
+        <field name="job_id" ref="l10n_uk_hr_payroll_account.job_developer_british"/>
+        <field name="structure_type_id" ref="hr_contract.structure_type_employee"/>
+        <field name="wage">4440</field>
+        <field name="hourly_wage">30</field>
+        <field name="state">close</field>
+        <field name="hr_responsible_id" ref="base.user_demo"/>
+        <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+        <field name="date_start" eval="(DateTime.today() + relativedelta(years=-2, month=1, day=1))"/>
+        <field name="date_end" eval="(DateTime.today() + relativedelta(years=-1, month=1, day=1, days=-2))"/>
+        <field name="resource_calendar_id" ref="resource.resource_calendar_std"/>
+    </record>
+
+    <record id="hr_contract_cdi_dennis" model="hr.contract">
+        <field name="name">CDI - Dennis Cactus - Experienced Developer</field>
+        <field name="department_id" ref="hr_department_rduk"/>
+        <field name="employee_id" ref="hr_employee_dennis"/>
+        <field name="job_id" ref="l10n_uk_hr_payroll_account.job_developer_british"/>
+        <field name="structure_type_id" ref="hr_contract.structure_type_employee"/>
+        <field name="wage">4940</field>
+        <field name="hourly_wage">30</field>
+        <field name="state">open</field>
+        <field name="hr_responsible_id" ref="base.user_demo"/>
+        <field name="company_id" ref="l10n_uk_hr_payroll.res_company_uk"/>
+        <field name="date_start" eval="(DateTime.today() + relativedelta(years=-1, month=1, day=1))"/>
+        <field name="resource_calendar_id" ref="resource.resource_calendar_std"/>
+    </record>
+
+    <record id="hr_employee_dennis" model="hr.employee">
+        <field name="contract_id" ref="l10n_uk_hr_payroll_account.hr_contract_cdi_dennis"/>
+    </record>
+    <!--
+        <data noupdate="1">
+            <function model="account.chart.template" name="try_loading">
+                <value eval="[]"/>
+                <value>uk</value>
+                <value model="res.company" eval="obj().env.ref('l10n_uk_hr_payroll.res_company_uk')"/>
+            </function>
+        </data>
+        -->
+</odoo>

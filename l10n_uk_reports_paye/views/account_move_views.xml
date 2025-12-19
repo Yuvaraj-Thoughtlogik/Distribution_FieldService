@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_move_form_asset_inherit" model="ir.ui.view">
+        <field name="name">account.move.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="after">
+                <div class="alert alert-warning oe_edit_only" role="alert" name="warning_partner_cis_not_enabled"
+                     invisible="not l10n_uk_cis_use_inactivated_cis_partner">
+                    <div class="o_row">
+                        This partner is not enrolled in the Construction Industry Scheme <button name="action_open_partner_form" type="object" class="oe_link" string="⇒ Open form"/>
+                    </div>
+                </div>
+                <div class="alert alert-warning oe_edit_only" role="alert" name="warning_cis_unregistered" invisible="not l10n_uk_cis_use_wrong_cis_taxes">
+                    The CIS deduction does not correspond to the vendor CIS deduction rate.
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

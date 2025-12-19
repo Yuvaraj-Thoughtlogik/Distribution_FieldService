@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="hr_employee_form_l10n_uk" model="ir.ui.view">
+        <field name="name">hr.view_employee_form_l10n_uk</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr_payroll.payroll_hr_employee_view_form"/>
+        <field name="priority">70</field>
+        <field name="arch" type="xml">
+            <!-- <xpath expr="//group[@name='Citizenship']" position="inside"> -->
+                <field name="birthday" position="after">
+                    <field name="l10n_uk_age" readonly="1"/>
+                </field>
+            <!-- </xpath> -->
+            <xpath expr="//group[@name='payroll_group']" position="after">
+                <group string="Employment Details" invisible="company_country_code != 'GB' "
+                    groups="hr_payroll.group_hr_payroll_user">
+                    <field name="l10n_uk_surname" invisible="company_country_code != 'GB' "
+                           string="Surname"/>
+                    <field name="l10n_uk_forename" invisible="company_country_code != 'GB' "
+                           string="Forename"/>
+
+                    <field name="l10n_uk_tax_code" invisible="company_country_code != 'GB' " string="Tax Code"
+                           help="Employee's HMRC Tax Code"/>
+                    <field name="l10n_uk_tax_regime" invisible="company_country_code != 'GB' " string="Tax Regime"
+                           help="Employee's Tax Regime"/>
+                    <field name="l10n_uk_ni_code" invisible="company_country_code != 'GB' " string="NI No"
+                           help="Employee's HMRC National Insurance Number"/>
+                    <field name="l10n_uk_ni_letter" invisible="company_country_code != 'GB' " string="NI Category"
+                           help="Employee's HMRC National Insurance Letter/Category"/>
+                    <field name="l10n_uk_taxcode_w1m1" invisible="company_country_code != 'GB' " string = "W1/M1 Indicator" />
+                    <field name="l10n_uk_taxcode_emergency" invisible="company_country_code != 'GB' " string = "Emergency Tax" />
+                </group>
+                <group string="Payroll Details" invisible="company_country_code != 'GB' "
+                    groups="hr_payroll.group_hr_payroll_user">
+                    <!-- Student & PostGraduateLoan -->
+                    <field name="has_student_loan" invisible="company_country_code != 'GB' "/>
+                    <field name="student_loan_plan" invisible="company_country_code !='GB' or not has_student_loan"/>
+                    <field name="has_post_graduate_loan" invisible="company_country_code != 'GB' "/>
+
+                    # Current Year - Past employer
+                    <field name="past_employer_pay" invisible="company_country_code != 'GB' "
+                           string="Pay from Previous Employer"
+                           help="Only enter if this employee joined during the year"/>
+                    <field name="past_employer_tax" invisible="company_country_code != 'GB'"
+                           string="Tax from Previous Employer"
+                           help="Only enter if this employee joined during the year"/>
+                    <field name="past_employer_employee_ni" invisible="company_country_code != 'GB'"
+                           string="Employee NI from Previous Employer"
+                           help="Only enter if this employee joined during the year and the employee is a Director"/>
+                    <field name="past_employer_employer_ni" invisible="company_country_code != 'GB'"
+                           string="Employer NI from Previous Employer"
+                           help="Only enter if this employee joined during the year and the employee is a Director"/>
+
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
