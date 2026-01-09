@@ -134,11 +134,11 @@ class Payslip(models.Model):
         amount = decimal.Decimal(x)
         employee = self.contract_id.employee_id
 
-        NILetter = employee.l10n_uk_ni_letter
-        _log.debug("NI Letter: " + NILetter)
+        ni_letter = employee.l10n_uk_ni_letter
+        _log.debug("NI Letter: " + ni_letter)
 
         # https://www.gov.uk/national-insurance-rates-letters/category-letters
-        if NILetter != "0":  # Invalid
+        if ni_letter != "0":  # Invalid
             periods = self._get_periods()
             _log.info("Periods in a year: " + str(periods))
 
@@ -160,7 +160,7 @@ class Payslip(models.Model):
                     c3) + " / " + str(c4))
 
                 # Employees with NI Letter = X pay no National Insurance
-                if NILetter in 'X':
+                if ni_letter in 'X':
                     return 0.00
 
                 if isEmployee:  # Employee NIC
@@ -169,30 +169,30 @@ class Payslip(models.Model):
                     context.rounding = decimal.ROUND_HALF_DOWN
                     if amount <= high and amount >= low:
 
-                        if NILetter in 'AMHFVN':
+                        if ni_letter in 'AMHFVN':
                             tax += round((amount - low) * decimal.Decimal(c1 / 100), 3)
                             _log.debug("1: " + str(round(amount - low, 3)) + " rate: " + str(c1) + " tax: " + str(tax))
-                        elif NILetter in 'BIE':
+                        elif ni_letter in 'BIE':
                             tax += round((amount - low) * decimal.Decimal(c2 / 100), 3)
                             _log.debug("1: " + str(round(amount - low, 3)) + " rate: " + str(c2) + " tax: " + str(tax))
-                        elif NILetter in 'CSK':
+                        elif ni_letter in 'CSK':
                             tax += round((amount - low) * decimal.Decimal(c3 / 100), 3)
                             _log.debug("1: " + str(round(amount - low, 3)) + " rate: " + str(c3) + " tax: " + str(tax))
-                        elif NILetter in 'JLZD':
+                        elif ni_letter in 'JLZD':
                             tax += round((amount - low) * decimal.Decimal(c4 / 100), 3)
                             _log.debug("1: " + str(round(amount - low, 3)) + " rate: " + str(c4) + " tax: " + str(
                                 (amount - low) * (c4 / 1)))
                     elif x > high:
-                        if NILetter in 'AMHFVN':
+                        if ni_letter in 'AMHFVN':
                             tax += round((high - low) * decimal.Decimal(c1 / 100), 3)
                             _log.debug("2: " + str(round(high - low, 3)) + " rate: " + str(c1) + " tax: " + str(tax))
-                        elif NILetter in 'BIE':
+                        elif ni_letter in 'BIE':
                             tax += round((high - low) * decimal.Decimal(c2 / 100), 3)
                             _log.debug("2: " + str(round(high - low, 3)) + " rate: " + str(c2) + " tax: " + str(tax))
-                        elif NILetter in 'CSK':
+                        elif ni_letter in 'CSK':
                             tax += round((high - low) * decimal.Decimal(c3 / 100), 3)
                             _log.debug("2: " + str(round(high - low, 3)) + " rate: " + str(c3) + " tax: " + str(tax))
-                        elif NILetter in 'JLZD':
+                        elif ni_letter in 'JLZD':
                             tax += round((high - low) * decimal.Decimal(c4 / 100), 3)
                             _log.debug("2: " + str(round(high - low, 3)) + " rate: " + str(c4) + " tax: " + str(tax))
 
@@ -201,29 +201,29 @@ class Payslip(models.Model):
                     context = decimal.getcontext()
                     context.rounding = decimal.ROUND_HALF_DOWN
                     if amount <= high and amount >= low:
-                        if NILetter in 'ABCJ':
+                        if ni_letter in 'ABCJ':
                             tax += round((amount - low) * decimal.Decimal(c1 / 100), 3)
                             _log.info("1: " + str(round(amount - low, 3)) + " rate: " + str(c1) + " tax: " + str(tax))
-                        elif NILetter in 'HMVZ':
+                        elif ni_letter in 'HMVZ':
                             tax += round((amount - low) * decimal.Decimal(c2 / 100), 3)
                             _log.info("1: " + str(round(amount - low, 3)) + " rate: " + str(c2) + " tax: " + str(tax))
-                        elif NILetter in 'FISL':
+                        elif ni_letter in 'FISL':
                             tax += round((amount - low) * decimal.Decimal(c3 / 100), 3)
                             _log.info("1: " + str(round(amount - low, 3)) + " rate: " + str(c3) + " tax: " + str(tax))
-                        elif NILetter in 'JLZD':
+                        elif ni_letter in 'JLZD':
                             tax += round((amount - low) * decimal.Decimal(c4 / 100), 3)
                             _log.info("1: " + str(round(amount - low, 3)) + " rate: " + str(c4) + " tax: " + str(tax))
                     elif amount > high:
-                        if NILetter in 'ABCJ':
+                        if ni_letter in 'ABCJ':
                             tax += round((high - low) * decimal.Decimal(c1 / 100), 3)
                             _log.info("2: " + str(round(high - low, 3)) + " rate: " + str(c1) + " tax: " + str(tax))
-                        elif NILetter in 'HMVZ':
+                        elif ni_letter in 'HMVZ':
                             tax += round((high - low) * decimal.Decimal(c2 / 100), 3)
                             _log.info("2: " + str(round(high - low, 3)) + " rate: " + str(c2) + " tax: " + str(tax))
-                        elif NILetter in 'FISL':
+                        elif ni_letter in 'FISL':
                             tax += round((high - low) * decimal.Decimal(c3 / 100), 3)
                             _log.info("2: " + str(round(high - low, 3)) + " rate: " + str(c3) + " tax: " + str(tax))
-                        elif NILetter in 'DEKN':
+                        elif ni_letter in 'DEKN':
                             tax += round((high - low) * decimal.Decimal(c4 / 100), 3)
                             _log.info("2: " + str(round(high - low, 3)) + " rate: " + str(c4) + " tax: " + str(tax))
 
@@ -1413,27 +1413,24 @@ class HrPayslipRun(models.Model):
 
     payment_date = fields.Date(string='Paid Date', required=True,
         default=lambda self: fields.Date.to_string((datetime.now().date())))
-    # temporarily to avoid errors
-    paid_date = fields.Date(string='Paid Date', required=True,
-                               default=lambda self: fields.Date.to_string((datetime.now().date())))
 
     def action_paid(self):
         # self.mapped('slip_ids').action_payslip_paid(self.paid_date)
         #self.write({'state': 'paid'})
         super().action_paid()
-        self.slip_ids.write({'paid_date': self.paid_date,
-                             'date': self.paid_date})
+        self.slip_ids.write({'paid_date': self.payment_date,
+                             'date': self.payment_date})
 
     def action_open(self):
         super().action_open()
-        self.slip_ids.write({'payment_date': self.paid_date,
-                             'date': self.paid_date,
+        self.slip_ids.write({'payment_date': self.payment_date,
+                             'date': self.payment_date,
                              'state': 'verify'})
 
     def action_draft(self):
         super().action_draft()
-        self.slip_ids.write({'payment_date': self.paid_date,
-                             'date': self.paid_date})
+        self.slip_ids.write({'payment_date': self.payment_date,
+                             'date': self.payment_date})
 
 class PayslipPaymentWizard(models.TransientModel):
     _name = 'payslip.payment.wizard'

@@ -127,6 +127,21 @@
             </form>
         </field>
     </record>
+    <record id="eps_confirmation_wizard_view" model="ir.ui.view">
+        <field name="name">eps.confirmation.wizard.form</field>
+        <field name="model">hmrc.confirmation.wizard</field>
+        <field name="arch" type="xml">
+            <form string="EPS Sent">
+                <group>
+                    <field name="message" readonly="1" nolabel="1"/>
+                </group>
+                <footer>
+                    <button special="cancel" string="OK" class="btn-primary"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
     <!--
         <record id="l10n_uk_pension_nest_wizard_action" model="ir.actions.act_window">
             <field name="name">NEST Pension Report Export</field>

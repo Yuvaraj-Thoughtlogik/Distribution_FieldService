@@ -104,6 +104,7 @@ Augur Solutions Payroll Gateway (Separate micro-payment gateway)
         'wizard/l10n_uk_pension_aviva_wizard_views.xml',
         'wizard/l10n_uk_pension_nest_wizard_views.xml',
         'wizard/l10n_uk_pension_smart_wizard_views.xml',
+        'wizard/l10n_uk_pension_royal_london_wizard_views.xml',
         'wizard/l10n_uk_pension_peoples_wizard_views.xml',
         'views/report_payslip.xml',
         #        'views/hr_payroll_reports.xml',

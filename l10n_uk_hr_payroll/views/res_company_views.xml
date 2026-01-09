@@ -27,8 +27,9 @@
                                groups="account.group_account_manager"/>
                         <field name="l10n_uk_employees" string="Employees" readonly="1"
                                groups="account.group_account_manager"/>
-                        <field name="l10n_uk_pensionable_earnings" string="Pensionable Earnings Basis"
+                        <!--<field name="l10n_uk_pensionable_earnings" string="Pensionable Earnings Basis"
                                groups="account.group_account_manager"/>
+                               -->
                     </group>
                     <!--<group string="Pension Details">
                         <field name="l10n_uk_pension_employer_reference" string="Employer Reference"

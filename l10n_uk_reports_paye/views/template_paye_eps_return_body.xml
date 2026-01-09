@@ -24,7 +24,8 @@
                     <EmpAllceInd t-if="eps['use_employment_allowance']">yes</EmpAllceInd>
                     <EmpAllceInd t-else="">no</EmpAllceInd>
                     <DeMinimisStateAid t-if="eps['use_employment_allowance']"><NA>yes</NA></DeMinimisStateAid>
-                    <RecoverableAmountsYTD t-if="float(eps.get('cis_suffered','0.00')) > 0">
+                    <RecoverableAmountsYTD t-if="float(eps.get('total_recovered','0.00')) > 0">
+                        <TaxMonth t-out="eps['tax_month']"/>
                         <SMPRecovered t-if="eps['smp_recovered']" t-out="eps['smp_recovered']"/>
                         <SPPRecovered t-if="eps['spp_recovered']" t-out="eps['spp_recovered']"/>
                         <SAPRecovered t-if="eps['sap_recovered']" t-out="eps['sap_recovered']"/>

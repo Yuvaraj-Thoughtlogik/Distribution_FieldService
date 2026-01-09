@@ -260,8 +260,15 @@ class employee_paye_fps_return(models.Model):
                         hours_worked = self.get_hours_worked(hours)
 
                     else: # assumed weekly pay
-                        hours = (payslip._get_regular_worked_hours() +
-                                    self.worked_days_line_ids.filtered(lambda d: d.work_entry_type_id.code == 'OVERTIME'))
+                        hours = 0.00
+                        hours += payslip._get_regular_worked_hours()
+                        # TODO add overtime hours - this current throws this error:
+                        #File "/home/odoo/src/user/l10n_uk_reports_paye/models/employee_paye_fps_return.py", line 265, in generate_paye_fps
+                        #if self.worked_days_line_ids:
+                        #    ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^ ^
+                        #    AttributeError: 'employee_paye_fps_return' object has no attribute 'worked_days_line_ids'
+                        #if self.worked_days_line_ids:
+                        #  hours += self.worked_days_line_ids.filtered(lambda d: d.work_entry_type_id.code == 'OVERTIME') or 0.00
                         hours_worked = self.get_hours_worked(hours)
 
                     document_data['employee_return_ids'].append(
@@ -280,9 +287,11 @@ class employee_paye_fps_return(models.Model):
                          'appointed_week': appointed_week,
                          'works_id': employee.registration_number,
                          'leaving_date': leaving_date,
-                         'taxable_pay_ytd': float_repr(payslip._sum('GROSS', year_start, payslip.paid_date), 2),
+                         'taxable_pay_ytd': float_repr(payslip._sum('GROSS', year_start, payslip.paid_date) +
+                                                       employee.past_employer_pay, 2),
                          # YTD after this payrun
-                         'total_tax_ytd': float_repr(payslip._sum('PAYE', year_start, payslip.paid_date), 2),
+                         'total_tax_ytd': float_repr(payslip._sum('PAYE', year_start, payslip.paid_date) +
+                                                     employee.past_employer_tax, 2),
                          # YTD after this payrun
                          'pay_frequency': pay_frequency,
                          'payment_date': payslip.paid_date,
@@ -333,7 +342,14 @@ class employee_paye_fps_return(models.Model):
                          'total_employer_nic_ytd': float_repr(payslip._sum('NIC', year_start, payslip.paid_date), 2),
                          'employee_ni_contributions_in_period': float_repr(payslip._sum_run('NI', self.run_id.id), 2),
                          'employee_ni_contributions_ytd': float_repr(payslip._sum('NI', year_start, payslip.paid_date), 2),
-
+                        # TODO plumb in on strike and unpaid leave
+                         'on_strike': '',
+                         'unpaid_absence': '',
+                         'smp_ytd': float_repr(payslip._sum('SMP', year_start, payslip.paid_date), 2),
+                         'spp_ytd': float_repr(payslip._sum('SPP', year_start, payslip.paid_date), 2),
+                         'sap_ytd': float_repr(payslip._sum('SAP', year_start, payslip.paid_date), 2),
+                         'shpp_ytd': float_repr(payslip._sum('SPL', year_start, payslip.paid_date), 2),
+                         'spb_ytd': float_repr(payslip._sum('SPB', year_start, payslip.paid_date), 2),
                          })
                     _log.info("Employee: " + str(payslip.employee_id.name) +
                               " NI PTD: " + float_repr(payslip._sum_run('NI', self.run_id.id), 2) +

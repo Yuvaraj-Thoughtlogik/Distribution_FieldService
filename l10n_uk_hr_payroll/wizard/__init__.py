@@ -8,6 +8,7 @@
 # from . import hr_payroll_payslips_by_employees
 from . import l10n_uk_pension_nest_wizard
 from . import l10n_uk_pension_smart_wizard
+from . import l10n_uk_pension_royal_london_wizard
 from . import l10n_uk_pension_peoples_wizard
 from . import l10n_uk_pension_aviva_wizard
 # from . import l10n_uk_pension_true_potential_wizard

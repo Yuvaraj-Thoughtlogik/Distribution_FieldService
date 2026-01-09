@@ -91,6 +91,13 @@
                                                            t-esc="'%.2f' % float(employee.get('pl_amt','0.00'))"/>
                                     <TaxDeductedOrRefunded
                                             t-esc="'%.2f' % float(employee.get('tax_deducted_or_refunded','0.00'))"/>
+                                    <OnStrike t-if="employee.get('on_strike')">yes</OnStrike>
+                                    <UnpaidAbsence t-if="employee.get('unpaid_absence')">yes</UnpaidAbsence>
+                                    <SMPYTD t-if="float(employee.get('smp_ytd','0.00'))>0" t-esc="'%.2f' % float(employee.get('smp_ytd','0.00'))"/>
+                                    <SPPYTD  t-if="float(employee.get('spp_ytd','0.00'))>0" t-esc="'%.2f' % float(employee.get('spp_ytd','0.00'))"/>
+                                    <SAPYTD  t-if="float(employee.get('sap_ytd','0.00'))>0" t-esc="'%.2f' % float(employee.get('sap_ytd','0.00'))"/>
+                                    <ShPPYTD  t-if="float(employee.get('shpp_ytd','0.00'))>0" t-esc="'%.2f' % float(employee.get('shpp_ytd','0.00'))"/>
+                                    <SPBPYTD  t-if="float(employee.get('spb_ytd','0.00'))>0" t-esc="'%.2f' % float(employee.get('spb_ytd','0.00'))"/>
                                 </Payment>
                                 <NIlettersAndValues>
                                     <NIletter t-esc="employee['ni_letter']"/>

@@ -115,11 +115,10 @@ class ResCompany(models.Model):
     #        or self.l10n_uk_hmrc_tax_office_reference
 
     def _get_workers_count(self):
-        contract = self.env['hr.contract']
         today = fields.Date.today()
 
         for company in self:
-            company.l10n_uk_employees = contract.search_count([
+            counter = self.env['hr.contract'].search_count([
                 ('company_id', '=', company.id),
                 ('state', '=', 'open'),  # Odoo’s standard “active” state
                 ('date_start', '<=', today),
@@ -127,6 +126,11 @@ class ResCompany(models.Model):
                 ('date_end', '=', False),
                 ('date_end', '>=', today),
             ])
+
+            if counter:
+                company.l10n_uk_employees = counter
+            else:
+                company.l10n_uk_employees = 0
 
 #    def get_last_ytd_reset_date(self, target_date):
 #        self.ensure_one()

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data noupdate="0">
+    <data noupdate="1">
         <!-- Basic Pay: Re-define this from hr_payroll_data to change the computation-->
         <record id="default_basic_salary" model="hr.salary.rule">
             <field name="category_id" ref="hr_payroll.BASIC"/>

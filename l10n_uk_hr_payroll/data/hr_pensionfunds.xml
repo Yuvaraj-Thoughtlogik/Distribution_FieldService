@@ -85,5 +85,18 @@
             <field name="pension_phone">0345 602 1885</field>
             <field name="fund_type">R</field>
         </record>
+          <!-- Royal London Pension https://www.royallondon.com/ -->
+        <record id="l10n_uk_pension_fund_royal_london" model="l10n_uk_pension_fund">
+            <field name="name">The Royal London Mutual Insurance Society Limited</field>
+            <field name="pension_street">80 Fenchurch Street</field>
+            <field name="pension_street2"></field>
+            <field name="pension_city">London</field>
+            <!--<field name="pension_state_id" model="res.country.state" search="[('code','ilike','W5')]"/>-->
+            <field name="pension_zip">EC3M 4BY</field>
+            <field name="pension_country_id" ref="base.uk"/>
+            <field name="pension_email"></field>
+            <field name="pension_phone"></field>
+            <field name="fund_type">R</field>
+        </record>
     </data>
 </odoo>

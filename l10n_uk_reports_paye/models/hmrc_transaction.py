@@ -57,6 +57,7 @@ namespaces_fps = {
     2023: "http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/23-24/2",
     2024: "http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/24-25/1",
     2025: "http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/25-26/1",
+    2026: "http://www.govtalk.gov.uk/taxation/PAYE/RTI/FullPaymentSubmission/26-27/1",
 }
 
 namespaces_eps = {
@@ -73,6 +74,7 @@ namespaces_eps = {
     2023: "http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/23-24/2",
     2024: "http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/24-25/1",
     2025: "http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/25-26/1",
+    2026: "http://www.govtalk.gov.uk/taxation/PAYE/RTI/EmployerPaymentSummary/26-27/1",
 }
 
 
@@ -156,6 +158,7 @@ class HmrcTransaction(models.Model):
                         'leaving_date': employee_return['leaving_date'],
                         'taxable_pay_ytd': employee_return['taxable_pay_ytd'],
                         'total_tax_ytd': employee_return['total_tax_ytd'],
+                        'total_pension_paid': employee_return['total_pension_paid'],
                         'pay_frequency': employee_return['pay_frequency'],
                         'payment_date': employee_return['payment_date'],
                         'late_reason': employee_return['late_reason'],
@@ -191,6 +194,13 @@ class HmrcTransaction(models.Model):
                         'total_employer_nic_ytd': employee_return['total_employer_nic_ytd'],
                         'employee_ni_contributions_in_period': employee_return['employee_ni_contributions_in_period'],
                         'employee_ni_contributions_ytd': employee_return['employee_ni_contributions_ytd'],
+                        'on_strike': employee_return['on_strike'],
+                        'unpaid_absence': employee_return['unpaid_absence'],
+                        'smp_ytd': employee_return['smp_ytd'],
+                        'spp_ytd': employee_return['spp_ytd'],
+                        'sap_ytd': employee_return['sap_ytd'],
+                        'shpp_ytd': employee_return['shpp_ytd'],
+                        'spb_ytd': employee_return['spb_ytd'],
                 })
         xml_data['ir_mark'] = self._generate_ir_mark(xml_data)
         _log.debug('IRMark: ' + str(xml_data['ir_mark']))

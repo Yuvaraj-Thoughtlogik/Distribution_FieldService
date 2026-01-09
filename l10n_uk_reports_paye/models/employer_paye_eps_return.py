@@ -29,6 +29,8 @@ from datetime import datetime, timedelta
 
 from odoo.exceptions import RedirectWarning
 from odoo.fields import Command
+import time
+
 
 import logging
 
@@ -98,6 +100,7 @@ class employer_paye_eps_return(models.Model):
             'tax_office_reference': self.env.company.l10n_uk_hmrc_tax_office_reference,
             'accounts_office_reference': self.env.company.l10n_uk_hmrc_account_office_reference,
             'unique_taxpayer_reference': self.env.company.l10n_uk_hmrc_unique_taxpayer_reference,
+
         }
 
         related_tax_year = '24-25'
@@ -115,7 +118,9 @@ class employer_paye_eps_return(models.Model):
         spbp_nic_recovered = float(0.00)
         sncp_nic_recovered = float(0.00)
         employment_allowance = float(0.00)
+        employment_allowance_ytd = float(0.00)
         cis_suffered = float(0.00)  # TODO: Link CIS
+        total_recovered = float(0.00)
 
         year_start = self.env.company.get_last_ytd_reset_date(self.date_to)
         period_no = relativedelta(self.date_to, year_start).months + 1
@@ -127,22 +132,21 @@ class employer_paye_eps_return(models.Model):
         else:
             rate = float(self.env['hr.rule.parameter']._get_parameter_from_code('UK_SPL_RATE', self.date_to)) / 100
 
-        _log.debug("rate: " + str(rate))
-        for payslip in payslips:
-            smp_recovered += float(float_repr(payslip._sum('SMP', year_start, self.date_to) * rate, 2))
-            spp_recovered += float(float_repr(payslip._sum('SPP', year_start, self.date_to) * rate, 2))
-            sap_recovered += float(float_repr(payslip._sum('SAP', year_start, self.date_to) * rate, 2))
-            shpp_recovered += float(float_repr(payslip._sum('SPL', year_start, self.date_to) * rate, 2))
-            spbp_recovered += float(float_repr(payslip._sum('SPB', year_start, self.date_to) * rate, 2))
-            sncp_recovered += float(float_repr(payslip._sum('SNP', year_start, self.date_to) * rate, 2))
-            # TODO NIC recovery calculation
-            smp_nic_recovered += float(float_repr(payslip._sum('SMP', year_start, self.date_to) * rate, 2))
-            spp_nic_recovered += float(float_repr(payslip._sum('SPP', year_start, self.date_to) * rate, 2))
-            sap_nic_recovered += float(float_repr(payslip._sum('SAP', year_start, self.date_to) * rate, 2))
-            shpp_nic_recovered += float(float_repr(payslip._sum('SPL', year_start, self.date_to) * rate, 2))
-            spbp_nic_recovered += float(float_repr(payslip._sum('SPB', year_start, self.date_to) * rate, 2))
-            sncp_nic_recovered += float(float_repr(payslip._sum('SNP', year_start, self.date_to) * rate, 2))
-            employment_allowance += float(float_repr(payslip._sum('NIC', year_start, self.date_to) * rate, 2))
+        _log.info("Recovery rate: " + str(rate))
+        # lookup Employer NIC rate
+        nic_rate = float(self.env['hr.rule.parameter']._get_parameter_from_code('UK_PAYE_NIC', self.date_to)[1][2]/100)
+        _log.info("NIC rate: " + str(nic_rate))
+
+        for payslip in payslips: # TODO we only need to do this once if we are using a YTD lookup - or iterate over employees
+            smp_recovered += float(float_repr(payslip._sum('SMP', self.date_from, self.date_to) * rate, 2))
+            spp_recovered += float(float_repr(payslip._sum('SPP', self.date_from, self.date_to) * rate, 2))
+            sap_recovered += float(float_repr(payslip._sum('SAP', self.date_from, self.date_to) * rate, 2))
+            shpp_recovered += float(float_repr(payslip._sum('SPL', self.date_from, self.date_to) * rate, 2))
+            spbp_recovered += float(float_repr(payslip._sum('SPB', self.date_from, self.date_to) * rate, 2))
+
+            # calculate NI paid YTD
+            employment_allowance_ytd += float(float_repr(payslip._sum('NIC', year_start, self.date_to), 2))
+            employment_allowance += float(float_repr(payslip._sum('NIC', self.date_from, self.date_to), 2))
 
         # Do not claim more than the maximum for the year
         if (employment_allowance >= float(
@@ -153,10 +157,25 @@ class employer_paye_eps_return(models.Model):
         _log.info("Employment Allowance: " + str(employment_allowance))
         _log.info("Use Employment Allowance: " + str(self.env.company.l10n_uk_hmrc_employment_allowance))
 
+        smp_recovered = round(smp_recovered, 2)
+        spp_recovered = round(spp_recovered, 2)
+        sap_recovered = round(sap_recovered, 2)
+        shpp_recovered = round(shpp_recovered, 2)
+        spbp_recovered = round(spbp_recovered, 2)
+
+        smp_nic_recovered = round(smp_recovered * nic_rate, 2)
+        spp_nic_recovered = round(spp_recovered * nic_rate, 2)
+        sap_nic_recovered = round(sap_recovered * nic_rate, 2)
+        shpp_nic_recovered = round(shpp_recovered * nic_rate, 2)
+        spbp_nic_recovered = round(spbp_recovered * nic_rate, 2)
+
+        total_recovered += smp_recovered + spp_recovered + sap_recovered + shpp_recovered + spbp_recovered
+
         document_data = {
             # 'inactivity_indicator': inactivity_indicator,
             'period_end': self.date_to,
             'related_tax_year': related_tax_year,
+            'scheme_ceased_date': self.env.company.l10n_uk_hmrc_paye_ceased,
             'smp_recovered': smp_recovered,
             'spp_recovered': spp_recovered,
             'sap_recovered': sap_recovered,
@@ -201,4 +220,15 @@ class employer_paye_eps_return(models.Model):
             document_data=document_data,
         )
 
-        return True
+        time.sleep(3)
+        transaction.sudo()._cron_poll_pending_transactions()
+
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'hmrc.confirmation.wizard',
+            'view_mode': 'form',
+            'view_id': self.env.ref('l10n_uk_reports_paye.eps_confirmation_wizard_view').id,
+            'target': 'new',  # Opens as modal dialog
+            'context': {'default_message': 'Your EPS return has been sent'},
+        }
+

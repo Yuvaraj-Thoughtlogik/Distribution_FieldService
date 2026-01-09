@@ -774,8 +774,105 @@ class L10nUKHrPayrollPensionAvivaController(http.Controller):
 
         return 'Not Known'
 
+class L10nUKHrPayrollPensionRoyalLondonController(http.Controller):
 
+    @http.route(["/export/uk/royal_london/<string:employee_ids>/<int:run_id>"], type='http', auth='user')
+    def export_pension_royallondon(self, employee_ids='', run_id=0, **kw):
+        if not http.request.env.user.has_group(
+                'hr_payroll.group_hr_payroll_user') or not employee_ids or re.search(
+            "[^0-9|,]", employee_ids):
+            return http.request.not_found()
 
+        ids = [int(s) for s in employee_ids.split(',')]
+        employees = http.request.env['hr.employee'].browse(ids)
+
+        # Header
+        csv_buffer = io.StringIO()
+        writer = csv.writer(csv_buffer)
+
+        headers = [
+            "Title",
+            "First Name",
+            "Last Name",
+            "Date of Birth",
+            "National Insurance Number",
+            "Payroll Reference",
+            "Earnings in contribution period",
+            "Worker Contribution",
+            "Employer Contribution",
+        ]
+        writer.writerow(headers)
+
+        try:
+            pension_fund = http.request.env.ref('l10n_uk_hr_payroll.l10n_uk_pension_fund_royal_london')
+            _log.info("Royal London Pension ID Found: " + str(pension_fund.id))
+
+            payrun = http.request.env['hr.payslip.run'].search([
+                ('id', '=', run_id),
+            ])
+
+            if payrun:
+                _log.info("Dates: " + str(payrun.date_start) + " " + str(payrun.date_end))
+
+                all_payslip_lines = http.request.env['hr.payslip.line'].search([
+                    ('employee_id', 'in', ids),
+                    ('slip_id.payslip_run_id', '=', run_id),
+                    ('date_from', '>=', payrun.date_start),
+                    ('date_to', '<=', payrun.date_end),
+                    ('slip_id.state', 'in', ['done', 'paid']),
+                    ('employee_id.contract_id.pension_fund', '=', pension_fund.id),
+                    ('code', 'in', ['PENE', 'PENC'])
+                ])
+
+                rows = []
+
+                for employee in employees.filtered(lambda r: r.contract_id.pension_fund.id == pension_fund.id):
+                    _log.info("Processing: " + str(employee.name))
+                    pensionable_amount = round(
+                        sum(all_payslip_lines.filtered(
+                            lambda r: r.employee_id.id == employee.id and r.code == 'PENE').mapped(
+                            'amount')), 2)
+                    employee_amount = round(
+                        sum(all_payslip_lines.filtered(
+                            lambda r: r.employee_id.id == employee.id and r.code == 'PENE').mapped(
+                            'total')), 2)
+                    employer_amount = round(
+                        sum(all_payslip_lines.filtered(
+                            lambda r: r.employee_id.id == employee.id and r.code == 'PENC').mapped(
+                            'total')), 2)
+
+                    _log.info("Pensionable Amount: " + str(pensionable_amount))
+                    if pensionable_amount > 0.00:
+                        writer.writerow([
+                            employee.get_salutation() or '',
+                            employee.l10n_uk_forename,
+                            employee.l10n_uk_surname,
+                            employee.birthday or '',
+                            employee.l10n_uk_ni_code.replace('.', '').replace('-',
+                                                                              '') if employee.l10n_uk_ni_code else '',
+                            employee.registration_number or '',
+                            float_repr(pensionable_amount, 2) or 0.00,
+                            float_repr(employee_amount, 2) or 0.00,
+                            float_repr(employer_amount, 2) or 0.00,
+                        ])
+
+                # Prepare HTTP response
+                csv_content = csv_buffer.getvalue()
+                csv_buffer.close()
+                filename = 'royal_london_pension_export_{}_{}.csv'.format(datetime.today().strftime('%Y%m%d'),
+                                                                          run_id)
+
+                response = http.request.make_response(
+                    csv_content,
+                    headers=[
+                        ('Content-Type', 'text/csv'),
+                        ('Content-Disposition', f'attachment; filename={filename}')],
+                )
+                return response
+
+        except ValueError:
+            pension_fund = None  # or log, or raise custom error
+            _log.info("Royal London pension fund NOT found")
 
 
 class P60(http.Controller):
