@@ -158,7 +158,6 @@ class HmrcTransaction(models.Model):
                         'leaving_date': employee_return['leaving_date'],
                         'taxable_pay_ytd': employee_return['taxable_pay_ytd'],
                         'total_tax_ytd': employee_return['total_tax_ytd'],
-                        'total_pension_paid': employee_return['total_pension_paid'],
                         'pay_frequency': employee_return['pay_frequency'],
                         'payment_date': employee_return['payment_date'],
                         'late_reason': employee_return['late_reason'],
