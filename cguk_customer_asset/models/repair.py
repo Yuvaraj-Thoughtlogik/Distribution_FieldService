@@ -6,7 +6,7 @@ class RepairOrder(models.Model):
     customer_asset_id = fields.Many2one(
         comodel_name='customer.asset',
         string='Customer Assets',
-        domain="['|', ('contact_id', '=', partner_id), '|', ('company_id', '=', partner_id), ('company_id', '=', parent_company)]"
+        domain="['|', ('contact_id', '=', partner_id), '|', ('customer_company_id', '=', partner_id), ('customer_company_id', '=', parent_company)]"
     )
     parent_company = fields.Many2one(string='Parent Company', related='partner_id.parent_id')
 

@@ -32,7 +32,14 @@ class CustomerAsset(models.Model):
     contract_start_date = fields.Date(string='Start Date',related="subscription_id.start_date")
     contract_end_date = fields.Date(string='End Date',related="subscription_id.end_date")
     contract_renewal_date = fields.Date(string='Renewal Date',related="subscription_id.next_invoice_date")
-    company_id = fields.Many2one('res.partner', string='Company',domain="[('is_company','=',True)]",store=True)
+    customer_company_id = fields.Many2one('res.partner', string='Company',domain="[('is_company','=',True)]",store=True)
+    company_id = fields.Many2one(
+        'res.company',
+        string='Internal Company',
+        required=True,
+        default=lambda self: self.env.company,
+        index=True,
+    )
     contact_id = fields.Many2one('res.partner', string='Contact')
     # address = fields.Char(string='Address', compute='_compute_address', store=True)
     compute_address = fields.Boolean("Compute Address",default=True,compute='_compute_address')
@@ -112,28 +119,28 @@ class CustomerAsset(models.Model):
     @api.onchange('contact_id')
     def _compute_address_contact(self):
         for rec in self:
-            rec.company_id = rec.contact_id.parent_id if rec.contact_id else ''
+            rec.customer_company_id = rec.contact_id.parent_id if rec.contact_id else ''
             self._compute_main_address()
             self._compute_delivery_address()
 
-    @api.onchange('company_id')
-    def _onchange_company_id(self):
+    @api.onchange('customer_company_id')
+    def _onchange_customer_company_id(self):
         for rec in self:
             # Clear contact if it doesn't belong to this company
-            if rec.contact_id and rec.contact_id.parent_id != rec.company_id:
+            if rec.contact_id and rec.contact_id.parent_id != rec.customer_company_id:
                 rec.contact_id = False
             rec._compute_main_address()
             rec._compute_delivery_address()
 
-    @api.onchange('company_id')
-    def _onchange_company_id(self):
+    @api.onchange('customer_company_id')
+    def _onchange_customer_company_id(self):
         for rec in self:
             domain = [('is_company', '=', False)]
-            if rec.company_id:
-                domain.append(('parent_id', '=', rec.company_id.id))
+            if rec.customer_company_id:
+                domain.append(('parent_id', '=', rec.customer_company_id.id))
 
                 # If contact is not a child of the selected company, reset it
-                if rec.contact_id and rec.contact_id.parent_id != rec.company_id:
+                if rec.contact_id and rec.contact_id.parent_id != rec.customer_company_id:
                     rec.contact_id = False
 
             return {
@@ -142,17 +149,17 @@ class CustomerAsset(models.Model):
                 }
             }
 
-    @api.depends('contact_id', 'company_id')
+    @api.depends('contact_id', 'customer_company_id')
     def _compute_address(self):
         for rec in self:
             self._compute_main_address()
             self._compute_delivery_address()
 
-    @api.depends('contact_id','company_id')
+    @api.depends('contact_id','customer_company_id')
     def _compute_delivery_address(self):
         for record in self:
             delivery = self.env['res.partner'].search([
-                ('parent_id', '=', record.company_id.id),
+                ('parent_id', '=', record.customer_company_id.id),
                 ('type', '=', 'delivery')
             ], limit=1)
             record.delivery_address_id = delivery or False
@@ -164,10 +171,10 @@ class CustomerAsset(models.Model):
             record.delivery_state_id = delivery.state_id.id if delivery.state_id else False
             record.delivery_country_id = delivery.country_id.id if delivery.country_id else False
 
-    @api.depends('contact_id','company_id')
+    @api.depends('contact_id','customer_company_id')
     def _compute_main_address(self):
         for rec in self:
-            company = rec.company_id
+            company = rec.customer_company_id
             contact = rec.contact_id
             if company:
                 rec.street = company.street
@@ -280,7 +287,7 @@ class HelpdeskTicket(models.Model):
         compute="_compute_customer_assets_id",
         store=True,
         readonly=False,
-        domain="['|', ('contact_id', '=', partner_id), '|', ('company_id', '=', partner_id), ('company_id', '=', parent_company)]"
+        domain="['|', ('contact_id', '=', partner_id), '|', ('customer_company_id', '=', partner_id), ('customer_company_id', '=', parent_company)]"
     )
 
     customer_assets_count = fields.Integer(string="Customer Assets", compute="_compute_customer_assets_count")
@@ -318,7 +325,7 @@ class FSM(models.Model):
         compute="_compute_customer_assets_id",
         store=True,
         readonly=False,
-        domain="['|', ('contact_id', '=', partner_id), '|', ('company_id', '=', partner_id), ('company_id', '=', parent_company)]"
+        domain="['|', ('contact_id', '=', partner_id), '|', ('customer_company_id', '=', partner_id), ('customer_company_id', '=', parent_company)]"
 
     )
 

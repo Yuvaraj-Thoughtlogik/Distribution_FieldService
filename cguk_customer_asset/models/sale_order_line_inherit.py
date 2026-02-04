@@ -35,7 +35,7 @@ class StockMove(models.Model):
                         'product_id': move.product_id.id,
                         'product_lot_id': lot_id,
                         'sale_date': move.picking_id.sale_id.date_order,
-                        'company_id': partner.id if partner.is_company else partner.parent_id.id,
+                        'customer_company_id': partner.id if partner.is_company else partner.parent_id.id,
                         'contact_id': partner.id,
                         'compute_address':True,
                         'sale_order_id': move.picking_id.sale_id.id,
@@ -79,13 +79,13 @@ class SaleOrder(models.Model):
         comodel_name="customer.asset",
         string="Customer Assets",
         inverse_name="sale_order_id",
-        domain="['|', ('contact_id', '=', partner_id), '|', ('company_id', '=', partner_id), ('company_id', '=', parent_company)]"
+        domain="['|', ('contact_id', '=', partner_id), '|', ('customer_company_id', '=', partner_id), ('customer_company_id', '=', parent_company)]"
     )
     subscription_customer_assets_ids = fields.One2many(
         comodel_name="customer.asset",
         string="Customer Assets",
         inverse_name="subscription_id",
-        domain="['|', ('contact_id', '=', partner_id), '|', ('company_id', '=', partner_id), ('company_id', '=', parent_company)]"
+        domain="['|', ('contact_id', '=', partner_id), '|', ('customer_company_id', '=', partner_id), ('customer_company_id', '=', parent_company)]"
     )
 
     renewal_date = fields.Date(string="Renewal Date")

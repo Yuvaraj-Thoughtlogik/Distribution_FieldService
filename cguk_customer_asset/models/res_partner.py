@@ -18,7 +18,7 @@ class ResPartner(models.Model):
             'res_model': 'customer.asset',
             'view_mode': 'list,form',
             'domain': ['|', '|',
-                       ('company_id', '=', self.id),
+                       ('customer_company_id', '=', self.id),
                        ('contact_id', '=', self.id),
                        ('contact_id.parent_id', '=', self.id)],
             'target': 'current',
@@ -28,7 +28,7 @@ class ResPartner(models.Model):
     def _compute_customer_asset_ids(self):
         for partner in self:
             domain = ['|', '|',
-                      ('company_id', '=', partner.id),
+                      ('customer_company_id', '=', partner.id),
                       ('contact_id', '=', partner.id),
                       ('contact_id.parent_id', '=', partner.id)]
             assets = self.env['customer.asset'].search(domain)
