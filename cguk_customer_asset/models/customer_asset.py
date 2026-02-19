@@ -32,6 +32,7 @@ class CustomerAsset(models.Model):
     contract_start_date = fields.Date(string='Start Date',related="subscription_id.start_date")
     contract_end_date = fields.Date(string='End Date',related="subscription_id.end_date")
     contract_renewal_date = fields.Date(string='Renewal Date',related="subscription_id.next_invoice_date")
+    # company_id = fields.Many2one('res.partner', string='Company',domain="[('is_company','=',True)]",store=True)
     customer_company_id = fields.Many2one('res.partner', string='Company',domain="[('is_company','=',True)]",store=True)
     company_id = fields.Many2one(
         'res.company',
@@ -41,8 +42,9 @@ class CustomerAsset(models.Model):
         index=True,
     )
     contact_id = fields.Many2one('res.partner', string='Contact')
+    partner_id = fields.Many2one('res.partner', string='Partner')
     # address = fields.Char(string='Address', compute='_compute_address', store=True)
-    compute_address = fields.Boolean("Compute Address",default=True,compute='_compute_address')
+    # compute_address = fields.Boolean("Compute Address",default=True,compute='_compute_address')
     street = fields.Char(compute='_compute_address',store=True,readonly=False)
     street2 = fields.Char()
     zip = fields.Char(change_default=True)
@@ -73,16 +75,19 @@ class CustomerAsset(models.Model):
         comodel_name='repair.order',
         inverse_name='customer_asset_id',
         string='Repair Order')
+
     delivery_address_id = fields.Many2one(
         'res.partner',
         string='Service Address',
-        compute='_compute_delivery_address',
-        store=True,
-        readonly=False
+        domain="[('id','in',delivery_ids)]",
     )
+    cache_delivery_address_id = fields.Many2one(
+        'res.partner',
+        string='Service Address',)
+    delivery_ids = fields.Many2many(comodel_name='res.partner',compute='_compute_address_ids')
     same_as_main_address= fields.Boolean(string="Same as main address?")
 
-    delivery_street = fields.Char(compute='_compute_address',store=True,readonly=False)
+    delivery_street = fields.Char(compute='_compute_delivery_address',store=True,readonly=False)
     delivery_street2 = fields.Char()
     delivery_zip = fields.Char(change_default=True)
     delivery_city = fields.Char()
@@ -91,6 +96,28 @@ class CustomerAsset(models.Model):
     delivery_country_id: Country = fields.Many2one('res.country', string='Country', ondelete='restrict')
     delivery_country_code = fields.Char(related='delivery_country_id.code', string="Country Code")
 
+    @api.depends('name', 'product_id.display_name')
+    def _compute_display_name(self):
+        """
+        Customizes the display name to be 'Customer Asset No. [Product Display Name]'
+        e.g., '5300 22 0029 [12-0530] VAPODEST 300, 230VAC 50-60Hz'
+        """
+        for record in self:
+            display_parts = []
+
+            # Use the computed 'name' (Customer Asset No.)
+            if record.name and record.name != "New":
+                display_parts.append(record.name)
+
+            # Append the product's display name
+            if record.product_id and record.product_id.display_name:
+                display_parts.append(record.product_id.display_name)
+
+            # If both are missing, use the default name_get fallback (ID) or just 'New Asset'
+            if not display_parts:
+                record.display_name = "New Asset"
+            else:
+                record.display_name = ' - '.join(filter(None, display_parts))
 
     @api.depends('subscription_id')
     def _compute_active_contract(self):
@@ -103,6 +130,7 @@ class CustomerAsset(models.Model):
             for task in asset.fsm_task_ids:
                 if asset.id not in task.customer_assets_ids.ids:
                     task.customer_assets_ids = [(4, asset.id)]
+
     @api.depends('helpdesk_ticket_ids')
     def _compute_helpdesk_tickets(self):
         for asset in self:
@@ -116,53 +144,18 @@ class CustomerAsset(models.Model):
         for rec in self:
             rec.name = rec.product_serial_No if rec.product_serial_No else "New"
 
-    @api.onchange('contact_id')
-    def _compute_address_contact(self):
-        for rec in self:
-            rec.customer_company_id = rec.contact_id.parent_id if rec.contact_id else ''
-            self._compute_main_address()
-            self._compute_delivery_address()
-
-    @api.onchange('customer_company_id')
-    def _onchange_customer_company_id(self):
-        for rec in self:
-            # Clear contact if it doesn't belong to this company
-            if rec.contact_id and rec.contact_id.parent_id != rec.customer_company_id:
-                rec.contact_id = False
-            rec._compute_main_address()
-            rec._compute_delivery_address()
-
-    @api.onchange('customer_company_id')
-    def _onchange_customer_company_id(self):
-        for rec in self:
-            domain = [('is_company', '=', False)]
-            if rec.customer_company_id:
-                domain.append(('parent_id', '=', rec.customer_company_id.id))
-
-                # If contact is not a child of the selected company, reset it
-                if rec.contact_id and rec.contact_id.parent_id != rec.customer_company_id:
-                    rec.contact_id = False
-
-            return {
-                'domain': {
-                    'contact_id': domain
-                }
-            }
 
     @api.depends('contact_id', 'customer_company_id')
     def _compute_address(self):
         for rec in self:
             self._compute_main_address()
-            self._compute_delivery_address()
+            # self._compute_delivery_address()
 
-    @api.depends('contact_id','customer_company_id')
+    @api.depends('delivery_address_id')
     def _compute_delivery_address(self):
         for record in self:
-            delivery = self.env['res.partner'].search([
-                ('parent_id', '=', record.customer_company_id.id),
-                ('type', '=', 'delivery')
-            ], limit=1)
-            record.delivery_address_id = delivery or False
+
+            delivery = record.delivery_address_id
             # Populate address fields from the delivery address
             record.delivery_street = delivery.street or ''
             record.delivery_street2 = delivery.street2 or ''
@@ -170,6 +163,23 @@ class CustomerAsset(models.Model):
             record.delivery_city = delivery.city or ''
             record.delivery_state_id = delivery.state_id.id if delivery.state_id else False
             record.delivery_country_id = delivery.country_id.id if delivery.country_id else False
+
+    @api.depends('contact_id', 'customer_company_id')
+    def _compute_address_ids(self):
+        for rec in self:
+            partners = self.env['res.partner']
+
+            if rec.contact_id:
+                partners |= rec.contact_id
+
+                partners |= rec.contact_id.child_ids.filtered(
+                    lambda p: p.type in ('delivery', 'other')
+                )
+
+            if rec.customer_company_id:
+                partners |= rec.customer_company_id
+            # print([partner.name for partner in partners])
+            rec.delivery_ids = partners
 
     @api.depends('contact_id','customer_company_id')
     def _compute_main_address(self):
@@ -201,16 +211,11 @@ class CustomerAsset(models.Model):
 
     @api.onchange('same_as_main_address')
     def _onchange_same_as_main_address(self):
-        if self.same_as_main_address:
-            # Copy main address to delivery
-            self.delivery_street = self.street
-            self.delivery_street2 = self.street2
-            self.delivery_zip = self.zip
-            self.delivery_city = self.city
-            self.delivery_state_id = self.state_id
-            self.delivery_country_id = self.country_id
-        else:
-           self._compute_delivery_address()
+        for rec in self:
+            if rec.same_as_main_address:
+                rec.delivery_address_id = rec.contact_id.id if rec.contact_id else rec.customer_company_id if rec.customer_company_id else False
+            else:
+               rec.delivery_address_id = rec.cache_delivery_address_id.id
 
     def action_view_subscription(self):
         self.ensure_one()
@@ -319,6 +324,7 @@ class FSM(models.Model):
     _inherit = "project.task"
 
     parent_company = fields.Many2one(string='Parent Company',related='partner_id.parent_id')
+
     customer_assets_ids = fields.Many2many(
         comodel_name="customer.asset",
         string="Customer Assets",

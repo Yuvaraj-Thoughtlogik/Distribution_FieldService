@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_service_contract_user,access.service.contract,model_service_contract,base.group_user,1,1,1,1
+access_service_contract_line_user,access.service.contract.line,model_service_contract_line,base.group_user,1,1,1,1
+

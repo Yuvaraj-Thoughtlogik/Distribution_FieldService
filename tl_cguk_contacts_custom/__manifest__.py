@@ -6,8 +6,6 @@
     'author': 'Thoughtlogik Solutions',
     'website': 'www.thoughtlogik.com',
     'depends': ['base','contacts' ],
-    'post_init_hook': 'post_init_hook',
-
     'data': [
         'security/ir.model.access.csv',
         'views/custom_contact_views.xml',

@@ -68,20 +68,14 @@
           </div>
           <div class="oe_title">
             <h1>
-              <field name="name" readonly="1"/>
+              <label for="display_name" string="Name"/>
+              <field name="display_name" readonly="1"/>
             </h1>
-            <br/>
+            <hr/>
           </div>
           <group>
             <group>
-              <!--              <label for="product_id"/>-->
               <field name="product_id"/>
-
-              <!--              <div class="o_row">-->
-              <!--                <field name="product_id" options="{'no_open': True}"/>-->
-              <!--                <button name="action_open_lot_selector" string="Select Lot"-->
-              <!--                        type="object" />-->
-              <!--              </div>-->
               <field name="product_serial_No"/>
               <field name="customer_company_id" readonly="0"/>
               <field name="contact_id" invisible="not customer_company_id" domain="[('parent_id','=',customer_company_id)]"/>
@@ -99,6 +93,7 @@
               <field name="same_as_main_address"/>
               <label for="delivery_street" string="Service Address"/>
               <div class="o_address_format">
+                <field name="delivery_address_id"/>
                 <field name="delivery_street" placeholder="Street..." class="o_address_street"/>
                 <field name="delivery_street2" placeholder="Street 2..." class="o_address_street"/>
                 <field name="delivery_city" placeholder="City" class="o_address_city"/>
@@ -116,7 +111,7 @@
                      'default_partner_id': contact_id,
                      'default_customer_assets_id': id
                  }" widget="many2many_tags"/>
-              <field name="subscription_id"/>
+              <field name="subscription_id" readonly="1"/>
               <field name="sale_order_id"/>
               <field name="fsm_task_ids" widget="many2many_tags"/>
               <field name="stock_picking_id"/>
@@ -157,12 +152,12 @@
     <field name="model">customer.asset</field>
     <field name="arch" type="xml">
       <list>
-        <field name="customer_company_id"/>
         <field name="name"/>
         <field name="product_id"/>
         <field name="product_serial_No"/>
         <field name="stock_picking_id"/>
         <field name="sale_date"/>
+        <field name="customer_company_id"/>
       </list>
     </field>
   </record>

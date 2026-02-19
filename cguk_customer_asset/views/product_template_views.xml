@@ -7,7 +7,7 @@
             <xpath expr="//field[@name='service_tracking']" position="before">
 
                     <field name="number_of_services_per_year"
-                       invisible = "recurring_invoice != True"/>
+                       invisible = "recurring_invoice != True" required="type=='service'"/>
 
             </xpath>
         </field>
