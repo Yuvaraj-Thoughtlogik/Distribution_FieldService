@@ -200,11 +200,18 @@ class SaleOrder(models.Model):
 
             # Post message
             if asset_lines:
-                full_msg = (
-                        f"FSM tasks created for the year from subscription: {rec.name}\n\n"
-                        "Created Tasks:\n"
-                        + "\n".join(asset_lines)
+                full_msg = Markup(
+                    f"""
+                    <b>FSM Tasks Created</b><br/>
+                    <span>Tasks created for the year from subscription: <b>{rec.name}</b></span>
+                    <br/><br/>
+                    <b>Created Tasks:</b>
+                    <ul>
+                        {''.join(f"<li>{line}</li>" for line in asset_lines)}
+                    </ul>
+                    """
                 )
+
                 rec.message_post(
                     body=full_msg,
                     message_type="comment",
