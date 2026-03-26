@@ -266,20 +266,18 @@ class SaleOrder(models.Model):
                 'user_id': sub.user_id.id or False,
                 'products': product_id,
                 'expected_revenue': sub.recurring_total or sub.amount_total,
-                'description': Markup(
-                    f"""
-                    <b>{sub.contract_id.name} Service Contract Renewal Details</b><br/>
-                    <ul>
-                        <li><b>Customer:</b> {sub.partner_id.name or ''}</li>
-                        <li><b>Subscription:</b> {sub.name}</li>
-                        <li><b>Renewal Date:</b> {sub.next_recurring_date or 'N/A'}</li>
-                        <li><b>Salesperson:</b> {sub.user_id.name or 'N/A'}</li>
-                        <li><b>Expected Revenue:</b> {sub.recurring_total or sub.amount_total}</li>
-                    </ul>
-                    <br/>
-                    <b>Parent Contract</b><br/>
-                    {parent_contract_desc or 'N/A'}
-                    """
+                'description': (
+                    f"{sub.name} Service Contract Renewal Details\n"
+                    f"----------------------------------------\n"
+                    f"Customer        : {sub.partner_id.name or ''}\n"
+                    f"Subscription    : {sub.name}\n"
+                    f"Renewal Date    : {sub.next_recurring_date or 'N/A'}\n"
+                    f"Salesperson     : {sub.user_id.name or 'N/A'}\n"
+                    f"Expected Revenue: {sub.recurring_total or sub.amount_total}\n"
+                    f"\n"
+                    f"Parent Contract\n"
+                    f"----------------------------------------\n"
+                    f"{'Contract No: ' + sub.contract_id.name if sub.contract_id else 'N/A'}"
                 ),
                 'sale_id': sub.id,
             })
