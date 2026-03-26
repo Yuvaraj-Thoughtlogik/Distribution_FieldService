@@ -27,6 +27,16 @@ class CrmLead(models.Model):
             'res_id':self.contract_id.id,
             'target':'current'
         }
+    def action_view_subscription(self):
+        self.ensure_one()
+        return {
+            'name':'Subscription',
+            'type':'ir.actions.act_window',
+            'res_model':'sale.order',
+            'view_mode':'form',
+            'res_id':self.sale_id.id,
+            'target':'current'
+        }
 
 class SaleOrder(models.Model):
     _inherit = 'sale.order'
