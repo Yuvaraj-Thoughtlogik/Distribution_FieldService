@@ -1,8 +1,10 @@
 from dateutil.relativedelta import relativedelta
 from odoo import models,fields,api
+from markupsafe import Markup
 
 class ServiceContract(models.Model):
     _name = 'service.contract'
+    _inherit = ['mail.thread','mail.activity.mixin']
     _description = "Service Contract"
 
     sale_id = fields.Many2one('sale.order', string="Sale Order", required=True)
@@ -21,9 +23,9 @@ class ServiceContract(models.Model):
         ('done', 'Done'),
         ('cancelled', 'Cancelled'),
         ('terminated', 'Terminated'),
-    ], default='draft', compute='_compute_state')
+    ], default='draft', compute='_compute_state',store=True,tracking=1)
 
-    history_count = fields.Integer(related='sale_id.history_count')
+    history_count = fields.Integer(related='sale_id.history_count',store=True,tracking=1)
 
     name = fields.Char(
         string="Contract No",
@@ -59,7 +61,9 @@ class ServiceContract(models.Model):
     contract_line_ids = fields.One2many(
         'service.contract.line',
         'contract_id',
-        string="Contract"
+        string="Contract",
+        tracking=2
+
     )
     sign_template_id =  fields.Many2one(comodel_name='sign.template',string='Sign Template',related='sale_id.sign_template_id')
 
@@ -67,11 +71,24 @@ class ServiceContract(models.Model):
         'sign.request',
         string='Current Sign Request',
         compute='_compute_current_sign_id',
+        store=True,tracking=1
+    )
+    current_subscription_id = fields.Many2one(
+        comodel_name='sale.order',
+        string="Current Subscription",
+        compute="_compute_current_subscription_id",
+        store=True, tracking=1
+    )
+    signed_document = fields.Binary(
+        string="Signed Document",
+        related='current_sign_id.completed_document',
         store=True
     )
-    current_subscription_id = fields.Many2one(comodel_name='sale.order',string="Current Subscription",compute="_compute_current_subscription_id")
-    signed_document = fields.Binary(string="Signed Document", related='current_sign_id.completed_document')
-    signed_document_filename = fields.Char(string="Signed Document", related='current_sign_id.reference')
+    signed_document_filename = fields.Char(
+        string="Signed Document",
+        related='current_sign_id.reference',
+        store=True
+    )
 
     @api.depends('sale_id', 'sale_id.start_date', 'sale_id.next_recurring_date')
     def _compute_contract_dates(self):
@@ -83,7 +100,7 @@ class ServiceContract(models.Model):
                 rec.start_date = False
                 rec.end_date = False
 
-    @api.depends('sale_id.state')
+    @api.depends('contract_line_ids.state')
     def _compute_state(self):
         for rec in self:
             last_line = rec.contract_line_ids[-1] if rec.contract_line_ids else False
@@ -150,13 +167,60 @@ class ServiceContract(models.Model):
     def send_sign_request(self):
         self.ensure_one()
 
+        recipients = []
+
+        for item in self.current_sign_id.request_item_ids:
+            item.send_signature_accesses()
+
+            partner = item.partner_id.name or ''
+            role = item.role_id.name or ''
+            recipients.append(f"{partner} ({role})")
+
+        recipient_text = ", ".join(recipients)
+
+        body = Markup(
+            "<b>Signature Request Resent</b><br/>"
+            "<ul>"
+            f"<li><b>Recipients:</b> {recipient_text}</li>"
+            f"<li><b>Document:</b> {self.current_sign_id.reference}</li>"
+            f"<li><b>Status:</b> {self.current_sign_id.state}</li>"
+            "</ul>"
+        )
+
+        self.message_post(body=body)
+
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Success',
+                'message': f"Signature mail sent to: {recipient_text}",
+                'type': 'success',
+            }
+        }
+
+    def share_sign_link(self):
+        self.ensure_one()
+
+        return {
+            'name': 'Share Sign Link',
+            'type': 'ir.actions.act_window',
+            'res_model': 'share.sign.wizard',
+            'view_mode': 'form',
+            'target': 'new',
+            'context': {
+                'default_name': self.name,
+                'default_sign_request_id': self.current_sign_id.id,
+            }
+        }
+
 
 class ServiceContractLine(models.Model):
     _name = 'service.contract.line'
     _description = 'Service Contract line'
 
     name = fields.Char(string="Name",compute="_compute_name")
-    sale_id = fields.Many2one('sale.order', string="Sale Order", required=True, ondelete='cascade')
+    sale_id = fields.Many2one('sale.order', string="Sale Order", required=True, ondelete='cascade',store=True)
     contract_id = fields.Many2one(
         'service.contract',
         string='Service Contract',
@@ -182,11 +246,11 @@ class ServiceContractLine(models.Model):
 
     sign_request_id = fields.Many2one(
         'sign.request',
-        string='Sign Request'
+        string='Sign Request',store=True
     )
-    sign_status = fields.Selection(related='sign_request_id.state',string="Sign Status")
-    signed_document = fields.Binary(string="Signed Document",related='sign_request_id.completed_document')
-    signed_document_filename = fields.Char(string="Signed Document",related='sign_request_id.reference')
+    sign_status = fields.Selection(selection=[('shared','Shared'),('sent','To Sign'),('signed','Fully Signed'),('cancelled','Cancelled'),('expired','Expired')], string="Sign Status",store=True,compute='_compute_sign_state')
+    signed_document = fields.Binary(string="Signed Document",related='sign_request_id.completed_document',store=True)
+    signed_document_filename = fields.Char(string="Signed Document",related='sign_request_id.reference',store=True)
 
     state = fields.Selection(string="Status",selection=[
         ('draft', 'Draft'),
@@ -196,11 +260,9 @@ class ServiceContractLine(models.Model):
         ('done', 'Done'),
         ('cancelled', 'Cancelled'),
         ('terminated', 'Terminated'),
-    ], default='draft', compute='_compute_state')
+    ], default='draft', compute='_compute_state',store=True)
 
     is_complete = fields.Boolean(default=False)
-
-
 
     def create_sign_request(self):
         for line in self:
@@ -227,13 +289,38 @@ class ServiceContractLine(models.Model):
                 'reference': f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract",
                 'request_item_ids': request_items,
             })
+            message = Markup(
+                "<b>New Service Contract Created & Signature Request Sent</b><br/>"
+                "<ul>"
+                f"<li><b>Customer:</b> {line.sale_id.partner_id.name}</li>"
+                f"<li><b>Subscription Order:</b> {line.sale_id.name}</li>"
+                f"<li><b>Contract:</b> {contract.name}</li>"
+                f"<li><b>Contract Line:</b> {line.name}</li>"
+                f"<li><b>Start Date:</b> {line.start_date or ''}</li>"
+                f"<li><b>End Date:</b> {line.end_date or ''}</li>"
+                f"<li><b>Document Reference:</b> {sign_request.reference}</li>"
+                f"<li><b>Sign Status:</b> {sign_request.state}</li>"
+                "</ul>"
+            )
+
+            if contract:
+                contract.message_post(
+                    body=message,
+                    subtype_xmlid="mail.mt_note"
+                )
+
+            if line.sale_id:
+                line.sale_id.message_post(
+                    body=message,
+                    subtype_xmlid="mail.mt_note"
+                )
 
             line.sign_request_id = sign_request.id
 
     @api.depends(
         'sale_id.subscription_state',
         'sale_id.lead_id.stage_id.is_won',
-        'end_date',
+        'end_date','sign_request_id.state'
     )
     def _compute_state(self):
         today = fields.Date.today()
@@ -261,6 +348,27 @@ class ServiceContractLine(models.Model):
                 rec.state = 'cancelled'
             else:
                 rec.state = 'terminated'
+
+    @api.depends('sign_request_id.state')
+    def _compute_sign_state(self):
+        for rec in self:
+            if rec.sign_request_id:
+                rec.sign_status = rec.sign_request_id.state
+                if rec.sign_request_id.state == 'signed':
+                    body = Markup(
+                        "<b>Document Signed</b><br/>"
+                        "<ul>"
+                        f"<li><b>Customer:</b> {rec.sale_id.partner_id.name}</li>"
+                        f"<li><b>Contract:</b> {rec.contract_id.name}</li>"
+                        f"<li><b>Contract Line:</b> {rec.name}</li>"
+                        f"<li><b>Document:</b> {rec.sign_request_id.reference}</li>"
+                        f"<li><b>Status:</b> Signed</li>"
+                        "</ul>"
+                    )
+                    rec.contract_id.message_post(body=body)
+            else:
+                rec.sign_status = 'shared'
+
 
     @api.depends('sale_id.start_date','sale_id.next_recurring_date')
     def _compute_contract_dates(self):

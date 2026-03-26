@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="view_share_sign_wizard_form" model="ir.ui.view">
+        <field name="name">share.sign.wizard.form</field>
+        <field name="model">share.sign.wizard</field>
+        <field name="arch" type="xml">
+            <form string="Share Sign Links">
+                <group>
+<!--                    <field name="name"/>-->
+                    <field name="sign_request_id" readonly="1"/>
+                </group>
+                <notebook>
+                    <page name="Signers Links">
+                        <field name="line_ids" nolabel="1">
+                            <list>
+                                <field name="name"/>
+                                <field name="role"/>
+                                <field name="url" widget="CopyClipboardChar"/>
+                            </list>
+                        </field>
+                    </page>
+                </notebook>
+                <footer>
+                    <button string="Close" class="btn-primary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+</odoo>

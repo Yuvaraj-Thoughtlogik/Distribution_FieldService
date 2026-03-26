@@ -3,6 +3,7 @@ from odoo import models,fields,api
 from odoo.fields import datetime
 from dateutil.relativedelta import relativedelta
 from odoo.exceptions import UserError
+from markupsafe import Markup
 
 class CrmLead(models.Model):
     _inherit = 'crm.lead'
@@ -48,10 +49,12 @@ class SaleOrder(models.Model):
     lead_id = fields.Many2one(
         'crm.lead',
         string='Renewal Opportunity',
+        copy=False,
     )
     origin_lead_id = fields.Many2one(
         'crm.lead',
         string='Renewal Opportunity',
+        copy=False,
     )
 
 
@@ -261,11 +264,22 @@ class SaleOrder(models.Model):
                 'type': 'opportunity',
                 'team_id': team.id if team else False,
                 'user_id': sub.user_id.id or False,
+                'products': product_id,
                 'expected_revenue': sub.recurring_total or sub.amount_total,
-                'description': (
-                    f'{parent_contract_desc}'
-                    f'Subscription: {sub.name}\n'
-                    f'Renewal Date: {sub.next_recurring_date or "N/A"}'
+                'description': Markup(
+                    f"""
+                    <b>{sub.contract_id.name} Service Contract Renewal Details</b><br/>
+                    <ul>
+                        <li><b>Customer:</b> {sub.partner_id.name or ''}</li>
+                        <li><b>Subscription:</b> {sub.name}</li>
+                        <li><b>Renewal Date:</b> {sub.next_recurring_date or 'N/A'}</li>
+                        <li><b>Salesperson:</b> {sub.user_id.name or 'N/A'}</li>
+                        <li><b>Expected Revenue:</b> {sub.recurring_total or sub.amount_total}</li>
+                    </ul>
+                    <br/>
+                    <b>Parent Contract</b><br/>
+                    {parent_contract_desc or 'N/A'}
+                    """
                 ),
                 'sale_id': sub.id,
             })

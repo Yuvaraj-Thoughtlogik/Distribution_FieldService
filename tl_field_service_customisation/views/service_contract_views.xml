@@ -8,6 +8,11 @@
                     <button name="send_sign_request"
                             string="Resend Sign Request"
                             type="object"
+                            class="btn-primary"
+                    />
+                    <button name="share_sign_link"
+                            string="Share Sign Link"
+                            type="object"
                     />
                     <field name="state"
                            widget="statusbar"
@@ -113,6 +118,7 @@
                         </page>
                     </notebook>
                 </sheet>
+                <chatter/>
             </form>
         </field>
     </record>
