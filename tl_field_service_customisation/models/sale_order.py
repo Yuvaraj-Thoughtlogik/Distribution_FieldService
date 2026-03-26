@@ -172,7 +172,7 @@ class SaleOrder(models.Model):
                         values = {
                             'sale_order_id': rec.id,
                             'sale_line_id': line.id,
-                            'name': f"{rec.name} - {rec.partner_id.name} - {line.display_name} - {asset.name} - {datetime.now().year} - Service-{service + 1}",
+                            'name': f"{rec.name} - {rec.partner_id.name} - {line.product_template_id.display_name} - {asset.name} - {datetime.now().year} - Service-{service + 1}",
                             'project_id': line.product_template_id.project_id.id,
                             'worksheet_template_id':line.product_template_id.worksheet_template_id.id if line.product_template_id.worksheet_template_id else False,
                             'partner_id': rec.partner_id.id,
