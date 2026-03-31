@@ -1,0 +1,92 @@
+<odoo>
+    <!-- Inherit Form View to Modify it -->
+    <record id="view_order_form_domain_filter" model="ir.ui.view">
+        <field name="name">sale.order.form.domain.filter</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//field[@name='partner_shipping_id']" position="attributes">
+                <attribute name="domain">[('id','in',available_shipping_ids)]</attribute>
+            </xpath>
+            <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
+                <attribute name="domain">[('id','in',available_invoice_ids)]</attribute>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="sale_subscription_order_view_form_next_recurring" model="ir.ui.view">
+        <field name="name">sale.subscription.order.form.next_recurring</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale_subscription.sale_subscription_order_view_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='plan_block']" position="after">
+                <field name="next_recurring_date" invisible="not is_subscription"/>
+                <field name="sign_template_id" required="is_subscription"/>
+<!--                <field name="lead_id"/>-->
+            </xpath>
+            <xpath expr="//button[@name='action_sale_order_log']" position="after">
+                <button name="action_view_renewal_opportunity"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-star"
+                invisible="not lead_id">
+                        <field name="lead_id" widget="statinfo"/>
+                </button>
+                <button name="action_view_service_contract"
+                        type="object"
+                        class="oe_stat_button"
+                        icon="fa-file-text-o"
+                        invisible="not contract_line_id">
+                        <field name="contract_id" string="Service Contract" widget="statinfo"/>
+                </button>
+            </xpath>
+
+        </field>
+    </record>
+    <!-- Inherit Form View to Modify it -->
+    <record id="crm_lead_view_form_sale_id" model="ir.ui.view">
+        <field name="name">crm.lead.form.sale</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_contract"
+                        type="object" class="oe_stat_button"
+                        icon="fa-file-text-o"
+                        invisible="not contract_id">
+                    <field name="contract_id" string="Current Contract" widget="statinfo"/>
+                </button>
+                <button name="action_view_subscription"
+                        type="object" class="oe_stat_button"
+                        icon="fa-file-text-o"
+                        invisible="not sale_id or won_status !='won'">
+                    <field name="sale_id" string="Current Subscription" widget="statinfo"/>
+                </button>
+            </xpath>
+            <xpath expr="//page[@name='lead']//group[@name='Misc']//field[@name='team_id']" position="after">
+                <field name="sale_id" readonly="1"/>
+            </xpath>
+
+        </field>
+    </record>
+
+    <!-- Inherit Form View to Modify it -->
+    <record id="view_customer_asset_form_smart_button" model="ir.ui.view">
+        <field name="name">Customer Asset Contract Smart Button</field>
+        <field name="model">customer.asset</field>
+        <field name="inherit_id" ref="cguk_customer_asset.view_customer_asset_form"/>
+        <field name="arch" type="xml">
+
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_view_contract" type="object" invisible="not contract_id" >
+                    <field name="contract_id" widget="statinfo"/>
+                </button>
+            </xpath>
+
+        </field>
+    </record>
+</odoo>

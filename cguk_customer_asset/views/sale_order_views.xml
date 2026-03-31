@@ -5,9 +5,26 @@
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
             <xpath expr="//field[@name='payment_term_id']" position="before">
-                <field name="subscription_customer_assets_ids" widget="many2many_tags" invisible="not is_subscription"/>
+                <field name="subscription_customer_assets_ids"
+                       widget="many2many_tags"
+                       invisible="not is_subscription"
+                       readonly="state in ['sale','cancel'] or origin_order_id"
+                />
                 <field name="is_subscription"/>
             </xpath>
+<!--            <xpath expr="//page[@name='order_lines']" position="after">-->
+<!--                <page name="Customer Assets">-->
+<!--                <group string="Customer Assets">-->
+<!--                <field name="subscription_customer_assets_ids" nolabel="1" widget="many2many" invisible="not is_subscription">-->
+<!--                    <list>-->
+<!--                        <field name="name" string="Asset Number"/>-->
+<!--                        <field name="product_id"/>-->
+<!--                        <field name="company_id"/>-->
+<!--                    </list>-->
+<!--                </field>-->
+<!--                </group>-->
+<!--                </page>-->
+<!--            </xpath>-->
             <xpath expr="//div[@class='oe_button_box']" position="inside">
                 <button name="action_view_sale_customer_assets"
                         string="Customer Assets"
