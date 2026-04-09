@@ -162,7 +162,7 @@ class SaleOrder(models.Model):
         res = super().action_confirm()
         self._create_fsm_tasks_for_year()
         for rec in self:
-            rec.contract_line_id.create_sign_request()
+            rec.contract_line_id.create_service_contract_lognote()
         return res
 
     def _create_fsm_tasks_for_year(self):

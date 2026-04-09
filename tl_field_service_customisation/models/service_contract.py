@@ -164,8 +164,9 @@ class ServiceContract(models.Model):
             'target': 'current'
         }
 
-    def send_sign_request(self):
+    def resend_sign_request(self):
         self.ensure_one()
+
 
         recipients = []
 
@@ -195,6 +196,21 @@ class ServiceContract(models.Model):
             'params': {
                 'title': 'Success',
                 'message': f"Signature mail sent to: {recipient_text}",
+                'type': 'success',
+            }
+        }
+
+    def create_sign_request(self):
+        self.ensure_one()
+        line = self.contract_line_ids[-1] if self.contract_line_ids else False
+        if line:
+            line.create_sign_request()
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'display_notification',
+            'params': {
+                'title': 'Success',
+                'message': f"Sign request created: {line.name}",
                 'type': 'success',
             }
         }
@@ -248,7 +264,7 @@ class ServiceContractLine(models.Model):
         'sign.request',
         string='Sign Request',store=True
     )
-    sign_status = fields.Selection(selection=[('shared','Shared'),('sent','To Sign'),('signed','Fully Signed'),('cancelled','Cancelled'),('expired','Expired')], string="Sign Status",store=True,compute='_compute_sign_state')
+    sign_status = fields.Selection(selection=[('not_shared','Not Shared'),('shared','Shared'),('sent','To Sign'),('signed','Fully Signed'),('cancelled','Cancelled'),('expired','Expired')], string="Sign Status",store=True,compute='_compute_sign_state')
     signed_document = fields.Binary(string="Signed Document",related='sign_request_id.completed_document',store=True)
     signed_document_filename = fields.Char(string="Signed Document",related='sign_request_id.reference',store=True)
 
@@ -264,58 +280,6 @@ class ServiceContractLine(models.Model):
 
     is_complete = fields.Boolean(default=False)
 
-    def create_sign_request(self):
-        for line in self:
-
-            contract = line.contract_id
-            template = contract.sign_template_id
-            if line.sign_request_id:
-                continue
-            if not template or not line.sale_id.state == 'sale':
-                continue
-
-            request_items = []
-
-            roles = template.sign_item_ids.mapped('responsible_id')
-
-            for role in roles:
-                request_items.append((0, 0, {
-                    'partner_id': line.sale_id.partner_id.id,
-                    'role_id': role.id,
-                }))
-
-            sign_request = self.env['sign.request'].create({
-                'template_id': template.id,
-                'reference': f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract",
-                'request_item_ids': request_items,
-            })
-            message = Markup(
-                "<b>New Service Contract Created & Signature Request Sent</b><br/>"
-                "<ul>"
-                f"<li><b>Customer:</b> {line.sale_id.partner_id.name}</li>"
-                f"<li><b>Subscription Order:</b> {line.sale_id.name}</li>"
-                f"<li><b>Contract:</b> {contract.name}</li>"
-                f"<li><b>Contract Line:</b> {line.name}</li>"
-                f"<li><b>Start Date:</b> {line.start_date or ''}</li>"
-                f"<li><b>End Date:</b> {line.end_date or ''}</li>"
-                f"<li><b>Document Reference:</b> {sign_request.reference}</li>"
-                f"<li><b>Sign Status:</b> {sign_request.state}</li>"
-                "</ul>"
-            )
-
-            if contract:
-                contract.message_post(
-                    body=message,
-                    subtype_xmlid="mail.mt_note"
-                )
-
-            if line.sale_id:
-                line.sale_id.message_post(
-                    body=message,
-                    subtype_xmlid="mail.mt_note"
-                )
-
-            line.sign_request_id = sign_request.id
 
     @api.depends(
         'sale_id.subscription_state',
@@ -367,7 +331,7 @@ class ServiceContractLine(models.Model):
                     )
                     rec.contract_id.message_post(body=body)
             else:
-                rec.sign_status = 'shared'
+                rec.sign_status = 'not_shared'
 
 
     @api.depends('sale_id.start_date','sale_id.next_recurring_date')
@@ -384,3 +348,110 @@ class ServiceContractLine(models.Model):
     def _compute_name(self):
         for rec in self:
             rec.name = f"{rec.sale_id.name} - Service Contract"
+
+    def create_service_contract_lognote(self):
+        self.ensure_one()
+        contract = self.contract_id
+        message = Markup(
+            "<b>New Service Contract Created</b><br/>"
+            "<ul>"
+            f"<li><b>Customer:</b> {self.sale_id.partner_id.name}</li>"
+            f"<li><b>Subscription Order:</b> {self.sale_id.name}</li>"
+            f"<li><b>Contract:</b> {contract.name}</li>"
+            f"<li><b>Contract Line:</b> {self.name}</li>"
+            f"<li><b>Start Date:</b> {self.start_date or ''}</li>"
+            f"<li><b>End Date:</b> {self.end_date or ''}</li>"
+            "</ul>"
+        )
+
+        if contract:
+            contract.message_post(
+                body=message,
+                subtype_xmlid="mail.mt_note"
+            )
+
+        if self.sale_id:
+            self.sale_id.message_post(
+                body=message,
+                subtype_xmlid="mail.mt_note"
+            )
+
+    def create_sign_request_lognote(self,sign_request):
+        self.ensure_one()
+        contract = self.contract_id
+        message = Markup(
+            "<b>Signature Request Sent</b><br/>"
+            "<ul>"
+            f"<li><b>Customer:</b> {self.sale_id.partner_id.name}</li>"
+            f"<li><b>Subscription Order:</b> {self.sale_id.name}</li>"
+            f"<li><b>Contract:</b> {contract.name}</li>"
+            f"<li><b>Contract Line:</b> {self.name}</li>"
+            f"<li><b>Document Reference:</b> {sign_request.reference}</li>"
+            f"<li><b>Sign Status:</b> {sign_request.state}</li>"
+            "</ul>"
+        )
+        if contract:
+            contract.message_post(
+                body=message,
+                subtype_xmlid="mail.mt_note"
+            )
+
+        if self.sale_id:
+            self.sale_id.message_post(
+                body=message,
+                subtype_xmlid="mail.mt_note"
+            )
+
+    def create_sign_request(self):
+        for line in self:
+
+            contract = line.contract_id
+            template = contract.sign_template_id
+            if line.sign_request_id:
+                continue
+            if not template or not line.sale_id.state == 'sale':
+                continue
+
+            request_items = []
+
+            roles = template.sign_item_ids.mapped('responsible_id')
+
+            for role in roles:
+                request_items.append((0, 0, {
+                    'partner_id': line.sale_id.partner_id.id,
+                    'role_id': role.id,
+                }))
+
+            sign_request = self.env['sign.request'].create({
+                'template_id': template.id,
+                'reference': f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract",
+                'request_item_ids': request_items,
+            })
+            # message = Markup(
+            #     "<b>New Service Contract Created & Signature Request Sent</b><br/>"
+            #     "<ul>"
+            #     f"<li><b>Customer:</b> {line.sale_id.partner_id.name}</li>"
+            #     f"<li><b>Subscription Order:</b> {line.sale_id.name}</li>"
+            #     f"<li><b>Contract:</b> {contract.name}</li>"
+            #     f"<li><b>Contract Line:</b> {line.name}</li>"
+            #     f"<li><b>Start Date:</b> {line.start_date or ''}</li>"
+            #     f"<li><b>End Date:</b> {line.end_date or ''}</li>"
+            #     f"<li><b>Document Reference:</b> {sign_request.reference}</li>"
+            #     f"<li><b>Sign Status:</b> {sign_request.state}</li>"
+            #     "</ul>"
+            # )
+            #
+            # if contract:
+            #     contract.message_post(
+            #         body=message,
+            #         subtype_xmlid="mail.mt_note"
+            #     )
+            #
+            # if line.sale_id:
+            #     line.sale_id.message_post(
+            #         body=message,
+            #         subtype_xmlid="mail.mt_note"
+            #     )
+            self.create_sign_request_lognote(sign_request)
+
+            line.sign_request_id = sign_request.id

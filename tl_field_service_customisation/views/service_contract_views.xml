@@ -5,10 +5,17 @@
         <field name="arch" type="xml">
             <form string="service_contract_form">
                 <header>
-                    <button name="send_sign_request"
+                    <button name="resend_sign_request"
                             string="Resend Sign Request"
                             type="object"
                             class="btn-primary"
+                            invisible="not current_sign_id"
+                    />
+                    <button name="create_sign_request"
+                            string="Create Sign Request"
+                            type="object"
+                            class="btn-primary"
+                            invisible="current_sign_id"
                     />
                     <button name="share_sign_link"
                             string="Share Sign Link"
