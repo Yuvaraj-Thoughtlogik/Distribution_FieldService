@@ -323,3 +323,38 @@ class SaleOrder(models.Model):
             'res_id': self.contract_id.id,
             'target': 'current'
         }
+
+    # def action_send_email_with_sign(self):
+    #     self.ensure_one()
+    #
+    #     contract_line = self.contract_line_id
+    #     contract_line.create_sign_request()
+    #     sign_request = contract_line.sign_request_id
+    #     sign_url = ""
+    #     if sign_request and sign_request.request_item_ids:
+    #         base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+    #         item = sign_request.request_item_ids[0]
+    #         sign_url = f"{base_url}/sign/document/{sign_request.id}/{item.access_token}"
+    #
+    #
+    #     template = self.env.ref('tl_field_service_customisation.email_template_sale_with_sign',
+    #                             raise_if_not_found=False)
+    #
+    #     ctx = {
+    #         'default_model': 'sale.order',
+    #         'default_res_ids': self.ids,
+    #         'default_use_template': True,
+    #         'default_template_id': template.id if template else False,
+    #         'default_composition_mode': 'comment',
+    #         'mark_so_as_sent': True,
+    #         'sign_url': sign_url,
+    #     }
+    #
+    #     return {
+    #         'type': 'ir.actions.act_window',
+    #         'res_model': 'mail.compose.message',
+    #         'view_mode': 'form',
+    #         'views': [(False, 'form')],
+    #         'target': 'new',
+    #         'context': ctx,
+    #     }
