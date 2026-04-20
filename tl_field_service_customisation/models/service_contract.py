@@ -169,6 +169,10 @@ class ServiceContract(models.Model):
 
     def send_sign_email(self):
         self.ensure_one()
+        if self.current_subscription_id.state != 'sale':
+            raise ValidationError(
+                _("Please confirm the Subscription before creating a sign request mail.")
+            )
         recipients = []
         for item in self.current_sign_id.request_item_ids:
             item.send_signature_accesses()
