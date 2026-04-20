@@ -173,21 +173,29 @@ class ServiceContract(models.Model):
             raise ValidationError(
                 _("Please confirm the Subscription before creating a sign request mail.")
             )
+
         recipients = []
         for item in self.current_sign_id.request_item_ids:
-            item.send_signature_accesses()
+            if self.current_sign_id.state != 'signed':
+
+                item.send_signature_accesses()
             partner = item.partner_id.name or ''
             role = item.role_id.name or ''
             recipients.append(f"{partner} ({role})")
         recipient_text = ", ".join(recipients)
         body = Markup(
-            "<b>Signature Request Sent</b><br/>"
+            f"<b>Signature Request Sent</b><br/>"
             "<ul>"
             f"<li><b>Recipients:</b> {recipient_text}</li>"
             f"<li><b>Document:</b> {self.current_sign_id.reference}</li>"
             f"<li><b>Status:</b> {self.current_sign_id.state}</li>"
             "</ul>"
         )
+        if self.current_sign_id.state == 'signed':
+            body = f'Signed Document Resent to the Recipients: {recipient_text}'
+            self.current_sign_id._send_completed_document()
+
+
         self.message_post(body=body)
         return {'type': 'ir.actions.client', 'tag': 'soft_reload'}
 
