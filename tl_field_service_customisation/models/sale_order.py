@@ -163,7 +163,8 @@ class SaleOrder(models.Model):
         res = super().action_confirm()
         self._create_fsm_tasks_for_year()
         for rec in self:
-            rec.contract_line_id.create_service_contract_lognote()
+            # rec.contract_line_id.create_service_contract_lognote()
+            rec.contract_line_id.create_sign_request()
         return res
 
     def _create_fsm_tasks_for_year(self):
@@ -171,19 +172,16 @@ class SaleOrder(models.Model):
         for rec in self:
             if not rec.is_subscription:
                 continue
-
-            asset_lines = []
             created_tasks = []
 
             for line in rec.order_line:
                 for asset in rec.subscription_customer_assets_ids:
-                    # Create tasks for each service instance per year
                     num_services = int(line.product_template_id.number_of_services_per_year)
                     for service in range(num_services):
                         values = {
                             'sale_order_id': rec.id,
                             'sale_line_id': line.id,
-                            'name': f"{rec.name} - {rec.partner_id.name} - {line.product_template_id.display_name} - {asset.name} - {datetime.now().year} - Service-{service + 1}",
+                            'name': f"{rec.name} - {rec.partner_id.display_name} - {line.product_template_id.display_name} - {asset.name} - {datetime.now().year} - Service-{service + 1}",
                             'project_id': line.product_template_id.project_id.id,
                             'worksheet_template_id':line.product_template_id.worksheet_template_id.id if line.product_template_id.worksheet_template_id else False,
                             'partner_id': rec.partner_id.id,
@@ -197,20 +195,13 @@ class SaleOrder(models.Model):
                         task = self.env['project.task'].sudo().create(values)
                         created_tasks.append(task)
 
-                        # Remove previous linked task if exists
                         if line.task_id:
                             line.task_id.unlink()
-
-                        asset_lines.append(f"- {asset.display_name} - Service-{service + 1}")
-
             if created_tasks:
                 rec.tasks_ids = [(4, t.id) for t in reversed(created_tasks)]
 
-            # Create contract record if needed
 
-
-            # Post message
-            if asset_lines:
+            if created_tasks:
                 full_msg = Markup(
                     f"""
                     <b>FSM Tasks Created</b><br/>
@@ -218,7 +209,7 @@ class SaleOrder(models.Model):
                     <br/><br/>
                     <b>Created Tasks:</b>
                     <ul>
-                        {''.join(f"<li>{line}</li>" for line in asset_lines)}
+                        {''.join(f"<li>{task.display_name}</li>" for task in created_tasks)}
                     </ul>
                     """
                 )

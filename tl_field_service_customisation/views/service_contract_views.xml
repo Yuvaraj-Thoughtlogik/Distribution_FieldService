@@ -5,8 +5,8 @@
         <field name="arch" type="xml">
             <form string="service_contract_form">
                 <header>
-                    <button name="resend_sign_request"
-                            string="Resend Sign Request"
+                    <button name="send_sign_email"
+                            string="Send by Email"
                             type="object"
                             class="btn-primary"
                             invisible="not current_sign_id"
@@ -20,6 +20,7 @@
                     <button name="share_sign_link"
                             string="Share Sign Link"
                             type="object"
+                            invisible="not current_sign_id"
                     />
                     <field name="state"
                            widget="statusbar"

@@ -8,10 +8,8 @@ class MailComposer(models.TransientModel):
     send_with_service_contract = fields.Boolean(string='Send with Service Contract Sign Request')
     service_contract_sign_url = fields.Char(string='Sign Url')
 
-    class MailComposer(models.TransientModel):
-        _inherit = 'mail.compose.message'
 
-        def _set_value_from_template(self, template_fname, composer_fname=False):
+    def _set_value_from_template(self, template_fname, composer_fname=False):
             res = super()._set_value_from_template(template_fname, composer_fname)
 
             composer_fname = composer_fname or template_fname
