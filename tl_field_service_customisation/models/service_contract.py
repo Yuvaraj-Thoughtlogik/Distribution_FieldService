@@ -189,7 +189,7 @@ class ServiceContract(models.Model):
 
     def create_sign_request(self):
         self.ensure_one()
-        if self.current_sign_id.state != 'sale':
+        if self.current_subscription_id.state != 'sale':
             raise ValidationError(
                 _("Please confirm the Subscription before creating a sign request.")
             )
