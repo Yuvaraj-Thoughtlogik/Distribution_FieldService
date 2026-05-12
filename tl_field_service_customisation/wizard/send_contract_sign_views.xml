@@ -1,0 +1,26 @@
+<odoo>
+    <record id="sign_send_request_view_form" model="ir.ui.view">
+        <field name="name">send.contract.sign.view.form</field>
+        <field name="model">send.contract.sign</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="signer_ids" colspan="2" nolabel="1" widget="signer_x2many" />
+<!--                        <div class="d-flex flex-row align-items-center" colspan="2" invisible="context.get('sign_directly_without_mail',False)">-->
+<!--                            <field name="set_sign_order" nolabel="1" widget="boolean_toggle" class="oe_inline" options="{'autosave': false}"/>-->
+<!--                            <label for="set_sign_order" class="fw-bold"/>-->
+<!--                        </div>-->
+                    </group>
+                </group>
+
+                <footer>
+                    <button string="Confirm" class="btn-primary" type="object" name="action_assign" invisible="contract_id"/>
+                    <button string="Confirm" class="btn-primary" type="object" name="action_send" invisible="not contract_id"/>
+                    <button string="Cancel" class="btn-secondary" special="cancel" data-hotkey="x"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+</odoo>

@@ -13,6 +13,7 @@
         'views/warehouse_product_and_fsm.xml',
         'data/data.xml',
         'wizard/share_sign_wizard.xml',
+        'wizard/send_contract_sign_views.xml',
     ],
     "assets":{
       'web.assets_backend':[

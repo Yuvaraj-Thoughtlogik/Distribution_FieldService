@@ -1,9 +1,12 @@
 from dateutil.relativedelta import relativedelta
-from odoo import models,fields,api
+from odoo import models, fields, api, Command
 from markupsafe import Markup
 from odoo.tools import _
 from odoo.exceptions import UserError, ValidationError
 
+import logging
+
+_logger = logging.getLogger(__name__)
 
 class ServiceContract(models.Model):
     _name = 'service.contract'
@@ -176,8 +179,7 @@ class ServiceContract(models.Model):
 
         recipients = []
         for item in self.current_sign_id.request_item_ids:
-            if self.current_sign_id.state != 'signed':
-
+            if item.state not in ['completed','canceled']:
                 item.send_signature_accesses()
             partner = item.partner_id.name or ''
             role = item.role_id.name or ''
@@ -205,10 +207,20 @@ class ServiceContract(models.Model):
             raise ValidationError(
                 _("Please confirm the Subscription before creating a sign request.")
             )
-        line = self.contract_line_ids[-1] if self.contract_line_ids else False
-        if line:
-            line.create_sign_request()
-            return {'type': 'ir.actions.client', 'tag': 'soft_reload'}
+        return {
+            'name': 'Assign Sign Role',
+            'type': 'ir.actions.act_window',
+            'res_model': 'send.contract.sign',
+            'view_mode': 'form',
+            'context': {
+                'template_id': self.sign_template_id.id,
+                'default_contract_id': self.id,
+                'default_order_id': self.sale_id.id,
+            },
+            'target': 'new'
+        }
+
+
 
     def share_sign_link(self):
         self.ensure_one()
@@ -401,32 +413,82 @@ class ServiceContractLine(models.Model):
                     subtype_xmlid="mail.mt_note"
                 )
 
-    def create_sign_request(self):
+    def create_sign_request(self,signers):
         for line in self:
 
-            contract = line.contract_id
-            template = contract.sign_template_id
-            if line.sign_request_id:
-                continue
-            if not template or not line.sale_id.state == 'sale':
-                continue
+                contract = line.contract_id
+                template = contract.sign_template_id
+                if line.sign_request_id:
+                    continue
+                if not template or not line.sale_id.state == 'sale':
+                    continue
 
-            request_items = []
+                # request_items = []
+                # system_role = self.env.ref('tl_sign_autofill.sign_role_system')
+                #
+                # roles = template.sign_item_ids.mapped('responsible_id').filtered(
+                #     lambda r: r.id != system_role.id
+                # )
 
-            roles = template.sign_item_ids.mapped('responsible_id')
+                # for role in roles:
+                #     if role.id == self.env.ref('sign.sign_item_role_customer').id:
+                #         request_items.append((0, 0, {
+                #             'partner_id': line.sale_id.partner_id.id,
+                #             'role_id': role.id,
+                #         }))
+                #     elif role.id == self.env.ref('sign.sign_item_role_user').id:
+                #         request_items.append((0, 0, {
+                #             'partner_id': line.sale_id.user_id.id,
+                #             'role_id': role.id,
+                #         }))
 
-            for role in roles:
-                request_items.append((0, 0, {
-                    'partner_id': line.sale_id.partner_id.id,
-                    'role_id': role.id,
-                }))
+                sign_request = self.env['sign.request'].with_context(no_sign_mail=True).create({
+                    'template_id': template.id,
+                    'reference': f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract",
+                    'request_item_ids': [Command.create({
+                        'partner_id': signer['partner_id'],
+                        'role_id': signer['role_id'],
+                        'mail_sent_order': signer['mail_sent_order'],
+                    }) for signer in signers],
+                })
+                system_role = self.env.ref('tl_sign_autofill.sign_role_system')
+                for item in template.sign_item_ids:
+                    if item.responsible_id != system_role:
+                        continue
+                    value = ''
+                    if item.name == 'Service Contract Number':
+                        value = contract.name
+                    if item.name == 'Service Contract Number':
+                        value = contract.name
+                    else:
+                        continue
+                    for request_item in sign_request.request_item_ids:
+                        self.env['sign.request.item.value'].sudo().create({
+                            'sign_request_id': sign_request.id,
+                            'sign_request_item_id': request_item.id,
+                            'sign_item_id': item.id,
+                            'value': value,
+                        })
+                self.create_sign_request_lognote(sign_request)
 
-            sign_request = self.env['sign.request'].with_context(no_sign_mail=True).create({
-                'template_id': template.id,
-                'reference': f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract",
-                'request_item_ids': request_items,
-            })
-            self.create_sign_request_lognote(sign_request)
+                line.sign_request_id = sign_request.id
 
-            line.sign_request_id = sign_request.id
+
+    def send_non_customer_emails(self):
+        self.ensure_one()
+
+        role_customer_id = self.env['ir.model.data']._xmlid_to_res_id(
+            'sign.sign_item_role_customer'
+        )
+
+        for item in self.sign_request_id.request_item_ids:
+            if item.state not in ['completed','canceled'] and item.role_id.id != role_customer_id:
+                try:
+                    item.send_signature_accesses()
+                except Exception as e:
+                    _logger.exception(
+                        "Failed to send signature access for item %s: %s",
+                        item.id,
+                        e
+                    )
 

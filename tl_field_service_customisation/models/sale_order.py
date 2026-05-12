@@ -162,9 +162,9 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         res = super().action_confirm()
         self._create_fsm_tasks_for_year()
-        for rec in self:
-            # rec.contract_line_id.create_service_contract_lognote()
-            rec.contract_line_id.create_sign_request()
+        # for rec in self:
+        #     # rec.contract_line_id.create_service_contract_lognote()
+        #     rec.contract_line_id.create_sign_request()
         return res
 
     def _create_fsm_tasks_for_year(self):
@@ -316,28 +316,20 @@ class SaleOrder(models.Model):
             'target': 'current'
         }
 
-    def action_quotation_send(self):
-        action = super().action_quotation_send()
+    # def action_quotation_send(self):
+    #     action = super().action_quotation_send()
+    #     self.contract_line_id.send_non_customer_emails()
+    #     return action
 
-
-        ctx = action.get('context', {})
-        if self.contract_line_id and self.state == 'sale':
-            contract_line = self.contract_line_id
-
-            contract_line.create_sign_request()
-            sign_request = contract_line.sign_request_id
-
-            sign_url = ""
-            if sign_request and sign_request.request_item_ids:
-                base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
-                item = sign_request.request_item_ids[0]
-                sign_url = f"{base_url}/sign/document/{sign_request.id}/{item.access_token}"
-
-            ctx.update({
-                'default_send_with_service_contract': True,
-                'default_service_contract_sign_url': sign_url
-            })
-
-        action['context'] = ctx
-
-        return action
+    def action_assign_sign_role(self):
+        return {
+            'name': 'Assign Sign Role',
+            'type': 'ir.actions.act_window',
+            'res_model': 'send.contract.sign',
+            'view_mode': 'form',
+            'context': {
+                'template_id': self.sign_template_id.id,
+                'default_order_id': self.id,
+            },
+            'target': 'new'
+        }

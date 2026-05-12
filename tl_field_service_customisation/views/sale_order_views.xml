@@ -12,7 +12,10 @@
             <xpath expr="//field[@name='partner_invoice_id']" position="attributes">
                 <attribute name="domain">[('id','in',available_invoice_ids)]</attribute>
             </xpath>
-
+            <xpath expr="//header//button[@id='create_invoice']" position="after">
+                 <button name="action_assign_sign_role" type="object" class="btn-primary" invisible="state != 'sale'" string="Send with Sign">
+            </button>
+            </xpath>
         </field>
     </record>
 

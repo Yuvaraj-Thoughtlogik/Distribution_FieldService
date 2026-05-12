@@ -7,6 +7,7 @@ class MailComposer(models.TransientModel):
 
     send_with_service_contract = fields.Boolean(string='Send with Service Contract Sign Request')
     service_contract_sign_url = fields.Char(string='Sign Url')
+    contract_line_id = fields.Many2one(string='Contract Line',comodel_name='service.contract.line')
 
 
     def _set_value_from_template(self, template_fname, composer_fname=False):
@@ -37,3 +38,9 @@ class MailComposer(models.TransientModel):
                 self.body = Markup(self.body) + extra_html
 
             return res
+
+    def action_send_mail(self):
+        res = super().action_send_mail()
+        if self.send_with_service_contract:
+            self.contract_line_id.send_non_customer_emails()
+        return res
