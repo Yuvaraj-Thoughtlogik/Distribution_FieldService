@@ -35,7 +35,6 @@ class SendContractSign(models.TransientModel):
             }
             if len(roles) == 1:
                 signer_vals['partner_id'] = order_id.partner_id.id
-                break
             else:
                 if role.id == user_role_id:
                     signer_vals['partner_id'] =  order_id.user_id.partner_id.id
