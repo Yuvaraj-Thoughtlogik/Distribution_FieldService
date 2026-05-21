@@ -1,2 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_tl_sign_autofill_tl_sign_autofill,tl_sign_autofill.tl_sign_autofill,model_tl_sign_autofill_tl_sign_autofill,base.group_user,1,1,1,1
+
+access_sign_send_item_value_user,sign.send.item.value.user,model_sign_send_item_value,base.group_user,1,1,1,1
+
+access_sign_auto_fill_value_user,sign.auto.fill.value.user,model_sign_auto_fill_value,base.group_user,1,1,1,1

@@ -145,7 +145,6 @@ class SaleOrder(models.Model):
             )
 
         res = super().prepare_renewal_order()
-        print(res)
         renew_order = self.browse(res.get('res_id')) if res.get('res_id') else False
 
         if renew_order:
@@ -162,9 +161,6 @@ class SaleOrder(models.Model):
     def action_confirm(self):
         res = super().action_confirm()
         self._create_fsm_tasks_for_year()
-        # for rec in self:
-        #     # rec.contract_line_id.create_service_contract_lognote()
-        #     rec.contract_line_id.create_sign_request()
         return res
 
     def _create_fsm_tasks_for_year(self):
@@ -316,11 +312,6 @@ class SaleOrder(models.Model):
             'target': 'current'
         }
 
-    # def action_quotation_send(self):
-    #     action = super().action_quotation_send()
-    #     self.contract_line_id.send_non_customer_emails()
-    #     return action
-
     def action_assign_sign_role(self):
         return {
             'name': 'Assign Sign Role',
@@ -333,3 +324,12 @@ class SaleOrder(models.Model):
             },
             'target': 'new'
         }
+
+    def send_sign_request_autofill(self):
+        self.ensure_one()
+
+        return self.sign_template_id.send_sign_request_autofill(
+
+        )
+
+

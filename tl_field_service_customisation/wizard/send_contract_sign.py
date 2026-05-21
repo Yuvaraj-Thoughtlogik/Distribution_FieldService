@@ -86,6 +86,8 @@ class SendContractSign(models.TransientModel):
             return action
         return None
 
+
+
     def action_send(self):
         line = self.contract_id.contract_line_ids[-1] if self.contract_id.contract_line_ids else False
         signers = [{'partner_id': signer.partner_id.id, 'role_id': signer.role_id.id,

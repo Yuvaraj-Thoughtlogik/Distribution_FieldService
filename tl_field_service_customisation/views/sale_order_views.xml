@@ -13,8 +13,8 @@
                 <attribute name="domain">[('id','in',available_invoice_ids)]</attribute>
             </xpath>
             <xpath expr="//header//button[@id='create_invoice']" position="after">
-                 <button name="action_assign_sign_role" type="object" class="btn-primary" invisible="state != 'sale'" string="Send with Sign">
-            </button>
+                 <button name="action_assign_sign_role" type="object" class="btn-primary" invisible="state != 'sale'" string="Send with Sign"/>
+                 <button name="send_sign_request_autofill" type="object" class="btn-primary"  string="Create Sign"/>
             </xpath>
         </field>
     </record>

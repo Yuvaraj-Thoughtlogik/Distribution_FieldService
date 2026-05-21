@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<templates xml:space="preserve">
+
+    <t t-name="tl_sign_autofill.signItem" t-inherit="sign.signItem" t-inherit-mode="extension">
+        <xpath expr="//input[@t-if=&quot;type == 'text'&quot;]"
+               position="replace">
+
+            <input t-if="type == 'text'"
+                   t-att-title="role"
+                   type="text"
+                   t-attf-class="{{classes}} o_sign_sign_item"
+                   t-att-style="style"
+                   t-att-placeholder="placeholder"
+                   t-attf-value="{{value}}"
+            />
+
+        </xpath>
+        <xpath expr="//t[@t-if='!readonly']"
+               position="inside">
+            <table t-if="type == 'table'" t-att-title="role" t-attf-class="{{classes}} o_sign_sign_item"
+                   t-att-style="style"
+                   t-att-placeholder="placeholder">
+                <thead>
+                    <tr>
+                        <th>Head1</th>
+                        <th>Head2</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>data1</td>
+                        <td>data2</td>
+                    </tr>
+                </tbody>
+            </table>
+
+        </xpath>
+    </t>
+    <div t-name="sign.tableSignItem" t-att-title="role" t-attf-class="{{classes}} o_sign_sign_item" type="table" t-att-data-id="id" t-att-style="style">
+        <div class="sign_item_body">
+            <t t-if="isSignItemEditable">
+                <input t-att-placeholder="placeholder" t-att-value="value" class="o_sign_editable_input"/>
+                <t t-call="sign.signItemConfiguration"/>
+            </t>
+            <t t-else="">
+                <t t-if="!value">
+                    <p class="o_placeholder ps-0 o_sign_field_alignment">
+                        <t t-esc="placeholder"/>
+                    </p>
+                </t>
+                <t t-esc="value"/>
+                <t t-if="editMode" t-call="sign.signItemConfiguration"/>
+            </t>
+        </div>
+    </div>
+</templates>

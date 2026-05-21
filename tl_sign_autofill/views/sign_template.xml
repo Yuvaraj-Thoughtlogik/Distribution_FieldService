@@ -1,27 +1,31 @@
 <odoo>
-  <data>
-    <record id="sign_template_view_form_sign_item_name" model="ir.ui.view">
-      <field name="name">sign.template.form.item.name</field>
-      <field name="model">sign.template</field>
-      <field name="inherit_id" ref="sign.sign_template_view_form"/>
-      <field name="arch" type="xml">
-        <xpath expr="//field[@name='sign_item_ids']" position="attributes">
-          <attribute name="readonly">False</attribute>
-        </xpath>
-        <xpath expr="//field[@name='sign_item_ids']" position="inside">
-          <list default_order="page,posY,posX,id" editable="bottom">
-            <field name="name" optional="show" readonly="not is_editable"/>
-            <field name="type_id"  readonly="1"/>
-            <field name="required" readonly="not is_editable"/>
-            <field name="responsible_id" readonly="1"/>
-            <field name="page" readonly="1"/>
-            <field name="posX" readonly="1"/>
-            <field name="posY" readonly="1"/>
-            <field name="width" readonly="1"/>
-            <field name="height" readonly="1"/>
-          </list>
-        </xpath>
-      </field>
-    </record>
-  </data>
+    <data>
+        <record id="sign_template_view_form_sign_item_name" model="ir.ui.view">
+            <field name="name">sign.template.form.item.name</field>
+            <field name="model">sign.template</field>
+            <field name="inherit_id" ref="sign.sign_template_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='sign_item_ids']" position="attributes">
+                    <attribute name="readonly">False</attribute>
+                </xpath>
+                <xpath expr="//field[@name='sign_item_ids']" position="inside">
+                    <list default_order="page,posY,posX,id" editable="bottom">
+                        <field name="name" optional="show"/>
+                        <field name="key" optional="show" invisible="not auto_fill"/>
+
+                        <field name="type_id" readonly="1"/>
+                        <field name="required" readonly="auto_fill"/>
+                        <field name="auto_fill"/>
+                        <field name="by_system"/>
+                        <field name="responsible_id" readonly="1"/>
+                        <field name="page" readonly="1"/>
+                        <field name="posX" readonly="1"/>
+                        <field name="posY" readonly="1"/>
+                        <field name="width" readonly="1"/>
+                        <field name="height" readonly="1"/>
+                    </list>
+                </xpath>
+            </field>
+        </record>
+    </data>
 </odoo>

@@ -275,7 +275,7 @@ class ServiceContractLine(models.Model):
         'sign.request',
         string='Sign Request',store=True
     )
-    sign_status = fields.Selection(selection=[('not_shared','Not Shared'),('shared','Shared'),('sent','To Sign'),('signed','Fully Signed'),('cancelled','Cancelled'),('expired','Expired')], string="Sign Status",store=True,compute='_compute_sign_state')
+    sign_status = fields.Selection(selection=[('not_shared','Not Shared'),('shared','Shared'),('sent','To Sign'),('signed','Fully Signed'),('canceled','Canceled'),('expired','Expired')], string="Sign Status",store=True,compute='_compute_sign_state')
     signed_document = fields.Binary(string="Signed Document",related='sign_request_id.completed_document',store=True)
     signed_document_filename = fields.Char(string="Signed Document",related='sign_request_id.reference',store=True)
 
@@ -422,57 +422,100 @@ class ServiceContractLine(models.Model):
                     continue
                 if not template or not line.sale_id.state == 'sale':
                     continue
+                reference = f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract"
 
-                # request_items = []
+                sign_request = template.with_context(
+                    auto_fills=self.get_auto_fills()
+                ).create_sign_request(
+                    reference=reference,
+                    signers=signers,
+                )
+                # sign_request = self.env['sign.request'].with_context(no_sign_mail=True).create({
+                #     'template_id': template.id,
+                #     'reference': f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract",
+                #     'request_item_ids': [Command.create({
+                #         'partner_id': signer['partner_id'],
+                #         'role_id': signer['role_id'],
+                #     }) for signer in signers],
+                # })
                 # system_role = self.env.ref('tl_sign_autofill.sign_role_system')
-                #
-                # roles = template.sign_item_ids.mapped('responsible_id').filtered(
-                #     lambda r: r.id != system_role.id
-                # )
-
-                # for role in roles:
-                #     if role.id == self.env.ref('sign.sign_item_role_customer').id:
-                #         request_items.append((0, 0, {
-                #             'partner_id': line.sale_id.partner_id.id,
-                #             'role_id': role.id,
-                #         }))
-                #     elif role.id == self.env.ref('sign.sign_item_role_user').id:
-                #         request_items.append((0, 0, {
-                #             'partner_id': line.sale_id.user_id.id,
-                #             'role_id': role.id,
-                #         }))
-
-                sign_request = self.env['sign.request'].with_context(no_sign_mail=True).create({
-                    'template_id': template.id,
-                    'reference': f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract",
-                    'request_item_ids': [Command.create({
-                        'partner_id': signer['partner_id'],
-                        'role_id': signer['role_id'],
-                        'mail_sent_order': signer['mail_sent_order'],
-                    }) for signer in signers],
-                })
-                system_role = self.env.ref('tl_sign_autofill.sign_role_system')
-                for item in template.sign_item_ids:
-                    if item.responsible_id != system_role:
-                        continue
-                    value = ''
-                    if item.name == 'Service Contract Number':
-                        value = contract.name
-                    if item.name == 'Service Contract Number':
-                        value = contract.name
-                    else:
-                        continue
-                    for request_item in sign_request.request_item_ids:
-                        self.env['sign.request.item.value'].sudo().create({
-                            'sign_request_id': sign_request.id,
-                            'sign_request_item_id': request_item.id,
-                            'sign_item_id': item.id,
-                            'value': value,
-                        })
+                # for item in template.sign_item_ids:
+                #     if item.responsible_id != system_role:
+                #         continue
+                #     value = ''
+                #     if item.name == 'Service Contract Number':
+                #         value = contract.name
+                #     if item.name == 'Service Contract Number':
+                #         value = contract.name
+                #     else:
+                #         continue
+                #     for request_item in sign_request.request_item_ids:
+                #         self.env['sign.request.item.value'].sudo().create({
+                #             'sign_request_id': sign_request.id,
+                #             'sign_request_item_id': request_item.id,
+                #             'sign_item_id': item.id,
+                #             'value': value,
+                #         })
                 self.create_sign_request_lognote(sign_request)
 
                 line.sign_request_id = sign_request.id
 
+    def get_auto_fills(self):
+        self.ensure_one()
+
+        equipment_list = '\n'.join(
+            [f"{i + 1}. {name}" for i, name in enumerate(self.contract_id.asset_ids.mapped('display_name'))]
+        )
+        partner = self.contract_id.partner_id
+        address_parts = []
+
+        if partner.parent_id:
+            address_parts.append(partner.parent_id.name)
+
+        street = ', '.join(filter(None, [
+            partner.street,
+            partner.street2,
+        ]))
+
+        if street:
+            address_parts.append(street)
+
+        city_line = ', '.join(filter(None, [
+            partner.city,
+            partner.state_id.name if partner.state_id else '',
+            partner.zip,
+        ]))
+
+        if city_line:
+            address_parts.append(city_line)
+
+        if partner.country_id:
+            address_parts.append(partner.country_id.name)
+
+        address = '\n'.join(address_parts)
+
+        return {
+            'service_contract_no': self.name,
+            'address': address,
+            'start_date': self.start_date,
+            'end_date': self.end_date,
+            'no_of_service': self.contract_id.product_id.number_of_services_per_year,
+
+            # 1. Equipment A
+            # 2. Equipment B
+            # 3. Equipment C
+            'equipments': equipment_list,
+
+            'user_name_job': (
+                f"{self.sale_id.user_id.name}, "
+                f"{self.sale_id.user_id.partner_id.function or ''}"
+            ),
+
+            'customer_name_job': (
+                f"{self.contract_id.partner_id.name}, "
+                f"{self.contract_id.partner_id.function or ''}"
+            ),
+        }
 
     def send_non_customer_emails(self):
         self.ensure_one()
@@ -491,4 +534,5 @@ class ServiceContractLine(models.Model):
                         item.id,
                         e
                     )
+
 
