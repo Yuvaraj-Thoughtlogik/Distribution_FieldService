@@ -45,8 +45,6 @@ patch(SignItemCustomPopover.prototype, {
                     sticky: false,
                 }
             );
-
-
             return;
         }
 
