@@ -40,7 +40,7 @@
                                 t-on-change="(e) => this.onChange('by_system', e.target.checked)"
                         />
 
-                        Fill By System
+                        Read only
 
                     </label>
 

@@ -13,25 +13,24 @@ class SendContractSign(models.TransientModel):
         if not template:
             return []
         template._check_send_ready()
-        system_role = self.env.ref('tl_sign_autofill.sign_role_system')
         user_role_id = self.env['ir.model.data']._xmlid_to_res_id('sign.sign_item_role_user')
         role_customer_id = self.env['ir.model.data']._xmlid_to_res_id('sign.sign_item_role_customer')
 
         order_id = self.env['sale.order'].browse(self.env.context.get('default_order_id'))
 
-        roles = template.sign_item_ids.responsible_id.filtered(
-            lambda r: r.id != system_role.id
-        ).sorted(
-            key=lambda r: r.id == role_customer_id
-        )
-
+        # system_role = self.env.ref('tl_sign_autofill.sign_role_system')
+        # roles = template.sign_item_ids.responsible_id.filtered(
+        #     lambda r: r.id != system_role.id
+        # ).sorted(
+        #     key=lambda r: r.id == role_customer_id
+        # )
+        roles = template.sign_item_ids
         signer_ids = []
 
         for default_signing_order, role in enumerate(roles):
             signer_vals = {
                'role_id': role.id,
                'partner_id': False,
-               'mail_sent_order': default_signing_order + 1 if self.set_sign_order else 1,
             }
             if len(roles) == 1:
                 signer_vals['partner_id'] = order_id.partner_id.id
@@ -40,7 +39,6 @@ class SendContractSign(models.TransientModel):
                     signer_vals['partner_id'] =  order_id.user_id.partner_id.id
                 if role.id == role_customer_id:
                     signer_vals['partner_id'] = order_id.partner_id.id
-                    signer_vals['mail_sent_order'] = len(roles)
 
             signer_ids.append((0, 0, signer_vals))
         return signer_ids
@@ -85,8 +83,6 @@ class SendContractSign(models.TransientModel):
                 action['context'] = ctx
             return action
         return None
-
-
 
     def action_send(self):
         line = self.contract_id.contract_line_ids[-1] if self.contract_id.contract_line_ids else False

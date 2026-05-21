@@ -11,7 +11,8 @@ patch(PDFIframe.prototype, {
 
         result.by_system = Boolean(signItem.by_system);
 
-        result.readonly = result.readonly && result.by_system;
+//        result.readonly = result.readonly && result.by_system;
+        result.readonly = result.by_system || result.responsible !== this.currentRole;
 
         if (result.by_system) {
             result.classes = result.classes

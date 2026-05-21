@@ -325,11 +325,6 @@ class SaleOrder(models.Model):
             'target': 'new'
         }
 
-    def send_sign_request_autofill(self):
-        self.ensure_one()
 
-        return self.sign_template_id.send_sign_request_autofill(
-
-        )
 
 

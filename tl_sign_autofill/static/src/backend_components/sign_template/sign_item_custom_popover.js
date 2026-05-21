@@ -27,7 +27,7 @@ patch(SignItemCustomPopover.prototype, {
 
         this.state.auto_fill = this.props.auto_fill ?? false;
         this.state.by_system = this.props.by_system ?? false;
-        this.state.key = this.props.key ?? " ";
+        this.state.key = this.props.key ?? "";
     },
     get isAutoFillSupported() {
         return ["text", "textarea"].includes(this.props.type);

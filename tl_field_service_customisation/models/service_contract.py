@@ -422,40 +422,25 @@ class ServiceContractLine(models.Model):
                     continue
                 if not template or not line.sale_id.state == 'sale':
                     continue
-                reference = f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract"
+                # reference = f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract"
 
-                sign_request = template.with_context(
+                # sign_request = template.with_context(
+                #     auto_fills=self.get_auto_fills()
+                # ).create_sign_request(
+                #     reference=reference,
+                #     signers=signers,
+                # )
+                sign_request = self.env['sign.request'].with_context(
+                    no_sign_mail=True,
                     auto_fills=self.get_auto_fills()
-                ).create_sign_request(
-                    reference=reference,
-                    signers=signers,
-                )
-                # sign_request = self.env['sign.request'].with_context(no_sign_mail=True).create({
-                #     'template_id': template.id,
-                #     'reference': f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract",
-                #     'request_item_ids': [Command.create({
-                #         'partner_id': signer['partner_id'],
-                #         'role_id': signer['role_id'],
-                #     }) for signer in signers],
-                # })
-                # system_role = self.env.ref('tl_sign_autofill.sign_role_system')
-                # for item in template.sign_item_ids:
-                #     if item.responsible_id != system_role:
-                #         continue
-                #     value = ''
-                #     if item.name == 'Service Contract Number':
-                #         value = contract.name
-                #     if item.name == 'Service Contract Number':
-                #         value = contract.name
-                #     else:
-                #         continue
-                #     for request_item in sign_request.request_item_ids:
-                #         self.env['sign.request.item.value'].sudo().create({
-                #             'sign_request_id': sign_request.id,
-                #             'sign_request_item_id': request_item.id,
-                #             'sign_item_id': item.id,
-                #             'value': value,
-                #         })
+                ).create({
+                    'template_id': template.id,
+                    'reference': f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract",
+                    'request_item_ids': [Command.create({
+                        'partner_id': signer['partner_id'],
+                        'role_id': signer['role_id'],
+                    }) for signer in signers],
+                })
                 self.create_sign_request_lognote(sign_request)
 
                 line.sign_request_id = sign_request.id
@@ -500,10 +485,6 @@ class ServiceContractLine(models.Model):
             'start_date': self.start_date,
             'end_date': self.end_date,
             'no_of_service': self.contract_id.product_id.number_of_services_per_year,
-
-            # 1. Equipment A
-            # 2. Equipment B
-            # 3. Equipment C
             'equipments': equipment_list,
 
             'user_name_job': (
