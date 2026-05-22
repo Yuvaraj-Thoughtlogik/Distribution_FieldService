@@ -27,7 +27,7 @@ class SignRequest(models.Model):
                 if not value:
                     raise ValidationError(_(
                         "Please provide a value for required readonly field: %s"
-                    ) % item.name)
+                    ) % item.key)
 
             vals['sign_autofill_ids'] = template.get_auto_fill_values()
 
