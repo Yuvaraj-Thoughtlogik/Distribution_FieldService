@@ -24,10 +24,11 @@ class SendContractSign(models.TransientModel):
         # ).sorted(
         #     key=lambda r: r.id == role_customer_id
         # )
-        roles = template.sign_item_ids
+        roles = template.sign_item_ids.responsible_id
         signer_ids = []
 
-        for default_signing_order, role in enumerate(roles):
+        for role in roles:
+            print(role)
             signer_vals = {
                'role_id': role.id,
                'partner_id': False,

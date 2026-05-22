@@ -30,6 +30,7 @@ Long description of module's purpose
         ],
         'sign.assets_public_sign': [
             'tl_sign_autofill/static/src/components/sign_request/PDF_iframe.js',
+            'tl_sign_autofill/static/src/components/sign_request/signable_PDF_iframe.js',
             'tl_sign_autofill/static/src/components/sign_request/sign_items.xml',
         ],
     },

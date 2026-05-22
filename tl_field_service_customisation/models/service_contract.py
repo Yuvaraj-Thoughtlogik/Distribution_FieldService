@@ -484,7 +484,7 @@ class ServiceContractLine(models.Model):
             'address': address,
             'start_date': self.start_date,
             'end_date': self.end_date,
-            'no_of_service': self.contract_id.product_id.number_of_services_per_year,
+            'no_of_services': self.contract_id.product_id.number_of_services_per_year,
             'equipments': equipment_list,
 
             'user_name_job': (
