@@ -28,7 +28,6 @@ class SendContractSign(models.TransientModel):
         signer_ids = []
 
         for role in roles:
-            print(role)
             signer_vals = {
                'role_id': role.id,
                'partner_id': False,
