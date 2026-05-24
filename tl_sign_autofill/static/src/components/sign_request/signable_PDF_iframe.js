@@ -6,19 +6,22 @@ import { SignablePDFIframe } from "@sign/components/sign_request/signable_PDF_if
 patch(SignablePDFIframe.prototype, {
 
     textareaApplyLineBreak(element) {
-        console.log("Tested");
-        // Removing wrap in order to have scrollWidth > width
+
+        console.log("element", element);
+
+        if (typeof element.value === "undefined") {
+            return element.textContent || "";
+        }
+
         element.setAttribute("wrap", "off");
 
-        // Prevent undefined/null crash
-        const strRawValue = String(element?.value || "");
+        const strRawValue = element.value || "";
 
         element.value = "";
 
         const nEmptyWidth = element.scrollWidth;
         let nLastWrappingIndex = -1;
 
-        // Computing new lines
         strRawValue.split("").forEach((curChar, i) => {
 
             element.value += curChar;
