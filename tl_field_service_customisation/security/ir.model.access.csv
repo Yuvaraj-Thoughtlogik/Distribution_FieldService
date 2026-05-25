@@ -4,3 +4,4 @@ access_service_contract_line_user,access.service.contract.line,model_service_con
 
 access_share_sign_wizard,access.share.sign.wizard,model_share_sign_wizard,base.group_user,1,1,1,1
 access_share_sign_line,access.share.sign.line,model_share_sign_line,base.group_user,1,1,1,1
+access_send_contract_sign,access.send.contract.sign,model_send_contract_sign,base.group_user,1,1,1,1

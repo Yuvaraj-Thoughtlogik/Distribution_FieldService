@@ -1,0 +1,7 @@
+<odoo>
+    <data>
+        <record id="sign_role_system" model="sign.item.role">
+            <field name="name">System</field>
+        </record>
+    </data>
+</odoo>

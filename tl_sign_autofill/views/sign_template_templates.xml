@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+      <template id="tl_sign_autofill.items_input_info_by_system_field" inherit_id="sign.items_input_info">
+          <xpath expr="//input[@class='o_sign_item_input_info']" position="attributes">
+              <attribute name="t-att-data-by_system">item.by_system</attribute>
+          </xpath>
+      </template>
+
+
+
+    </data>
+</odoo>

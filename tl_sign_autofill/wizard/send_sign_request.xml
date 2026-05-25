@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+   <!-- Inherit Form View to Modify it -->
+   <record id="sign_send_request_view_form_auto_fill_fields" model="ir.ui.view">
+      <field name="name">sign.send.request.view.form.auto.fill.fields</field>
+      <field name="model">sign.send.request</field>
+      <field name="inherit_id" ref="sign.sign_send_request_view_form"/>
+      <field name="arch" type="xml">
+
+         <xpath expr="//page[@name='signature_request']" position="after">
+            <page name="Auto Fill Fields">
+               <field name="request_item_value_ids">
+                  <list create="false">
+                     <field name="name"/>
+                     <field name="role_id"/>
+                     <field name="required"/>
+                     <field name="by_system" string="Read only"/>
+                     <field name="sign_item_id" column_invisible="1"/>
+                     <field name="value" required="required"/>
+                  </list>
+                  <form>
+                     <group>
+                        <field name="name" string="Key" readonly="1"/>
+
+                        <field name="value" required="required"/>
+                     </group>
+                  </form>
+               </field>
+            </page>
+
+         </xpath>
+
+      </field>
+   </record>
+</odoo>

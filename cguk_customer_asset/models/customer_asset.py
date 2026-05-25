@@ -356,10 +356,11 @@ class FSM(models.Model):
     @api.depends('helpdesk_ticket_id','customer_assets_ids')
     def _compute_customer_assets_id(self):
         for task in self:
-            if task.helpdesk_ticket_id and task.helpdesk_ticket_id.customer_assets_id:
-                asset_id = task.helpdesk_ticket_id.customer_assets_id.id
-                if asset_id and asset_id not in task.customer_assets_ids.ids:
-                    task.customer_assets_ids = [(4, asset_id)]
+            if task.helpdesk_ticket_id and task.helpdesk_ticket_id.customer_assets_ids:
+                # asset_id = task.helpdesk_ticket_id.customer_assets_ids.ids
+                # if asset_id and asset_id not in task.customer_assets_ids.ids:
+                #     task.customer_assets_ids = [(4, asset_id)]
+                task.customer_assets_ids = task.helpdesk_ticket_id.customer_assets_ids
             for asset in task.customer_assets_ids:
                 if asset and task.id not in asset.fsm_task_ids.ids:
                     asset.fsm_task_ids = [(4, task.id)]
