@@ -6,16 +6,27 @@
         <field name="arch" type="xml">
             <form string="Share Sign Links">
                 <group>
-<!--                    <field name="name"/>-->
                     <field name="sign_request_id" readonly="1"/>
                 </group>
                 <notebook>
-                    <page name="Signers Links">
-                        <field name="line_ids" nolabel="1">
-                            <list>
-                                <field name="name"/>
-                                <field name="role"/>
-                                <field name="url" widget="CopyClipboardChar"/>
+                    <!--                    <page name="Signers Links">-->
+                    <!--                        <field name="line_ids" nolabel="1" readonly="1">-->
+                    <!--                            <list editable="bottom" create="false" edit="false">-->
+                    <!--                                <field name="name"/>-->
+                    <!--                                <field name="role"/>-->
+                    <!--                                <field name="url" widget="CopyClipboardChar"/>-->
+                    <!--                            </list>-->
+                    <!--                        </field>-->
+                    <!--                    </page>-->
+                    <page string="Signers" name="signers">
+                        <field name="request_item_ids" readonly="1" context="{'default_sign_request_id': id}">
+                            <list editable="bottom">
+                                <field name="partner_id" />
+                                <field name="role_id"/>
+                                <field name="state"/>
+                                <field name="request_url" widget="CopyClipboardChar"/>
+                                <button name="send_signature_accesses" string="Send" type="object" icon="fa-square-o pe-2" invisible="not signer_email or state != 'sent' or is_mail_sent"/>
+                                <button name="send_signature_accesses" string="Resend" type="object" icon="fa-check-square-o pe-2" invisible="not signer_email or state != 'sent' or not is_mail_sent"/>
                             </list>
                         </field>
                     </page>

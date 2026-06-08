@@ -170,6 +170,25 @@ class ServiceContract(models.Model):
             'target': 'current'
         }
 
+    def create_sign_request(self):
+        self.ensure_one()
+        if self.current_subscription_id.state != 'sale':
+            raise ValidationError(
+                _("Please confirm the Subscription before creating a sign request.")
+            )
+        return {
+            'name': 'Assign Sign Role',
+            'type': 'ir.actions.act_window',
+            'res_model': 'send.contract.sign',
+            'view_mode': 'form',
+            'context': {
+                'template_id': self.sign_template_id.id,
+                'default_contract_id': self.id,
+                'default_order_id': self.sale_id.id,
+            },
+            'target': 'new'
+        }
+
     def send_sign_email(self):
         self.ensure_one()
         if self.current_subscription_id.state != 'sale':
@@ -201,27 +220,6 @@ class ServiceContract(models.Model):
         self.message_post(body=body)
         return {'type': 'ir.actions.client', 'tag': 'soft_reload'}
 
-    def create_sign_request(self):
-        self.ensure_one()
-        if self.current_subscription_id.state != 'sale':
-            raise ValidationError(
-                _("Please confirm the Subscription before creating a sign request.")
-            )
-        return {
-            'name': 'Assign Sign Role',
-            'type': 'ir.actions.act_window',
-            'res_model': 'send.contract.sign',
-            'view_mode': 'form',
-            'context': {
-                'template_id': self.sign_template_id.id,
-                'default_contract_id': self.id,
-                'default_order_id': self.sale_id.id,
-            },
-            'target': 'new'
-        }
-
-
-
     def share_sign_link(self):
         self.ensure_one()
 
@@ -234,6 +232,7 @@ class ServiceContract(models.Model):
             'context': {
                 'default_name': self.name,
                 'default_sign_request_id': self.current_sign_id.id,
+                'default_service_contract_id': self.id,
             }
         }
 
@@ -414,36 +413,33 @@ class ServiceContractLine(models.Model):
                 )
 
     def create_sign_request(self,signers):
-        for line in self:
+        self.ensure_one()
 
-                contract = line.contract_id
-                template = contract.sign_template_id
-                if line.sign_request_id:
-                    continue
-                if not template or not line.sale_id.state == 'sale':
-                    continue
-                # reference = f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract"
+        contract = self.contract_id
+        template = contract.sign_template_id
+        if self.sign_request_id:
+            return self.sign_request_id
+        if not template or not self.sale_id.state == 'sale':
+            raise ValidationError(
+                _("Please confirm the Subscription before creating a sign request.")
+            )
 
-                # sign_request = template.with_context(
-                #     auto_fills=self.get_auto_fills()
-                # ).create_sign_request(
-                #     reference=reference,
-                #     signers=signers,
-                # )
-                sign_request = self.env['sign.request'].with_context(
-                    no_sign_mail=True,
-                    auto_fills=self.get_auto_fills()
-                ).create({
-                    'template_id': template.id,
-                    'reference': f"{line.sale_id.name} - {line.sale_id.start_date} - Service Contract",
-                    'request_item_ids': [Command.create({
-                        'partner_id': signer['partner_id'],
-                        'role_id': signer['role_id'],
-                    }) for signer in signers],
-                })
-                self.create_sign_request_lognote(sign_request)
+        sign_request = self.env['sign.request'].with_context(
+            no_sign_mail=True,
+            auto_fills=self.get_auto_fills()
+        ).create({
+            'template_id': template.id,
+            'reference': f"{self.sale_id.name} - {self.sale_id.start_date} - Service Contract",
+            'request_item_ids': [Command.create({
+                'partner_id': signer['partner_id'],
+                'role_id': signer['role_id'],
+            }) for signer in signers],
+        })
+        self.create_sign_request_lognote(sign_request)
 
-                line.sign_request_id = sign_request.id
+        self.sign_request_id = sign_request.id
+        self.send_non_customer_emails()
+        return sign_request
 
     def get_auto_fills(self):
         self.ensure_one()
@@ -509,11 +505,21 @@ class ServiceContractLine(models.Model):
             if item.state not in ['completed','canceled'] and item.role_id.id != role_customer_id:
                 try:
                     item.send_signature_accesses()
+                    body = f"Signature request sent to recipient: {item.partner_id.name}"
+                    self.contract_id.message_post(
+                        body=body,
+                        subtype_xmlid="mail.mt_note"
+                    )
+                    self.sale_id.message_post(
+                        body=body,
+                        subtype_xmlid="mail.mt_note"
+                    )
                 except Exception as e:
                     _logger.exception(
                         "Failed to send signature access for item %s: %s",
                         item.id,
                         e
                     )
+
 
 

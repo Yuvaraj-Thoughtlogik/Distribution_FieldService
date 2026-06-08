@@ -39,8 +39,8 @@ class MailComposer(models.TransientModel):
 
             return res
 
-    def action_send_mail(self):
-        res = super().action_send_mail()
-        if self.send_with_service_contract:
-            self.contract_line_id.send_non_customer_emails()
-        return res
+    # def action_send_mail(self):
+    #     res = super().action_send_mail()
+    #     if self.send_with_service_contract:
+    #         self.contract_line_id.send_non_customer_emails()
+    #     return res

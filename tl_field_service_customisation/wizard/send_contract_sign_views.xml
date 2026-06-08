@@ -7,10 +7,6 @@
                 <group>
                     <group>
                         <field name="signer_ids" colspan="2" nolabel="1" widget="signer_x2many" />
-<!--                        <div class="d-flex flex-row align-items-center" colspan="2" invisible="context.get('sign_directly_without_mail',False)">-->
-<!--                            <field name="set_sign_order" nolabel="1" widget="boolean_toggle" class="oe_inline" options="{'autosave': false}"/>-->
-<!--                            <label for="set_sign_order" class="fw-bold"/>-->
-<!--                        </div>-->
                     </group>
                 </group>
 
