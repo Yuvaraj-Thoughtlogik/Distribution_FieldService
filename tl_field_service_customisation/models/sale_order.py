@@ -51,6 +51,9 @@ class SaleOrder(models.Model):
 
     sign_template_id =  fields.Many2one(comodel_name='sign.template',string='Sign Template')
 
+    sign_request_id = fields.Many2one(comodel_name='sign.request',string='Sign Request', related='contract_line_id.sign_request_id',store=True)
+
+    user_signed = fields.Boolean(compute='_compute_user_signed')
 
     next_recurring_date = fields.Date(
         string='Next Recurring Date',
@@ -162,6 +165,15 @@ class SaleOrder(models.Model):
         res = super().action_confirm()
         self._create_fsm_tasks_for_year()
         return res
+
+    @api.depends('sign_request_id.request_item_ids.state')
+    def _compute_user_signed(self):
+        for rec in self:
+            rec.user_signed = any(
+                item.role_id.name == 'User' and item.state == 'completed'
+                for item in rec.sign_request_id.request_item_ids
+            )
+
 
     def _create_fsm_tasks_for_year(self):
         """Create all FSM tasks for the subscription for the current year"""
@@ -325,6 +337,43 @@ class SaleOrder(models.Model):
             'target': 'new'
         }
 
+    def send_with_sign(self):
+        self.ensure_one()
+        action = self.action_quotation_send()
+        ctx = action.get('context', {})
+        if self.sign_request_id and self.state == 'sale':
+            # contract_line = self.contract_line_id
+            # signers = [{'partner_id': signer.partner_id.id, 'role_id': signer.role_id.id,
+            #             'mail_sent_order': signer.mail_sent_order} for signer in self.signer_ids]
+            #
+            # contract_line.create_sign_request(signers=signers)
+            sign_request = self.sign_request_id
+
+            sign_url = ""
+            if sign_request and sign_request.request_item_ids:
+                base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+                role_customer_id = self.env['ir.model.data']._xmlid_to_res_id(
+                    'sign.sign_item_role_customer'
+                )
+                item = sign_request.request_item_ids.filtered(
+                    lambda r: r.role_id.id == role_customer_id
+                )[:1]
+
+                item = item and item[0] or False
+                sign_url = f"{base_url}/sign/document/{sign_request.id}/{item.access_token}"
+
+            ctx.update({
+                'default_send_with_service_contract': True,
+                'default_service_contract_sign_url': sign_url,
+                'default_contract_line_id': self.contract_line_id.id,
+            })
+
+            action['context'] = ctx
+        return action
+
+    def create_sign_request(self):
+        self.ensure_one()
+        return self.contract_id.create_sign_request()
 
 
 

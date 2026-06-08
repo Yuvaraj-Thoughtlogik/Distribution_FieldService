@@ -90,6 +90,7 @@ class SendContractSign(models.TransientModel):
                     'mail_sent_order': signer.mail_sent_order} for signer in self.signer_ids]
         if line:
             line.create_sign_request(signers=signers)
+
         return {'type': 'ir.actions.client', 'tag': 'soft_reload'}
 
 

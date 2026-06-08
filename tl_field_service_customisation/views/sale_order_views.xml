@@ -13,12 +13,28 @@
                 <attribute name="domain">[('id','in',available_invoice_ids)]</attribute>
             </xpath>
             <xpath expr="//header//button[@id='create_invoice']" position="after">
-                 <button name="action_assign_sign_role" type="object" class="btn-primary" invisible="state != 'sale'" string="Send with Sign"/>
+                <button name="create_sign_request"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'sale' or sign_request_id"
+                        string="Create Sign Request"/>
+
+                <button name="send_with_sign"
+                        type="object"
+                        class="btn-primary"
+                        invisible="state != 'sale' or not user_signed or not sign_request_id"
+                        string="Send with Sign"/>
+
+                <button name="send_with_sign"
+                        type="object"
+                        class="btn-primary"
+                        confirm="The user has not signed yet. Are you sure you want to send the sign request?"
+                        invisible="state != 'sale' or user_signed or not sign_request_id"
+                        string="Send with Sign"/>
             </xpath>
         </field>
     </record>
 
-    <!-- Inherit Form View to Modify it -->
     <record id="sale_subscription_order_view_form_next_recurring" model="ir.ui.view">
         <field name="name">sale.subscription.order.form.next_recurring</field>
         <field name="model">sale.order</field>
@@ -27,23 +43,23 @@
 
             <xpath expr="//div[@name='plan_block']" position="after">
                 <field name="next_recurring_date" invisible="not is_subscription"/>
-                <field name="sign_template_id" required="is_subscription"/>
-<!--                <field name="lead_id"/>-->
+                <field name="sign_template_id" required="is_subscription" invisible="not is_subscription"/>
+                <!--                <field name="lead_id"/>-->
             </xpath>
             <xpath expr="//button[@name='action_sale_order_log']" position="after">
                 <button name="action_view_renewal_opportunity"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-star"
-                invisible="not lead_id">
-                        <field name="lead_id" widget="statinfo"/>
+                        invisible="not lead_id">
+                    <field name="lead_id" widget="statinfo"/>
                 </button>
                 <button name="action_view_service_contract"
                         type="object"
                         class="oe_stat_button"
                         icon="fa-file-text-o"
                         invisible="not contract_line_id">
-                        <field name="contract_id" string="Service Contract" widget="statinfo"/>
+                    <field name="contract_id" string="Service Contract" widget="statinfo"/>
                 </button>
             </xpath>
 
