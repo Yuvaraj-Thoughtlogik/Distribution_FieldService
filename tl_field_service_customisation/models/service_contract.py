@@ -476,6 +476,7 @@ class ServiceContractLine(models.Model):
         address = '\n'.join(address_parts)
 
         return {
+            'customer_name':self.contract_id.partner_id.name,
             'service_contract_no': self.name,
             'address': address,
             'start_date': self.start_date,
