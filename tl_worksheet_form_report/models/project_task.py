@@ -48,6 +48,24 @@ class FSMTask(models.Model):
 
             # Layout group (<group><group/><group/></group>)
             if child_groups:
+                # Render the Master Parent Group Header if it has a string title (e.g., INFORMATION)
+                if title:
+                    html += f"""
+                    <div style="
+                        font-size:16px;
+                        font-weight:800;
+                        color:#714B67; /* Odoo Theme Purple Accent */
+                        text-transform: uppercase;
+                        letter-spacing: 0.7px;
+                        margin-top: 25px;
+                        margin-bottom: 15px;
+                        border-bottom: 2px solid #714B67;
+                        padding-bottom: 6px;
+                    ">
+                        {title}
+                    </div>
+                    """
+
                 html += """
                 <table border="0" cellpadding="0" cellspacing="0" style="
                     width:100%;
@@ -61,6 +79,11 @@ class FSMTask(models.Model):
                     html += '<tr style="border:0px solid transparent !important;">'
 
                     for child in child_groups[i:i + 2]:
+                        # Skip inner columns if they are evaluated to invisible
+                        if self._is_node_invisible(child, record):
+                            html += '<td style="width:50%; border:none !important;"></td>'
+                            continue
+
                         html += """
                         <td style="
                             width:50%;
@@ -72,10 +95,10 @@ class FSMTask(models.Model):
 
                         child_title = child.attrib.get("string")
                         if child_title:
-                            # Odoo Section Heading Style
+                            # Standard Odoo Inner Column Section Heading Style
                             html += f"""
                             <div style="
-                                font-size:15px;
+                                font-size:14px;
                                 font-weight:700;
                                 color:#111827;
                                 text-transform: uppercase;
@@ -101,7 +124,7 @@ class FSMTask(models.Model):
                 html += "</table>"
                 return html
 
-            # Normal group heading (Single columns)
+            # Normal single group heading (Single columns)
             if title:
                 html += f"""
                 <div style="
@@ -130,12 +153,10 @@ class FSMTask(models.Model):
             if not field_name or field_name not in record._fields:
                 return ""
 
-
-
-
             field = record._fields[field_name]
             value = record[field_name]
             field_string = node.attrib.get("string") or field.string
+
             if field.type == "many2one":
                 value_html = value.display_name if value else ""
             elif field.type in ("many2many", "one2many"):
@@ -155,46 +176,40 @@ class FSMTask(models.Model):
                 value_html = value or ""
             elif field.type == "binary":
                 if value:
-                    # Decode data string if it's stored in bytes format
                     base64_str = value.decode('utf-8') if isinstance(value, bytes) else str(value)
-
-                    # Ensure it looks like an image file signature block
-                    # Check for common raw Base64 headers for JPEG/PNG/GIF/WebP
                     is_image = any(base64_str.startswith(prefix) for prefix in ('iVBORw0KG', '/9j/', 'R0lGOD', 'UklGR'))
 
                     if is_image:
-                        # Render a real image container scaled perfectly for Odoo tables
                         value_html = f"""
-                                        <div style="
-                                            display: inline-block;
-                                            border: 1px solid #E5E7EB;
-                                            border-radius: 4px;
-                                            padding: 4px;
-                                            background-color: #F9FAFB;
-                                            max-width: 200px;
-                                        ">
-                                            <img src="data:image/png;base64,{base64_str}" style="
-                                                max-width: 100%;
-                                                max-height: 150px;
-                                                display: block;
-                                                object-fit: contain;
-                                            "/>
-                                        </div>
-                                        """
+                        <div style="
+                            display: inline-block;
+                            border: 1px solid #E5E7EB;
+                            border-radius: 4px;
+                            padding: 4px;
+                            background-color: #F9FAFB;
+                            max-width: 200px;
+                        ">
+                            <img src="data:image/png;base64,{base64_str}" style="
+                                max-width: 100%;
+                                max-height: 150px;
+                                display: block;
+                                object-fit: contain;
+                            "/>
+                        </div>
+                        """
                     else:
-                        # Fallback if the uploaded binary file is a Document/PDF instead of an image
                         value_html = """
-                                        <span style="
-                                            color: #2563EB; 
-                                            font-size: 13px; 
-                                            font-weight: 500;
-                                            background-color: #EFF6FF;
-                                            padding: 3px 8px;
-                                            border-radius: 12px;
-                                        ">
-                                            📎 Attachment File Provided
-                                        </span>
-                                        """
+                        <span style="
+                            color: #2563EB; 
+                            font-size: 13px; 
+                            font-weight: 500;
+                            background-color: #EFF6FF;
+                            padding: 3px 8px;
+                            border-radius: 12px;
+                        ">
+                            📎 Attachment File Provided
+                        </span>
+                        """
                 else:
                     value_html = '<span style="color: #9CA3AF; font-style: italic;">No file uploaded</span>'
             elif field.type == "selection":
@@ -202,7 +217,6 @@ class FSMTask(models.Model):
             else:
                 value_html = str(value) if value is not False and value is not None else ""
 
-            # Odoo Table Row: Muted grey label text vs dark data values
             return f"""
             <table border="0" cellpadding="0" cellspacing="0" style="
                 width:100%;
@@ -243,7 +257,6 @@ class FSMTask(models.Model):
                 html += self._render_worksheet_node(child, record)
 
         return html
-
     def generate_worksheet_html(self):
         self.ensure_one()
 
