@@ -1,0 +1,10 @@
+<odoo>
+  <data>
+
+      <template id="tl_worksheet_form_report.worksheet_custom_page" inherit_id="industry_fsm_report.worksheet_custom_page">
+          <xpath expr="//t[@t-call='#{doc.worksheet_template_id.report_view_id.id}']" position="replace">
+              <t t-raw="doc.generate_worksheet_html()"></t>
+          </xpath>
+        </template>
+  </data>
+</odoo>
