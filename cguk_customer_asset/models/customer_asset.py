@@ -235,7 +235,7 @@ class CustomerAsset(models.Model):
             'name': 'Helpdesk Tickets',
             'res_model': 'helpdesk.ticket',  # replace with actual model
             'view_mode': 'list,form',
-            'domain': [('customer_assets_id', '=', self.id)],  # or use correct relation field
+            'domain': [('customer_assets_ids', 'in', self.id)],  # or use correct relation field
             'target': 'current',
         }
     def action_view_fsm(self):
