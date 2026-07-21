@@ -72,6 +72,25 @@ class MailComposer(models.TransientModel):
         ondelete={"email_outgoing": "set default"},
     )
 
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            if vals.get("wizard_type") == "email":
+                composition_mode = vals.get("composition_mode", "comment")
+                subtype_is_log = vals.get("subtype_is_log", False)
+                if composition_mode != "comment" or subtype_is_log:
+                    vals["wizard_type"] = "odoo"
+        return super().create(vals_list)
+
+    def write(self, vals):
+        if vals.get("wizard_type") == "email":
+            composition_mode = vals.get("composition_mode", self.composition_mode)
+            subtype_is_log = vals.get("subtype_is_log", self.subtype_is_log)
+            if composition_mode != "comment" or subtype_is_log:
+                vals["wizard_type"] = "odoo"
+        return super().write(vals)
+
+
     @api.constrains("wizard_type")
     def _check_wizard_type(self):
         for rec in self:
