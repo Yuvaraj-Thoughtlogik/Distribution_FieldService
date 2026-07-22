@@ -28,7 +28,7 @@ class SaleOrder(models.Model):
 
     renewal_date = fields.Date(string="Renewal Date")
 
-    sale_customer_assets_count = fields.Integer(string="Customer Assets", compute="_compute_sale_customer_assets_count")
+    sale_customer_assets_count = fields.Integer(string="Customer Assets Count", compute="_compute_sale_customer_assets_count")
     subscription_customer_assets_count = fields.Integer(string="Customer Assets", compute="_compute_subscription_customer_assets_count")
 
     @api.depends('sale_customer_assets_ids')

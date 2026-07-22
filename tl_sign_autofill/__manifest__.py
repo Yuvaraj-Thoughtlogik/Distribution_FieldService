@@ -12,6 +12,7 @@ Long description of module's purpose
     'website': 'www.thoughtlogik.com',
     'category': 'Uncategorized',
     'version': '0.1',
+    "license": "LGPL-3",
     'depends': ['sign'],
 
     'data': [

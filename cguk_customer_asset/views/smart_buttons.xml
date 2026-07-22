@@ -30,7 +30,7 @@
         <field name="arch" type="xml">
             <xpath expr="//field[@name='milestone_id']" position="before">
                 <field name="customer_assets_ids" widget="many2many_tags"  />
-                
+
             </xpath>
             <xpath expr="//div[@class='oe_button_box']" position="inside">
                 <!-- Add your fields or attributes here -->

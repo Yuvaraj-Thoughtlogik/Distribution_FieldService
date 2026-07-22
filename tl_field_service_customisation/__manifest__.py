@@ -1,10 +1,11 @@
 {
     "name": "TL Field Service Customisation",
     "version": "1.0",
-    "depends": ['cguk_customer_asset','sign','crm','sale_subscription','tl_cguk_crm_custom','industry_fsm_report','stock','industry_fsm_sale','product'],
+    "depends": ['cguk_customer_asset','sign','crm','sale_subscription','tl_cguk_crm_custom','industry_fsm_report','stock','industry_fsm_sale','product','industry_fsm'],
     'author': 'Thoughtlogik Solutions',
     'website': 'www.thoughtlogik.com',
     "category": "custom",
+    "license": "LGPL-3",
     "summary": "Custom module for Task and project management",
     "data": [
         'security/ir.model.access.csv',

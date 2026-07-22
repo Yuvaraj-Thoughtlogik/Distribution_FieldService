@@ -5,7 +5,7 @@ class StockMove(models.Model):
 
     track_cpe = fields.Boolean(string='Track CPE',compute='_compute_track_cpe',store=True,readonly=False)
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         move = super().create(vals)
         move._create_customer_assets()

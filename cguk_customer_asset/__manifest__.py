@@ -5,6 +5,7 @@
     'author': 'Thoughtlogik Solutions',
     'website': 'www.thoughtlogik.com',
     "category": "custom",
+    "license": "LGPL-3",
     "summary": "Custom module for Track sold equipment per customer",
     "data": [
         "security/ir.model.access.csv",

@@ -5,6 +5,7 @@
     'summary': 'Create a contact field',
     'author': 'Thoughtlogik Solutions',
     'website': 'www.thoughtlogik.com',
+    "license": "LGPL-3",
     'depends': ['base','contacts' ],
     'data': [
         'security/ir.model.access.csv',
