@@ -4,6 +4,7 @@
     'author': 'Felix',
     'category': 'Custom',
     'summary': 'Custom Reports for Inventory',
+    "license": "LGPL-3",
     'depends': ['stock','sale'],
     'data': [
         'report/report_stockpicking_operations_inherit.xml',

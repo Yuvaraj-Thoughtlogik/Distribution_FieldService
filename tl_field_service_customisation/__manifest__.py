@@ -5,6 +5,7 @@
     'author': 'Thoughtlogik Solutions',
     'website': 'www.thoughtlogik.com',
     "category": "custom",
+    "license": "LGPL-3",
     "summary": "Custom module for Task and project management",
     "data": [
         'security/ir.model.access.csv',

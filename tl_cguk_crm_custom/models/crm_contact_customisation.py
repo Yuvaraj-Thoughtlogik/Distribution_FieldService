@@ -24,6 +24,7 @@ class SamplePreparationOption(models.Model):
 
 class ProductLine(models.Model):
     _name = "crm.lead.product_line"
+    _description = 'CRM Product Line'
 
     name = fields.Char(required=True)
 
@@ -182,7 +183,7 @@ class Lead(models.Model):
                     'description_custom': lead.description_of_analysis or '',
                 })
 
-    @api.model
+    @api.model_create_multi
     def create(self, vals):
         record = super(Lead, self).create(vals)
         record._update_partner_fields()
