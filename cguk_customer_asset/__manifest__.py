@@ -1,6 +1,6 @@
 {
     "name": "TL_CGUK_Customer_Assets",
-    "version": "1.0",
+    "version": "1.1",
     "depends": ["base","sale", "contacts", "product","helpdesk_fsm","project","sale_subscription","stock",'repair'],
     'author': 'Thoughtlogik Solutions',
     'website': 'www.thoughtlogik.com',
