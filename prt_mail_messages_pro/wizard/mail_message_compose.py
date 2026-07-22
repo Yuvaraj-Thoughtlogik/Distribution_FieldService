@@ -91,6 +91,7 @@ class MailComposer(models.TransientModel):
         return super().write(vals)
 
 
+
     @api.constrains("wizard_type")
     def _check_wizard_type(self):
         for rec in self:
