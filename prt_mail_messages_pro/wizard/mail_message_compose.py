@@ -72,15 +72,28 @@ class MailComposer(models.TransientModel):
         ondelete={"email_outgoing": "set default"},
     )
 
+
+    # @api.constrains("wizard_type")
+    # def _check_wizard_type(self):
+    #     for rec in self:
+    #         if (
+    #             rec.composition_mode != "comment" or rec.subtype_is_log
+    #         ) and rec.wizard_type == "email":
+    #             raise models.UserError(
+    #                 _('"Email mode" cannot be used in such wizard configuration')
+    #             )
+
     @api.constrains("wizard_type")
     def _check_wizard_type(self):
         for rec in self:
             if (
-                rec.composition_mode != "comment" or rec.subtype_is_log
-            ) and rec.wizard_type == "email":
-                raise models.UserError(
-                    _('"Email mode" cannot be used in such wizard configuration')
-                )
+                    rec.wizard_type == "email"
+                    and (
+                    rec.composition_mode != "comment"
+                    or rec.subtype_is_log
+            )
+            ):
+                rec.wizard_type = "odoo"
 
     @api.model
     def default_get(self, fields_list):

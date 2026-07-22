@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="quick_create_ticket_form" model="ir.ui.view">
+            <field name="name">helpdesk.ticket.form.quick_create.inherit</field>
+            <field name="model">helpdesk.ticket</field>
+            <field name="inherit_id" ref="helpdesk.quick_create_ticket_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after">
+                    <field name="customer_assets_ids" widget="many2many_tags"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+
+</odoo>
