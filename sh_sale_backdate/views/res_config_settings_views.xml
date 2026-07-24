@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_sale_backdate_res_config_settings" model="ir.ui.view">
+        <field name="name">Sale Backdate Settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <app name="sale_management" position="inside">
+                <block title="Sale Backdate Settings" name="sale_backdate">
+                    <setting>
+                        <field name="backdate_for_sale_order" />
+                    </setting>
+                    <setting invisible="not backdate_for_sale_order">
+                        <field name="remark_for_sale_order" />
+                        <div class="content-group" invisible="not remark_for_sale_order or not backdate_for_sale_order">
+                            <div class="mt8">
+                                <field class="oe_inline" name="remark_mandatory_for_sale_order" />
+                                <label for="remark_mandatory_for_sale_order"/>
+                            </div>
+                        </div>
+                    </setting>
+
+                    <setting invisible="not backdate_for_sale_order">
+                        <field name="backdate_for_invoice" />
+                    </setting>
+                    <setting invisible="not backdate_for_sale_order">
+                        <field name="backdate_for_stock_move"/>
+                    </setting>
+                </block>
+            </app>
+        </field>
+    </record>
+</odoo>
