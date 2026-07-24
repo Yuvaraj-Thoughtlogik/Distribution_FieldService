@@ -1,0 +1,212 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# 	* sh_account_backdate
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 15.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-11-10 11:25+0000\n"
+"PO-Revision-Date: 2021-11-10 11:25+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: \n"
+
+#. module: sh_account_backdate
+#: model_terms:ir.ui.view,arch_db:sh_account_backdate.sh_account_backdate_res_config_settings
+msgid "Account Backdate Settings"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__account_move_ids
+msgid "Account Move"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__account_payment_ids
+msgid "Account Payment"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model_terms:ir.ui.view,arch_db:sh_account_backdate.invoice_backdate_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:sh_account_backdate.payment_backdate_wizard_view_form
+msgid "Cancel"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model,name:sh_account_backdate.model_res_company
+msgid "Companies"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__company_id
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__company_id
+msgid "Company"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model,name:sh_account_backdate.model_res_config_settings
+msgid "Config Settings"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model_terms:ir.ui.view,arch_db:sh_account_backdate.invoice_backdate_wizard_view_form
+#: model_terms:ir.ui.view,arch_db:sh_account_backdate.payment_backdate_wizard_view_form
+msgid "Confirm"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__create_uid
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__create_uid
+msgid "Created by"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__create_date
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__create_date
+msgid "Created on"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__date
+msgid "Date"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__display_name
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__display_name
+msgid "Display Name"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_company__enable_backdate_for_move
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_config_settings__enable_backdate_for_move
+msgid "Enable Backdate for Invoice"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_company__enable_backdate_for_payment
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_config_settings__enable_backdate_for_payment
+msgid "Enable Backdate for Payment"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_bank_statement_line__is_remarks
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_move__is_remarks
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_company__remark_for_move
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_config_settings__remark_for_move
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__is_remarks
+msgid "Enable Remark for Invoice"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_payment__is_remarks
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_company__remark_for_payment
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_config_settings__remark_for_payment
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__is_remarks
+msgid "Enable Remark for Payment"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__id
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__id
+msgid "ID"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__invoice_date
+msgid "Invoice Date"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_bank_statement_line__is_boolean
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_move__is_boolean
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_payment__is_boolean
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__is_boolean
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__is_boolean
+msgid "Is Boolean"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model,name:sh_account_backdate.model_account_move
+msgid "Journal Entry"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model,name:sh_account_backdate.model_account_move_line
+msgid "Journal Item"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard____last_update
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard____last_update
+msgid "Last Modified on"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__write_uid
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__write_uid
+msgid "Last Updated by"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__write_date
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__write_date
+msgid "Last Updated on"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.actions.server,name:sh_account_backdate.model_account_move_action_open_backdate_wizard
+#: model:ir.actions.server,name:sh_account_backdate.model_account_payment_action_open_backdate_wizard
+msgid "Mass Assign Backdate"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:res.groups,name:sh_account_backdate.group_mass_assign_account_backdate
+msgid "Mass Assign Backdate(Account)"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model,name:sh_account_backdate.model_account_payment
+msgid "Payments"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_bank_statement_line__is_remarks_mandatory
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_move__is_remarks_mandatory
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_company__remark_mandatory_move
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_config_settings__remark_mandatory_move
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__is_remarks_mandatory
+msgid "Remark Mandatory for Invoice"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_payment__is_remarks_mandatory
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_company__remark_mandatory_payment
+#: model:ir.model.fields,field_description:sh_account_backdate.field_res_config_settings__remark_mandatory_payment
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__is_remarks_mandatory
+msgid "Remark Mandatory for Payment"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_bank_statement_line__remarks
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_move__remarks
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_move_line__remarks
+#: model:ir.model.fields,field_description:sh_account_backdate.field_account_payment__remarks
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_invoice_backdate_wizard__remarks
+#: model:ir.model.fields,field_description:sh_account_backdate.field_sh_payment_backdate_wizard__remarks
+msgid "Remarks"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model,name:sh_account_backdate.model_sh_invoice_backdate_wizard
+msgid "sh.invoice.backdate.wizard"
+msgstr ""
+
+#. module: sh_account_backdate
+#: model:ir.model,name:sh_account_backdate.model_sh_payment_backdate_wizard
+msgid "sh.payment.backdate.wizard"
+msgstr ""

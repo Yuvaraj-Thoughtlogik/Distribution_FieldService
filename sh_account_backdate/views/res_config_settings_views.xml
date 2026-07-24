@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sh_account_backdate_res_config_settings" model="ir.ui.view">
+        <field name="name">Account Backdate Settings</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="account.res_config_settings_view_form" />
+        <field name="arch" type="xml">
+            <app name="account" position="inside">
+                <block name="account_backdate" title="Account Backdate Settings">
+                    <setting>
+                        <field name="enable_backdate_for_move" />
+                    </setting>
+                    <setting invisible="not enable_backdate_for_move">
+                        <field name="remark_for_move"/>
+                        <div class="content-group" invisible="not enable_backdate_for_move or not remark_for_move">
+                            <div class="mt8">
+                                <field class="oe_inline" name="remark_mandatory_move" />
+                                <label for="remark_mandatory_move"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+                <block title="Payment Backdate Settings" name="account_payment_backdate">
+                    <setting>
+                        <field name="enable_backdate_for_payment" />
+                    </setting>
+                    <setting invisible="not enable_backdate_for_payment">
+                        <field name="remark_for_payment" />
+                        <div class="content-group" invisible="not enable_backdate_for_payment or not remark_for_payment">
+                            <div class="mt8">
+                                <field class="oe_inline" name="remark_mandatory_payment" />
+                                <label for="remark_mandatory_payment"/>
+                            </div>
+                        </div>
+                    </setting>
+                </block>
+            </app>
+        </field>
+    </record>
+</odoo>
