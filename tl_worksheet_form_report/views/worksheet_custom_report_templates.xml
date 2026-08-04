@@ -2,6 +2,9 @@
   <data>
 
       <template id="tl_worksheet_form_report.worksheet_custom_page" inherit_id="industry_fsm_report.worksheet_custom_page">
+          <xpath expr="//div[@name='worksheet_map']" position="attributes">
+              <attribute name="style">padding-top:20px;</attribute>
+          </xpath>
           <xpath expr="//div[@name='worksheet_map']//br" position="replace"/>
            <xpath expr="//div[@name='worksheet_map']//h2" position="replace">
                 <h4>Worksheet</h4>
