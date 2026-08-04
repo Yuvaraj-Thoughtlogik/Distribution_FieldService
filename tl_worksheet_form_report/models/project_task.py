@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from lxml import etree
-from markupsafe import Markup
+from markupsafe import Markup,escape
 
 from odoo import models, fields
 from odoo.tools.safe_eval import safe_eval
@@ -212,8 +212,13 @@ class FSMTask(models.Model):
                         """
                 else:
                     value_html = '<span style="color: #9CA3AF; font-style: italic;">No file uploaded</span>'
+            elif field.type == "text":
+                value_html = "<br/>".join(
+                    line.strip() for line in (value or "").splitlines() if line.strip()
+                )
             elif field.type == "selection":
                 value_html = dict(field.selection).get(value, "") if value else ""
+
             else:
                 value_html = str(value) if value is not False and value is not None else ""
 
@@ -244,7 +249,7 @@ class FSMTask(models.Model):
                         vertical-align:top;
                         padding: 4px 0px;
                         border:0px solid transparent !important;
-                        word-break: break-all;
+                        word-break: break-word;
                     ">
                         {value_html if value_html else ' '}
                     </td>
