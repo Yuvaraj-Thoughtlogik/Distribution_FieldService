@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="project_task_worksheet_view_list" model="ir.ui.view">
+            <field name="name">project.task.worksheet.view.list</field>
+            <field name="model">project.task.worksheet</field>
+            <field name="arch" type="xml">
+                <list string="Worksheets" create="false">
+
+                    <field name="name"/>
+                    <field name="worksheet_template_id" options="{'no_open': True, 'no_quick_create': True}" context="{'form_view_ref': 'industry_fsm_report.worksheet_template_view_form_footer_design_button', 'default_res_model': 'project.task'}" />
+                    <field name="state"
+                           decoration-muted="state == 'draft'"
+                           decoration-success="state == 'complete'"
+                    />
+                    <button
+                            name="open_fsm_worksheet"
+                            type="object"
+                            string="Worksheet"
+                            icon="fa-fw fa-pencil"
+
+                    />
+                </list>
+            </field>
+        </record>
+
+    </data>
+</odoo>

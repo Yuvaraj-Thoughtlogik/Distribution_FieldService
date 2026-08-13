@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+
+    <template
+            id="worksheet_custom_page"
+            inherit_id="industry_fsm.worksheet_custom_page"
+    >
+
+        <!-- Hide the standard single worksheet -->
+        <xpath
+                expr="//div[@name='worksheet_signature']/preceding-sibling::t[1]"
+                position="attributes"
+        >
+            <attribute name="t-if">
+                doc.worksheet_count and doc.worksheet_template_id.report_view_id and worksheet_map.get(doc.id) and not doc.multiple_worksheet
+            </attribute>
+        </xpath>
+
+        <!-- Add multiple worksheets -->
+        <xpath expr="//div[@name='worksheet_signature']" position="before">
+
+            <t t-if="doc.multiple_worksheet and doc.fsm_worksheet_ids">
+
+                <t t-foreach="doc.fsm_worksheet_ids" t-as="fsm_worksheet">
+
+                    <div
+                            name="worksheets_map"
+                            style="'padding-top:20px;"
+                            t-if="fsm_worksheet.state == 'completed'"
+                    >
+
+
+                        <h4 t-out="fsm_worksheet.name"/>
+
+                        <t t-raw="doc.generate_worksheet_html(fsm_worksheet.worksheet_template_id.id)"/>
+                        <div style="page-break-after: always;"/>
+                    </div>
+
+                </t>
+
+            </t>
+
+        </xpath>
+
+    </template>
+
+</odoo>
