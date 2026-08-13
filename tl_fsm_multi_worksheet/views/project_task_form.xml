@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <data>
+        <record id="view_task_form2_muli_worksheet" model="ir.ui.view">
+            <field name="name">project.task.form.multi.worksheet</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="project.view_task_form2"/>
+            <field name="arch" type="xml">
+
+                <xpath expr="//notebook" position="inside">
+                    <page string="Worksheets" name="fsm_worksheets">
+
+                        <field
+                                name="fsm_worksheet_ids"
+                                mode="list"
+                                context="{'default_project_task_id': id}"
+                        >
+                            <list editable="bottom"
+                            >
+                                <field name="worksheet_template_id" options="{'no_open': True, 'no_quick_create': True}" context="{'form_view_ref': 'industry_fsm_report.worksheet_template_view_form_footer_design_button', 'default_res_model': 'project.task'}" />
+
+                                <field name="name"/>
+
+                                <field name="state"
+                                       widget="badge"
+                                       decoration-muted="state == 'draft'"
+                                       decoration-success="state == 'completed'"
+                                />
+                            </list>
+
+                        </field>
+
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_task_form2_inherit_single_worksheet_hide" model="ir.ui.view">
+            <field name="name">task.form.inherit.single.worksheet</field>
+            <field name="model">project.task</field>
+            <field name="inherit_id" ref="industry_fsm_report.view_task_form2_inherit"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_fsm_worksheet']" position="attributes">
+                    <attribute name="invisible" add="multiple_worksheet" separator=" or "/>
+                </xpath>
+                <xpath expr="//button[@name='action_fsm_worksheet'][2]" position="attributes">
+                    <attribute name="invisible" add="multiple_worksheet" separator=" or "/>
+                </xpath>
+                <xpath expr="//button[@name='action_fsm_worksheet']" position="after">
+                    <button
+                            name="action_open_fsm_worksheets"
+                            type="object"
+                            class="oe_stat_button"
+                            icon="fa-fw fa-pencil"
+                            invisible="not multiple_worksheet"
+                    >
+                        <field
+                                name="fsm_worksheet_count"
+                                widget="statinfo"
+                                string="Worksheets"
+                        />
+                    </button>
+
+                </xpath>
+                <xpath expr="//field[@name='allow_worksheets']" position="after">
+                    <field name="multiple_worksheet"/>
+                </xpath>
+                <xpath expr="//field[@name='worksheet_template_id']" position="attributes">
+                    <attribute name="invisible" add="multiple_worksheet" separator=" or "/>
+
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+</odoo>

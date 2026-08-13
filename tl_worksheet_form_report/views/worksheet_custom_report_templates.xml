@@ -10,7 +10,7 @@
                 <h4>Worksheet</h4>
             </xpath>
           <xpath expr="//t[@t-call='#{doc.worksheet_template_id.report_view_id.id}']" position="replace">
-              <t t-raw="doc.generate_worksheet_html()"/>
+              <t t-raw="doc.generate_worksheet_html(doc.worksheet_template_id.id)"/>
           </xpath>
         </template>
 

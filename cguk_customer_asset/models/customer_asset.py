@@ -15,6 +15,7 @@ class CustomerAsset(models.Model):
     _rec_name = 'name'
 
     name = fields.Char(string="Customer Asset No", compute='_compute_name_from_lot', store=True)
+    active_asset = fields.Boolean(string="Active?",default=True)
     product_serial_No = fields.Char(
         string="Serial Number",
         related="product_lot_id.name",

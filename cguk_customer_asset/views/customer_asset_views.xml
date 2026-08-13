@@ -63,7 +63,7 @@
               />
             </button>
             <button name="action_view_repair_order" string="Repair Order" invisible="not repair_order_ids" type="object" class="oe_stat_button" icon="fa-wrench">
-<!--              <field name="repair_order_ids" widget="statinfo" string="Repair Order"/>-->
+              <!--              <field name="repair_order_ids" widget="statinfo" string="Repair Order"/>-->
             </button>
           </div>
           <div class="oe_title">
@@ -104,6 +104,7 @@
               </div>
             </group>
             <group>
+              <field name="active_asset"/>
               <field name="sale_date"/>
               <field name="install_date"/>
               <field name="helpdesk_ticket_ids"
@@ -154,6 +155,7 @@
       <list>
         <field name="name"/>
         <field name="product_id"/>
+        <field name="active_asset" width="100%"/>
         <field name="product_serial_No"/>
         <field name="stock_picking_id"/>
         <field name="sale_date"/>
