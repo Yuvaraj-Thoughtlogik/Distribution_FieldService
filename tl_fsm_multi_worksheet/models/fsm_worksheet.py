@@ -35,7 +35,6 @@ class FsmWorksheet(models.Model):
         required=True,
         ondelete='cascade',
     )
-    recordId = fields.Integer()
 
     @api.model_create_multi
     def create(self, vals_list):
