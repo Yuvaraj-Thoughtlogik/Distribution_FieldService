@@ -8,7 +8,7 @@
             <field name="arch" type="xml">
 
                 <xpath expr="//notebook" position="inside">
-                    <page string="Worksheets" name="fsm_worksheets">
+                    <page string="Worksheets" name="fsm_worksheets" invisible="not multiple_worksheet">
 
                         <field
                                 name="fsm_worksheet_ids"
