@@ -199,6 +199,8 @@ class FsmWorksheet(models.Model):
             if not record.worksheet_template_id or not record.project_task_id:
                 continue
 
+
+
             template = record.worksheet_template_id.sudo()
 
             if not template.model_id:
@@ -215,3 +217,4 @@ class FsmWorksheet(models.Model):
             ], limit=1)
 
             record.state = 'completed' if worksheet else 'draft'
+            record.project_task_id._compute_fsm_worksheet_count()
