@@ -10,8 +10,9 @@
                     <field name="name"/>
                     <field name="worksheet_template_id" options="{'no_open': True, 'no_quick_create': True}" context="{'form_view_ref': 'industry_fsm_report.worksheet_template_view_form_footer_design_button', 'default_res_model': 'project.task'}" />
                     <field name="state"
+                           widget="badge"
                            decoration-muted="state == 'draft'"
-                           decoration-success="state == 'complete'"
+                           decoration-success="state == 'completed'"
                     />
                     <button
                             name="open_fsm_worksheet"
