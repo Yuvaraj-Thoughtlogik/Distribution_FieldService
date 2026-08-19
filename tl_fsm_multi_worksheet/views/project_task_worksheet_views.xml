@@ -16,13 +16,13 @@
                            decoration-muted="state == 'draft'"
                            decoration-success="state == 'completed'"
                     />
-<!--                    <button-->
-<!--                            name="open_fsm_worksheet"-->
-<!--                            type="object"-->
-<!--                            string="Worksheet"-->
-<!--                            icon="fa-fw fa-pencil"-->
+                    <button
+                            name="open_fsm_worksheet"
+                            type="object"
+                            string="Worksheet"
+                            icon="fa-fw fa-pencil"
 
-<!--                    />-->
+                    />
                 </list>
             </field>
         </record>
