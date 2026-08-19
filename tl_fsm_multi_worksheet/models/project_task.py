@@ -27,12 +27,16 @@ class ProjectTask(models.Model):
         compute='_compute_fsm_worksheet_count',
         store=True,
     )
+    fsm_worksheet_completed = fields.Boolean(
+        compute='_compute_fsm_worksheet_count',
+    )
 
     @api.depends('fsm_worksheet_ids','fsm_worksheet_ids.state')
     def _compute_fsm_worksheet_count(self):
         for task in self:
             task.fsm_worksheet_count = len(task.fsm_worksheet_ids)
             task.fsm_worksheet_completed_count = len(task.fsm_worksheet_ids.filtered(lambda w: w.state == 'completed'))
+            task.fsm_worksheet_completed = task.fsm_worksheet_count ==  task.fsm_worksheet_completed_count and task.fsm_worksheet_count > 0
 
     def action_open_fsm_worksheets(self):
         self.ensure_one()
@@ -56,6 +60,7 @@ class ProjectTask(models.Model):
         'allow_worksheets',
         'fsm_worksheet_completed_count',
         'multiple_worksheet',
+        'fsm_worksheet_ids',
     )
     def _compute_display_conditions_count(self):
         super()._compute_display_conditions_count()
@@ -66,10 +71,9 @@ class ProjectTask(models.Model):
 
             if task.multiple_worksheet:
                 enabled += 1
-                satisfied += bool(task.fsm_worksheet_completed_count)
+                satisfied = bool(task.fsm_worksheet_completed_count)
             else:
                 enabled += task.allow_worksheets
                 satisfied += task.allow_worksheets and task.worksheet_count
-
             task.display_enabled_conditions_count = enabled
             task.display_satisfied_conditions_count = satisfied

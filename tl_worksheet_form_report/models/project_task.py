@@ -263,7 +263,7 @@ class FSMTask(models.Model):
 
         return html
 
-    def generate_worksheet_html(self,worksheet_template_id):
+    def generate_worksheet_html(self,worksheet_template_id, worksheet_id = False):
         self.ensure_one()
 
         worksheet_template = self.env['worksheet.template'].browse(worksheet_template_id)
@@ -271,7 +271,10 @@ class FSMTask(models.Model):
             return ""
 
         worksheet_model = worksheet_template.sudo().model_id.model
-        worksheet = self.env[worksheet_model].search([('x_project_task_id', '=', self.id)], limit=1)
+        if worksheet_id:
+            worksheet = self.env[worksheet_model].browse(worksheet_id)
+        else:
+            worksheet = self.env[worksheet_model].search([('x_project_task_id', '=', self.id)], limit=1)
 
         if not worksheet:
             return ""

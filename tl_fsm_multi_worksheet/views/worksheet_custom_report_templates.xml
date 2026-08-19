@@ -31,8 +31,10 @@
 
 
                         <h4 t-out="fsm_worksheet.name"/>
-
-                        <t t-raw="doc.generate_worksheet_html(fsm_worksheet.worksheet_template_id.id)"/>
+                        <h6 t-if="fsm_worksheet.customer_asset_id">
+                            Customer Asset: <span t-out="fsm_worksheet.customer_asset_id.display_name"/>
+                        </h6>
+                        <t t-raw="doc.generate_worksheet_html(fsm_worksheet.worksheet_template_id.id,fsm_worksheet.worksheet_id)"/>
                         <div style="page-break-after: always;"/>
                     </div>
 

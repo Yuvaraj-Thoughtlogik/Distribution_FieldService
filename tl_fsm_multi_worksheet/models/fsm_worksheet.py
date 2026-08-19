@@ -1,4 +1,5 @@
 from ast import literal_eval
+from email.policy import default
 
 from odoo import api, fields, models
 from odoo.tools import sql
@@ -7,6 +8,8 @@ from odoo.tools import sql
 class FsmWorksheet(models.Model):
     _name = 'project.task.worksheet'
     _description = 'FSM Worksheets'
+    _order = 'sequence,name'
+
 
     name = fields.Char(
         string='Name',
@@ -14,6 +17,8 @@ class FsmWorksheet(models.Model):
         readonly=False,
         compute='_compute_name',
     )
+    sequence = fields.Integer(default=10)
+
     state = fields.Selection(
         selection=[
             ('draft', 'Draft'),
@@ -36,6 +41,55 @@ class FsmWorksheet(models.Model):
         ondelete='cascade',
     )
 
+
+    customer_asset_id = fields.Many2one(
+        comodel_name='customer.asset',
+        string='Customer Asset',
+    )
+
+    worksheet_model = fields.Char(
+        string='Worksheet Model',
+        compute='_compute_worksheet_model',
+        store=True,
+    )
+
+    worksheet_id = fields.Many2oneReference(
+        string='Worksheet',
+        model_field='worksheet_model',
+        compute='_compute_worksheet_id',
+    )
+
+    @api.depends('worksheet_template_id', 'worksheet_template_id.model_id')
+    def _compute_worksheet_model(self):
+        for record in self:
+            record.worksheet_model = (
+                record.worksheet_template_id.model_id.model
+                if record.worksheet_template_id.model_id
+                else False
+            )
+
+    @api.depends(
+        'project_task_id',
+        'worksheet_template_id',
+        'worksheet_model',
+    )
+    def _compute_worksheet_id(self):
+        for record in self:
+            record.worksheet_id = False
+
+            if not record.project_task_id or not record.worksheet_model:
+                continue
+
+            worksheet_model = self.env[record.worksheet_model]
+
+            worksheet = worksheet_model.search([
+                ('x_project_task_id', '=', record.project_task_id.id),
+                ('x_project_task_worksheet_line_id', '=', record.id),
+            ], limit=1)
+
+            if worksheet:
+                record.worksheet_id = worksheet.id
+
     @api.model_create_multi
     def create(self, vals_list):
         records = super().create(vals_list)
@@ -45,6 +99,14 @@ class FsmWorksheet(models.Model):
             record._update_worksheet_constraint()
 
         return records
+
+    def write(self, vals):
+        res = super().write(vals)
+        for record in self:
+            record._create_dynamic_worksheet_field()
+            record._update_worksheet_constraint()
+
+        return res
 
     def _create_dynamic_worksheet_field(self):
         self.ensure_one()
@@ -175,7 +237,6 @@ class FsmWorksheet(models.Model):
             ('x_project_task_id', '=', self.project_task_id.id),
             ('x_project_task_worksheet_line_id', '=', self.id),
         ], limit=1)
-        print(worksheet)
 
         context = literal_eval(action.get('context', '{}'))
 
