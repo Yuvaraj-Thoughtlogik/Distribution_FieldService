@@ -22,13 +22,11 @@ Allows multiple worksheets to be created and managed for Field Service tasks.
         'views/project_task_worksheet_views.xml',
         'views/worksheet_custom_report_templates.xml',
     ],
-    # 'assets': {
-    #     'web.assets_backend': [
-    #         'fsm_multi_worksheet/static/src/js/*.js',
-    #         'fsm_multi_worksheet/static/src/xml/*.xml',
-    #         'fsm_multi_worksheet/static/src/scss/*.scss',
-    #     ],
-    # },
+    'assets': {
+        'web.assets_backend': [
+            'tl_fsm_multi_worksheet/static/src/js/FsmWorksheetListRenderer.js',
+        ],
+    },
     'installable': True,
     'application': False,
 }

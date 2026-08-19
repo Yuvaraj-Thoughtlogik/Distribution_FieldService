@@ -1,4 +1,5 @@
 from ast import literal_eval
+from email.policy import default
 
 from odoo import api, fields, models
 from odoo.tools import sql
@@ -7,6 +8,8 @@ from odoo.tools import sql
 class FsmWorksheet(models.Model):
     _name = 'project.task.worksheet'
     _description = 'FSM Worksheets'
+    _order = 'sequence,name'
+
 
     name = fields.Char(
         string='Name',
@@ -14,6 +17,8 @@ class FsmWorksheet(models.Model):
         readonly=False,
         compute='_compute_name',
     )
+    sequence = fields.Integer(default=10)
+
     state = fields.Selection(
         selection=[
             ('draft', 'Draft'),
@@ -52,7 +57,6 @@ class FsmWorksheet(models.Model):
         string='Worksheet',
         model_field='worksheet_model',
         compute='_compute_worksheet_id',
-        store=True,
     )
 
     @api.depends('worksheet_template_id', 'worksheet_template_id.model_id')
@@ -95,6 +99,14 @@ class FsmWorksheet(models.Model):
             record._update_worksheet_constraint()
 
         return records
+
+    def write(self, vals):
+        res = super().write(vals)
+        for record in self:
+            record._create_dynamic_worksheet_field()
+            record._update_worksheet_constraint()
+
+        return res
 
     def _create_dynamic_worksheet_field(self):
         self.ensure_one()

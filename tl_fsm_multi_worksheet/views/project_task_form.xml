@@ -17,12 +17,21 @@
                         >
                             <list editable="bottom"
                             >
-                                <field name="worksheet_template_id" options="{'no_open': True, 'no_quick_create': True}" context="{'form_view_ref': 'industry_fsm_report.worksheet_template_view_form_footer_design_button', 'default_res_model': 'project.task'}" />
+                                <field name="sequence" widget="handle"/>
+                                <field name="worksheet_template_id"
+                                       readonly="state == 'completed'"
+                                       options="{'no_open': True, 'no_quick_create': True}"
+                                       context="{
+                                           'form_view_ref': 'industry_fsm_report.worksheet_template_view_form_footer_design_button',
+                                           'default_res_model': 'project.task'
+                                       }" />
 
-                                <field name="name"/>
+                                <field name="name" readonly="state == 'completed'"/>
                                 <field name="customer_asset_id"
                                        domain="[('id', 'in', parent.customer_assets_ids)]"
-                                       options="{'no_quick_create': True, 'no_create': True}"/>
+                                       options="{'no_quick_create': True, 'no_create': True}"
+
+                                />
 
                                 <field name="state"
                                        widget="badge"
@@ -55,13 +64,26 @@
                             type="object"
                             class="oe_stat_button"
                             icon="fa-fw fa-pencil"
-                            invisible="not multiple_worksheet"
+                            invisible="not multiple_worksheet or fsm_worksheet_completed "
                     >
                         <field
                                 name="fsm_worksheet_count"
                                 widget="statinfo"
                                 string="Worksheets"
                         />
+                    </button>
+                    <button
+                            name="action_open_fsm_worksheets"
+                            type="object"
+                            class="oe_stat_button text-success"
+                            icon="fa-check"
+                            string="Worksheet Complete"
+                            invisible="not multiple_worksheet or not fsm_worksheet_completed "
+                    >
+                        <div class="o_stat_info">
+                            <span class="o_stat_text">Worksheets</span>
+                            <span class="o_stat_text">Complete</span>
+                        </div>
                     </button>
 
                 </xpath>
