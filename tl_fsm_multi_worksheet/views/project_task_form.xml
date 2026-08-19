@@ -20,6 +20,9 @@
                                 <field name="worksheet_template_id" options="{'no_open': True, 'no_quick_create': True}" context="{'form_view_ref': 'industry_fsm_report.worksheet_template_view_form_footer_design_button', 'default_res_model': 'project.task'}" />
 
                                 <field name="name"/>
+                                <field name="customer_asset_id"
+                                       domain="[('id', 'in', parent.customer_assets_ids)]"
+                                       options="{'no_quick_create': True, 'no_create': True}"/>
 
                                 <field name="state"
                                        widget="badge"

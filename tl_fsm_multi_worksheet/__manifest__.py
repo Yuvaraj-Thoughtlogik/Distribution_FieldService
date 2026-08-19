@@ -14,6 +14,7 @@ Allows multiple worksheets to be created and managed for Field Service tasks.
     'depends': [
         'industry_fsm',
         'industry_fsm_report',
+        'cguk_customer_asset',
     ],
     'data': [
         'security/ir.model.access.csv',

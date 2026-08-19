@@ -56,6 +56,7 @@ class ProjectTask(models.Model):
         'allow_worksheets',
         'fsm_worksheet_completed_count',
         'multiple_worksheet',
+        'fsm_worksheet_ids',
     )
     def _compute_display_conditions_count(self):
         super()._compute_display_conditions_count()
@@ -66,10 +67,10 @@ class ProjectTask(models.Model):
 
             if task.multiple_worksheet:
                 enabled += 1
-                satisfied += bool(task.fsm_worksheet_completed_count)
+                satisfied = bool(task.fsm_worksheet_completed_count)
             else:
                 enabled += task.allow_worksheets
                 satisfied += task.allow_worksheets and task.worksheet_count
-
+            print(satisfied)
             task.display_enabled_conditions_count = enabled
             task.display_satisfied_conditions_count = satisfied
