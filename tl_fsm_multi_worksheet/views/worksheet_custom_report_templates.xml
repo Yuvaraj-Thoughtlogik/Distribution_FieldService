@@ -2,17 +2,18 @@
 <odoo>
 
     <template
-            id="worksheet_custom_page"
-            inherit_id="industry_fsm.worksheet_custom_page"
+        id="worksheet_custom_page"
+        inherit_id="industry_fsm.worksheet_custom_page"
     >
 
         <!-- Hide the standard single worksheet -->
         <xpath
-                expr="//div[@name='worksheet_signature']/preceding-sibling::t[1]"
-                position="attributes"
+            expr="//div[@name='worksheet_signature']/preceding-sibling::t[1]"
+            position="attributes"
         >
             <attribute name="t-if">
-                doc.worksheet_count and doc.worksheet_template_id.report_view_id and worksheet_map.get(doc.id) and not doc.multiple_worksheet
+                doc.worksheet_count and doc.worksheet_template_id.report_view_id and
+                worksheet_map.get(doc.id) and not doc.multiple_worksheet
             </attribute>
         </xpath>
 
@@ -24,18 +25,19 @@
                 <t t-foreach="doc.fsm_worksheet_ids" t-as="fsm_worksheet">
 
                     <div
-                            name="worksheets_map"
-                            style="'padding-top:20px;"
-                            t-if="fsm_worksheet.state == 'completed'"
+                        name="worksheets_map"
+                        style="padding-top:5px;"
+                        t-if="fsm_worksheet.state == 'completed'"
                     >
 
 
-                        <h4 t-out="fsm_worksheet.name"/>
-                        <h6 t-if="fsm_worksheet.customer_asset_id">
-                            Customer Asset: <span t-out="fsm_worksheet.customer_asset_id.display_name"/>
+                        <h4 style="margin: 4px 0 2px 0;" t-out="fsm_worksheet.name" />
+                        <h6 style="margin: 2px 0 4px 0;" t-if="fsm_worksheet.customer_asset_id"> Customer Asset: <span
+                                t-out="fsm_worksheet.customer_asset_id.display_name" />
                         </h6>
-                        <t t-raw="doc.generate_worksheet_html(fsm_worksheet.worksheet_template_id.id,fsm_worksheet.worksheet_id)"/>
-                        <div style="page-break-after: always;"/>
+                        <t
+                            t-raw="doc.generate_worksheet_html(fsm_worksheet.worksheet_template_id.id,fsm_worksheet.worksheet_id)" />
+                        <div style="page-break-after: always;" />
                     </div>
 
                 </t>

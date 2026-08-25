@@ -52,15 +52,15 @@ class FSMTask(models.Model):
                 if title:
                     html += f"""
                     <div style="
-                        font-size:16px;
-                        font-weight:800;
+                        font-size:13px;
+                        font-weight:700;
                         color:#714B67; /* Odoo Theme Purple Accent */
                         text-transform: uppercase;
-                        letter-spacing: 0.7px;
-                        margin-top: 25px;
-                        margin-bottom: 15px;
-                        border-bottom: 2px solid #714B67;
-                        padding-bottom: 6px;
+                        letter-spacing: 0.5px;
+                        margin-top: 10px;
+                        margin-bottom: 6px;
+                        border-bottom: 1.5px solid #714B67;
+                        padding-bottom: 3px;
                     ">
                         {title}
                     </div>
@@ -71,7 +71,7 @@ class FSMTask(models.Model):
                     width:100%;
                     border:0px solid transparent !important;
                     border-collapse:collapse;
-                    margin-bottom:20px;
+                    margin-bottom:6px;
                 ">
                 """
 
@@ -88,7 +88,7 @@ class FSMTask(models.Model):
                         <td style="
                             width:50%;
                             vertical-align:top;
-                            padding-right:30px;
+                            padding-right:15px;
                             border:0px solid transparent !important;
                         ">
                         """
@@ -98,14 +98,15 @@ class FSMTask(models.Model):
                             # Standard Odoo Inner Column Section Heading Style
                             html += f"""
                             <div style="
-                                font-size:14px;
+                                font-size:12px;
                                 font-weight:700;
                                 color:#111827;
                                 text-transform: uppercase;
-                                letter-spacing: 0.5px;
-                                margin-bottom:12px;
-                                border-bottom:1px solid #E5E7EB;
-                                padding-bottom:5px;
+                                letter-spacing: 0.4px;
+                                margin-top: 2px;
+                                margin-bottom: 4px;
+                                border-bottom: 1px solid #E5E7EB;
+                                padding-bottom: 2px;
                             ">
                                 {child_title}
                             </div>
@@ -128,15 +129,15 @@ class FSMTask(models.Model):
             if title:
                 html += f"""
                 <div style="
-                    font-size:15px;
+                    font-size:12px;
                     font-weight:700;
                     color:#111827;
                     text-transform: uppercase;
-                    letter-spacing: 0.5px;
-                    margin-top:15px;
-                    margin-bottom:12px;
+                    letter-spacing: 0.4px;
+                    margin-top:6px;
+                    margin-bottom:4px;
                     border-bottom:1px solid #E5E7EB;
-                    padding-bottom:5px;
+                    padding-bottom:2px;
                 ">
                     {title}
                 </div>
@@ -165,8 +166,8 @@ class FSMTask(models.Model):
                 checked_attr = 'checked="checked"' if value else ''
                 value_html = f"""
                 <input type="checkbox" {checked_attr} disabled="disabled" style="
-                    width: 16px;
-                    height: 16px;
+                    width: 13px;
+                    height: 13px;
                     margin: 0;
                     vertical-align: middle;
                     cursor: not-allowed;
@@ -185,13 +186,13 @@ class FSMTask(models.Model):
                             display: inline-block;
                             border: 1px solid #E5E7EB;
                             border-radius: 4px;
-                            padding: 4px;
+                            padding: 2px;
                             background-color: #F9FAFB;
-                            max-width: 200px;
+                            max-width: 180px;
                         ">
                             <img src="data:image/png;base64,{base64_str}" style="
                                 max-width: 100%;
-                                max-height: 150px;
+                                max-height: 100px;
                                 display: block;
                                 object-fit: contain;
                             "/>
@@ -201,17 +202,17 @@ class FSMTask(models.Model):
                         value_html = """
                         <span style="
                             color: #2563EB; 
-                            font-size: 13px; 
+                            font-size: 11px; 
                             font-weight: 500;
                             background-color: #EFF6FF;
-                            padding: 3px 8px;
-                            border-radius: 12px;
+                            padding: 2px 6px;
+                            border-radius: 8px;
                         ">
                             📎 Attachment File Provided
                         </span>
                         """
                 else:
-                    value_html = '<span style="color: #9CA3AF; font-style: italic;">No file uploaded</span>'
+                    value_html = '<span style="color: #9CA3AF; font-style: italic; font-size: 11px;">No file uploaded</span>'
             elif field.type == "text":
                 value_html = "<br/>".join(
                     line.strip() for line in (value or "").splitlines() if line.strip()
@@ -225,31 +226,33 @@ class FSMTask(models.Model):
             return f"""
             <table border="0" cellpadding="0" cellspacing="0" style="
                 width:100%;
-                margin-bottom:6px;
+                margin-bottom:2px;
                 border:0px solid transparent !important;
                 border-collapse:collapse;
             ">
                 <tr style="border:0px solid transparent !important;">
                     <td style="
-                        width:35%;
+                        width:45%;
                         font-weight:600;
                         color:#4B5563;
-                        font-size:14px;
-                        vertical-align:top;
-                        padding: 4px 5px 4px 0px;
+                        font-size:11.5px;
+                        vertical-align:middle;
+                        padding: 2px 4px 2px 0px;
                         border:0px solid transparent !important;
+                        line-height: 1.5;
                     ">
                         {field_string}
                     </td>
 
                     <td style="
-                        width:65%;
-                        font-size:14px;
+                        width:55%;
+                        font-size:11.5px;
                         color:#1F2937;
-                        vertical-align:top;
-                        padding: 4px 0px;
+                        vertical-align:middle;
+                        padding: 2px 0px;
                         border:0px solid transparent !important;
                         word-break: break-word;
+                        line-height: 1.5;
                     ">
                         {value_html if value_html else ' '}
                     </td>
@@ -291,19 +294,19 @@ class FSMTask(models.Model):
         view_data = worksheet.get_view(view_id=view.id, view_type="form")
         arch = etree.fromstring(view_data["arch"])
 
-        # Styled as an Odoo Sheet Container Component Card
+        # Styled as an Odoo Sheet Container Component Card with condensed spacing
         html = """
         <div style="
             font-family: 'Inter', Arial, sans-serif;
-            font-size:14px;
+            font-size:12px;
             color:#1F2937;
             width:100%;
             background-color: #FFFFFF;
             border: 1px solid #E5E7EB;
-            border-top: 4px solid #714B67; /* Standard Odoo Purple accent header bar */
+            border-top: 3px solid #714B67; /* Standard Odoo Purple accent header bar */
             border-radius: 4px;
-            padding: 24px;
-            margin-top: 15px;
+            padding: 10px 14px;
+            margin-top: 6px;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             box-sizing: border-box;
         ">

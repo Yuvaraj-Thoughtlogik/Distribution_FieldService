@@ -19,7 +19,9 @@ and print them in PDF documents.
     ],
 
     'data': [
+        'views/custom_fsm_layout.xml',
         'views/worksheet_custom_report_templates.xml',
+        'views/external_layout_bold.xml',
     ],
 
     'installable': True,
