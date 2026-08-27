@@ -28,7 +28,9 @@ class ProjectTask(models.Model):
         store=True,
     )
     fsm_worksheet_completed = fields.Boolean(
+        string='Worksheets Completed',
         compute='_compute_fsm_worksheet_count',
+        store=True,
     )
 
     @api.depends('fsm_worksheet_ids','fsm_worksheet_ids.state')

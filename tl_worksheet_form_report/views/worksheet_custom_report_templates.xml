@@ -1,18 +1,27 @@
 <odoo>
-  <data>
+    <data>
 
-      <template id="tl_worksheet_form_report.worksheet_custom_page" inherit_id="industry_fsm_report.worksheet_custom_page">
-          <xpath expr="//div[@name='worksheet_map']" position="attributes">
-              <attribute name="style">padding-top:20px;</attribute>
-          </xpath>
-          <xpath expr="//div[@name='worksheet_map']//br" position="replace"/>
-           <xpath expr="//div[@name='worksheet_map']//h2" position="replace">
-                <h4>Worksheet</h4>
+        <!-- Use dedicated custom FSM layout with custom header -->
+        <template id="worksheet_custom" inherit_id="industry_fsm.worksheet_custom">
+            <xpath expr="//t[@t-call='web.external_layout']" position="attributes">
+                <attribute name="t-call">tl_worksheet_form_report.custom_fsm_layout</attribute>
             </xpath>
-          <xpath expr="//t[@t-call='#{doc.worksheet_template_id.report_view_id.id}']" position="replace">
-              <t t-raw="doc.generate_worksheet_html(doc.worksheet_template_id.id)"/>
-          </xpath>
         </template>
 
-  </data>
+        <template id="tl_worksheet_form_report.worksheet_custom_page"
+            inherit_id="industry_fsm_report.worksheet_custom_page">
+            <xpath expr="//div[@name='worksheet_map']" position="attributes">
+                <attribute name="style">padding-top:5px;</attribute>
+            </xpath>
+            <xpath expr="//div[@name='worksheet_map']//br" position="replace" />
+            <xpath expr="//div[@name='worksheet_map']//h2" position="replace">
+                <h4 style="margin: 4px 0 2px 0;">Worksheet</h4>
+            </xpath>
+            <xpath expr="//t[@t-call='#{doc.worksheet_template_id.report_view_id.id}']"
+                position="replace">
+                <t t-raw="doc.generate_worksheet_html(doc.worksheet_template_id.id)" />
+            </xpath>
+        </template>
+
+    </data>
 </odoo>

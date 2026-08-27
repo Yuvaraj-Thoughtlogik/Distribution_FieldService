@@ -22,9 +22,29 @@ class SaleOrder(models.Model):
     subscription_customer_assets_ids = fields.Many2many(
         comodel_name="customer.asset",
         string="Customer Assets",
-        domain="['|',('partner_id', '=', partner_id),('contact_id', '=', partner_id),('delivery_address_id', '=', partner_shipping_id)]"
+        domain="[('id','in',available_assets_ids)]"
     )
 
+    available_assets_ids = fields.Many2many(
+        comodel_name="customer.asset",
+        string="Available Assets",
+        compute="_compute_available_assets"
+    )
+
+    @api.depends("partner_id", "partner_shipping_id")
+    def _compute_available_assets(self):
+        for record in self:
+            record.available_assets_ids = self.env['customer.asset'].search([
+               
+                # Conditions 2-4: Partner match + optional shipping address match
+                '&',
+                '|',
+                ('contact_id', '=', record.partner_id.id),
+                ('customer_company_id', '=', record.partner_id.id),
+                '|',
+                ('delivery_address_id', '=', False),
+                ('delivery_address_id', '=', record.partner_shipping_id.id)
+            ])
 
     renewal_date = fields.Date(string="Renewal Date")
 

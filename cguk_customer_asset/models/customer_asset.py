@@ -179,6 +179,9 @@ class CustomerAsset(models.Model):
 
             if rec.customer_company_id:
                 partners |= rec.customer_company_id
+                partners |= rec.customer_company_id.child_ids.filtered(
+                    lambda p: p.type in ('delivery', 'other')
+                )
             # print([partner.name for partner in partners])
             rec.delivery_ids = partners
 
