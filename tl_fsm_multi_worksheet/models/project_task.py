@@ -57,6 +57,16 @@ class ProjectTask(models.Model):
             },
         }
 
+    @property
+    def SELF_READABLE_FIELDS(self):
+        return super().SELF_READABLE_FIELDS | {
+            'multiple_worksheet',
+            'fsm_worksheet_ids',
+            'fsm_worksheet_count',
+            'fsm_worksheet_completed_count',
+            'fsm_worksheet_completed',
+        }
+
     @api.depends(
         'worksheet_count',
         'allow_worksheets',
@@ -79,3 +89,61 @@ class ProjectTask(models.Model):
                 satisfied += task.allow_worksheets and task.worksheet_count
             task.display_enabled_conditions_count = enabled
             task.display_satisfied_conditions_count = satisfied
+
+    @api.depends(
+        'allow_worksheets', 'multiple_worksheet', 'timer_start', 'worksheet_signature',
+        'display_satisfied_conditions_count', 'display_enabled_conditions_count',
+    )
+    def _compute_display_sign_report_buttons(self):
+        super()._compute_display_sign_report_buttons()
+        for task in self:
+            if not task.multiple_worksheet:
+                continue
+            sign_p, sign_s = True, True
+            if (
+                task.timer_start
+                or task.worksheet_signature
+                or not task.display_satisfied_conditions_count
+            ):
+                sign_p, sign_s = False, False
+            else:
+                if task.display_enabled_conditions_count == task.display_satisfied_conditions_count:
+                    sign_s = False
+                else:
+                    sign_p = False
+            task.update({
+                'display_sign_report_primary': sign_p,
+                'display_sign_report_secondary': sign_s,
+            })
+
+    @api.depends(
+        'allow_worksheets', 'multiple_worksheet', 'timer_start', 'display_satisfied_conditions_count',
+        'display_enabled_conditions_count', 'fsm_is_sent',
+    )
+    def _compute_display_send_report_buttons(self):
+        super()._compute_display_send_report_buttons()
+        for task in self:
+            if not task.multiple_worksheet:
+                continue
+            send_p, send_s = True, True
+            if (
+                task.timer_start
+                or not task.display_satisfied_conditions_count
+                or task.fsm_is_sent
+            ):
+                send_p, send_s = False, False
+            else:
+                if task.display_enabled_conditions_count == task.display_satisfied_conditions_count:
+                    send_s = False
+                else:
+                    send_p = False
+            task.update({
+                'display_send_report_primary': send_p,
+                'display_send_report_secondary': send_s,
+            })
+
+    def _is_fsm_report_available(self):
+        self.ensure_one()
+        if self.multiple_worksheet:
+            return super()._is_fsm_report_available() or bool(self.fsm_worksheet_completed_count)
+        return super()._is_fsm_report_available()

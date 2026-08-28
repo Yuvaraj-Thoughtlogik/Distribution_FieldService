@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_my_task" inherit_id="industry_fsm_report.portal_my_task">
+        <!-- Update sidebar nav container condition to consider multiple worksheets -->
+        <xpath expr="//div[@id='nav-report']" position="attributes">
+            <attribute name="t-if">(allow_timesheets and timesheets) or (task.allow_worksheets and task.worksheet_count and not task.multiple_worksheet) or (task.multiple_worksheet and task.fsm_worksheet_completed_count)</attribute>
+        </xpath>
+
+        <!-- Hide standard single worksheet sidebar link when multiple_worksheet is True -->
+        <xpath expr="//li[a[@href='#task_worksheet']]" position="attributes">
+            <attribute name="t-if">task.worksheet_count and task.worksheet_template_id.report_view_id and worksheet_map.get(task.id) and task.allow_worksheets and not task.multiple_worksheet</attribute>
+        </xpath>
+
+        <!-- Add multiple worksheets sidebar link -->
+        <xpath expr="//li[a[@href='#task_worksheet']]" position="after">
+            <li t-if="task.multiple_worksheet and task.fsm_worksheet_completed_count" class="nav-item">
+                <a class="nav-link p-0" href="#task_worksheets">Worksheets</a>
+            </li>
+        </xpath>
+
+        <!-- Hide standard single worksheet section in body when multiple_worksheet is True -->
+        <xpath expr="//div[@name='worksheet_map']" position="attributes">
+            <attribute name="t-if">task.worksheet_count and task.worksheet_template_id.report_view_id and worksheet_map.get(task.id) and task.allow_worksheets and not task.multiple_worksheet</attribute>
+        </xpath>
+
+        <!-- Render all multiple worksheets in the portal body -->
+        <xpath expr="//div[@name='worksheet_signature']" position="before">
+            <t t-if="task.multiple_worksheet and task.fsm_worksheet_ids and task.fsm_worksheet_completed_count">
+                <div id="task_worksheets" name="multi_worksheets_map" style="page-break-inside: avoid">
+                    <hr class="mt-4 mb-4"/>
+                    <h5 class="mt-2 mb-3" data-anchor="true">Worksheets</h5>
+                    <t t-foreach="task.fsm_worksheet_ids.filtered(lambda w: w.state == 'completed')" t-as="fsm_worksheet">
+                        <div class="mb-4" style="page-break-inside: avoid">
+                            <h6 class="fw-bold mb-1" t-out="fsm_worksheet.name" />
+                            <div class="text-muted small mb-2" t-if="fsm_worksheet.customer_asset_id">
+                                Customer Asset: <span class="fw-semibold text-dark" t-out="fsm_worksheet.customer_asset_id.display_name" />
+                            </div>
+                            <t t-out="task.generate_worksheet_html(fsm_worksheet.worksheet_template_id.id, fsm_worksheet.worksheet_id)" />
+                        </div>
+                    </t>
+                </div>
+            </t>
+        </xpath>
+    </template>
+
+</odoo>

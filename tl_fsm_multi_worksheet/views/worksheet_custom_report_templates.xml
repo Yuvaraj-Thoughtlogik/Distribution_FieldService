@@ -21,27 +21,24 @@
         <xpath expr="//div[@name='worksheet_signature']" position="before">
 
             <t t-if="doc.multiple_worksheet and doc.fsm_worksheet_ids">
+                <t t-set="completed_fsm_worksheets" t-value="doc.fsm_worksheet_ids.filtered(lambda w: w.state == 'completed')" />
+                <h2  style="margin-top: 25px; padding-top: 5px;"  t-if="completed_fsm_worksheets">Worksheets</h2>
+                    <t t-foreach="completed_fsm_worksheets" t-as="fsm_worksheet">
 
-                <t t-foreach="doc.fsm_worksheet_ids" t-as="fsm_worksheet">
+                        <div
+                            name="worksheets_map"
+                            style=" padding-top: 5px;"
+                        >
+                            <h4 style="margin: 4px 0 2px 0;" t-out="fsm_worksheet.name" />
+                            <h6 style="margin: 2px 0 4px 0;" t-if="fsm_worksheet.customer_asset_id"> Customer Asset: <span
+                                    t-out="fsm_worksheet.customer_asset_id.display_name" />
+                            </h6>
+                            <t
+                                t-raw="doc.generate_worksheet_html(fsm_worksheet.worksheet_template_id.id, fsm_worksheet.worksheet_id)" />
+                            <div style="page-break-after: always;" t-if="not fsm_worksheet_last" />
+                        </div>
 
-                    <div
-                        name="worksheets_map"
-                        style="padding-top:5px;"
-                        t-if="fsm_worksheet.state == 'completed'"
-                    >
-
-
-                        <h4 style="margin: 4px 0 2px 0;" t-out="fsm_worksheet.name" />
-                        <h6 style="margin: 2px 0 4px 0;" t-if="fsm_worksheet.customer_asset_id"> Customer Asset: <span
-                                t-out="fsm_worksheet.customer_asset_id.display_name" />
-                        </h6>
-                        <t
-                            t-raw="doc.generate_worksheet_html(fsm_worksheet.worksheet_template_id.id,fsm_worksheet.worksheet_id)" />
-                        <div style="page-break-after: always;" />
-                    </div>
-
-                </t>
-
+                    </t>
             </t>
 
         </xpath>
