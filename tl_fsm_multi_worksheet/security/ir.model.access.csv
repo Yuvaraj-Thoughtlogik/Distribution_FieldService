@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_project_task_worksheet_user,project.task.worksheet user,model_project_task_worksheet,project.group_project_user,1,1,1,1
+access_project_task_worksheet_all,project.task.worksheet all,model_project_task_worksheet,,1,0,0,0

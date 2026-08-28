@@ -15,12 +15,14 @@ Allows multiple worksheets to be created and managed for Field Service tasks.
         'industry_fsm',
         'industry_fsm_report',
         'cguk_customer_asset',
+        'tl_worksheet_form_report',
     ],
     'data': [
         'security/ir.model.access.csv',
         'views/project_task_form.xml',
         'views/project_task_worksheet_views.xml',
         'views/worksheet_custom_report_templates.xml',
+        'views/project_portal_templates.xml',
     ],
     'assets': {
         'web.assets_backend': [

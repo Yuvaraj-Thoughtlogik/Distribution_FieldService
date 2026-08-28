@@ -266,23 +266,29 @@ class FSMTask(models.Model):
 
         return html
 
-    def generate_worksheet_html(self,worksheet_template_id, worksheet_id = False):
+    def generate_worksheet_html(self, worksheet_template_id, worksheet_id=False):
         self.ensure_one()
 
-        worksheet_template = self.env['worksheet.template'].browse(worksheet_template_id)
+        worksheet_template = self.env['worksheet.template'].sudo().browse(worksheet_template_id)
         if not worksheet_template:
             return ""
 
-        worksheet_model = worksheet_template.sudo().model_id.model
-        if worksheet_id:
-            worksheet = self.env[worksheet_model].browse(worksheet_id)
-        else:
-            worksheet = self.env[worksheet_model].search([('x_project_task_id', '=', self.id)], limit=1)
-
-        if not worksheet:
+        if not worksheet_template.model_id:
             return ""
 
-        view = self.env["ir.ui.view"].search([
+        worksheet_model = worksheet_template.model_id.model
+        if not worksheet_model or worksheet_model not in self.env:
+            return ""
+
+        if worksheet_id:
+            worksheet = self.env[worksheet_model].sudo().browse(worksheet_id)
+        else:
+            worksheet = self.env[worksheet_model].sudo().search([('x_project_task_id', '=', self.id)], limit=1)
+
+        if not worksheet or not worksheet.exists():
+            return ""
+
+        view = self.env["ir.ui.view"].sudo().search([
             ("model", "=", worksheet_model),
             ("type", "=", "form"),
             ("mode", "=", "primary")
@@ -291,7 +297,7 @@ class FSMTask(models.Model):
         if not view:
             return ""
 
-        view_data = worksheet.get_view(view_id=view.id, view_type="form")
+        view_data = worksheet.sudo().get_view(view_id=view.id, view_type="form")
         arch = etree.fromstring(view_data["arch"])
 
         # Styled as an Odoo Sheet Container Component Card with condensed spacing
