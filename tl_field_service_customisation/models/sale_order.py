@@ -2,7 +2,7 @@ from datetime import timedelta
 from odoo import models,fields,api
 from odoo.fields import datetime
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError
+from odoo.exceptions import UserError, ValidationError
 from markupsafe import Markup
 from odoo.tools.safe_eval import safe_eval
 
@@ -79,7 +79,13 @@ class SaleOrder(models.Model):
         for rec in res:
             if not rec.is_subscription:
                 continue
-            if not rec.origin_order_id:
+            elif rec.origin_order_id and rec.origin_order_id.contract_id:
+                line = self.env['service.contract.line'].create({
+                    'sale_id': rec.id,
+                    'contract_id': rec.origin_order_id.contract_id.id
+                })
+                rec.contract_line_id = line.id
+            else:
                 contract = self.env['service.contract'].create({
                     'sale_id': rec.id,
                 })
@@ -89,12 +95,7 @@ class SaleOrder(models.Model):
                     'contract_id': contract.id
                 })
                 rec.contract_line_id = line.id
-            elif rec.origin_order_id:
-                line = self.env['service.contract.line'].create({
-                    'sale_id': rec.id,
-                    'contract_id': rec.origin_order_id.contract_id.id
-                })
-                rec.contract_line_id = line.id
+
         return res
 
     def write(self,vals_list):
@@ -373,6 +374,25 @@ class SaleOrder(models.Model):
 
     def create_sign_request(self):
         self.ensure_one()
+        if not self.is_subscription:
+            raise ValidationError("You can't create a sign request without a subscription")
+        elif self.origin_order_id and self.origin_order_id.contract_id:
+            line = self.env['service.contract.line'].create({
+                'sale_id': self.id,
+                'contract_id': self.origin_order_id.contract_id.id
+            })
+            self.contract_line_id = line.id
+        else:
+            contract = self.env['service.contract'].create({
+                'sale_id': self.id,
+            })
+            # rec.contract_id = contract.id
+            line = self.env['service.contract.line'].create({
+                'sale_id': self.id,
+                'contract_id': contract.id
+            })
+            self.contract_line_id = line.id
+
         return self.contract_id.create_sign_request()
 
 
