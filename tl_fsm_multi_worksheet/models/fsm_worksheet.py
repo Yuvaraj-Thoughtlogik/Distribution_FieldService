@@ -113,14 +113,14 @@ class FsmWorksheet(models.Model):
                     worksheet = worksheet_model.browse(record.worksheet_id)
                     if worksheet.exists():
                         vals_to_sync = {}
-                        if 'x_asset_number' in worksheet._fields:
-                            vals_to_sync['x_asset_number'] = asset.name or False
-                        if 'x_so_number' in worksheet._fields:
-                            vals_to_sync['x_so_number'] = asset.sale_order_id.name or False
-                        if 'x_serial_number' in worksheet._fields:
-                            vals_to_sync['x_serial_number'] = asset.product_serial_No or False
-                        if 'x_service_contract_number' in worksheet._fields:
-                            vals_to_sync['x_service_contract_number'] = asset.subscription_id.name or False
+                        if 'x_asset_number' in worksheet._fields and not worksheet.x_asset_number and (asset.display_name or asset.name):
+                            vals_to_sync['x_asset_number'] = asset.display_name or asset.name
+                        if 'x_so_number' in worksheet._fields and not worksheet.x_so_number and asset.sale_order_id:
+                            vals_to_sync['x_so_number'] = asset.sale_order_id.name
+                        if 'x_serial_number' in worksheet._fields and not worksheet.x_serial_number and asset.product_serial_No:
+                            vals_to_sync['x_serial_number'] = asset.product_serial_No
+                        if 'x_service_contract_number' in worksheet._fields and not worksheet.x_service_contract_number and asset.subscription_id:
+                            vals_to_sync['x_service_contract_number'] = asset.subscription_id.name
                         if vals_to_sync:
                             worksheet.sudo().write(vals_to_sync)
 
@@ -272,19 +272,19 @@ class FsmWorksheet(models.Model):
                 'default_x_service_contract_number': asset.subscription_id.name or False,
             })
 
-            # # If worksheet already exists, populate empty asset fields if any
-            # if worksheet:
-            #     vals_to_update = {}
-            #     if 'x_asset_number' in worksheet._fields and not worksheet.x_asset_number and asset.name:
-            #         vals_to_update['x_asset_number'] = asset.name
-            #     if 'x_so_number' in worksheet._fields and not worksheet.x_so_number and asset.sale_order_id:
-            #         vals_to_update['x_so_number'] = asset.sale_order_id.name
-            #     if 'x_serial_number' in worksheet._fields and not worksheet.x_serial_number and asset.product_serial_No:
-            #         vals_to_update['x_serial_number'] = asset.product_serial_No
-            #     if 'x_service_contract_number' in worksheet._fields and not worksheet.x_service_contract_number and asset.subscription_id:
-            #         vals_to_update['x_service_contract_number'] = asset.subscription_id.name
-            #     if vals_to_update:
-            #         worksheet.sudo().write(vals_to_update)
+            # If worksheet already exists, populate empty asset fields if any
+            if worksheet:
+                vals_to_update = {}
+                if 'x_asset_number' in worksheet._fields and not worksheet.x_asset_number and (asset.display_name or asset.name):
+                    vals_to_update['x_asset_number'] = asset.display_name or asset.name
+                if 'x_so_number' in worksheet._fields and not worksheet.x_so_number and asset.sale_order_id:
+                    vals_to_update['x_so_number'] = asset.sale_order_id.name
+                if 'x_serial_number' in worksheet._fields and not worksheet.x_serial_number and asset.product_serial_No:
+                    vals_to_update['x_serial_number'] = asset.product_serial_No
+                if 'x_service_contract_number' in worksheet._fields and not worksheet.x_service_contract_number and asset.subscription_id:
+                    vals_to_update['x_service_contract_number'] = asset.subscription_id.name
+                if vals_to_update:
+                    worksheet.sudo().write(vals_to_update)
 
         action.update({
             'res_id': worksheet.id or False,
