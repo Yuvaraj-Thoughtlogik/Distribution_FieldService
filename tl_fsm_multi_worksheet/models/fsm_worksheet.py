@@ -105,6 +105,24 @@ class FsmWorksheet(models.Model):
         for record in self:
             record._create_dynamic_worksheet_field()
             record._update_worksheet_constraint()
+            if 'customer_asset_id' in vals and record.customer_asset_id and record.worksheet_id:
+                asset = record.customer_asset_id
+                template = record.worksheet_template_id.sudo()
+                if template.model_id:
+                    worksheet_model = self.env[template.model_id.model]
+                    worksheet = worksheet_model.browse(record.worksheet_id)
+                    if worksheet.exists():
+                        vals_to_sync = {}
+                        if 'x_asset_number' in worksheet._fields:
+                            vals_to_sync['x_asset_number'] = asset.name or False
+                        if 'x_so_number' in worksheet._fields:
+                            vals_to_sync['x_so_number'] = asset.sale_order_id.name or False
+                        if 'x_serial_number' in worksheet._fields:
+                            vals_to_sync['x_serial_number'] = asset.product_serial_No or False
+                        if 'x_service_contract_number' in worksheet._fields:
+                            vals_to_sync['x_service_contract_number'] = asset.subscription_id.name or False
+                        if vals_to_sync:
+                            worksheet.sudo().write(vals_to_sync)
 
         return res
 
@@ -232,23 +250,46 @@ class FsmWorksheet(models.Model):
 
         worksheet_model = self.env[template.model_id.model]
 
-
         worksheet = worksheet_model.search([
             ('x_project_task_id', '=', self.project_task_id.id),
             ('x_project_task_worksheet_line_id', '=', self.id),
         ], limit=1)
 
         context = literal_eval(action.get('context', '{}'))
+        default_context = {
+            **context,
+            'edit': True,
+            'default_x_project_task_id': self.project_task_id.id,
+            'default_x_project_task_worksheet_line_id': self.id,
+        }
+
+        if self.customer_asset_id:
+            asset = self.customer_asset_id
+            default_context.update({
+                'default_x_asset_number': asset.display_name or False,
+                'default_x_so_number': asset.sale_order_id.name or False,
+                'default_x_serial_number': asset.product_serial_No or False,
+                'default_x_service_contract_number': asset.subscription_id.name or False,
+            })
+
+            # If worksheet already exists, populate empty asset fields if any
+            if worksheet:
+                vals_to_update = {}
+                if 'x_asset_number' in worksheet._fields and not worksheet.x_asset_number and asset.name:
+                    vals_to_update['x_asset_number'] = asset.name
+                if 'x_so_number' in worksheet._fields and not worksheet.x_so_number and asset.sale_order_id:
+                    vals_to_update['x_so_number'] = asset.sale_order_id.name
+                if 'x_serial_number' in worksheet._fields and not worksheet.x_serial_number and asset.product_serial_No:
+                    vals_to_update['x_serial_number'] = asset.product_serial_No
+                if 'x_service_contract_number' in worksheet._fields and not worksheet.x_service_contract_number and asset.subscription_id:
+                    vals_to_update['x_service_contract_number'] = asset.subscription_id.name
+                if vals_to_update:
+                    worksheet.sudo().write(vals_to_update)
 
         action.update({
             'res_id': worksheet.id or False,
             'views': [(False, 'form')],
-            'context': {
-                **context,
-                'edit': True,
-                'default_x_project_task_id': self.project_task_id.id,
-                'default_x_project_task_worksheet_line_id': self.id,
-            },
+            'context': default_context,
         })
 
         return action

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="worksheet_template_view_form_inherit_asset_details" model="ir.ui.view">
+        <field name="name">worksheet.template.view.form.inherit.asset.details</field>
+        <field name="model">worksheet.template</field>
+        <field name="inherit_id" ref="worksheet.worksheet_template_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="has_asset_details" widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="worksheet_template_view_list_inherit_asset_details" model="ir.ui.view">
+        <field name="name">worksheet.template.view.list.inherit.asset.details</field>
+        <field name="model">worksheet.template</field>
+        <field name="inherit_id" ref="worksheet.worksheet_template_view_list"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="has_asset_details" widget="boolean_toggle"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
