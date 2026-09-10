@@ -19,6 +19,7 @@ Allows multiple worksheets to be created and managed for Field Service tasks.
     ],
     'data': [
         'security/ir.model.access.csv',
+        'views/worksheet_template_views.xml',
         'views/project_task_form.xml',
         'views/project_task_worksheet_views.xml',
         'views/worksheet_custom_report_templates.xml',
