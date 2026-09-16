@@ -64,7 +64,7 @@ class ProjectTask(models.Model):
             asset = self.customer_assets_ids[:1] if hasattr(self, 'customer_assets_ids') and self.customer_assets_ids else False
             if asset:
                 context.update({
-                    'default_x_serial_number': asset.name or False,
+                    'default_x_serial_number': asset.product_serial_No or asset.name or False,
                     'default_x_service_contract_number': asset.sale_order_id.name or False,
                 })
                 action['context'] = context
@@ -159,4 +159,4 @@ class ProjectTask(models.Model):
         self.ensure_one()
         if self.multiple_worksheet:
             return super()._is_fsm_report_available() or bool(self.fsm_worksheet_completed_count)
-        return super()._is_fsm_report_available()
+        return super()._is_fsm_report_available()

@@ -113,8 +113,8 @@ class FsmWorksheet(models.Model):
                     worksheet = worksheet_model.browse(record.worksheet_id)
                     if worksheet.exists():
                         vals_to_sync = {}
-                        if 'x_serial_number' in worksheet._fields and not worksheet.x_serial_number and (asset.display_name or asset.name):
-                            vals_to_sync['x_serial_number'] = asset.display_name or asset.name
+                        if 'x_serial_number' in worksheet._fields and not worksheet.x_serial_number and (asset.product_serial_No or asset.name):
+                            vals_to_sync['x_serial_number'] = asset.product_serial_No or asset.name
                         if 'x_service_contract_number' in worksheet._fields and not worksheet.x_service_contract_number and asset.sale_order_id:
                             vals_to_sync['x_service_contract_number'] = asset.sale_order_id.name
                         if vals_to_sync:
@@ -262,15 +262,15 @@ class FsmWorksheet(models.Model):
         if self.customer_asset_id:
             asset = self.customer_asset_id
             default_context.update({
-                'default_x_serial_number': asset.display_name or False,
+                'default_x_serial_number': asset.product_serial_No or asset.name or False,
                 'default_x_service_contract_number': asset.sale_order_id.name or False,
             })
 
             # If worksheet already exists, populate empty asset fields if any
             if worksheet:
                 vals_to_update = {}
-                if 'x_serial_number' in worksheet._fields and not worksheet.x_serial_number and (asset.display_name or asset.name):
-                    vals_to_update['x_serial_number'] = asset.display_name or asset.name
+                if 'x_serial_number' in worksheet._fields and not worksheet.x_serial_number and (asset.product_serial_No or asset.name):
+                    vals_to_update['x_serial_number'] = asset.product_serial_No or asset.name
                 if 'x_service_contract_number' in worksheet._fields and not worksheet.x_service_contract_number and asset.sale_order_id:
                     vals_to_update['x_service_contract_number'] = asset.sale_order_id.name
                 if vals_to_update:
