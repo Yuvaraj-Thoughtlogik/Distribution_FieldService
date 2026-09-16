@@ -149,7 +149,7 @@ class WorksheetTemplate(models.Model):
                 existing_inherited_view.write({
                     'arch': arch,
                     'active': True,
-                    'priority': 999,
+                    'priority': 1,
                 })
                 self.sudo().asset_details_view_id = existing_inherited_view.id
             else:
