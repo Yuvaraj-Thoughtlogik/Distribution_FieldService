@@ -112,15 +112,16 @@ class WorksheetTemplate(models.Model):
 </group>"""
 
         base_arch = base_view.arch or ''
-        if '<sheet' in base_arch:
+        if '<h1' in base_arch:
+            xpath_expr = "//form[1]/sheet[1]/h1[1]"
+            position = "before"
+        elif '<sheet' in base_arch:
             xpath_expr = "//form[1]/sheet[1]"
             position = "inside"
         elif '<group' in base_arch:
             xpath_expr = "//group[1]"
             position = "before"
-        elif '<h1' in base_arch:
-            xpath_expr = "//form[1]/sheet[1]/h1[1]"
-            position = "before"
+
         else:
             xpath_expr = "//form/*[1]"
             position = "before"
