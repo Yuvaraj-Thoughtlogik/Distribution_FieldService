@@ -8,7 +8,7 @@ class WorksheetTemplate(models.Model):
     has_asset_details = fields.Boolean(
         string='Asset Details',
         default=False,
-        help="If enabled, automatically adds the Asset Details group (Asset Number, SO Number, Serial Number, Service Contract Number) as the first group on the worksheet form.",
+        help="If enabled, automatically adds the Asset Details group (Serial Number, Service Contract Number) as the first group on the worksheet form.",
     )
     asset_details_view_id = fields.Many2one(
         'ir.ui.view',
@@ -70,8 +70,6 @@ class WorksheetTemplate(models.Model):
             return
 
         fields_to_create = [
-            ('x_asset_number', 'Asset Number', 'char'),
-            ('x_so_number', 'SO Number', 'char'),
             ('x_serial_number', 'Serial Number', 'char'),
             ('x_service_contract_number', 'Service Contract Number', 'char'),
         ]
@@ -103,8 +101,6 @@ class WorksheetTemplate(models.Model):
         view_xml = """
 <group>
     <group string="Asset Details" name="asset_details">
-        <field name="x_asset_number" />
-        <field name="x_so_number" />
         <field name="x_serial_number"/>
         <field name="x_service_contract_number" />
     </group>
