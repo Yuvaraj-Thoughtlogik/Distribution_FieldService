@@ -64,10 +64,8 @@ class ProjectTask(models.Model):
             asset = self.customer_assets_ids[:1] if hasattr(self, 'customer_assets_ids') and self.customer_assets_ids else False
             if asset:
                 context.update({
-                    'default_x_asset_number': asset.name or False,
-                    'default_x_so_number': asset.sale_order_id.name or False,
-                    'default_x_serial_number': asset.product_serial_No or False,
-                    'default_x_service_contract_number': asset.subscription_id.name or False,
+                    'default_x_serial_number': asset.name or False,
+                    'default_x_service_contract_number': asset.sale_order_id.name or False,
                 })
                 action['context'] = context
         return action
