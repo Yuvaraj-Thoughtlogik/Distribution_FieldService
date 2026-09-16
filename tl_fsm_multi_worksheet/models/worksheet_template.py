@@ -113,8 +113,8 @@ class WorksheetTemplate(models.Model):
 
         base_arch = base_view.arch or ''
         if '<sheet' in base_arch:
-            xpath_expr = "//form[1]/sheet[1]/*[1]"
-            position = "before"
+            xpath_expr = "//form[1]/sheet[1]"
+            position = "inside"
         elif '<group' in base_arch:
             xpath_expr = "//group[1]"
             position = "before"
