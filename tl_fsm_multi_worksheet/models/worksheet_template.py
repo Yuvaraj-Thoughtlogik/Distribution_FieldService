@@ -137,7 +137,7 @@ class WorksheetTemplate(models.Model):
             self.asset_details_view_id.sudo().write({
                 'arch': arch,
                 'active': True,
-                'priority': 999,
+                'priority': 1,
             })
         else:
             existing_inherited_view = view_obj.search([
@@ -161,7 +161,7 @@ class WorksheetTemplate(models.Model):
                     'inherit_id': base_view.id,
                     'arch': arch,
                     'active': True,
-                    'priority': 999,
+                    'priority': 1,
                 })
                 self.sudo().asset_details_view_id = inherited_view.id
 
