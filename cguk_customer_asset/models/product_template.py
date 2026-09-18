@@ -10,7 +10,7 @@ class ProductTemplate(models.Model):
     )
     fsm_task_creation_mode = fields.Selection(
         selection=[('per_asset', 'One Task per Customer Asset'), ('shared', 'Same Task for All Assets')],
-        string="FSM Task Creation Mode",
+        string="Task Creation Mode",
         default='shared',
     )
     track_cpe = fields.Boolean(string='Track CPE')
