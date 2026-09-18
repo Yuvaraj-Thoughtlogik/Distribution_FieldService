@@ -184,28 +184,46 @@ class SaleOrder(models.Model):
             created_tasks = []
 
             for line in rec.order_line:
-                for asset in rec.subscription_customer_assets_ids:
-                    num_services = int(line.product_template_id.number_of_services_per_year)
+                product = line.product_template_id
+                num_services = int(product.number_of_services_per_year)
+                assets = rec.subscription_customer_assets_ids
+
+                def _base_values(service_index):
+                    return {
+                        'sale_order_id': rec.id,
+                        'sale_line_id': line.id,
+                        'project_id': product.project_id.id,
+                        'worksheet_template_id': product.worksheet_template_id.id if product.worksheet_template_id else False,
+                        'partner_id': rec.partner_id.id,
+                        'is_fsm': True,
+                        'recurring_task': False,  # NO automatic recurrence
+                        'planned_date_begin': datetime.now(),
+                        'date_deadline': rec.end_date if rec.end_date else False,
+                        'user_ids': [(4, rec.user_id.id)] if rec.user_id else [],
+                    }
+
+                if product.fsm_task_creation_mode == 'shared' or not assets:
                     for service in range(num_services):
-                        values = {
-                            'sale_order_id': rec.id,
-                            'sale_line_id': line.id,
-                            'name': f"{rec.name} - {rec.partner_id.display_name} - {line.product_template_id.display_name} - {asset.name} - {datetime.now().year} - Service-{service + 1}",
-                            'project_id': line.product_template_id.project_id.id,
-                            'worksheet_template_id':line.product_template_id.worksheet_template_id.id if line.product_template_id.worksheet_template_id else False,
-                            'partner_id': rec.partner_id.id,
-                            'is_fsm': True,
-                            'recurring_task': False,  # NO automatic recurrence
-                            'planned_date_begin': datetime.now(),
-                            'date_deadline': rec.end_date if rec.end_date else False,
-                            'user_ids': [(4, rec.user_id.id)] if rec.user_id else [],
-                            'customer_assets_ids': [(4, asset.id)],
-                        }
+                        values = _base_values(service)
+                        values.update({
+                            'name': f"{rec.name} - {rec.partner_id.display_name} - {product.display_name} - {datetime.now().year} - Service-{service + 1}",
+                            'customer_assets_ids': [(6, 0, assets.ids)],
+                        })
                         task = self.env['project.task'].sudo().create(values)
                         created_tasks.append(task)
+                else:
+                    for asset in assets:
+                        for service in range(num_services):
+                            values = _base_values(service)
+                            values.update({
+                                'name': f"{rec.name} - {rec.partner_id.display_name} - {product.display_name} - {asset.name} - {datetime.now().year} - Service-{service + 1}",
+                                'customer_assets_ids': [(4, asset.id)],
+                            })
+                            task = self.env['project.task'].sudo().create(values)
+                            created_tasks.append(task)
 
-                        if line.task_id:
-                            line.task_id.unlink()
+                if line.task_id:
+                    line.task_id.unlink()
             if created_tasks:
                 rec.tasks_ids = [(4, t.id) for t in reversed(created_tasks)]
 
