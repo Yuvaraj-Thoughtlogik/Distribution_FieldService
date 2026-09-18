@@ -159,4 +159,4 @@ class ProjectTask(models.Model):
         self.ensure_one()
         if self.multiple_worksheet:
             return super()._is_fsm_report_available() or bool(self.fsm_worksheet_completed_count)
-        return super()._is_fsm_report_available()
+        return super()._is_fsm_report_available()

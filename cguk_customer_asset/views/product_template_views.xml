@@ -10,6 +10,13 @@
                        invisible = "recurring_invoice != True" required="type=='service'"/>
 
             </xpath>
+            <xpath expr="//field[@name='service_policy']" position="after">
+
+                    <field name="fsm_task_creation_mode"
+                       invisible="service_tracking not in ('task_global_project', 'task_in_project')"
+                       required="service_tracking in ('task_global_project', 'task_in_project')"/>
+
+            </xpath>
         </field>
     </record>
 </odoo>
