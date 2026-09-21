@@ -42,7 +42,7 @@
         <field name="arch" type="xml">
 
             <xpath expr="//div[@name='plan_block']" position="after">
-                <field name="next_recurring_date" invisible="not is_subscription"/>
+                <field name="next_recurring_date" readonly="False" invisible="not is_subscription"/>
                 <field name="sign_template_id" required="is_subscription" invisible="not is_subscription"/>
                 <!--                <field name="lead_id"/>-->
             </xpath>

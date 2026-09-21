@@ -55,7 +55,8 @@ class ServiceContract(models.Model):
     next_recurring_date = fields.Date(
         string='Next Recurring Date',
         compute='_compute_next_recurring_date',
-        store=True
+        store=True,
+        readonly = False
     )
 
     product_id = fields.Many2one(
