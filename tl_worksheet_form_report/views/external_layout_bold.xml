@@ -1,8 +1,7 @@
 <odoo>
     <template id="web.external_layout_bold">
         <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
-            <!-- test -->
-            <div class="row">
+            <div class="row o_first_page_letterhead">
                 <div class="row">
                     <div class="col-6 text-start">
                         <t t-if="o and 'partner_id' in o._fields">
@@ -137,6 +136,34 @@
                     </ul>
                 </div>-->
             </div>
+            <!-- Page 1: full letterhead / Page 2+: continuation logo only (same header space, old paperformat) -->
+            <t t-set="continuation_logo"
+                t-value="('continuation_logo' in company._fields and company.continuation_logo) or company.logo" />
+            <div t-if="report_type == 'pdf'" class="o_continuation_header text-end" style="display: none;">
+                <img t-if="continuation_logo" t-att-src="image_data_uri(continuation_logo)" alt="Logo"
+                    style="max-height: 180px !important; max-width: none !important; width: 325px !important; height: auto !important;" />
+            </div>
+            <script t-if="report_type == 'pdf'">
+                (function () {
+                    var vars = {};
+                    document.location.search.substring(1).split('&amp;').forEach(function (kv) {
+                        var p = kv.split('=', 2);
+                        vars[p[0]] = decodeURIComponent(p[1] || '');
+                    });
+                    var first = vars.sitepage ? vars.sitepage === '1' : (vars.page || '1') === '1';
+                    if (!first) {
+                        var i;
+                        var letterheads = document.getElementsByClassName('o_first_page_letterhead');
+                        for (i = 0; i &lt; letterheads.length; i++) {
+                            letterheads[i].style.display = 'none';
+                        }
+                        var continuations = document.getElementsByClassName('o_continuation_header');
+                        for (i = 0; i &lt; continuations.length; i++) {
+                            continuations[i].style.display = 'block';
+                        }
+                    }
+                })();
+            </script>
         </div>
 
         <t t-set="layout_background_url"

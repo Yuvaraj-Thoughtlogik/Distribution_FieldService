@@ -116,6 +116,7 @@ class ResCompany(models.Model):
  
     footer_logo = fields.Binary("Footer Logo")
     fritsch_logo = fields.Binary("Fritsch Logo")
+    continuation_logo = fields.Binary("Continuation Logo", help="Logo printed at the top of report pages 2 onwards")
     
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
