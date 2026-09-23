@@ -46,6 +46,17 @@ class SaleOrder(models.Model):
                 ('delivery_address_id', '=', record.partner_shipping_id.id)
             ])
 
+    @api.depends('partner_id')
+    def _compute_user_id(self):
+        # Always use the logged-in user as salesperson instead of the customer's salesperson
+        is_salesman = self.env.user.has_group('sales_team.group_sale_salesman')
+        for order in self:
+            if order.partner_id and not (order._origin.id and order.user_id):
+                if is_salesman:
+                    order.user_id = self.env.user
+                else:
+                    super(SaleOrder, order)._compute_user_id()
+
     renewal_date = fields.Date(string="Renewal Date")
 
     sale_customer_assets_count = fields.Integer(string="Customer Assets Count", compute="_compute_sale_customer_assets_count")
