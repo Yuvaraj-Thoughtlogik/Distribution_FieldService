@@ -1,4 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_employee_paye_fps_return_account_manager,paye_fps_return,model_employee_paye_fps_return,hr_payroll.group_hr_payroll_user,1,1,1,0
-access_employer_paye_eps_return,access_employer_paye_eps_return,model_employer_paye_eps_return,base.group_user,1,1,1,0
-access_hmrc_confirmation_wizard,access_hmrc_confirmation_wizard,model_hmrc_confirmation_wizard,base.group_user,1,0,0,0

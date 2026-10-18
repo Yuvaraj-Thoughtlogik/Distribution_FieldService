@@ -1,7 +1,0 @@
-"id","name","model_id:id","group_id:id","perm_read","perm_write","perm_create","perm_unlink"
-"l10n_uk_hr_payroll.access_l10n_uk_pension_nest_wizard","access_l10n_uk_pension_nest_wizard","l10n_uk_hr_payroll.model_l10n_uk_pension_nest_wizard","hr_payroll.group_hr_payroll_user",1,1,1,1
-"l10n_uk_hr_payroll.access_l10n_uk_pension_fund","access_l10n_uk_pension_fund","l10n_uk_hr_payroll.model_l10n_uk_pension_fund","hr_payroll.group_hr_payroll_user",1,1,1,1
-"l10n_uk_hr_payroll.access_l10n_uk_pension_nest_line_wizard","access_l10n_uk_pension_nest_line_wizard","l10n_uk_hr_payroll.model_l10n_uk_pension_nest_line_wizard","hr_payroll.group_hr_payroll_user",1,1,1,1
-"l10n_uk_hr_payroll.access_l10n_uk_pension_true_potential_wizard","access_l10n_uk_pension_true_potential_wizard","l10n_uk_hr_payroll.model_l10n_uk_pension_true_potential_wizard","hr_payroll.group_hr_payroll_user",1,0,0,0
-"l10n_uk_hr_payroll.access_l10n_uk_pension_true_potential_line_wizard","access_l10n_uk_pension_true_potential_line_wizard","l10n_uk_hr_payroll.model_l10n_uk_pension_true_potential_line_wizard","hr_payroll.group_hr_payroll_user",1,0,0,0
-"l10n_uk_hr_payroll.access_l10n_uk_hr_payroll_p60","l10n_uk_hr_payroll_p60","model_l10n_uk_hr_payroll_p60","hr_payroll.group_hr_payroll_user",1,1,1,1
