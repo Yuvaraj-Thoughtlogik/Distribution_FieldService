@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Not noupdate, so module updates also apply it (the method is idempotent). -->
+    <function model="tl.dfs.demo.loader" name="_setup_contract_sign_template"/>
+</odoo>

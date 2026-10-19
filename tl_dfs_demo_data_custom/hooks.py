@@ -27,4 +27,6 @@ def post_init_hook(env):
         if default_team and default_team.active and not default_team.member_ids:
             env['sale.order'].with_context(active_test=False).search([('team_id', '=', default_team.id)]).write({'team_id': website_team.id})
             default_team.action_archive()
+    # Contracts only exist now, so link the Service Agreement template after loading them.
+    env['tl.dfs.demo.loader']._setup_contract_sign_template()
     _logger.info('tl_dfs_demo_data_custom: custom demo data loaded and sales teams tidied')

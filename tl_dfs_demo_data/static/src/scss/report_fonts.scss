@@ -1,0 +1,11 @@
+// PDF reports use the system Helvetica instead of the company web font (Lato).
+//
+// The macOS build of wkhtmltopdf 0.12.6 races while loading Odoo's multi-weight Lato web font:
+// text randomly comes out as Lato-Light/Black or with an empty font subset, which browser PDF
+// viewers (PDFium / pdf.js) draw as blank pages. System fonts are embedded reliably, and Helvetica
+// also matches the quotation cover, terms and datasheet pages generated for the demo.
+.article, .header, .footer {
+    &[class*="o_company_"] {
+        font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important;
+    }
+}

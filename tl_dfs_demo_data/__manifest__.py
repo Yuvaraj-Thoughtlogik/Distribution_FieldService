@@ -1,6 +1,6 @@
 {
     "name": "DFS Demo Data - Northbrook Analytical (UK lab equipment distribution & field service)",
-    "version": "20.0.1.1.0",
+    "version": "20.0.1.2.0",
     "category": "Hidden/Tools",
     "summary": "Configures a fresh database for a UK distributor of food-testing laboratory "
                "equipment with field service, and loads realistic sample data.",
@@ -66,6 +66,11 @@ by "Settings > Technical > DFS Demo Data > Load Data for Custom Modules" (or
         "data/server_actions.xml",
         "data/quote_builder_data.xml",
     ],
+    "assets": {
+        "web.report_assets_common": [
+            "tl_dfs_demo_data/static/src/scss/report_fonts.scss",
+        ],
+    },
     "post_init_hook": "post_init_hook",
     "installable": True,
     "application": False,

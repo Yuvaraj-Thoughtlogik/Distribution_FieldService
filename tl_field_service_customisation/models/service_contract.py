@@ -3,6 +3,7 @@ from odoo import models, fields, api, Command
 from markupsafe import Markup
 
 from odoo.exceptions import UserError, ValidationError
+from odoo.tools import format_date
 
 import logging
 
@@ -501,25 +502,21 @@ class ServiceContractLine(models.Model):
             address_parts.append(partner.country_id.name)
 
         address = '\n'.join(address_parts)
+        lang_code = partner.lang or self.env.lang
+
+        def name_job(partner):
+            return ', '.join(filter(None, [partner.name, partner.function]))
 
         return {
             'customer_name':self.contract_id.partner_id.name,
             'service_contract_no': self.name,
             'address': address,
-            'start_date': self.start_date,
-            'end_date': self.end_date,
+            'start_date': format_date(self.env, self.start_date, lang_code=lang_code) if self.start_date else '',
+            'end_date': format_date(self.env, self.end_date, lang_code=lang_code) if self.end_date else '',
             'no_of_services': self.contract_id.product_id.number_of_services_per_year,
             'equipments': equipment_list,
-
-            'user_name_job': (
-                f"{self.sale_id.user_id.name}, "
-                f"{self.sale_id.user_id.partner_id.function or ''}"
-            ),
-
-            'customer_name_job': (
-                f"{self.contract_id.partner_id.name}, "
-                f"{self.contract_id.partner_id.function or ''}"
-            ),
+            'user_name_job': name_job(self.sale_id.user_id.partner_id),
+            'customer_name_job': name_job(self.contract_id.partner_id),
         }
 
     def send_non_customer_emails(self):
