@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="action_load_custom_data" model="ir.actions.server">
+        <field name="name">Load DFS Demo Data for Custom Modules</field>
+        <field name="model_id" ref="base.model_res_company"/>
+        <field name="group_ids" eval="[Command.link(ref('base.group_system'))]"/>
+        <field name="state">code</field>
+        <field name="code">action = env['tl.dfs.demo.loader'].action_load_custom_data()</field>
+    </record>
+    <record id="action_load_all_data" model="ir.actions.server">
+        <field name="name">(Re)load DFS Demo Data (all, idempotent)</field>
+        <field name="model_id" ref="base.model_res_company"/>
+        <field name="group_ids" eval="[Command.link(ref('base.group_system'))]"/>
+        <field name="state">code</field>
+        <field name="code">action = env['tl.dfs.demo.loader'].action_load_all()</field>
+    </record>
+
+    <menuitem id="menu_dfs_demo_root" name="DFS Demo Data" parent="base.menu_administration" sequence="90" groups="base.group_system"/>
+    <menuitem id="menu_dfs_demo_custom" name="Load Data for Custom Modules" parent="menu_dfs_demo_root" action="action_load_custom_data" sequence="1"/>
+    <menuitem id="menu_dfs_demo_all" name="Reload All Demo Data" parent="menu_dfs_demo_root" action="action_load_all_data" sequence="2"/>
+</odoo>

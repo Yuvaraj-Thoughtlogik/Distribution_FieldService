@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- GBP must be active before it can be used as company currency -->
+    <record id="base.GBP" model="res.currency">
+        <field name="active" eval="True"/>
+    </record>
+
+    <data noupdate="1">
+        <record id="base.main_company" model="res.company">
+            <field name="name">Northbrook Analytical Ltd</field>
+            <field name="street">Unit 7, Kingston Business Park</field>
+            <field name="street2">Tanners Drive</field>
+            <field name="city">Milton Keynes</field>
+            <field name="zip">MK14 5BN</field>
+            <field name="country_id" ref="base.uk"/>
+            <field name="currency_id" ref="base.GBP"/>
+            <field name="phone">+44 1908 555 100</field>
+            <field name="email">info@northbrook-analytical.example</field>
+            <field name="website">https://www.northbrook-analytical.example</field>
+            <field name="vat">GB123456782</field>
+            <field name="report_header">Food-testing laboratory equipment, installation and service</field>
+            <field name="logo" type="bytes" file="tl_dfs_demo_data/static/img/company/northbrook_logo.png"/>
+        </record>
+
+        <!-- Payment terms -->
+        <record id="payment_term_30eom" model="account.payment.term">
+            <field name="name">30 Days End of Month</field>
+            <field name="note">Payment terms: 30 days end of month</field>
+            <field name="line_ids" eval="[Command.clear(), Command.create({'value': 'percent', 'value_amount': 100.0, 'nb_days': 30, 'delay_type': 'days_after_end_of_month'})]"/>
+        </record>
+        <record id="payment_term_50_50" model="account.payment.term">
+            <field name="name">50% with Order, Balance 30 Days after Delivery</field>
+            <field name="note">Capital equipment: 50% pro-forma with order, balance 30 days after invoice</field>
+            <field name="line_ids" eval="[Command.clear(), Command.create({'value': 'percent', 'value_amount': 50.0, 'nb_days': 0}), Command.create({'value': 'percent', 'value_amount': 50.0, 'nb_days': 30})]"/>
+        </record>
+        <record id="payment_term_60" model="account.payment.term">
+            <field name="name">60 Days (Public Sector Framework)</field>
+            <field name="note">Payment terms: 60 days</field>
+            <field name="line_ids" eval="[Command.clear(), Command.create({'value': 'percent', 'value_amount': 100.0, 'nb_days': 60})]"/>
+        </record>
+    </data>
+</odoo>

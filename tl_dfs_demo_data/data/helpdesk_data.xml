@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- The default helpdesk team becomes the (only) public Technical Support team,
+             so the website /helpdesk "Support" form lands directly on it. -->
+        <record id="helpdesk.helpdesk_team1" model="helpdesk.team">
+            <field name="name">Technical Support</field>
+            <field name="alias_name">support</field>
+            <field name="description">Instrument breakdowns, application questions and service requests for Northbrook Analytical equipment.</field>
+            <field name="use_sla" eval="True"/>
+            <field name="use_fsm" eval="True"/>
+            <field name="use_website_helpdesk_form" eval="True"/>
+            <field name="is_published" eval="True"/>
+            <field name="allow_portal_ticket_closing" eval="True"/>
+        </record>
+
+        <record id="helpdesk_tag_breakdown" model="helpdesk.tag"><field name="name">Breakdown</field><field name="color">1</field></record>
+        <record id="helpdesk_tag_application" model="helpdesk.tag"><field name="name">Application Support</field><field name="color">4</field></record>
+        <record id="helpdesk_tag_calibration" model="helpdesk.tag"><field name="name">Calibration</field><field name="color">10</field></record>
+        <record id="helpdesk_tag_warranty" model="helpdesk.tag"><field name="name">Warranty</field><field name="color">3</field></record>
+        <record id="helpdesk_tag_spares" model="helpdesk.tag"><field name="name">Spares Request</field><field name="color">2</field></record>
+
+        <!-- SLA policies -->
+        <record id="helpdesk_sla_urgent" model="helpdesk.sla">
+            <field name="name">Urgent breakdown - 4 working hours</field>
+            <field name="team_id" ref="helpdesk.helpdesk_team1"/>
+            <field name="criteria_domain">[("priority", "=", "3")]</field>
+            <field name="stage_id" ref="helpdesk.stage_in_progress"/>
+            <field name="time" eval="4"/>
+        </record>
+        <record id="helpdesk_sla_high" model="helpdesk.sla">
+            <field name="name">High priority - response within 8 working hours</field>
+            <field name="team_id" ref="helpdesk.helpdesk_team1"/>
+            <field name="criteria_domain">[("priority", "=", "2")]</field>
+            <field name="stage_id" ref="helpdesk.stage_in_progress"/>
+            <field name="time" eval="8"/>
+        </record>
+        <record id="helpdesk_sla_standard" model="helpdesk.sla">
+            <field name="name">Standard - response within 2 working days</field>
+            <field name="team_id" ref="helpdesk.helpdesk_team1"/>
+            <field name="criteria_domain">[("priority", "in", ["0", "1"])]</field>
+            <field name="stage_id" ref="helpdesk.stage_in_progress"/>
+            <field name="time" eval="16"/>
+        </record>
+        <record id="helpdesk_sla_resolution" model="helpdesk.sla">
+            <field name="name">Breakdown resolved within 5 working days</field>
+            <field name="team_id" ref="helpdesk.helpdesk_team1"/>
+            <field name="criteria_domain">[("tag_ids.name", "=", "Breakdown")]</field>
+            <field name="stage_id" ref="helpdesk.stage_solved"/>
+            <field name="exclude_stage_ids" eval="[Command.set([ref('helpdesk.stage_on_hold')])]"/>
+            <field name="time" eval="40"/>
+        </record>
+    </data>
+</odoo>

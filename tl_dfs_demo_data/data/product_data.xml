@@ -1,0 +1,1666 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from master data definitions; edit with care. -->
+<odoo>
+<data noupdate="1">
+<record id="product_kd40" model="product.template">
+    <field name="name">NA-KD40 Automatic Kjeldahl Distillation Unit</field>
+    <field name="default_code">NA-KD40</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="68"/>
+    <field name="categ_id" ref="product_category_protein"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_protein')])]"/>
+    <field name="list_price" eval="14950.0"/>
+    <field name="standard_price" eval="9150.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Fully automatic steam distillation with integrated colorimetric titration, automatic alkali and boric acid dosing, touch-screen method library and USB/LIMS export. Distillation time under 4 minutes per sample; recovery &gt;= 99.5 %. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Fully automatic steam distillation with integrated colorimetric titration, automatic alkali and boric acid dosing, touch-screen method library and USB/LIMS export. Distillation time under 4 minutes per sample; recovery &amp;gt;= 99.5 %. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/kd40.jpg"/>
+</record>
+<record id="supplierinfo_kd40" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_kd40"/>
+    <field name="price" eval="9150.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-KD40</field>
+</record>
+<record id="product_kd20" model="product.template">
+    <field name="name">NA-KD20 Semi-Automatic Kjeldahl Distillation Unit</field>
+    <field name="default_code">NA-KD20</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="42"/>
+    <field name="categ_id" ref="product_category_protein"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_protein')])]"/>
+    <field name="list_price" eval="8450.0"/>
+    <field name="standard_price" eval="5050.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Compact steam distillation unit with programmable NaOH dosing and safety door interlock. Ideal for routine protein determination in feed, dairy and cereal laboratories. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Compact steam distillation unit with programmable NaOH dosing and safety door interlock. Ideal for routine protein determination in feed, dairy and cereal laboratories. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/kd20.jpg"/>
+</record>
+<record id="supplierinfo_kd20" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_kd20"/>
+    <field name="price" eval="5050.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-KD20</field>
+</record>
+<record id="product_dn100" model="product.template">
+    <field name="name">NA-DN100 Dumas Combustion Nitrogen / Protein Analyser</field>
+    <field name="default_code">NA-DN100</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="95"/>
+    <field name="categ_id" ref="product_category_protein"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_protein')])]"/>
+    <field name="list_price" eval="38500.0"/>
+    <field name="standard_price" eval="24600.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Combustion (Dumas) nitrogen analyser with 120-position autosampler, thermal-conductivity detection and helium-saving mode. Results in under 4 minutes without chemical digestion. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Combustion (Dumas) nitrogen analyser with 120-position autosampler, thermal-conductivity detection and helium-saving mode. Results in under 4 minutes without chemical digestion. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/dn100.jpg"/>
+</record>
+<record id="supplierinfo_dn100" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_dn100"/>
+    <field name="price" eval="24600.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-DN100</field>
+</record>
+<record id="product_kt8" model="product.template">
+    <field name="name">NA-KT8 Kjeldahl Titration Module</field>
+    <field name="default_code">NA-KT8</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="9"/>
+    <field name="categ_id" ref="product_category_protein"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_protein')])]"/>
+    <field name="list_price" eval="6200.0"/>
+    <field name="standard_price" eval="3700.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Add-on potentiometric titration module with 20 mL burette and pH electrode; connects to NA-KD series distillers. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Add-on potentiometric titration module with 20 mL burette and pH electrode; connects to NA-KD series distillers. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/kt8.jpg"/>
+</record>
+<record id="supplierinfo_kt8" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_kt8"/>
+    <field name="price" eval="3700.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-KT8</field>
+</record>
+<record id="product_db20" model="product.template">
+    <field name="name">NA-DB20 Block Digester, 20 Positions</field>
+    <field name="default_code">NA-DB20</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="38"/>
+    <field name="categ_id" ref="product_category_digestion"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_digestion')])]"/>
+    <field name="list_price" eval="5850.0"/>
+    <field name="standard_price" eval="3420.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Aluminium block digester for 20 x 250 mL tubes, 420 deg C max, 20-step temperature programs and integrated lift. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Aluminium block digester for 20 x 250 mL tubes, 420 deg C max, 20-step temperature programs and integrated lift. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/db20.jpg"/>
+</record>
+<record id="supplierinfo_db20" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_db20"/>
+    <field name="price" eval="3420.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-DB20</field>
+</record>
+<record id="product_db8" model="product.template">
+    <field name="name">NA-DB8 Block Digester, 8 Positions</field>
+    <field name="default_code">NA-DB8</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="21"/>
+    <field name="categ_id" ref="product_category_digestion"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_digestion')])]"/>
+    <field name="list_price" eval="3450.0"/>
+    <field name="standard_price" eval="2010.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Bench-top digestion block for 8 x 250 mL Kjeldahl tubes with exhaust manifold. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Bench-top digestion block for 8 x 250 mL Kjeldahl tubes with exhaust manifold. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/db8.jpg"/>
+</record>
+<record id="supplierinfo_db8" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_db8"/>
+    <field name="price" eval="2010.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-DB8</field>
+</record>
+<record id="product_sc4" model="product.template">
+    <field name="name">NA-SC4 Fume Scrubber Unit</field>
+    <field name="default_code">NA-SC4</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="16"/>
+    <field name="categ_id" ref="product_category_digestion"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_digestion')])]"/>
+    <field name="list_price" eval="2250.0"/>
+    <field name="standard_price" eval="1290.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Three-stage neutralisation scrubber for acid fumes generated during Kjeldahl digestion. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Three-stage neutralisation scrubber for acid fumes generated during Kjeldahl digestion. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/sc4.jpg"/>
+</record>
+<record id="supplierinfo_sc4" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_sc4"/>
+    <field name="price" eval="1290.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-SC4</field>
+</record>
+<record id="product_fx6" model="product.template">
+    <field name="name">NA-FX6 Automatic Soxhlet Fat Extraction System, 6 Positions</field>
+    <field name="default_code">NA-FX6</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="45"/>
+    <field name="categ_id" ref="product_category_fat"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_fat')])]"/>
+    <field name="list_price" eval="16800.0"/>
+    <field name="standard_price" eval="10100.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Automated Soxhlet / Randall extraction for 6 samples with solvent recovery up to 90 %, sealed heating plates and built-in solvent sensor. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Automated Soxhlet / Randall extraction for 6 samples with solvent recovery up to 90 %, sealed heating plates and built-in solvent sensor. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/fx6.jpg"/>
+</record>
+<record id="supplierinfo_fx6" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_estrava"/>
+    <field name="product_tmpl_id" ref="product_fx6"/>
+    <field name="price" eval="10100.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-FX6</field>
+</record>
+<record id="product_fx2" model="product.template">
+    <field name="name">NA-FX2 Compact Solvent Extraction Unit, 2 Positions</field>
+    <field name="default_code">NA-FX2</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="19"/>
+    <field name="categ_id" ref="product_category_fat"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_fat')])]"/>
+    <field name="list_price" eval="7900.0"/>
+    <field name="standard_price" eval="4700.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Two-position solvent extractor for low-throughput laboratories and teaching. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Two-position solvent extractor for low-throughput laboratories and teaching. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/fx2.jpg"/>
+</record>
+<record id="supplierinfo_fx2" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_estrava"/>
+    <field name="product_tmpl_id" ref="product_fx2"/>
+    <field name="price" eval="4700.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-FX2</field>
+</record>
+<record id="product_hy6" model="product.template">
+    <field name="name">NA-HY6 Acid Hydrolysis Unit, 6 Positions</field>
+    <field name="default_code">NA-HY6</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="31"/>
+    <field name="categ_id" ref="product_category_fat"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_fat')])]"/>
+    <field name="list_price" eval="9300.0"/>
+    <field name="standard_price" eval="5500.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Acid hydrolysis prior to total fat extraction (Weibull-Stoldt) with automatic rinsing. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Acid hydrolysis prior to total fat extraction (Weibull-Stoldt) with automatic rinsing. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/hy6.jpg"/>
+</record>
+<record id="supplierinfo_hy6" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_estrava"/>
+    <field name="product_tmpl_id" ref="product_hy6"/>
+    <field name="price" eval="5500.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-HY6</field>
+</record>
+<record id="product_fb6" model="product.template">
+    <field name="name">NA-FB6 Crude Fibre Analyser, 6 Positions</field>
+    <field name="default_code">NA-FB6</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="36"/>
+    <field name="categ_id" ref="product_category_fibre"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_fibre')])]"/>
+    <field name="list_price" eval="11200.0"/>
+    <field name="standard_price" eval="6650.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Crude fibre, ADF and NDF determination with hot and cold extraction in glass crucibles. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Crude fibre, ADF and NDF determination with hot and cold extraction in glass crucibles. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/fb6.jpg"/>
+</record>
+<record id="supplierinfo_fb6" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_estrava"/>
+    <field name="product_tmpl_id" ref="product_fb6"/>
+    <field name="price" eval="6650.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-FB6</field>
+</record>
+<record id="product_fb24" model="product.template">
+    <field name="name">NA-FB24 Dietary Fibre Analyser (Filter Bag Technique)</field>
+    <field name="default_code">NA-FB24</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="40"/>
+    <field name="categ_id" ref="product_category_fibre"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_fibre')])]"/>
+    <field name="list_price" eval="13500.0"/>
+    <field name="standard_price" eval="8100.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Processes up to 24 filter bags simultaneously for crude fibre, ADF and NDF; reduced reagent consumption. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Processes up to 24 filter bags simultaneously for crude fibre, ADF and NDF; reduced reagent consumption. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/fb24.jpg"/>
+</record>
+<record id="supplierinfo_fb24" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_estrava"/>
+    <field name="product_tmpl_id" ref="product_fb24"/>
+    <field name="price" eval="8100.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-FB24</field>
+</record>
+<record id="product_mb120" model="product.template">
+    <field name="name">NA-MB120 Halogen Moisture Analyser, 120 g</field>
+    <field name="default_code">NA-MB120</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="6"/>
+    <field name="categ_id" ref="product_category_moisture"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_moisture')])]"/>
+    <field name="list_price" eval="2650.0"/>
+    <field name="standard_price" eval="1530.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Halogen moisture analyser, 120 g x 1 mg, 40-230 deg C, 100 method memory and GLP printout. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Halogen moisture analyser, 120 g x 1 mg, 40-230 deg C, 100 method memory and GLP printout. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/mb120.jpg"/>
+</record>
+<record id="supplierinfo_mb120" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_feinwaage"/>
+    <field name="product_tmpl_id" ref="product_mb120"/>
+    <field name="price" eval="1530.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-MB120</field>
+</record>
+<record id="product_mb60" model="product.template">
+    <field name="name">NA-MB60 Moisture Balance, 60 g</field>
+    <field name="default_code">NA-MB60</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="4.5"/>
+    <field name="categ_id" ref="product_category_moisture"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_moisture')])]"/>
+    <field name="list_price" eval="1450.0"/>
+    <field name="standard_price" eval="840.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Entry-level infra-red moisture balance, 60 g x 1 mg. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Entry-level infra-red moisture balance, 60 g x 1 mg. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/mb60.jpg"/>
+</record>
+<record id="supplierinfo_mb60" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_feinwaage"/>
+    <field name="product_tmpl_id" ref="product_mb60"/>
+    <field name="price" eval="840.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-MB60</field>
+</record>
+<record id="product_dm50" model="product.template">
+    <field name="name">NA-DM50 Microwave Dry Matter Analyser</field>
+    <field name="default_code">NA-DM50</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="34"/>
+    <field name="categ_id" ref="product_category_moisture"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_moisture')])]"/>
+    <field name="list_price" eval="18900.0"/>
+    <field name="standard_price" eval="11800.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Rapid microwave drying with integrated balance: total solids in dairy, meat and sauces in 2-5 minutes. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Rapid microwave drying with integrated balance: total solids in dairy, meat and sauces in 2-5 minutes. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/dm50.jpg"/>
+</record>
+<record id="supplierinfo_dm50" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_feinwaage"/>
+    <field name="product_tmpl_id" ref="product_dm50"/>
+    <field name="price" eval="11800.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-DM50</field>
+</record>
+<record id="product_rc12" model="product.template">
+    <field name="name">NA-RC12 Refrigerated / Heating Circulator, -25 to 150 deg C, 12 L</field>
+    <field name="default_code">NA-RC12</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="41"/>
+    <field name="categ_id" ref="product_category_circulators"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_circulators')])]"/>
+    <field name="list_price" eval="4350.0"/>
+    <field name="standard_price" eval="2560.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Refrigerated bath circulator, 12 L, +/-0.02 K stability, natural refrigerants, pressure/suction pump. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Refrigerated bath circulator, 12 L, +/-0.02 K stability, natural refrigerants, pressure/suction pump. 24-month on-site warranty (parts and labour) when installed by Northbrook engineers.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/rc12.jpg"/>
+</record>
+<record id="supplierinfo_rc12" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_calderbrook"/>
+    <field name="product_tmpl_id" ref="product_rc12"/>
+    <field name="price" eval="2560.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-RC12</field>
+</record>
+<record id="product_hc8" model="product.template">
+    <field name="name">NA-HC8 Heating Immersion Circulator, 8 L</field>
+    <field name="default_code">NA-HC8</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="12"/>
+    <field name="categ_id" ref="product_category_circulators"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_circulators')])]"/>
+    <field name="list_price" eval="1690.0"/>
+    <field name="standard_price" eval="980.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Heating circulator with 8 L stainless bath, 20-150 deg C, PID control. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Heating circulator with 8 L stainless bath, 20-150 deg C, PID control. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/hc8.jpg"/>
+</record>
+<record id="supplierinfo_hc8" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_calderbrook"/>
+    <field name="product_tmpl_id" ref="product_hc8"/>
+    <field name="price" eval="980.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-HC8</field>
+</record>
+<record id="product_ch600" model="product.template">
+    <field name="name">NA-CH600 Recirculating Chiller, 600 W</field>
+    <field name="default_code">NA-CH600</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="38"/>
+    <field name="categ_id" ref="product_category_circulators"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_circulators')])]"/>
+    <field name="list_price" eval="3250.0"/>
+    <field name="standard_price" eval="1910.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Compact recirculating chiller for condensers, rotary evaporators and distillation units. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Compact recirculating chiller for condensers, rotary evaporators and distillation units. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/ch600.jpg"/>
+</record>
+<record id="supplierinfo_ch600" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_calderbrook"/>
+    <field name="product_tmpl_id" ref="product_ch600"/>
+    <field name="price" eval="1910.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-CH600</field>
+</record>
+<record id="product_wb22" model="product.template">
+    <field name="name">NA-WB22 Digital Water Bath, 22 L</field>
+    <field name="default_code">NA-WB22</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="11"/>
+    <field name="categ_id" ref="product_category_baths"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_baths')])]"/>
+    <field name="list_price" eval="895.0"/>
+    <field name="standard_price" eval="505.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">General purpose digital water bath, ambient +5 to 99 deg C, gable lid and concentric ring set. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;General purpose digital water bath, ambient +5 to 99 deg C, gable lid and concentric ring set. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/wb22.jpg"/>
+</record>
+<record id="supplierinfo_wb22" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_calderbrook"/>
+    <field name="product_tmpl_id" ref="product_wb22"/>
+    <field name="price" eval="505.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-WB22</field>
+</record>
+<record id="product_swb28" model="product.template">
+    <field name="name">NA-SWB28 Shaking Water Bath, 28 L</field>
+    <field name="default_code">NA-SWB28</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="29"/>
+    <field name="categ_id" ref="product_category_baths"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_baths')])]"/>
+    <field name="list_price" eval="2180.0"/>
+    <field name="standard_price" eval="1270.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Reciprocating shaking water bath 20-200 strokes/min, universal tray. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Reciprocating shaking water bath 20-200 strokes/min, universal tray. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/swb28.jpg"/>
+</record>
+<record id="supplierinfo_swb28" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_calderbrook"/>
+    <field name="product_tmpl_id" ref="product_swb28"/>
+    <field name="price" eval="1270.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-SWB28</field>
+</record>
+<record id="product_do110" model="product.template">
+    <field name="name">NA-DO110 Forced-Air Drying Oven, 110 L</field>
+    <field name="default_code">NA-DO110</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="55"/>
+    <field name="categ_id" ref="product_category_baths"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_baths')])]"/>
+    <field name="list_price" eval="2450.0"/>
+    <field name="standard_price" eval="1430.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Forced convection oven to 250 deg C, +/-0.5 K, ideal for moisture by oven-drying reference methods. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Forced convection oven to 250 deg C, +/-0.5 K, ideal for moisture by oven-drying reference methods. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/do110.jpg"/>
+</record>
+<record id="supplierinfo_do110" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_calderbrook"/>
+    <field name="product_tmpl_id" ref="product_do110"/>
+    <field name="price" eval="1430.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-DO110</field>
+</record>
+<record id="product_mf9" model="product.template">
+    <field name="name">NA-MF9 Muffle Furnace, 1100 deg C, 9 L</field>
+    <field name="default_code">NA-MF9</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="38"/>
+    <field name="categ_id" ref="product_category_baths"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_baths')])]"/>
+    <field name="list_price" eval="3600.0"/>
+    <field name="standard_price" eval="2150.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Ashing furnace for crude ash determination, ceramic fibre insulation, 9-segment programmer. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Ashing furnace for crude ash determination, ceramic fibre insulation, 9-segment programmer. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/mf9.jpg"/>
+</record>
+<record id="supplierinfo_mf9" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_calderbrook"/>
+    <field name="product_tmpl_id" ref="product_mf9"/>
+    <field name="price" eval="2150.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-MF9</field>
+</record>
+<record id="product_vo50" model="product.template">
+    <field name="name">NA-VO50 Vacuum Drying Oven, 50 L</field>
+    <field name="default_code">NA-VO50</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="62"/>
+    <field name="categ_id" ref="product_category_baths"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_baths')])]"/>
+    <field name="list_price" eval="4200.0"/>
+    <field name="standard_price" eval="2480.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Vacuum oven for gentle drying of heat-sensitive samples (sugars, dairy powders). 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Vacuum oven for gentle drying of heat-sensitive samples (sugars, dairy powders). 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/vo50.jpg"/>
+</record>
+<record id="supplierinfo_vo50" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_calderbrook"/>
+    <field name="product_tmpl_id" ref="product_vo50"/>
+    <field name="price" eval="2480.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-VO50</field>
+</record>
+<record id="product_lm200" model="product.template">
+    <field name="name">NA-LM200 Laboratory Hammer Mill</field>
+    <field name="default_code">NA-LM200</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="48"/>
+    <field name="categ_id" ref="product_category_sampleprep"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_sampleprep')])]"/>
+    <field name="list_price" eval="5950.0"/>
+    <field name="standard_price" eval="3500.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Hammer mill for grain, feed and oilseeds, 0.5-2 mm screens, cyclone collection. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Hammer mill for grain, feed and oilseeds, 0.5-2 mm screens, cyclone collection. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/lm200.jpg"/>
+</record>
+<record id="supplierinfo_lm200" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_pentland"/>
+    <field name="product_tmpl_id" ref="product_lm200"/>
+    <field name="price" eval="3500.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-LM200</field>
+</record>
+<record id="product_km10" model="product.template">
+    <field name="name">NA-KM10 Knife Mill, 1 L Bowl</field>
+    <field name="default_code">NA-KM10</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="22"/>
+    <field name="categ_id" ref="product_category_sampleprep"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_sampleprep')])]"/>
+    <field name="list_price" eval="6800.0"/>
+    <field name="standard_price" eval="4050.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Knife mill for homogenising meat, cheese and moist foods; 1 L bowl, 10,000 rpm, gravity lid. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Knife mill for homogenising meat, cheese and moist foods; 1 L bowl, 10,000 rpm, gravity lid. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/km10.jpg"/>
+</record>
+<record id="supplierinfo_km10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_pentland"/>
+    <field name="product_tmpl_id" ref="product_km10"/>
+    <field name="price" eval="4050.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-KM10</field>
+</record>
+<record id="product_hg400" model="product.template">
+    <field name="name">NA-HG400 Paddle Blender Homogeniser, 400 mL</field>
+    <field name="default_code">NA-HG400</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="18"/>
+    <field name="categ_id" ref="product_category_sampleprep"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_sampleprep')])]"/>
+    <field name="list_price" eval="3150.0"/>
+    <field name="standard_price" eval="1860.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Paddle blender for microbiology sample preparation in sterile bags (80-400 mL). 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Paddle blender for microbiology sample preparation in sterile bags (80-400 mL). 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/hg400.jpg"/>
+</record>
+<record id="supplierinfo_hg400" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_pentland"/>
+    <field name="product_tmpl_id" ref="product_hg400"/>
+    <field name="price" eval="1860.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-HG400</field>
+</record>
+<record id="product_hs25" model="product.template">
+    <field name="name">NA-HS25 High-Shear Homogeniser</field>
+    <field name="default_code">NA-HS25</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="3"/>
+    <field name="categ_id" ref="product_category_sampleprep"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_sampleprep')])]"/>
+    <field name="list_price" eval="1250.0"/>
+    <field name="standard_price" eval="720.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Handheld high-shear disperser 3,000-25,000 rpm with 10 mm and 18 mm generators. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Handheld high-shear disperser 3,000-25,000 rpm with 10 mm and 18 mm generators. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/hs25.jpg"/>
+</record>
+<record id="supplierinfo_hs25" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_pentland"/>
+    <field name="product_tmpl_id" ref="product_hs25"/>
+    <field name="price" eval="720.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-HS25</field>
+</record>
+<record id="product_cf16" model="product.template">
+    <field name="name">NA-CF16 Benchtop Centrifuge, 16 Place</field>
+    <field name="default_code">NA-CF16</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">serial</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="27"/>
+    <field name="categ_id" ref="product_category_sampleprep"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_sampleprep')])]"/>
+    <field name="list_price" eval="2950.0"/>
+    <field name="standard_price" eval="1720.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Benchtop centrifuge with swing-out and angle rotors, max 6,000 rpm, imbalance detection. 12-month return-to-base warranty, upgradeable to on-site cover.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Benchtop centrifuge with swing-out and angle rotors, max 6,000 rpm, imbalance detection. 12-month return-to-base warranty, upgradeable to on-site cover.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/cf16.jpg"/>
+</record>
+<record id="supplierinfo_cf16" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_pentland"/>
+    <field name="product_tmpl_id" ref="product_cf16"/>
+    <field name="price" eval="1720.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="21"/>
+    <field name="product_code">V-NA-CF16</field>
+</record>
+<record id="product_heater_kd" model="product.template">
+    <field name="name">NA-KD Steam Generator Heating Element</field>
+    <field name="default_code">SP-KD-HE01</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">lot</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.6"/>
+    <field name="categ_id" ref="product_category_spares"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_spares')])]"/>
+    <field name="list_price" eval="245.0"/>
+    <field name="standard_price" eval="128.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Replacement 2 kW heating element for NA-KD20/KD40 steam generators.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Replacement 2 kW heating element for NA-KD20/KD40 steam generators.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/heater_kd.jpg"/>
+</record>
+<record id="supplierinfo_heater_kd" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_heater_kd"/>
+    <field name="price" eval="128.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-SP-KD-HE01</field>
+</record>
+<record id="product_splash_kd" model="product.template">
+    <field name="name">NA-KD Distillation Splash Head Assembly</field>
+    <field name="default_code">SP-KD-SH02</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.4"/>
+    <field name="categ_id" ref="product_category_spares"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_spares')])]"/>
+    <field name="list_price" eval="185.0"/>
+    <field name="standard_price" eval="92.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Borosilicate splash head with PTFE seal kit.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Borosilicate splash head with PTFE seal kit.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/splash_kd.jpg"/>
+</record>
+<record id="supplierinfo_splash_kd" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_splash_kd"/>
+    <field name="price" eval="92.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-SP-KD-SH02</field>
+</record>
+<record id="product_pcb_db" model="product.template">
+    <field name="name">NA-DB Temperature Controller PCB</field>
+    <field name="default_code">SP-DB-PCB1</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">lot</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.3"/>
+    <field name="categ_id" ref="product_category_spares"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_spares')])]"/>
+    <field name="list_price" eval="420.0"/>
+    <field name="standard_price" eval="230.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Main controller board for NA-DB8/DB20 block digesters.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Main controller board for NA-DB8/DB20 block digesters.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/pcb_db.jpg"/>
+</record>
+<record id="supplierinfo_pcb_db" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_pcb_db"/>
+    <field name="price" eval="230.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-SP-DB-PCB1</field>
+</record>
+<record id="product_thimble_holder" model="product.template">
+    <field name="name">NA-FX Extraction Thimble Holder Set (6)</field>
+    <field name="default_code">SP-FX-TH06</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.5"/>
+    <field name="categ_id" ref="product_category_spares"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_spares')])]"/>
+    <field name="list_price" eval="165.0"/>
+    <field name="standard_price" eval="84.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Stainless steel thimble holders for NA-FX6 (set of 6).</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Stainless steel thimble holders for NA-FX6 (set of 6).&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/thimble_holder.jpg"/>
+</record>
+<record id="supplierinfo_thimble_holder" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_estrava"/>
+    <field name="product_tmpl_id" ref="product_thimble_holder"/>
+    <field name="price" eval="84.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-SP-FX-TH06</field>
+</record>
+<record id="product_lamp_mb" model="product.template">
+    <field name="name">NA-MB Halogen Lamp Replacement</field>
+    <field name="default_code">SP-MB-HL01</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">lot</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.1"/>
+    <field name="categ_id" ref="product_category_spares"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_spares')])]"/>
+    <field name="list_price" eval="89.0"/>
+    <field name="standard_price" eval="41.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">400 W halogen radiator for NA-MB120 moisture analyser.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;400 W halogen radiator for NA-MB120 moisture analyser.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/lamp_mb.jpg"/>
+</record>
+<record id="supplierinfo_lamp_mb" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_feinwaage"/>
+    <field name="product_tmpl_id" ref="product_lamp_mb"/>
+    <field name="price" eval="41.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-SP-MB-HL01</field>
+</record>
+<record id="product_pump_rc" model="product.template">
+    <field name="name">NA-RC Circulator Pump Assembly</field>
+    <field name="default_code">SP-RC-PA01</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">lot</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="1.2"/>
+    <field name="categ_id" ref="product_category_spares"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_spares')])]"/>
+    <field name="list_price" eval="365.0"/>
+    <field name="standard_price" eval="198.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Pressure/suction pump assembly for NA-RC series circulators.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Pressure/suction pump assembly for NA-RC series circulators.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/pump_rc.jpg"/>
+</record>
+<record id="supplierinfo_pump_rc" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_calderbrook"/>
+    <field name="product_tmpl_id" ref="product_pump_rc"/>
+    <field name="price" eval="198.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-SP-RC-PA01</field>
+</record>
+<record id="product_comb_tube" model="product.template">
+    <field name="name">NA-DN Quartz Combustion Tube</field>
+    <field name="default_code">SP-DN-QT01</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">lot</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.5"/>
+    <field name="categ_id" ref="product_category_spares"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_spares')])]"/>
+    <field name="list_price" eval="310.0"/>
+    <field name="standard_price" eval="165.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Quartz combustion tube for NA-DN100 Dumas analyser.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Quartz combustion tube for NA-DN100 Dumas analyser.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/comb_tube.jpg"/>
+</record>
+<record id="supplierinfo_comb_tube" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_comb_tube"/>
+    <field name="price" eval="165.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-SP-DN-QT01</field>
+</record>
+<record id="product_peri_tubing" model="product.template">
+    <field name="name">Peristaltic Pump Tubing Set</field>
+    <field name="default_code">SP-GEN-PT01</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.2"/>
+    <field name="categ_id" ref="product_category_spares"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_spares')])]"/>
+    <field name="list_price" eval="58.0"/>
+    <field name="standard_price" eval="24.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Pharmed tubing set for alkali and boric acid pumps.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Pharmed tubing set for alkali and boric acid pumps.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/peri_tubing.jpg"/>
+</record>
+<record id="supplierinfo_peri_tubing" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_peri_tubing"/>
+    <field name="price" eval="24.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-SP-GEN-PT01</field>
+</record>
+<record id="product_screen_1mm" model="product.template">
+    <field name="name">NA-LM Mill Screen 1.0 mm</field>
+    <field name="default_code">SP-LM-S10</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.3"/>
+    <field name="categ_id" ref="product_category_spares"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_spares')])]"/>
+    <field name="list_price" eval="120.0"/>
+    <field name="standard_price" eval="58.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Stainless steel 1.0 mm screen for NA-LM200 hammer mill.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Stainless steel 1.0 mm screen for NA-LM200 hammer mill.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/screen_1mm.jpg"/>
+</record>
+<record id="supplierinfo_screen_1mm" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_pentland"/>
+    <field name="product_tmpl_id" ref="product_screen_1mm"/>
+    <field name="price" eval="58.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-SP-LM-S10</field>
+</record>
+<record id="product_tubes250" model="product.template">
+    <field name="name">Kjeldahl Digestion Tubes 250 mL (pack of 20)</field>
+    <field name="default_code">CG-KDT-250</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="4"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="96.0"/>
+    <field name="standard_price" eval="44.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Borosilicate digestion tubes, 42 x 300 mm, pack of 20.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Borosilicate digestion tubes, 42 x 300 mm, pack of 20.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/tubes250.jpg"/>
+</record>
+<record id="supplierinfo_tubes250" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_tubes250"/>
+    <field name="price" eval="44.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-KDT-250</field>
+</record>
+<record id="supplierinfo_tubes250_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_tubes250"/>
+    <field name="price" eval="39.6"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-KDT-250</field>
+</record>
+<record id="product_cat_tabs" model="product.template">
+    <field name="name">Kjeldahl Catalyst Tablets Cu/Ti (1000)</field>
+    <field name="default_code">CG-KCT-1000</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">lot</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="5"/>
+    <field name="use_expiration_date" eval="True"/>
+    <field name="expiration_time" eval="1095"/>
+    <field name="use_time" eval="1035"/>
+    <field name="removal_time" eval="1065"/>
+    <field name="alert_time" eval="1005"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="165.0"/>
+    <field name="standard_price" eval="78.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Copper/titanium catalyst tablets, 5 g, mercury free. Shelf life 36 months.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Copper/titanium catalyst tablets, 5 g, mercury free. Shelf life 36 months.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/cat_tabs.jpg"/>
+</record>
+<record id="supplierinfo_cat_tabs" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_cat_tabs"/>
+    <field name="price" eval="78.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-KCT-1000</field>
+</record>
+<record id="supplierinfo_cat_tabs_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_cat_tabs"/>
+    <field name="price" eval="70.2"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-KCT-1000</field>
+</record>
+<record id="product_boric" model="product.template">
+    <field name="name">Boric Acid Receiver Solution 4 %, 5 L</field>
+    <field name="default_code">CG-BAS-5L</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="tracking">lot</field>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="5.5"/>
+    <field name="use_expiration_date" eval="True"/>
+    <field name="expiration_time" eval="540"/>
+    <field name="use_time" eval="480"/>
+    <field name="removal_time" eval="510"/>
+    <field name="alert_time" eval="450"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="38.0"/>
+    <field name="standard_price" eval="15.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Ready-to-use boric acid receiving solution with mixed indicator. Shelf life 18 months.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Ready-to-use boric acid receiving solution with mixed indicator. Shelf life 18 months.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/boric.jpg"/>
+</record>
+<record id="supplierinfo_boric" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_boric"/>
+    <field name="price" eval="15.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-BAS-5L</field>
+</record>
+<record id="supplierinfo_boric_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_boric"/>
+    <field name="price" eval="13.5"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-BAS-5L</field>
+</record>
+<record id="product_thimbles" model="product.template">
+    <field name="name">Cellulose Extraction Thimbles 33 x 80 mm (pack of 25)</field>
+    <field name="default_code">CG-CET-3380</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.4"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="42.0"/>
+    <field name="standard_price" eval="17.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Single-thickness cellulose thimbles for Soxhlet extraction.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Single-thickness cellulose thimbles for Soxhlet extraction.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/thimbles.jpg"/>
+</record>
+<record id="supplierinfo_thimbles" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_thimbles"/>
+    <field name="price" eval="17.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-CET-3380</field>
+</record>
+<record id="supplierinfo_thimbles_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_thimbles"/>
+    <field name="price" eval="15.3"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-CET-3380</field>
+</record>
+<record id="product_filter_bags" model="product.template">
+    <field name="name">Fibre Filter Bags (pack of 100)</field>
+    <field name="default_code">CG-FFB-100</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.3"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="135.0"/>
+    <field name="standard_price" eval="64.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Heat-sealable filter bags for NA-FB24 fibre analyser.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Heat-sealable filter bags for NA-FB24 fibre analyser.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/filter_bags.jpg"/>
+</record>
+<record id="supplierinfo_filter_bags" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_estrava"/>
+    <field name="product_tmpl_id" ref="product_filter_bags"/>
+    <field name="price" eval="64.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-FFB-100</field>
+</record>
+<record id="supplierinfo_filter_bags_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_estrava"/>
+    <field name="product_tmpl_id" ref="product_filter_bags"/>
+    <field name="price" eval="57.6"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-FFB-100</field>
+</record>
+<record id="product_pet_ether" model="product.template">
+    <field name="name">Petroleum Ether 40-60, 2.5 L</field>
+    <field name="default_code">CG-PE-25L</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="2.2"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="45.0"/>
+    <field name="standard_price" eval="21.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Analytical reagent grade extraction solvent (hazardous - ships by road only).</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Analytical reagent grade extraction solvent (hazardous - ships by road only).&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/pet_ether.jpg"/>
+</record>
+<record id="supplierinfo_pet_ether" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_pet_ether"/>
+    <field name="price" eval="21.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-PE-25L</field>
+</record>
+<record id="supplierinfo_pet_ether_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_pet_ether"/>
+    <field name="price" eval="18.9"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-PE-25L</field>
+</record>
+<record id="product_beakers" model="product.template">
+    <field name="name">Glass Beakers 250 mL (pack of 12)</field>
+    <field name="default_code">CG-GB-250</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="1.5"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="28.0"/>
+    <field name="standard_price" eval="11.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Low-form borosilicate beakers with spout, pack of 12.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Low-form borosilicate beakers with spout, pack of 12.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/beakers.jpg"/>
+</record>
+<record id="supplierinfo_beakers" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_beakers"/>
+    <field name="price" eval="11.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-GB-250</field>
+</record>
+<record id="supplierinfo_beakers_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_beakers"/>
+    <field name="price" eval="9.9"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-GB-250</field>
+</record>
+<record id="product_volflask" model="product.template">
+    <field name="name">Volumetric Flask 100 mL, Class A</field>
+    <field name="default_code">CG-VF-100A</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.15"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="14.0"/>
+    <field name="standard_price" eval="5.5"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Class A volumetric flask with PE stopper, batch certified.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Class A volumetric flask with PE stopper, batch certified.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/volflask.jpg"/>
+</record>
+<record id="supplierinfo_volflask" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_volflask"/>
+    <field name="price" eval="5.5"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-VF-100A</field>
+</record>
+<record id="supplierinfo_volflask_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_volflask"/>
+    <field name="price" eval="4.95"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-VF-100A</field>
+</record>
+<record id="product_al_dishes" model="product.template">
+    <field name="name">Aluminium Moisture Dishes (pack of 100)</field>
+    <field name="default_code">CG-AMD-100</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.5"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="32.0"/>
+    <field name="standard_price" eval="12.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Disposable 90 mm aluminium sample pans for moisture analysers.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Disposable 90 mm aluminium sample pans for moisture analysers.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/al_dishes.jpg"/>
+</record>
+<record id="supplierinfo_al_dishes" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_feinwaage"/>
+    <field name="product_tmpl_id" ref="product_al_dishes"/>
+    <field name="price" eval="12.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-AMD-100</field>
+</record>
+<record id="supplierinfo_al_dishes_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_feinwaage"/>
+    <field name="product_tmpl_id" ref="product_al_dishes"/>
+    <field name="price" eval="10.8"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-AMD-100</field>
+</record>
+<record id="product_tin_caps" model="product.template">
+    <field name="name">Tin Foil Sample Capsules for Dumas (pack of 500)</field>
+    <field name="default_code">CG-TFC-500</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.2"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="95.0"/>
+    <field name="standard_price" eval="44.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Pressed tin capsules 6 x 12 mm for combustion analysis.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Pressed tin capsules 6 x 12 mm for combustion analysis.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/tin_caps.jpg"/>
+</record>
+<record id="supplierinfo_tin_caps" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_tin_caps"/>
+    <field name="price" eval="44.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-TFC-500</field>
+</record>
+<record id="supplierinfo_tin_caps_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_kjelmark"/>
+    <field name="product_tmpl_id" ref="product_tin_caps"/>
+    <field name="price" eval="39.6"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-TFC-500</field>
+</record>
+<record id="product_buchner" model="product.template">
+    <field name="name">Porcelain Buchner Funnel 90 mm</field>
+    <field name="default_code">CG-PBF-90</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.6"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="36.0"/>
+    <field name="standard_price" eval="15.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Porcelain filter funnel for vacuum filtration.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Porcelain filter funnel for vacuum filtration.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/buchner.jpg"/>
+</record>
+<record id="supplierinfo_buchner" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_buchner"/>
+    <field name="price" eval="15.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-PBF-90</field>
+</record>
+<record id="supplierinfo_buchner_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_buchner"/>
+    <field name="price" eval="13.5"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-PBF-90</field>
+</record>
+<record id="product_dounce" model="product.template">
+    <field name="name">Glass Tissue Homogeniser Set (3 sizes)</field>
+    <field name="default_code">CG-GTH-SET</field>
+    <field name="type">consu</field>
+    <field name="is_storable" eval="True"/>
+    <field name="invoice_policy">delivery</field>
+    <field name="weight" eval="0.6"/>
+    <field name="categ_id" ref="product_category_consumables"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_consumables')])]"/>
+    <field name="list_price" eval="74.0"/>
+    <field name="standard_price" eval="32.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="True"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Dounce-type glass homogenisers, 2/7/15 mL with pestles.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Dounce-type glass homogenisers, 2/7/15 mL with pestles.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/dounce.jpg"/>
+</record>
+<record id="supplierinfo_dounce" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_dounce"/>
+    <field name="price" eval="32.0"/>
+    <field name="min_qty" eval="1.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-GTH-SET</field>
+</record>
+<record id="supplierinfo_dounce_10" model="product.supplierinfo">
+    <field name="partner_id" ref="partner_vendor_meridian"/>
+    <field name="product_tmpl_id" ref="product_dounce"/>
+    <field name="price" eval="28.8"/>
+    <field name="min_qty" eval="10.0"/>
+    <field name="delay" eval="7"/>
+    <field name="product_code">V-CG-GTH-SET</field>
+</record>
+<record id="product_svc_install" model="product.template">
+    <field name="name">Installation &amp; Commissioning (per engineer day)</field>
+    <field name="default_code">SV-INST</field>
+    <field name="type">service</field>
+    <field name="invoice_policy">order</field>
+    <field name="categ_id" ref="product_category_svc_field"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_services')])]"/>
+    <field name="list_price" eval="850.0"/>
+    <field name="standard_price" eval="320.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="False"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">On-site installation, IQ/OQ commissioning and handover by a factory-trained Northbrook engineer, per engineer day.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;On-site installation, IQ/OQ commissioning and handover by a factory-trained Northbrook engineer, per engineer day.&lt;/p&gt;'"/>
+    <field name="uom_id" ref="uom.product_uom_day"/>
+    <field name="planning_role_id" ref="planning_role_install"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/svc_install.jpg"/>
+</record>
+<record id="product_svc_cal" model="product.template">
+    <field name="name">Annual Calibration Visit</field>
+    <field name="default_code">SV-CAL</field>
+    <field name="type">service</field>
+    <field name="invoice_policy">order</field>
+    <field name="categ_id" ref="product_category_svc_field"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_services')])]"/>
+    <field name="list_price" eval="395.0"/>
+    <field name="standard_price" eval="150.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="False"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">UKAS-traceable calibration with certificate for one instrument.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;UKAS-traceable calibration with certificate for one instrument.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/svc_cal.jpg"/>
+</record>
+<record id="product_svc_pm" model="product.template">
+    <field name="name">Preventive Maintenance Visit</field>
+    <field name="default_code">SV-PMV</field>
+    <field name="type">service</field>
+    <field name="invoice_policy">order</field>
+    <field name="categ_id" ref="product_category_svc_field"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_services')])]"/>
+    <field name="list_price" eval="495.0"/>
+    <field name="standard_price" eval="190.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="False"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Scheduled preventive maintenance including wear-part inspection and performance check.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Scheduled preventive maintenance including wear-part inspection and performance check.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/svc_pm.jpg"/>
+</record>
+<record id="product_svc_callout" model="product.template">
+    <field name="name">Engineer Call-out (per hour)</field>
+    <field name="default_code">SV-CALLOUT</field>
+    <field name="type">service</field>
+    <field name="invoice_policy">order</field>
+    <field name="categ_id" ref="product_category_svc_field"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_services')])]"/>
+    <field name="list_price" eval="95.0"/>
+    <field name="standard_price" eval="45.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="False"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Breakdown call-out, charged per hour on site (minimum 2 hours), travel charged separately.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Breakdown call-out, charged per hour on site (minimum 2 hours), travel charged separately.&lt;/p&gt;'"/>
+    <field name="uom_id" ref="uom.product_uom_hour"/>
+    <field name="planning_role_id" ref="planning_role_fse"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/svc_callout.jpg"/>
+</record>
+<record id="product_svc_training" model="product.template">
+    <field name="name">Operator Training (half day)</field>
+    <field name="default_code">SV-TRAIN</field>
+    <field name="type">service</field>
+    <field name="invoice_policy">order</field>
+    <field name="categ_id" ref="product_category_svc_field"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_services')])]"/>
+    <field name="list_price" eval="450.0"/>
+    <field name="standard_price" eval="160.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="False"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">On-site application training for up to 4 operators.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;On-site application training for up to 4 operators.&lt;/p&gt;'"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/svc_training.jpg"/>
+</record>
+<record id="product_svc_extw" model="product.template">
+    <field name="name">Extended Warranty +12 Months</field>
+    <field name="default_code">SV-EXTW</field>
+    <field name="type">service</field>
+    <field name="invoice_policy">order</field>
+    <field name="categ_id" ref="product_category_svc_contract"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_services')])]"/>
+    <field name="list_price" eval="690.0"/>
+    <field name="standard_price" eval="210.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="False"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Extends manufacturer's warranty by a further 12 months (parts and labour).</field>
+    <field name="description_ecommerce" eval="&quot;&lt;p&gt;Extends manufacturer's warranty by a further 12 months (parts and labour).&lt;/p&gt;&quot;"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/svc_extw.jpg"/>
+</record>
+<record id="product_sc_gold" model="product.template">
+    <field name="name">Service Contract - Gold (annual)</field>
+    <field name="default_code">SC-GOLD</field>
+    <field name="type">service</field>
+    <field name="invoice_policy">order</field>
+    <field name="categ_id" ref="product_category_svc_contract"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_services')])]"/>
+    <field name="list_price" eval="2400.0"/>
+    <field name="standard_price" eval="900.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="False"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">Two preventive maintenance visits and one calibration per year, 24-hour response, parts and labour included.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;Two preventive maintenance visits and one calibration per year, 24-hour response, parts and labour included.&lt;/p&gt;'"/>
+    <field name="recurring_invoice" eval="True"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/sc_gold.jpg"/>
+</record>
+<record id="subscription_pricing_sc_gold" model="product.pricelist.item">
+    <field name="plan_id" ref="sale_subscription.subscription_plan_year"/>
+    <field name="fixed_price" eval="2400.0"/>
+    <field name="currency_id" ref="base.GBP"/>
+    <field name="product_tmpl_id" ref="product_sc_gold"/>
+</record>
+<record id="product_sc_silver" model="product.template">
+    <field name="name">Service Contract - Silver (annual)</field>
+    <field name="default_code">SC-SILVER</field>
+    <field name="type">service</field>
+    <field name="invoice_policy">order</field>
+    <field name="categ_id" ref="product_category_svc_contract"/>
+    <field name="public_categ_ids" eval="[Command.set([ref('public_category_services')])]"/>
+    <field name="list_price" eval="1450.0"/>
+    <field name="standard_price" eval="560.0"/>
+    <field name="sale_ok" eval="True"/>
+    <field name="purchase_ok" eval="False"/>
+    <field name="is_published" eval="True"/>
+    <field name="allow_out_of_stock_order" eval="True"/>
+    <field name="description_sale">One preventive maintenance visit with calibration per year, 48-hour response, labour included.</field>
+    <field name="description_ecommerce" eval="'&lt;p&gt;One preventive maintenance visit with calibration per year, 48-hour response, labour included.&lt;/p&gt;'"/>
+    <field name="recurring_invoice" eval="True"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/sc_silver.jpg"/>
+</record>
+<record id="subscription_pricing_sc_silver" model="product.pricelist.item">
+    <field name="plan_id" ref="sale_subscription.subscription_plan_year"/>
+    <field name="fixed_price" eval="1450.0"/>
+    <field name="currency_id" ref="base.GBP"/>
+    <field name="product_tmpl_id" ref="product_sc_silver"/>
+</record>
+<record id="product_kd40" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_kt8'), ref('product_tubes250'), ref('product_cat_tabs'), ref('product_boric'), ref('product_svc_install'), ref('product_svc_training'), ref('product_svc_extw')])]"/>
+</record>
+<record id="product_kd20" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_kt8'), ref('product_tubes250'), ref('product_boric'), ref('product_svc_install')])]"/>
+</record>
+<record id="product_dn100" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_tin_caps'), ref('product_comb_tube'), ref('product_svc_install'), ref('product_svc_training'), ref('product_svc_extw')])]"/>
+</record>
+<record id="product_db20" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_sc4'), ref('product_tubes250'), ref('product_cat_tabs'), ref('product_pcb_db')])]"/>
+</record>
+<record id="product_db8" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_sc4'), ref('product_tubes250')])]"/>
+</record>
+<record id="product_fx6" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_thimbles'), ref('product_pet_ether'), ref('product_thimble_holder'), ref('product_svc_install'), ref('product_svc_training')])]"/>
+</record>
+<record id="product_fx2" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_thimbles'), ref('product_pet_ether')])]"/>
+</record>
+<record id="product_fb6" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_filter_bags'), ref('product_svc_install')])]"/>
+</record>
+<record id="product_fb24" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_filter_bags')])]"/>
+</record>
+<record id="product_mb120" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_lamp_mb'), ref('product_al_dishes')])]"/>
+</record>
+<record id="product_mb60" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_al_dishes')])]"/>
+</record>
+<record id="product_dm50" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_svc_install'), ref('product_svc_training')])]"/>
+</record>
+<record id="product_rc12" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_pump_rc')])]"/>
+</record>
+<record id="product_lm200" model="product.template">
+    <field name="optional_product_ids" eval="[Command.set([ref('product_screen_1mm')])]"/>
+</record>
+</data>
+</odoo>

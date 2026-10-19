@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="planning_role_fse" model="planning.role">
+            <field name="name">Field Service Engineer</field>
+            <field name="color">1</field>
+        </record>
+        <record id="planning_role_install" model="planning.role">
+            <field name="name">Installation Engineer</field>
+            <field name="color">4</field>
+        </record>
+        <record id="planning_role_calibration" model="planning.role">
+            <field name="name">Calibration Technician</field>
+            <field name="color">10</field>
+        </record>
+        <record id="planning_role_sales_eng" model="planning.role">
+            <field name="name">Sales Engineer</field>
+            <field name="color">7</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="worksheet_installation" model="worksheet.template">
+            <field name="name">Installation &amp; Commissioning (IQ/OQ)</field>
+            <field name="res_model">planning.slot</field>
+            <field name="sequence" eval="1"/>
+            <field name="worksheet_properties_definition" eval="[
+                {'name': 'a1000000000000a1', 'type': 'separator', 'string': 'Instrument', 'fold_by_default': False},
+                {'name': 'a1000000000000a2', 'type': 'char', 'string': 'Model', 'default': False},
+                {'name': 'a1000000000000a3', 'type': 'char', 'string': 'Serial Number', 'default': False},
+                {'name': 'a1000000000000a4', 'type': 'char', 'string': 'Firmware Version', 'default': False},
+                {'name': 'a1000000000000a5', 'type': 'separator', 'string': 'Installation Qualification', 'fold_by_default': False},
+                {'name': 'a1000000000000a6', 'type': 'boolean', 'string': 'Site services checked (power, water, extraction)', 'default': False},
+                {'name': 'a1000000000000a7', 'type': 'boolean', 'string': 'Unpacked, no transit damage', 'default': False},
+                {'name': 'a1000000000000a8', 'type': 'boolean', 'string': 'Electrical safety (PAT) test passed', 'default': False},
+                {'name': 'a1000000000000a9', 'type': 'separator', 'string': 'Operational Qualification', 'fold_by_default': False},
+                {'name': 'a100000000000a10', 'type': 'float', 'string': 'Recovery test result (%)', 'default': False},
+                {'name': 'a100000000000a11', 'type': 'boolean', 'string': 'Operator training delivered', 'default': False},
+                {'name': 'a100000000000a12', 'type': 'text', 'string': 'Comments', 'default': False},
+                {'name': 'a100000000000a13', 'type': 'signature', 'string': 'Engineer Signature', 'default': False},
+            ]"/>
+        </record>
+        <record id="worksheet_calibration" model="worksheet.template">
+            <field name="name">Calibration Certificate</field>
+            <field name="res_model">planning.slot</field>
+            <field name="sequence" eval="2"/>
+            <field name="worksheet_properties_definition" eval="[
+                {'name': 'b1000000000000b1', 'type': 'separator', 'string': 'Instrument', 'fold_by_default': False},
+                {'name': 'b1000000000000b2', 'type': 'char', 'string': 'Serial Number', 'default': False},
+                {'name': 'b1000000000000b3', 'type': 'char', 'string': 'Reference Standard / Certificate No.', 'default': False},
+                {'name': 'b1000000000000b4', 'type': 'separator', 'string': 'Results', 'fold_by_default': False},
+                {'name': 'b1000000000000b5', 'type': 'float', 'string': 'As-found deviation', 'default': False},
+                {'name': 'b1000000000000b6', 'type': 'float', 'string': 'As-left deviation', 'default': False},
+                {'name': 'b1000000000000b7', 'type': 'boolean', 'string': 'Within tolerance', 'default': False},
+                {'name': 'b1000000000000b8', 'type': 'date', 'string': 'Next calibration due', 'default': False},
+                {'name': 'b1000000000000b9', 'type': 'signature', 'string': 'Technician Signature', 'default': False},
+            ]"/>
+        </record>
+        <record id="worksheet_maintenance" model="worksheet.template">
+            <field name="name">Preventive Maintenance / Repair Report</field>
+            <field name="res_model">planning.slot</field>
+            <field name="sequence" eval="3"/>
+            <field name="worksheet_properties_definition" eval="[
+                {'name': 'c1000000000000c1', 'type': 'separator', 'string': 'Visit', 'fold_by_default': False},
+                {'name': 'c1000000000000c2', 'type': 'selection', 'string': 'Visit Type', 'default': False,
+                    'selection': [['pm', 'Preventive Maintenance'], ['repair', 'Breakdown Repair'], ['inspection', 'Inspection']]},
+                {'name': 'c1000000000000c3', 'type': 'char', 'string': 'Serial Number', 'default': False},
+                {'name': 'c1000000000000c4', 'type': 'text', 'string': 'Fault Found', 'default': False},
+                {'name': 'c1000000000000c5', 'type': 'text', 'string': 'Work Carried Out', 'default': False},
+                {'name': 'c1000000000000c6', 'type': 'boolean', 'string': 'Instrument returned to service', 'default': False},
+                {'name': 'c1000000000000c7', 'type': 'boolean', 'string': 'Follow-up visit required', 'default': False},
+                {'name': 'c1000000000000c8', 'type': 'signature', 'string': 'Customer Signature', 'default': False},
+            ]"/>
+        </record>
+    </data>
+</odoo>

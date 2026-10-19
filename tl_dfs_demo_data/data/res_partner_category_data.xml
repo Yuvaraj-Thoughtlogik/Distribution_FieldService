@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from master data definitions; edit with care. -->
+<odoo>
+<data noupdate="1">
+<record id="partner_tag_dairy" model="res.partner.category">
+    <field name="name">Dairy</field>
+    <field name="color" eval="10"/>
+</record>
+<record id="partner_tag_meat" model="res.partner.category">
+    <field name="name">Meat</field>
+    <field name="color" eval="1"/>
+</record>
+<record id="partner_tag_cereals" model="res.partner.category">
+    <field name="name">Cereals</field>
+    <field name="color" eval="3"/>
+</record>
+<record id="partner_tag_beverages" model="res.partner.category">
+    <field name="name">Beverages</field>
+    <field name="color" eval="4"/>
+</record>
+<record id="partner_tag_contract_lab" model="res.partner.category">
+    <field name="name">Contract Lab</field>
+    <field name="color" eval="5"/>
+</record>
+<record id="partner_tag_education" model="res.partner.category">
+    <field name="name">Education</field>
+    <field name="color" eval="6"/>
+</record>
+<record id="partner_tag_public_analyst" model="res.partner.category">
+    <field name="name">Public Analyst</field>
+    <field name="color" eval="7"/>
+</record>
+<record id="partner_tag_vendor" model="res.partner.category">
+    <field name="name">Manufacturer / Supplier</field>
+    <field name="color" eval="8"/>
+</record>
+</data>
+</odoo>

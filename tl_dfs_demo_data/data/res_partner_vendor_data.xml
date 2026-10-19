@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from master data definitions; edit with care. -->
+<odoo>
+<data noupdate="1">
+<record id="partner_vendor_kjelmark" model="res.partner">
+    <field name="name">Kjelmark Analytik GmbH</field>
+    <field name="vat">DE284516391</field>
+    <field name="street">Industriestrasse 14</field>
+    <field name="city">Hamburg</field>
+    <field name="zip">22041</field>
+    <field name="country_id" ref="base.de"/>
+    <field name="email">orders@kjelmark-analytik.example</field>
+    <field name="phone">+49 40 5550 1200</field>
+    <field name="website">https://www.kjelmark-analytik.example</field>
+    <field name="supplier_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_vendor')])]"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/kjelmark.png"/>
+</record>
+<record id="partner_vendor_estrava" model="res.partner">
+    <field name="name">Estrava Scientific S.r.l.</field>
+    <field name="vat">IT12346778884</field>
+    <field name="street">Via dell'Industria 27</field>
+    <field name="city">Milano</field>
+    <field name="zip">20151</field>
+    <field name="country_id" ref="base.it"/>
+    <field name="email">export@estrava-scientific.example</field>
+    <field name="phone">+39 02 5550 7781</field>
+    <field name="website">https://www.estrava-scientific.example</field>
+    <field name="supplier_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_vendor')])]"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/estrava.png"/>
+</record>
+<record id="partner_vendor_calderbrook" model="res.partner">
+    <field name="name">Calderbrook Thermal Ltd</field>
+    <field name="vat">GB286703336</field>
+    <field name="street">Unit 4, Charnwood Business Park</field>
+    <field name="city">Loughborough</field>
+    <field name="zip">LE11 1QD</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="email">sales@calderbrook-thermal.example</field>
+    <field name="phone">+44 1509 555 210</field>
+    <field name="website">https://www.calderbrook-thermal.example</field>
+    <field name="supplier_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_vendor')])]"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/calderbrook.png"/>
+</record>
+<record id="partner_vendor_feinwaage" model="res.partner">
+    <field name="name">Feinwaage Instruments AG</field>
+    <field name="vat">CHE287796767MWST</field>
+    <field name="street">Seestrasse 101</field>
+    <field name="city">Zürich</field>
+    <field name="zip">8002</field>
+    <field name="country_id" ref="base.ch"/>
+    <field name="email">trade@feinwaage.example</field>
+    <field name="phone">+41 44 555 34 00</field>
+    <field name="website">https://www.feinwaage.example</field>
+    <field name="supplier_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_vendor')])]"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/feinwaage.png"/>
+</record>
+<record id="partner_vendor_pentland" model="res.partner">
+    <field name="name">Pentland Sample Prep Ltd</field>
+    <field name="vat">GB288890236</field>
+    <field name="street">12 Attercliffe Road</field>
+    <field name="city">Sheffield</field>
+    <field name="zip">S4 7WZ</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="email">orders@pentland-sampleprep.example</field>
+    <field name="phone">+44 114 555 0190</field>
+    <field name="website">https://www.pentland-sampleprep.example</field>
+    <field name="supplier_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_vendor')])]"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/pentland.png"/>
+</record>
+<record id="partner_vendor_meridian" model="res.partner">
+    <field name="name">Meridian Lab Supplies Ltd</field>
+    <field name="vat">GB289983710</field>
+    <field name="street">Brackmills Industrial Estate, Caswell Road</field>
+    <field name="city">Northampton</field>
+    <field name="zip">NN4 7PW</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="email">trade@meridianlabsupplies.example</field>
+    <field name="phone">+44 1604 555 400</field>
+    <field name="website">https://www.meridianlabsupplies.example</field>
+    <field name="supplier_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_vendor')])]"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/meridian.png"/>
+</record>
+</data>
+</odoo>

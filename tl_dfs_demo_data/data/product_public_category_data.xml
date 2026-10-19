@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from master data definitions; edit with care. -->
+<odoo>
+<data noupdate="1">
+<record id="public_category_protein" model="product.public.category">
+    <field name="name">Protein Analysis (Kjeldahl/Dumas)</field>
+    <field name="sequence" eval="10"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/kd40.jpg"/>
+    <field name="cover_image" type="bytes" file="tl_dfs_demo_data/static/img/products/kd40.jpg"/>
+</record>
+<record id="public_category_fat" model="product.public.category">
+    <field name="name">Fat Extraction (Soxhlet)</field>
+    <field name="sequence" eval="20"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/fx6.jpg"/>
+    <field name="cover_image" type="bytes" file="tl_dfs_demo_data/static/img/products/fx6.jpg"/>
+</record>
+<record id="public_category_fibre" model="product.public.category">
+    <field name="name">Fibre Analysis</field>
+    <field name="sequence" eval="30"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/fb6.jpg"/>
+    <field name="cover_image" type="bytes" file="tl_dfs_demo_data/static/img/products/fb6.jpg"/>
+</record>
+<record id="public_category_moisture" model="product.public.category">
+    <field name="name">Moisture &amp; Dry Matter</field>
+    <field name="sequence" eval="40"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/mb120.jpg"/>
+    <field name="cover_image" type="bytes" file="tl_dfs_demo_data/static/img/products/mb120.jpg"/>
+</record>
+<record id="public_category_digestion" model="product.public.category">
+    <field name="name">Digestion Systems</field>
+    <field name="sequence" eval="50"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/db20.jpg"/>
+    <field name="cover_image" type="bytes" file="tl_dfs_demo_data/static/img/products/db20.jpg"/>
+</record>
+<record id="public_category_circulators" model="product.public.category">
+    <field name="name">Heating &amp; Cooling Circulators</field>
+    <field name="sequence" eval="60"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/rc12.jpg"/>
+    <field name="cover_image" type="bytes" file="tl_dfs_demo_data/static/img/products/rc12.jpg"/>
+</record>
+<record id="public_category_baths" model="product.public.category">
+    <field name="name">Water Baths &amp; Ovens</field>
+    <field name="sequence" eval="70"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/wb22.jpg"/>
+    <field name="cover_image" type="bytes" file="tl_dfs_demo_data/static/img/products/wb22.jpg"/>
+</record>
+<record id="public_category_sampleprep" model="product.public.category">
+    <field name="name">Sample Preparation</field>
+    <field name="sequence" eval="80"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/lm200.jpg"/>
+    <field name="cover_image" type="bytes" file="tl_dfs_demo_data/static/img/products/lm200.jpg"/>
+</record>
+<record id="public_category_spares" model="product.public.category">
+    <field name="name">Spares &amp; Accessories</field>
+    <field name="sequence" eval="90"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/heater_kd.jpg"/>
+    <field name="cover_image" type="bytes" file="tl_dfs_demo_data/static/img/products/heater_kd.jpg"/>
+</record>
+<record id="public_category_consumables" model="product.public.category">
+    <field name="name">Consumables &amp; Glassware</field>
+    <field name="sequence" eval="100"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/tubes250.jpg"/>
+    <field name="cover_image" type="bytes" file="tl_dfs_demo_data/static/img/products/tubes250.jpg"/>
+</record>
+<record id="public_category_services" model="product.public.category">
+    <field name="name">Services</field>
+    <field name="sequence" eval="110"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/products/svc_install.jpg"/>
+    <field name="cover_image" type="bytes" file="tl_dfs_demo_data/static/img/products/svc_install.jpg"/>
+</record>
+</data>
+</odoo>

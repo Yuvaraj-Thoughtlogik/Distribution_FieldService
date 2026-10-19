@@ -1,0 +1,519 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from master data definitions; edit with care. -->
+<odoo>
+<data noupdate="1">
+<record id="partner_dalesway" model="res.partner">
+    <field name="name">Dalesway Dairies Ltd</field>
+    <field name="vat">GB318204583</field>
+    <field name="street">Hellifield Road</field>
+    <field name="city">Skipton</field>
+    <field name="zip">BD23 4AL</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 1756 555 120</field>
+    <field name="email">info@dalesway-dairies.example</field>
+    <field name="website">https://www.dalesway-dairies.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_dairy')])]"/>
+    <field name="property_payment_term_id" ref="payment_term_30eom"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/dalesway.png"/>
+</record>
+<record id="partner_contact_rhughes" model="res.partner">
+    <field name="name">Rachel Hughes</field>
+    <field name="parent_id" ref="partner_dalesway"/>
+    <field name="function">QA Manager</field>
+    <field name="email">rachel.hughes@dalesway-dairies.example</field>
+    <field name="phone">+44 1756 555 101</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_13.webp"/>
+</record>
+<record id="partner_contact_msutton" model="res.partner">
+    <field name="name">Mark Sutton</field>
+    <field name="parent_id" ref="partner_dalesway"/>
+    <field name="function">Laboratory Manager</field>
+    <field name="email">mark.sutton@dalesway-dairies.example</field>
+    <field name="phone">+44 1756 555 102</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_1.webp"/>
+</record>
+<record id="partner_contact_jpike" model="res.partner">
+    <field name="name">Joanne Pike</field>
+    <field name="parent_id" ref="partner_dalesway"/>
+    <field name="function">Procurement Manager</field>
+    <field name="email">joanne.pike@dalesway-dairies.example</field>
+    <field name="phone">+44 1756 555 103</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_14.webp"/>
+</record>
+<record id="partner_delivery_dalesway_settle" model="res.partner">
+    <field name="name">Dalesway Dairies - Settle Creamery</field>
+    <field name="parent_id" ref="partner_dalesway"/>
+    <field name="type">delivery</field>
+    <field name="street">Station Road</field>
+    <field name="city">Settle</field>
+    <field name="zip">BD24 9AA</field>
+    <field name="country_id" ref="base.uk"/>
+</record>
+<record id="partner_cotswold" model="res.partner">
+    <field name="name">Cotswold Creamery Co-operative</field>
+    <field name="vat">GB320922839</field>
+    <field name="street">Bath Road</field>
+    <field name="city">Stroud</field>
+    <field name="zip">GL5 3QF</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 1453 555 300</field>
+    <field name="email">info@cotswoldcreamery.example</field>
+    <field name="website">https://www.cotswoldcreamery.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_dairy')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/cotswold.png"/>
+</record>
+<record id="partner_contact_acollins" model="res.partner">
+    <field name="name">Andrew Collins</field>
+    <field name="parent_id" ref="partner_cotswold"/>
+    <field name="function">Technical Manager</field>
+    <field name="email">andrew.collins@cotswoldcreamery.example</field>
+    <field name="phone">+44 1453 555 106</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_10.webp"/>
+</record>
+<record id="partner_contact_sbell" model="res.partner">
+    <field name="name">Sarah Bell</field>
+    <field name="parent_id" ref="partner_cotswold"/>
+    <field name="function">Laboratory Supervisor</field>
+    <field name="email">sarah.bell@cotswoldcreamery.example</field>
+    <field name="phone">+44 1453 555 107</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_16.webp"/>
+</record>
+<record id="partner_highland" model="res.partner">
+    <field name="name">Highland Grain Millers Ltd</field>
+    <field name="vat">GB323641132</field>
+    <field name="street">Longman Industrial Estate</field>
+    <field name="city">Inverness</field>
+    <field name="zip">IV1 1SU</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 1463 555 440</field>
+    <field name="email">info@highlandgrain.example</field>
+    <field name="website">https://www.highlandgrain.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_cereals')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/highland.png"/>
+</record>
+<record id="partner_contact_cfraser" model="res.partner">
+    <field name="name">Callum Fraser</field>
+    <field name="parent_id" ref="partner_highland"/>
+    <field name="function">QA Manager</field>
+    <field name="email">callum.fraser@highlandgrain.example</field>
+    <field name="phone">+44 1463 555 109</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_11.webp"/>
+</record>
+<record id="partner_contact_imackenzie" model="res.partner">
+    <field name="name">Isla Mackenzie</field>
+    <field name="parent_id" ref="partner_highland"/>
+    <field name="function">Procurement Officer</field>
+    <field name="email">isla.mackenzie@highlandgrain.example</field>
+    <field name="phone">+44 1463 555 110</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_17.webp"/>
+</record>
+<record id="partner_fenland" model="res.partner">
+    <field name="name">Fenland Cereals plc</field>
+    <field name="vat">GB326359408</field>
+    <field name="street">Cromwell Road</field>
+    <field name="city">Wisbech</field>
+    <field name="zip">PE14 0RG</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 1945 555 610</field>
+    <field name="email">info@fenlandcereals.example</field>
+    <field name="website">https://www.fenlandcereals.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_cereals')])]"/>
+    <field name="property_payment_term_id" ref="payment_term_30eom"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/fenland.png"/>
+</record>
+<record id="partner_contact_pgrant" model="res.partner">
+    <field name="name">Peter Grant</field>
+    <field name="parent_id" ref="partner_fenland"/>
+    <field name="function">Head of Quality</field>
+    <field name="email">peter.grant@fenlandcereals.example</field>
+    <field name="phone">+44 1945 555 112</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_15.webp"/>
+</record>
+<record id="partner_ironbridge" model="res.partner">
+    <field name="name">Ironbridge Brewing Company Ltd</field>
+    <field name="vat">GB329077683</field>
+    <field name="street">Wharfage</field>
+    <field name="city">Telford</field>
+    <field name="zip">TF8 7AW</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 1952 555 088</field>
+    <field name="email">info@ironbridgebrewing.example</field>
+    <field name="website">https://www.ironbridgebrewing.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_beverages')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/ironbridge.png"/>
+</record>
+<record id="partner_contact_jholloway" model="res.partner">
+    <field name="name">Jack Holloway</field>
+    <field name="parent_id" ref="partner_ironbridge"/>
+    <field name="function">Head Brewer</field>
+    <field name="email">jack.holloway@ironbridgebrewing.example</field>
+    <field name="phone">+44 1952 555 114</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_18.webp"/>
+</record>
+<record id="partner_contact_eward" model="res.partner">
+    <field name="name">Emma Ward</field>
+    <field name="parent_id" ref="partner_ironbridge"/>
+    <field name="function">Laboratory Technician</field>
+    <field name="email">emma.ward@ironbridgebrewing.example</field>
+    <field name="phone">+44 1952 555 115</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_28.webp"/>
+</record>
+<record id="partner_thamesvalley" model="res.partner">
+    <field name="name">Thames Valley Brewery Ltd</field>
+    <field name="vat">GB331795981</field>
+    <field name="street">Kennet Side</field>
+    <field name="city">Reading</field>
+    <field name="zip">RG1 3EA</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 118 555 7720</field>
+    <field name="email">info@thamesvalleybrewery.example</field>
+    <field name="website">https://www.thamesvalleybrewery.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_beverages')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/thamesvalley.png"/>
+</record>
+<record id="partner_contact_oreed" model="res.partner">
+    <field name="name">Oliver Reed</field>
+    <field name="parent_id" ref="partner_thamesvalley"/>
+    <field name="function">Quality Manager</field>
+    <field name="email">oliver.reed@thamesvalleybrewery.example</field>
+    <field name="phone">+44 118 555 7117</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_2.webp"/>
+</record>
+<record id="partner_pennine" model="res.partner">
+    <field name="name">Pennine Meat Processors Ltd</field>
+    <field name="vat">GB334514280</field>
+    <field name="street">Tong Street</field>
+    <field name="city">Bradford</field>
+    <field name="zip">BD4 9PH</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 1274 555 930</field>
+    <field name="email">info@penninemeat.example</field>
+    <field name="website">https://www.penninemeat.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_meat')])]"/>
+    <field name="property_payment_term_id" ref="payment_term_30eom"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/pennine.png"/>
+</record>
+<record id="partner_contact_skaye" model="res.partner">
+    <field name="name">Stuart Kaye</field>
+    <field name="parent_id" ref="partner_pennine"/>
+    <field name="function">Technical Director</field>
+    <field name="email">stuart.kaye@penninemeat.example</field>
+    <field name="phone">+44 1274 555 119</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_24.webp"/>
+</record>
+<record id="partner_contact_ncross" model="res.partner">
+    <field name="name">Natalie Cross</field>
+    <field name="parent_id" ref="partner_pennine"/>
+    <field name="function">QA Manager</field>
+    <field name="email">natalie.cross@penninemeat.example</field>
+    <field name="phone">+44 1274 555 120</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_30.webp"/>
+</record>
+<record id="partner_contact_glomas" model="res.partner">
+    <field name="name">Gary Lomas</field>
+    <field name="parent_id" ref="partner_pennine"/>
+    <field name="function">Purchasing Manager</field>
+    <field name="email">gary.lomas@penninemeat.example</field>
+    <field name="phone">+44 1274 555 121</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_25.webp"/>
+</record>
+<record id="partner_severn" model="res.partner">
+    <field name="name">Severn Valley Poultry Ltd</field>
+    <field name="vat">GB337232527</field>
+    <field name="street">Battlefield Enterprise Park</field>
+    <field name="city">Shrewsbury</field>
+    <field name="zip">SY1 3AF</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 1743 555 260</field>
+    <field name="email">info@severnvalleypoultry.example</field>
+    <field name="website">https://www.severnvalleypoultry.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_meat')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/severn.png"/>
+</record>
+<record id="partner_contact_hdavies" model="res.partner">
+    <field name="name">Helen Davies</field>
+    <field name="parent_id" ref="partner_severn"/>
+    <field name="function">QA Manager</field>
+    <field name="email">helen.davies@severnvalleypoultry.example</field>
+    <field name="phone">+44 1743 555 123</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_31.webp"/>
+</record>
+<record id="partner_albion" model="res.partner">
+    <field name="name">Albion Analytical Services Ltd</field>
+    <field name="vat">GB339950814</field>
+    <field name="street">Trafford Park Road</field>
+    <field name="city">Manchester</field>
+    <field name="zip">M17 1HH</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 161 555 4100</field>
+    <field name="email">info@albion-analytical.example</field>
+    <field name="website">https://www.albion-analytical.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_contract_lab')])]"/>
+    <field name="property_payment_term_id" ref="payment_term_30eom"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/albion.png"/>
+</record>
+<record id="partner_contact_jwhitaker" model="res.partner">
+    <field name="name">Dr James Whitaker</field>
+    <field name="parent_id" ref="partner_albion"/>
+    <field name="function">Laboratory Director</field>
+    <field name="email">james.whitaker@albion-analytical.example</field>
+    <field name="phone">+44 161 555 4125</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_27.webp"/>
+</record>
+<record id="partner_contact_glee" model="res.partner">
+    <field name="name">Grace Lee</field>
+    <field name="parent_id" ref="partner_albion"/>
+    <field name="function">Senior Analyst</field>
+    <field name="email">grace.lee@albion-analytical.example</field>
+    <field name="phone">+44 161 555 4126</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_32.webp"/>
+</record>
+<record id="partner_contact_nbrooks" model="res.partner">
+    <field name="name">Nathan Brooks</field>
+    <field name="parent_id" ref="partner_albion"/>
+    <field name="function">Procurement Manager</field>
+    <field name="email">nathan.brooks@albion-analytical.example</field>
+    <field name="phone">+44 161 555 4127</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_3.webp"/>
+</record>
+<record id="partner_delivery_albion_runcorn" model="res.partner">
+    <field name="name">Albion Analytical - Runcorn Laboratory</field>
+    <field name="parent_id" ref="partner_albion"/>
+    <field name="type">delivery</field>
+    <field name="street">Manor Park</field>
+    <field name="city">Runcorn</field>
+    <field name="zip">WA7 1SS</field>
+    <field name="country_id" ref="base.uk"/>
+</record>
+<record id="partner_northgate" model="res.partner">
+    <field name="name">Northgate Food Testing Laboratories Ltd</field>
+    <field name="vat">GB342669091</field>
+    <field name="street">Pepper Road</field>
+    <field name="city">Leeds</field>
+    <field name="zip">LS10 2RU</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 113 555 0870</field>
+    <field name="email">info@northgatelabs.example</field>
+    <field name="website">https://www.northgatelabs.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_contract_lab')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/northgate.png"/>
+</record>
+<record id="partner_contact_kwalsh" model="res.partner">
+    <field name="name">Dr Karen Walsh</field>
+    <field name="parent_id" ref="partner_northgate"/>
+    <field name="function">Technical Manager</field>
+    <field name="email">karen.walsh@northgatelabs.example</field>
+    <field name="phone">+44 113 555 0130</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_33.webp"/>
+</record>
+<record id="partner_wessex" model="res.partner">
+    <field name="name">University of Wessex - School of Food Science</field>
+    <field name="vat">GB345387380</field>
+    <field name="street">University Road</field>
+    <field name="city">Southampton</field>
+    <field name="zip">SO17 1BJ</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 23 8055 5000</field>
+    <field name="email">info@wessex-uni.example</field>
+    <field name="website">https://www.wessex-uni.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_education')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/wessex.png"/>
+</record>
+<record id="partner_contact_mhart" model="res.partner">
+    <field name="name">Prof. Michael Hart</field>
+    <field name="parent_id" ref="partner_wessex"/>
+    <field name="function">Head of School</field>
+    <field name="email">michael.hart@wessex-uni.example</field>
+    <field name="phone">+44 23 8055 5132</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_34.webp"/>
+</record>
+<record id="partner_contact_akowalski" model="res.partner">
+    <field name="name">Dr Anna Kowalski</field>
+    <field name="parent_id" ref="partner_wessex"/>
+    <field name="function">Teaching Laboratory Manager</field>
+    <field name="email">anna.kowalski@wessex-uni.example</field>
+    <field name="phone">+44 23 8055 5133</field>
+    <field name="type">contact</field>
+</record>
+<record id="partner_contact_lgrant" model="res.partner">
+    <field name="name">Lisa Grant</field>
+    <field name="parent_id" ref="partner_wessex"/>
+    <field name="function">Procurement Services</field>
+    <field name="email">lisa.grant@wessex-uni.example</field>
+    <field name="phone">+44 23 8055 5134</field>
+    <field name="type">contact</field>
+</record>
+<record id="partner_caledonian" model="res.partner">
+    <field name="name">Caledonian University - Department of Nutrition</field>
+    <field name="vat">GB348105662</field>
+    <field name="street">Cowcaddens Road</field>
+    <field name="city">Glasgow</field>
+    <field name="zip">G4 0BA</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 141 555 3000</field>
+    <field name="email">info@caledonian-uni.example</field>
+    <field name="website">https://www.caledonian-uni.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_education')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/caledonian.png"/>
+</record>
+<record id="partner_contact_ecampbell" model="res.partner">
+    <field name="name">Dr Euan Campbell</field>
+    <field name="parent_id" ref="partner_caledonian"/>
+    <field name="function">Senior Lecturer</field>
+    <field name="email">euan.campbell@caledonian-uni.example</field>
+    <field name="phone">+44 141 555 3136</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_4.webp"/>
+</record>
+<record id="partner_wmpal" model="res.partner">
+    <field name="name">West Midlands Public Analyst Laboratory</field>
+    <field name="vat">GB350823960</field>
+    <field name="street">Lancaster Circus</field>
+    <field name="city">Birmingham</field>
+    <field name="zip">B7 4AB</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 121 555 6600</field>
+    <field name="email">info@wmpublicanalyst.example</field>
+    <field name="website">https://www.wmpublicanalyst.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_public_analyst')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/wmpal.png"/>
+</record>
+<record id="partner_contact_rkumar" model="res.partner">
+    <field name="name">Dr Rajesh Kumar</field>
+    <field name="parent_id" ref="partner_wmpal"/>
+    <field name="function">Public Analyst</field>
+    <field name="email">rajesh.kumar@wmpublicanalyst.example</field>
+    <field name="phone">+44 121 555 6138</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_5.webp"/>
+</record>
+<record id="partner_contact_sroberts" model="res.partner">
+    <field name="name">Sian Roberts</field>
+    <field name="parent_id" ref="partner_wmpal"/>
+    <field name="function">Laboratory Manager</field>
+    <field name="email">sian.roberts@wmpublicanalyst.example</field>
+    <field name="phone">+44 121 555 6139</field>
+    <field name="type">contact</field>
+</record>
+<record id="partner_kentss" model="res.partner">
+    <field name="name">Kent County Scientific Services</field>
+    <field name="vat">GB353542211</field>
+    <field name="street">Penenden Heath Road</field>
+    <field name="city">Maidstone</field>
+    <field name="zip">ME14 2NY</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 1622 555 410</field>
+    <field name="email">info@kentscientific.example</field>
+    <field name="website">https://www.kentscientific.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_public_analyst')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/kentss.png"/>
+</record>
+<record id="partner_contact_pfisher" model="res.partner">
+    <field name="name">Paul Fisher</field>
+    <field name="parent_id" ref="partner_kentss"/>
+    <field name="function">Senior Scientist</field>
+    <field name="email">paul.fisher@kentscientific.example</field>
+    <field name="phone">+44 1622 555 141</field>
+    <field name="type">contact</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/res_partner_address_7.webp"/>
+</record>
+<record id="partner_cambrian" model="res.partner">
+    <field name="name">Cambrian Spring Waters Ltd</field>
+    <field name="vat">GB356260499</field>
+    <field name="street">Llanfaes</field>
+    <field name="city">Brecon</field>
+    <field name="zip">LD3 8DY</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 1874 555 190</field>
+    <field name="email">info@cambrianspring.example</field>
+    <field name="website">https://www.cambrianspring.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_beverages')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/cambrian.png"/>
+</record>
+<record id="partner_contact_rllewellyn" model="res.partner">
+    <field name="name">Rhys Llewellyn</field>
+    <field name="parent_id" ref="partner_cambrian"/>
+    <field name="function">QA Manager</field>
+    <field name="email">rhys.llewellyn@cambrianspring.example</field>
+    <field name="phone">+44 1874 555 143</field>
+    <field name="type">contact</field>
+</record>
+<record id="partner_contact_bjones" model="res.partner">
+    <field name="name">Bethan Jones</field>
+    <field name="parent_id" ref="partner_cambrian"/>
+    <field name="function">Laboratory Analyst</field>
+    <field name="email">bethan.jones@cambrianspring.example</field>
+    <field name="phone">+44 1874 555 144</field>
+    <field name="type">contact</field>
+</record>
+<record id="partner_northumbria" model="res.partner">
+    <field name="name">Northumbria Bakeries Ltd</field>
+    <field name="vat">GB358978773</field>
+    <field name="street">Shields Road</field>
+    <field name="city">Newcastle upon Tyne</field>
+    <field name="zip">NE6 2YD</field>
+    <field name="country_id" ref="base.uk"/>
+    <field name="phone">+44 191 555 2840</field>
+    <field name="email">info@northumbriabakeries.example</field>
+    <field name="website">https://www.northumbriabakeries.example</field>
+    <field name="customer_rank" eval="1"/>
+    <field name="category_id" eval="[Command.set([ref('partner_tag_cereals')])]"/>
+    <field name="property_payment_term_id" ref="account.account_payment_term_30days"/>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/partners/northumbria.png"/>
+</record>
+<record id="partner_contact_crobson" model="res.partner">
+    <field name="name">Chris Robson</field>
+    <field name="parent_id" ref="partner_northumbria"/>
+    <field name="function">Technical Manager</field>
+    <field name="email">chris.robson@northumbriabakeries.example</field>
+    <field name="phone">+44 191 555 2146</field>
+    <field name="type">contact</field>
+</record>
+</data>
+</odoo>

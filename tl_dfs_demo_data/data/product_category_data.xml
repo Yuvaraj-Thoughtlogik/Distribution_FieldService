@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from master data definitions; edit with care. -->
+<odoo>
+<data noupdate="1">
+<record id="product_category_lab_equipment" model="product.category">
+    <field name="name">Laboratory Equipment</field>
+</record>
+<record id="product_category_protein" model="product.category">
+    <field name="name">Protein Analysis (Kjeldahl/Dumas)</field>
+    <field name="parent_id" ref="product_category_lab_equipment"/>
+</record>
+<record id="product_category_digestion" model="product.category">
+    <field name="name">Digestion Systems</field>
+    <field name="parent_id" ref="product_category_lab_equipment"/>
+</record>
+<record id="product_category_fat" model="product.category">
+    <field name="name">Fat Extraction (Soxhlet)</field>
+    <field name="parent_id" ref="product_category_lab_equipment"/>
+</record>
+<record id="product_category_fibre" model="product.category">
+    <field name="name">Fibre Analysis</field>
+    <field name="parent_id" ref="product_category_lab_equipment"/>
+</record>
+<record id="product_category_moisture" model="product.category">
+    <field name="name">Moisture &amp; Dry Matter</field>
+    <field name="parent_id" ref="product_category_lab_equipment"/>
+</record>
+<record id="product_category_circulators" model="product.category">
+    <field name="name">Heating &amp; Cooling Circulators</field>
+    <field name="parent_id" ref="product_category_lab_equipment"/>
+</record>
+<record id="product_category_baths" model="product.category">
+    <field name="name">Water Baths &amp; Ovens</field>
+    <field name="parent_id" ref="product_category_lab_equipment"/>
+</record>
+<record id="product_category_sampleprep" model="product.category">
+    <field name="name">Sample Preparation (Mills, Homogenisers)</field>
+    <field name="parent_id" ref="product_category_lab_equipment"/>
+</record>
+<record id="product_category_spares" model="product.category">
+    <field name="name">Spares &amp; Accessories</field>
+</record>
+<record id="product_category_consumables" model="product.category">
+    <field name="name">Consumables &amp; Glassware</field>
+</record>
+<record id="product_category_services" model="product.category">
+    <field name="name">Services</field>
+</record>
+<record id="product_category_svc_field" model="product.category">
+    <field name="name">Field Services</field>
+    <field name="parent_id" ref="product_category_services"/>
+</record>
+<record id="product_category_svc_contract" model="product.category">
+    <field name="name">Service Contracts</field>
+    <field name="parent_id" ref="product_category_services"/>
+</record>
+</data>
+</odoo>

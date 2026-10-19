@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Sales teams: the default team becomes "Direct Sales" -->
+        <record id="sales_team.team_sales_department" model="crm.team">
+            <field name="name">Direct Sales</field>
+            <field name="sequence">1</field>
+            <field name="use_leads" eval="True"/>
+            <field name="use_opportunities" eval="True"/>
+        </record>
+        <record id="crm_team_key_accounts" model="crm.team">
+            <field name="name">Key Accounts</field>
+            <field name="sequence">2</field>
+            <field name="use_leads" eval="False"/>
+            <field name="use_opportunities" eval="True"/>
+            <field name="color">3</field>
+        </record>
+        <record id="crm_team_website" model="crm.team">
+            <field name="name">Website Enquiries</field>
+            <field name="sequence">3</field>
+            <field name="use_leads" eval="True"/>
+            <field name="use_opportunities" eval="True"/>
+            <field name="alias_name">enquiries</field>
+            <field name="color">5</field>
+        </record>
+        <record id="crm_team_service" model="crm.team">
+            <field name="name">Service &amp; Contracts</field>
+            <field name="sequence">4</field>
+            <field name="use_leads" eval="False"/>
+            <field name="use_opportunities" eval="True"/>
+            <field name="color">10</field>
+        </record>
+
+        <!-- Pipeline stages -->
+        <record id="crm.stage_lead1" model="crm.stage">
+            <field name="name">New Enquiry</field>
+            <field name="sequence">1</field>
+        </record>
+        <record id="crm.stage_lead2" model="crm.stage">
+            <field name="name">Qualified</field>
+            <field name="sequence">2</field>
+            <field name="requirements">Budget, application and decision timeline confirmed.</field>
+        </record>
+        <record id="crm_stage_demo" model="crm.stage">
+            <field name="name">Demo / Site Visit</field>
+            <field name="sequence">3</field>
+            <field name="requirements">Application demo or site survey booked with a Sales Engineer.</field>
+        </record>
+        <record id="crm.stage_lead3" model="crm.stage">
+            <field name="name">Proposal Sent</field>
+            <field name="sequence">4</field>
+        </record>
+        <record id="crm_stage_negotiation" model="crm.stage">
+            <field name="name">Negotiation / Tender</field>
+            <field name="sequence">5</field>
+        </record>
+        <record id="crm.stage_lead4" model="crm.stage">
+            <field name="name">Won</field>
+            <field name="sequence">70</field>
+            <field name="is_won" eval="True"/>
+        </record>
+
+        <!-- Tags -->
+        <record id="crm_tag_kjeldahl" model="crm.tag"><field name="name">Kjeldahl / Protein</field><field name="color">1</field></record>
+        <record id="crm_tag_fat" model="crm.tag"><field name="name">Fat Extraction</field><field name="color">2</field></record>
+        <record id="crm_tag_new_lab" model="crm.tag"><field name="name">New Laboratory</field><field name="color">3</field></record>
+        <record id="crm_tag_replacement" model="crm.tag"><field name="name">Replacement</field><field name="color">4</field></record>
+        <record id="crm_tag_tender" model="crm.tag"><field name="name">Tender / Framework</field><field name="color">5</field></record>
+        <record id="crm_tag_service" model="crm.tag"><field name="name">Service Contract</field><field name="color">6</field></record>
+        <record id="crm_tag_website" model="crm.tag"><field name="name">Website</field><field name="color">7</field></record>
+        <record id="crm_tag_education" model="crm.tag"><field name="name">Education</field><field name="color">8</field></record>
+        <record id="crm_tag_moisture" model="crm.tag"><field name="name">Moisture / Dry Matter</field><field name="color">9</field></record>
+
+        <record id="crm_lost_reason_budget" model="crm.lost.reason"><field name="name">No budget this financial year</field></record>
+    </data>
+</odoo>

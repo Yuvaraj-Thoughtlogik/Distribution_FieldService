@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generated from master data definitions; edit with care. -->
+<odoo>
+<data noupdate="1">
+<record id="resource_calendar_field" model="resource.calendar">
+    <field name="name">Field Engineers 40 Hours (08:00-17:00)</field>
+    <field name="hours_per_day" eval="8.0"/>
+</record>
+<record id="hr_department_management" model="hr.department">
+    <field name="name">Management</field>
+</record>
+<record id="hr_department_sales" model="hr.department">
+    <field name="name">Sales</field>
+    <field name="parent_id" ref="hr_department_management"/>
+</record>
+<record id="hr_department_field_service" model="hr.department">
+    <field name="name">Field Service</field>
+    <field name="parent_id" ref="hr_department_management"/>
+</record>
+<record id="hr_department_tech_support" model="hr.department">
+    <field name="name">Technical Support</field>
+    <field name="parent_id" ref="hr_department_management"/>
+</record>
+<record id="hr_department_warehouse" model="hr.department">
+    <field name="name">Warehouse &amp; Logistics</field>
+    <field name="parent_id" ref="hr_department_management"/>
+</record>
+<record id="hr_department_finance" model="hr.department">
+    <field name="name">Finance</field>
+    <field name="parent_id" ref="hr_department_management"/>
+</record>
+<record id="hr_job_md" model="hr.job">
+    <field name="name">Managing Director</field>
+    <field name="department_id" ref="hr_department_management"/>
+</record>
+<record id="hr_job_ops_dir" model="hr.job">
+    <field name="name">Operations Director</field>
+    <field name="department_id" ref="hr_department_management"/>
+</record>
+<record id="hr_job_sales_mgr" model="hr.job">
+    <field name="name">Sales Manager</field>
+    <field name="department_id" ref="hr_department_sales"/>
+</record>
+<record id="hr_job_kam" model="hr.job">
+    <field name="name">Key Account Manager</field>
+    <field name="department_id" ref="hr_department_sales"/>
+</record>
+<record id="hr_job_sales_eng" model="hr.job">
+    <field name="name">Sales Engineer</field>
+    <field name="department_id" ref="hr_department_sales"/>
+</record>
+<record id="hr_job_inside_sales" model="hr.job">
+    <field name="name">Inside Sales Coordinator</field>
+    <field name="department_id" ref="hr_department_sales"/>
+</record>
+<record id="hr_job_fs_mgr" model="hr.job">
+    <field name="name">Field Service Manager</field>
+    <field name="department_id" ref="hr_department_field_service"/>
+</record>
+<record id="hr_job_fse" model="hr.job">
+    <field name="name">Field Service Engineer</field>
+    <field name="department_id" ref="hr_department_field_service"/>
+</record>
+<record id="hr_job_install_eng" model="hr.job">
+    <field name="name">Installation Engineer</field>
+    <field name="department_id" ref="hr_department_field_service"/>
+</record>
+<record id="hr_job_cal_tech" model="hr.job">
+    <field name="name">Calibration Technician</field>
+    <field name="department_id" ref="hr_department_field_service"/>
+</record>
+<record id="hr_job_ts_mgr" model="hr.job">
+    <field name="name">Technical Support Manager</field>
+    <field name="department_id" ref="hr_department_tech_support"/>
+</record>
+<record id="hr_job_app_spec" model="hr.job">
+    <field name="name">Applications Specialist</field>
+    <field name="department_id" ref="hr_department_tech_support"/>
+</record>
+<record id="hr_job_ts_eng" model="hr.job">
+    <field name="name">Technical Support Engineer</field>
+    <field name="department_id" ref="hr_department_tech_support"/>
+</record>
+<record id="hr_job_wh_sup" model="hr.job">
+    <field name="name">Warehouse Supervisor</field>
+    <field name="department_id" ref="hr_department_warehouse"/>
+</record>
+<record id="hr_job_logistics" model="hr.job">
+    <field name="name">Logistics Coordinator</field>
+    <field name="department_id" ref="hr_department_warehouse"/>
+</record>
+<record id="hr_job_fin_mgr" model="hr.job">
+    <field name="name">Finance Manager</field>
+    <field name="department_id" ref="hr_department_finance"/>
+</record>
+<record id="hr_job_accounts" model="hr.job">
+    <field name="name">Accounts Assistant</field>
+    <field name="department_id" ref="hr_department_finance"/>
+</record>
+<record id="hr_employee_dwhitfield" model="hr.employee">
+    <field name="name">David Whitfield</field>
+    <field name="job_id" ref="hr_job_md"/>
+    <field name="job_title">Managing Director</field>
+    <field name="department_id" ref="hr_department_management"/>
+    <field name="work_email">david.whitfield@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 100</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_md.webp"/>
+</record>
+<record id="hr_employee_cashworth" model="hr.employee">
+    <field name="name">Claire Ashworth</field>
+    <field name="job_id" ref="hr_job_ops_dir"/>
+    <field name="job_title">Operations Director</field>
+    <field name="department_id" ref="hr_department_management"/>
+    <field name="work_email">claire.ashworth@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 101</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_vad.webp"/>
+    <field name="parent_id" ref="hr_employee_dwhitfield"/>
+</record>
+<record id="hr_employee_slockwood" model="hr.employee">
+    <field name="name">Simon Lockwood</field>
+    <field name="job_id" ref="hr_job_sales_mgr"/>
+    <field name="job_title">Sales Manager</field>
+    <field name="department_id" ref="hr_department_sales"/>
+    <field name="work_email">simon.lockwood@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 102</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_stw.webp"/>
+    <field name="parent_id" ref="hr_employee_dwhitfield"/>
+    <field name="planning_role_ids" eval="[Command.set([ref('planning_role_sales_eng')])]"/>
+    <field name="default_planning_role_id" ref="planning_role_sales_eng"/>
+</record>
+<record id="hr_employee_hprice" model="hr.employee">
+    <field name="name">Hannah Price</field>
+    <field name="job_id" ref="hr_job_kam"/>
+    <field name="job_title">Key Account Manager</field>
+    <field name="department_id" ref="hr_department_sales"/>
+    <field name="work_email">hannah.price@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 103</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_chs.webp"/>
+    <field name="parent_id" ref="hr_employee_slockwood"/>
+    <field name="planning_role_ids" eval="[Command.set([ref('planning_role_sales_eng')])]"/>
+    <field name="default_planning_role_id" ref="planning_role_sales_eng"/>
+</record>
+<record id="hr_employee_tfletcher" model="hr.employee">
+    <field name="name">Tom Fletcher</field>
+    <field name="job_id" ref="hr_job_sales_eng"/>
+    <field name="job_title">Sales Engineer</field>
+    <field name="department_id" ref="hr_department_sales"/>
+    <field name="work_email">tom.fletcher@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 104</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_qdp.webp"/>
+    <field name="parent_id" ref="hr_employee_slockwood"/>
+    <field name="planning_role_ids" eval="[Command.set([ref('planning_role_sales_eng')])]"/>
+    <field name="default_planning_role_id" ref="planning_role_sales_eng"/>
+</record>
+<record id="hr_employee_psharma" model="hr.employee">
+    <field name="name">Priya Sharma</field>
+    <field name="job_id" ref="hr_job_sales_eng"/>
+    <field name="job_title">Sales Engineer</field>
+    <field name="department_id" ref="hr_department_sales"/>
+    <field name="work_email">priya.sharma@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 105</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_jod.webp"/>
+    <field name="parent_id" ref="hr_employee_slockwood"/>
+    <field name="planning_role_ids" eval="[Command.set([ref('planning_role_sales_eng')])]"/>
+    <field name="default_planning_role_id" ref="planning_role_sales_eng"/>
+</record>
+<record id="hr_employee_emorgan" model="hr.employee">
+    <field name="name">Ellie Morgan</field>
+    <field name="job_id" ref="hr_job_inside_sales"/>
+    <field name="job_title">Inside Sales Coordinator</field>
+    <field name="department_id" ref="hr_department_sales"/>
+    <field name="work_email">ellie.morgan@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 106</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_jth.webp"/>
+    <field name="parent_id" ref="hr_employee_slockwood"/>
+</record>
+<record id="hr_employee_gevans" model="hr.employee">
+    <field name="name">Gareth Evans</field>
+    <field name="job_id" ref="hr_job_fs_mgr"/>
+    <field name="job_title">Field Service Manager</field>
+    <field name="department_id" ref="hr_department_field_service"/>
+    <field name="work_email">gareth.evans@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 107</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_jve.webp"/>
+    <field name="parent_id" ref="hr_employee_cashworth"/>
+    <field name="resource_calendar_id" ref="resource_calendar_field"/>
+    <field name="planning_role_ids" eval="[Command.set([ref('planning_role_fse'), ref('planning_role_install')])]"/>
+    <field name="default_planning_role_id" ref="planning_role_fse"/>
+</record>
+<record id="hr_employee_dokafor" model="hr.employee">
+    <field name="name">Daniel Okafor</field>
+    <field name="job_id" ref="hr_job_fse"/>
+    <field name="job_title">Field Service Engineer</field>
+    <field name="department_id" ref="hr_department_field_service"/>
+    <field name="work_email">daniel.okafor@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 108</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_han.webp"/>
+    <field name="parent_id" ref="hr_employee_gevans"/>
+    <field name="resource_calendar_id" ref="resource_calendar_field"/>
+    <field name="planning_role_ids" eval="[Command.set([ref('planning_role_fse'), ref('planning_role_install')])]"/>
+    <field name="default_planning_role_id" ref="planning_role_fse"/>
+</record>
+<record id="hr_employee_rpatel" model="hr.employee">
+    <field name="name">Ravi Patel</field>
+    <field name="job_id" ref="hr_job_fse"/>
+    <field name="job_title">Field Service Engineer</field>
+    <field name="department_id" ref="hr_department_field_service"/>
+    <field name="work_email">ravi.patel@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 109</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_fme.webp"/>
+    <field name="parent_id" ref="hr_employee_gevans"/>
+    <field name="resource_calendar_id" ref="resource_calendar_field"/>
+    <field name="planning_role_ids" eval="[Command.set([ref('planning_role_fse'), ref('planning_role_calibration')])]"/>
+    <field name="default_planning_role_id" ref="planning_role_fse"/>
+</record>
+<record id="hr_employee_ldoyle" model="hr.employee">
+    <field name="name">Liam Doyle</field>
+    <field name="job_id" ref="hr_job_install_eng"/>
+    <field name="job_title">Installation Engineer</field>
+    <field name="department_id" ref="hr_department_field_service"/>
+    <field name="work_email">liam.doyle@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 110</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_lur.webp"/>
+    <field name="parent_id" ref="hr_employee_gevans"/>
+    <field name="resource_calendar_id" ref="resource_calendar_field"/>
+    <field name="planning_role_ids" eval="[Command.set([ref('planning_role_install'), ref('planning_role_fse')])]"/>
+    <field name="default_planning_role_id" ref="planning_role_install"/>
+</record>
+<record id="hr_employee_sturner" model="hr.employee">
+    <field name="name">Sophie Turner</field>
+    <field name="job_id" ref="hr_job_cal_tech"/>
+    <field name="job_title">Calibration Technician</field>
+    <field name="department_id" ref="hr_department_field_service"/>
+    <field name="work_email">sophie.turner@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 111</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_hne.webp"/>
+    <field name="parent_id" ref="hr_employee_gevans"/>
+    <field name="resource_calendar_id" ref="resource_calendar_field"/>
+    <field name="planning_role_ids" eval="[Command.set([ref('planning_role_calibration')])]"/>
+    <field name="default_planning_role_id" ref="planning_role_calibration"/>
+</record>
+<record id="hr_employee_mbennett" model="hr.employee">
+    <field name="name">Marcus Bennett</field>
+    <field name="job_id" ref="hr_job_fse"/>
+    <field name="job_title">Field Service Engineer</field>
+    <field name="department_id" ref="hr_department_field_service"/>
+    <field name="work_email">marcus.bennett@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 112</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_ngh.webp"/>
+    <field name="parent_id" ref="hr_employee_gevans"/>
+    <field name="resource_calendar_id" ref="resource_calendar_field"/>
+    <field name="planning_role_ids" eval="[Command.set([ref('planning_role_fse'), ref('planning_role_calibration')])]"/>
+    <field name="default_planning_role_id" ref="planning_role_fse"/>
+</record>
+<record id="hr_employee_lchen" model="hr.employee">
+    <field name="name">Laura Chen</field>
+    <field name="job_id" ref="hr_job_ts_mgr"/>
+    <field name="job_title">Technical Support Manager</field>
+    <field name="department_id" ref="hr_department_tech_support"/>
+    <field name="work_email">laura.chen@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 113</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_jog.webp"/>
+    <field name="parent_id" ref="hr_employee_cashworth"/>
+</record>
+<record id="hr_employee_bharris" model="hr.employee">
+    <field name="name">Ben Harris</field>
+    <field name="job_id" ref="hr_job_app_spec"/>
+    <field name="job_title">Applications Specialist</field>
+    <field name="department_id" ref="hr_department_tech_support"/>
+    <field name="work_email">ben.harris@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 114</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_jgo.webp"/>
+    <field name="parent_id" ref="hr_employee_lchen"/>
+    <field name="planning_role_ids" eval="[Command.set([ref('planning_role_sales_eng')])]"/>
+    <field name="default_planning_role_id" ref="planning_role_sales_eng"/>
+</record>
+<record id="hr_employee_awright" model="hr.employee">
+    <field name="name">Amelia Wright</field>
+    <field name="job_id" ref="hr_job_ts_eng"/>
+    <field name="job_title">Technical Support Engineer</field>
+    <field name="department_id" ref="hr_department_tech_support"/>
+    <field name="work_email">amelia.wright@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 115</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_mit.webp"/>
+    <field name="parent_id" ref="hr_employee_lchen"/>
+</record>
+<record id="hr_employee_kmurray" model="hr.employee">
+    <field name="name">Kevin Murray</field>
+    <field name="job_id" ref="hr_job_wh_sup"/>
+    <field name="job_title">Warehouse Supervisor</field>
+    <field name="department_id" ref="hr_department_warehouse"/>
+    <field name="work_email">kevin.murray@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 116</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_al.webp"/>
+    <field name="parent_id" ref="hr_employee_cashworth"/>
+</record>
+<record id="hr_employee_zclarke" model="hr.employee">
+    <field name="name">Zoe Clarke</field>
+    <field name="job_id" ref="hr_job_logistics"/>
+    <field name="job_title">Logistics Coordinator</field>
+    <field name="department_id" ref="hr_department_warehouse"/>
+    <field name="work_email">zoe.clarke@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 117</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_awa.webp"/>
+    <field name="parent_id" ref="hr_employee_kmurray"/>
+</record>
+<record id="hr_employee_fmacleod" model="hr.employee">
+    <field name="name">Fiona MacLeod</field>
+    <field name="job_id" ref="hr_job_fin_mgr"/>
+    <field name="job_title">Finance Manager</field>
+    <field name="department_id" ref="hr_department_finance"/>
+    <field name="work_email">fiona.macleod@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 118</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_niv.webp"/>
+    <field name="parent_id" ref="hr_employee_dwhitfield"/>
+</record>
+<record id="hr_employee_mlin" model="hr.employee">
+    <field name="name">Mei Lin</field>
+    <field name="job_id" ref="hr_job_accounts"/>
+    <field name="job_title">Accounts Assistant</field>
+    <field name="department_id" ref="hr_department_finance"/>
+    <field name="work_email">mei.lin@northbrook-analytical.example</field>
+    <field name="work_phone">+44 1908 555 119</field>
+    <field name="image_1920" type="bytes" file="tl_dfs_demo_data/static/img/people/employee_fpi.webp"/>
+    <field name="parent_id" ref="hr_employee_fmacleod"/>
+</record>
+<record id="hr_department_management" model="hr.department">
+    <field name="manager_id" ref="hr_employee_dwhitfield"/>
+</record>
+<record id="hr_department_sales" model="hr.department">
+    <field name="manager_id" ref="hr_employee_slockwood"/>
+</record>
+<record id="hr_department_field_service" model="hr.department">
+    <field name="manager_id" ref="hr_employee_gevans"/>
+</record>
+<record id="hr_department_tech_support" model="hr.department">
+    <field name="manager_id" ref="hr_employee_lchen"/>
+</record>
+<record id="hr_department_warehouse" model="hr.department">
+    <field name="manager_id" ref="hr_employee_kmurray"/>
+</record>
+<record id="hr_department_finance" model="hr.department">
+    <field name="manager_id" ref="hr_employee_fmacleod"/>
+</record>
+</data>
+</odoo>
