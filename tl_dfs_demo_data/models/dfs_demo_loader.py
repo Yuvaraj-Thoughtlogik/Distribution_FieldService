@@ -362,6 +362,7 @@ class TlDfsDemoLoader(models.AbstractModel):
             "_setup_company", "_setup_settings", "_setup_users", "_setup_master_misc", "_setup_stock",
             "_setup_legacy_base", "_setup_purchases", "_setup_sales", "_setup_subscriptions", "_setup_crm", "_setup_quote_templates",
             "_setup_helpdesk", "_setup_interventions", "_setup_shifts", "_setup_skills", "_setup_repair",
+            "_setup_manufacturing", "_setup_mto_demo_order",
         ):
             _logger.info("tl_dfs_demo_data: %s", step)
             getattr(self, step)()
