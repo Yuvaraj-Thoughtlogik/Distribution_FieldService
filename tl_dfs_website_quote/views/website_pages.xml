@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="website_page_about" model="website.page">
+        <field name="url">/about-us</field>
+        <field name="view_id" ref="page_about"/>
+        <field name="is_published" eval="True"/>
+        <field name="track" eval="True"/>
+        <field name="website_meta_description">Independent UK specialist in food-testing and laboratory equipment, sales and field service.</field>
+    </record>
+    <record id="website_page_services" model="website.page">
+        <field name="url">/services</field>
+        <field name="view_id" ref="page_services"/>
+        <field name="is_published" eval="True"/>
+        <field name="track" eval="True"/>
+        <field name="website_meta_description">Installation, calibration, preventive maintenance and service contracts for laboratory equipment across the UK.</field>
+    </record>
+    <record id="website_page_industries" model="website.page">
+        <field name="url">/industries</field>
+        <field name="view_id" ref="page_industries"/>
+        <field name="is_published" eval="True"/>
+        <field name="track" eval="True"/>
+        <field name="website_meta_description">Food testing equipment for dairy, meat, cereals and bakery, beverages and contract laboratories.</field>
+    </record>
+</odoo>

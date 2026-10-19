@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="page_services" name="Services">
+        <t t-call="website.layout">
+            <div id="wrap" class="tl_page">
+                <t t-call="tl_dfs_website_quote.page_header" eyebrow.translate="Service &amp; support" title.translate="Field service for laboratory equipment" subtitle.translate="Installation, calibration, preventive maintenance and service contracts delivered by our own engineers across the UK."/>
+                <div class="oe_structure" id="oe_structure_tl_services">
+                    <section class="tl_service_nav o_cc o_cc1 pt24 pb24 border-bottom" data-snippet="s_text_block" data-name="Service menu">
+                        <div class="container d-flex flex-wrap gap-2">
+                            <a href="#installation" class="btn btn-outline-primary btn-sm">Installation</a>
+                            <a href="#calibration" class="btn btn-outline-primary btn-sm">Calibration</a>
+                            <a href="#maintenance" class="btn btn-outline-primary btn-sm">Preventive maintenance</a>
+                            <a href="#contracts" class="btn btn-outline-primary btn-sm">Service contracts</a>
+                        </div>
+                    </section>
+                    <section id="installation" class="s_text_image tl_section o_cc o_cc1 pt64 pb64" data-snippet="s_text_image" data-name="Installation">
+                        <div class="container"><div class="row align-items-center g-5">
+                            <div class="col-lg-5"><img src="/tl_dfs_website_quote/static/src/img/svc_installation.jpg" class="img-fluid rounded" alt="Installation" loading="lazy"/></div>
+                            <div class="col-lg-7">
+                                <h2 class="mb-3">Installation &amp; commissioning</h2>
+                                <p>A smooth start for every instrument: site survey, delivery to the bench, installation, IQ/OQ documentation and hands-on operator training.</p>
+                                <ul class="tl_check_list list-unstyled"><li>Pre-installation site requirements check</li><li>IQ/OQ protocols for regulated laboratories</li><li>Operator and super-user training</li></ul>
+                            </div>
+                        </div></div>
+                    </section>
+                    <section id="calibration" class="s_text_image tl_section o_cc o_cc2 pt64 pb64" data-snippet="s_text_image" data-name="Calibration">
+                        <div class="container"><div class="row align-items-center g-5 flex-row-reverse">
+                            <div class="col-lg-5"><img src="/tl_dfs_website_quote/static/src/img/svc_calibration.jpg" class="img-fluid rounded" alt="Calibration" loading="lazy"/></div>
+                            <div class="col-lg-7">
+                                <h2 class="mb-3">Calibration</h2>
+                                <p>On-site calibration with reference standards traceable to national standards, and certificates you can hand straight to your auditor.</p>
+                                <ul class="tl_check_list list-unstyled"><li>Temperature, mass, volume and photometric checks</li><li>As-found / as-left results on every certificate</li><li>Automatic reminders before calibration is due</li></ul>
+                            </div>
+                        </div></div>
+                    </section>
+                    <section id="maintenance" class="s_text_image tl_section o_cc o_cc1 pt64 pb64" data-snippet="s_text_image" data-name="Preventive maintenance">
+                        <div class="container"><div class="row align-items-center g-5">
+                            <div class="col-lg-5"><img src="/tl_dfs_website_quote/static/src/img/svc_maintenance.jpg" class="img-fluid rounded" alt="Preventive maintenance" loading="lazy"/></div>
+                            <div class="col-lg-7">
+                                <h2 class="mb-3">Preventive maintenance</h2>
+                                <p>Planned visits that keep instruments within specification and avoid unplanned downtime - scheduled around your production and sampling plan.</p>
+                                <ul class="tl_check_list list-unstyled"><li>Manufacturer maintenance schedules and genuine parts</li><li>Performance verification after every visit</li><li>Digital service reports for each asset</li></ul>
+                            </div>
+                        </div></div>
+                    </section>
+                    <section id="contracts" class="s_text_image tl_section o_cc o_cc2 pt64 pb64" data-snippet="s_text_image" data-name="Service contracts">
+                        <div class="container"><div class="row align-items-center g-5 flex-row-reverse">
+                            <div class="col-lg-5"><img src="/tl_dfs_website_quote/static/src/img/svc_contracts.jpg" class="img-fluid rounded" alt="Service contracts" loading="lazy"/></div>
+                            <div class="col-lg-7">
+                                <h2 class="mb-3">Service contracts</h2>
+                                <p>Predictable costs and guaranteed response: combine maintenance, calibration and breakdown cover for one instrument or your whole laboratory.</p>
+                                <div class="row g-3 mt-1">
+                                    <div class="col-sm-4"><div class="tl_plan border rounded p-3 h-100 bg-white"><strong>Essential</strong><p class="small text-muted mb-0">Annual maintenance and calibration visit.</p></div></div>
+                                    <div class="col-sm-4"><div class="tl_plan border rounded p-3 h-100 bg-white"><strong>Plus</strong><p class="small text-muted mb-0">Adds priority breakdown response and parts discount.</p></div></div>
+                                    <div class="col-sm-4"><div class="tl_plan border rounded p-3 h-100 bg-white"><strong>Complete</strong><p class="small text-muted mb-0">All-inclusive cover with labour and parts.</p></div></div>
+                                </div>
+                            </div>
+                        </div></div>
+                    </section>
+                    <section class="s_call_to_action tl_cta o_cc o_cc5 pt64 pb64" data-snippet="s_call_to_action" data-name="Call to action">
+                        <div class="container"><div class="row align-items-center g-3">
+                            <div class="col-lg-8"><h2 class="h3 mb-1">Instrument down or due for service?</h2><p class="mb-0 opacity-75">Log a request and our service desk will schedule an engineer.</p></div>
+                            <div class="col-lg-4 text-lg-end"><a href="/helpdesk" class="btn btn-primary btn-lg">Request service</a></div>
+                        </div></div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

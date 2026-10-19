@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="page_industries" name="Industries">
+        <t t-call="website.layout">
+            <div id="wrap" class="tl_page">
+                <t t-call="tl_dfs_website_quote.page_header" eyebrow.translate="Industries &amp; applications" title.translate="Solutions for food testing laboratories" subtitle.translate="From raw material intake to release testing, we equip quality laboratories across the food and drink industry."/>
+                <div class="oe_structure" id="oe_structure_tl_industries">
+                    <section class="tl_service_nav o_cc o_cc1 pt24 pb24 border-bottom" data-snippet="s_text_block" data-name="Industry menu">
+                        <div class="container d-flex flex-wrap gap-2"><a href="#dairy" class="btn btn-outline-primary btn-sm">Dairy</a><a href="#meat" class="btn btn-outline-primary btn-sm">Meat &amp; fish</a><a href="#cereals" class="btn btn-outline-primary btn-sm">Cereals &amp; bakery</a><a href="#beverages" class="btn btn-outline-primary btn-sm">Beverages</a><a href="#contract-labs" class="btn btn-outline-primary btn-sm">Contract laboratories</a></div>
+                    </section>
+                    <section id="dairy" class="s_text_image tl_section o_cc o_cc1 pt64 pb64" data-snippet="s_text_image" data-name="Dairy">
+                        <div class="container"><div class="row align-items-center g-5">
+                            <div class="col-lg-5"><img src="/tl_dfs_website_quote/static/src/img/ind_dairy.jpg" class="img-fluid rounded" alt="Dairy" loading="lazy"/></div>
+                            <div class="col-lg-7">
+                                <p class="tl_eyebrow text-uppercase small fw-bold mb-2">Milk, cream, cheese, yoghurt and powders.</p>
+                                <h2 class="mb-3">Dairy</h2>
+                                <p>Rapid compositional analysis at intake and release: fat, protein, lactose and total solids, plus freezing point, phosphatase and hygiene testing.</p>
+                                <ul class="tl_check_list list-unstyled"><li>Mid-infrared and NIR milk analysers</li><li>Gerber and Kjeldahl reference methods</li><li>Cryoscopes, pH and titration</li></ul>
+                                <a href="/shop" class="btn btn-outline-primary">See related equipment</a>
+                            </div>
+                        </div></div>
+                    </section>
+                    <section id="meat" class="s_text_image tl_section o_cc o_cc2 pt64 pb64" data-snippet="s_text_image" data-name="Meat &amp; fish">
+                        <div class="container"><div class="row align-items-center g-5 flex-row-reverse">
+                            <div class="col-lg-5"><img src="/tl_dfs_website_quote/static/src/img/ind_meat.jpg" class="img-fluid rounded" alt="Meat &amp; fish" loading="lazy"/></div>
+                            <div class="col-lg-7">
+                                <p class="tl_eyebrow text-uppercase small fw-bold mb-2">Fresh, processed and cooked products.</p>
+                                <h2 class="mb-3">Meat &amp; fish</h2>
+                                <p>Control fat, moisture, protein and salt from carcass to finished product, and verify cooking and chilling processes.</p>
+                                <ul class="tl_check_list list-unstyled"><li>At-line fat and moisture analysers</li><li>Sample homogenisers and mincers</li><li>Temperature data loggers and probes</li></ul>
+                                <a href="/shop" class="btn btn-outline-primary">See related equipment</a>
+                            </div>
+                        </div></div>
+                    </section>
+                    <section id="cereals" class="s_text_image tl_section o_cc o_cc1 pt64 pb64" data-snippet="s_text_image" data-name="Cereals &amp; bakery">
+                        <div class="container"><div class="row align-items-center g-5">
+                            <div class="col-lg-5"><img src="/tl_dfs_website_quote/static/src/img/ind_cereals.jpg" class="img-fluid rounded" alt="Cereals &amp; bakery" loading="lazy"/></div>
+                            <div class="col-lg-7">
+                                <p class="tl_eyebrow text-uppercase small fw-bold mb-2">Grain, flour, dough and baked goods.</p>
+                                <h2 class="mb-3">Cereals &amp; bakery</h2>
+                                <p>Assess grain quality and flour performance, moisture and fibre, and ensure consistent baking results batch after batch.</p>
+                                <ul class="tl_check_list list-unstyled"><li>Moisture balances and grain analysers</li><li>Dietary fibre and extraction systems</li><li>Dough rheology and falling number</li></ul>
+                                <a href="/shop" class="btn btn-outline-primary">See related equipment</a>
+                            </div>
+                        </div></div>
+                    </section>
+                    <section id="beverages" class="s_text_image tl_section o_cc o_cc2 pt64 pb64" data-snippet="s_text_image" data-name="Beverages">
+                        <div class="container"><div class="row align-items-center g-5 flex-row-reverse">
+                            <div class="col-lg-5"><img src="/tl_dfs_website_quote/static/src/img/ind_beverages.jpg" class="img-fluid rounded" alt="Beverages" loading="lazy"/></div>
+                            <div class="col-lg-7">
+                                <p class="tl_eyebrow text-uppercase small fw-bold mb-2">Soft drinks, juices, beer, wine and spirits.</p>
+                                <h2 class="mb-3">Beverages</h2>
+                                <p>Measure sugar, alcohol, density, colour and CO2 to keep every batch on specification and labels compliant.</p>
+                                <ul class="tl_check_list list-unstyled"><li>Density meters and refractometers</li><li>Alcohol and CO2 measurement</li><li>Spectrophotometers for colour</li></ul>
+                                <a href="/shop" class="btn btn-outline-primary">See related equipment</a>
+                            </div>
+                        </div></div>
+                    </section>
+                    <section id="contract-labs" class="s_text_image tl_section o_cc o_cc1 pt64 pb64" data-snippet="s_text_image" data-name="Contract laboratories">
+                        <div class="container"><div class="row align-items-center g-5">
+                            <div class="col-lg-5"><img src="/tl_dfs_website_quote/static/src/img/ind_contract_labs.jpg" class="img-fluid rounded" alt="Contract laboratories" loading="lazy"/></div>
+                            <div class="col-lg-7">
+                                <p class="tl_eyebrow text-uppercase small fw-bold mb-2">Accredited, high-throughput testing.</p>
+                                <h2 class="mb-3">Contract laboratories</h2>
+                                <p>Automated, traceable workflows for laboratories that run accredited methods for many clients and matrices.</p>
+                                <ul class="tl_check_list list-unstyled"><li>Automated digestion and distillation</li><li>Microbiology incubators and media prep</li><li>LIMS-ready instruments with audit trails</li></ul>
+                                <a href="/shop" class="btn btn-outline-primary">See related equipment</a>
+                            </div>
+                        </div></div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

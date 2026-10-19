@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Brand: logo mark + company name (the name always comes from res.company) -->
+    <template id="header_brand_name" inherit_id="website.option_header_brand_logo" name="DFS: Brand name next to logo">
+        <xpath expr="//a[@data-name='Navbar Logo']" position="attributes">
+            <attribute name="t-attf-class">navbar-brand logo d-flex align-items-center gap-2 #{_link_class}</attribute>
+        </xpath>
+        <xpath expr="//a[@data-name='Navbar Logo']/span[@t-field='website.logo']" position="after">
+            <span class="tl_brand_name" t-out="website.company_id.name"/>
+        </xpath>
+    </template>
+
+    <!-- Default header: no generic text element (phone / e-mail live in the footer) to keep the
+         full main menu on one line -->
+    <template id="header_default_compact" inherit_id="website.template_header_default" name="DFS: Compact default header">
+        <xpath expr="//t[@t-call='website.placeholder_header_text_element']" position="replace"/>
+    </template>
+
+    <!-- Header call to action -->
+    <template id="header_call_to_action" inherit_id="website.header_call_to_action" name="DFS: Request a quote CTA">
+        <xpath expr="//a[hasclass('btn_cta')]" position="replace">
+            <a href="/shop/cart" class="oe_unremovable btn btn-primary btn_cta">Request a quote</a>
+        </xpath>
+    </template>
+
+    <!-- Footer -->
+    <template id="footer" inherit_id="website.footer_custom" name="DFS: Corporate footer">
+        <xpath expr="//div[@id='footer']" position="replace">
+            <div id="footer" class="oe_structure oe_structure_solo tl_footer" t-ignore="true" t-if="not no_footer">
+                <section class="s_text_block o_cc o_cc5 pt56 pb40" data-snippet="s_text_block" data-name="Footer">
+                    <div class="container">
+                        <div class="row g-4">
+                            <div class="col-lg-4">
+                                <div class="d-flex align-items-center gap-2 mb-3">
+                                    <img src="/tl_dfs_website_quote/static/src/img/brand_mark.png" alt="" width="36" height="36" class="rounded"/>
+                                    <strong class="fs-5 tl_footer_brand" t-out="res_company.name"/>
+                                </div>
+                                <p class="small opacity-75">
+                                    UK distributor of food-testing and laboratory equipment, with nationwide
+                                    installation, calibration and preventive maintenance by our own field engineers.
+                                </p>
+                                <ul class="list-unstyled small d-flex flex-wrap gap-3 mb-0 tl_footer_badges">
+                                    <li><i class="oi me-1" data-icon="verified"/>Factory-trained engineers</li>
+                                    <li><i class="oi me-1" data-icon="local_shipping"/>UK-wide service</li>
+                                </ul>
+                            </div>
+                            <div class="col-6 col-lg-2">
+                                <h6 class="text-uppercase small fw-bold mb-3">Products</h6>
+                                <ul class="list-unstyled small tl_footer_links">
+                                    <li><a href="/shop">All equipment</a></li>
+                                    <li><a href="/shop/cart">My quote request</a></li>
+                                    <li><a href="/industries">Industries</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-6 col-lg-2">
+                                <h6 class="text-uppercase small fw-bold mb-3">Service</h6>
+                                <ul class="list-unstyled small tl_footer_links">
+                                    <li><a href="/services#installation">Installation</a></li>
+                                    <li><a href="/services#calibration">Calibration</a></li>
+                                    <li><a href="/services#maintenance">Preventive maintenance</a></li>
+                                    <li><a href="/services#contracts">Service contracts</a></li>
+                                    <li><a href="/helpdesk">Support</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-lg-4">
+                                <h6 class="text-uppercase small fw-bold mb-3">Contact</h6>
+                                <div class="small tl_footer_contact">
+                                    <div t-field="res_company.partner_id" t-options="{'widget': 'contact', 'fields': ['address', 'phone', 'email'], 'no_marker': False}"/>
+                                </div>
+                                <div class="d-flex flex-wrap gap-2 mt-3">
+                                    <a href="/contactus" class="btn btn-sm btn-outline-light">Contact us</a>
+                                    <a href="/shop/cart" class="btn btn-sm btn-primary">Request a quote</a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tl_footer_legal border-top mt-4 pt-3 small opacity-75 d-flex flex-wrap gap-3">
+                            <a href="/about-us">About</a>
+                            <a href="/privacy">Privacy</a>
+                            <a href="/contactus">Contact</a>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </xpath>
+    </template>
+</odoo>

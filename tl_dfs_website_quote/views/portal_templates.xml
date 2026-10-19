@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_quote_requests" name="DFS: My quote requests">
+        <t t-call="portal.portal_layout" breadcrumbs_searchbar="True">
+            <t t-call="portal.portal_searchbar" breadcrumbs_searchbar="True" title.translate="Quote requests"/>
+            <div t-if="not quote_requests" class="alert alert-info" role="alert">
+                You have not sent any quote request yet. <a href="/shop">Browse our products</a>.
+            </div>
+            <t t-if="quote_requests" t-call="portal.portal_table">
+                <thead>
+                    <tr class="active">
+                        <th>Reference</th>
+                        <th>Date</th>
+                        <th>Requested items</th>
+                        <th class="text-end">Status</th>
+                    </tr>
+                </thead>
+                <t t-foreach="quote_requests" t-as="lead">
+                    <t t-set="quote_order" t-value="lead.order_ids.filtered('dfs_quote_request')[:1]"/>
+                    <t t-set="states" t-value="lead.order_ids.mapped('state')"/>
+                    <tr>
+                        <td><t t-out="quote_order.name or lead.id"/></td>
+                        <td><span t-field="lead.create_date" t-options="{'widget': 'date'}"/></td>
+                        <td>
+                            <ul class="list-unstyled mb-0 small">
+                                <li t-foreach="quote_order.order_line" t-as="line" t-if="not line.display_type and line.product_id">
+                                    <t t-out="line.product_id.with_context(display_default_code=False).display_name"/> &#215; <t t-out="int(line.product_uom_qty)"/>
+                                </li>
+                            </ul>
+                        </td>
+                        <td class="text-end">
+                            <span t-if="'sale' in states" class="badge rounded-pill text-bg-success">Ordered</span>
+                            <span t-elif="'sent' in states" class="badge rounded-pill text-bg-primary">Quotation sent</span>
+                            <span t-elif="not lead.active" class="badge rounded-pill text-bg-secondary">Closed</span>
+                            <span t-else="" class="badge rounded-pill text-bg-info">Received</span>
+                        </td>
+                    </tr>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

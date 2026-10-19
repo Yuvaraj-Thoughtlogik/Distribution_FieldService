@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="contactus" inherit_id="website.contactus" name="DFS: Contact page">
+        <xpath expr="//div[@id='wrap']" position="before">
+            <t t-call="tl_dfs_website_quote.page_header" eyebrow.translate="Contact" title.translate="Talk to our specialists" subtitle.translate="Questions about an application, a quotation or a service visit? We reply within one working day."/>
+            <section class="tl_contact_cards o_cc o_cc2 pt48 pb48">
+                <div class="container">
+                    <div class="row g-4">
+                        <div class="col-md-4">
+                            <div class="tl_contact_card bg-white border rounded p-4 h-100">
+                                <i class="oi fs-2 text-primary" data-icon="location_on"/>
+                                <h2 class="h6 mt-2">Head office &amp; demo laboratory</h2>
+                                <div class="small" t-field="res_company.partner_id" t-options="{'widget': 'contact', 'fields': ['address'], 'no_marker': True}"/>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="tl_contact_card bg-white border rounded p-4 h-100">
+                                <i class="oi fs-2 text-primary" data-icon="phone"/>
+                                <h2 class="h6 mt-2">Sales &amp; quotations</h2>
+                                <div class="small" t-field="res_company.partner_id" t-options="{'widget': 'contact', 'fields': ['phone', 'email'], 'no_marker': True}"/>
+                                <a href="/shop/cart" class="btn btn-sm btn-primary mt-3">Request a quote</a>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="tl_contact_card bg-white border rounded p-4 h-100">
+                                <i class="oi fs-2 text-primary" data-icon="build"/>
+                                <h2 class="h6 mt-2">Service desk</h2>
+                                <p class="small mb-0">Breakdowns, calibration bookings and maintenance visits are handled by our service desk.</p>
+                                <a href="/helpdesk" class="btn btn-sm btn-outline-primary mt-3">Log a support request</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </xpath>
+    </template>
+</odoo>

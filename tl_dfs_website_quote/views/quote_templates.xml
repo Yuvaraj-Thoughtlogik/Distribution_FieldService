@@ -1,0 +1,258 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Steps indicator shared by the quote pages -->
+    <template id="quote_steps" name="DFS: Quote steps">
+        <ol class="tl_quote_steps list-unstyled d-flex flex-wrap gap-2 gap-md-4 mb-4 small">
+            <li t-attf-class="#{'active' if step == 1 else ('done' if step &gt; 1 else '')}"><span>1</span> Quote list</li>
+            <li t-attf-class="#{'active' if step == 2 else ('done' if step &gt; 2 else '')}"><span>2</span> Your details</li>
+            <li t-attf-class="#{'active' if step == 3 else ''}"><span>3</span> Request sent</li>
+        </ol>
+    </template>
+
+    <template id="quote_line_summary" name="DFS: Quote line summary">
+        <div class="d-flex gap-3 align-items-start">
+            <a t-att-href="line.product_id.website_url" class="flex-shrink-0">
+                <img t-att-src="website.image_url(line.product_id, 'image_128')"
+                     class="tl_quote_line_img rounded border bg-white" t-att-alt="line.product_id.name" loading="lazy"/>
+            </a>
+            <div class="min-w-0">
+                <a t-att-href="line.product_id.website_url" class="fw-semibold text-reset text-decoration-none d-block">
+                    <t t-out="line.product_id.with_context(display_default_code=False).name"/>
+                </a>
+                <div t-if="line.product_id.default_code" class="text-muted small">Ref. <t t-out="line.product_id.default_code"/></div>
+                <t t-set="variant_desc" t-value="line._get_sale_order_line_multiline_description_variants()"/>
+                <div t-if="variant_desc" class="text-muted small" t-out="variant_desc"/>
+                <ul t-if="line.linked_line_ids" class="list-unstyled small text-muted mb-0 mt-1">
+                    <li t-foreach="line.linked_line_ids" t-as="child">
+                        + <t t-out="child.product_id.display_name"/> &#215; <t t-out="int(child.product_uom_qty)"/>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </template>
+
+    <!-- /shop/cart on a quote-only website -->
+    <template id="quote_cart" name="DFS: Quote request list">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Quote request</t>
+            <t t-set="no_breadcrumbs" t-value="True"/>
+            <div id="wrap" class="tl_quote_page">
+                <section class="tl_page_band py-4 py-lg-5">
+                    <div class="container">
+                        <h1 class="h2 mb-1">Your quote request</h1>
+                        <p class="lead mb-0">Review the products you would like a quotation for. No payment is taken online.</p>
+                    </div>
+                </section>
+                <div class="container py-4 py-lg-5">
+                    <t t-call="tl_dfs_website_quote.quote_steps" step="1"/>
+                    <div t-if="warning" class="alert alert-warning" role="alert" t-out="warning"/>
+                    <t t-if="quote_lines">
+                        <div class="row g-4">
+                            <div class="col-lg-8">
+                                <form action="/shop/quote/update" method="post" class="tl_quote_form">
+                                    <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                    <div class="tl_quote_table border rounded bg-white">
+                                        <div class="tl_quote_row tl_quote_head d-none d-md-flex small text-uppercase text-muted">
+                                            <div class="tl_col_product">Product</div>
+                                            <div class="tl_col_qty">Quantity</div>
+                                            <div class="tl_col_action"/>
+                                        </div>
+                                        <div t-foreach="quote_lines" t-as="line" class="tl_quote_row d-flex flex-wrap flex-md-nowrap align-items-center" t-att-data-line-id="line.id">
+                                            <div class="tl_col_product">
+                                                <t t-call="tl_dfs_website_quote.quote_line_summary"/>
+                                            </div>
+                                            <div class="tl_col_qty">
+                                                <label t-attf-for="qty_#{line.id}" class="visually-hidden">Quantity</label>
+                                                <div class="input-group input-group-sm tl_qty_group">
+                                                    <button type="button" class="btn btn-outline-secondary tl_qty_minus" aria-label="Decrease quantity">&#8722;</button>
+                                                    <input type="number" min="0" step="1" inputmode="numeric"
+                                                           class="form-control text-center tl_qty_input"
+                                                           t-att-id="'qty_%s' % line.id"
+                                                           t-att-name="'qty_%s' % line.id"
+                                                           t-att-value="int(line.product_uom_qty)"/>
+                                                    <button type="button" class="btn btn-outline-secondary tl_qty_plus" aria-label="Increase quantity">+</button>
+                                                </div>
+                                                <div class="small text-muted mt-1 text-center" t-out="line.product_uom_id.name"/>
+                                            </div>
+                                            <div class="tl_col_action text-end">
+                                                <button type="submit" name="remove" t-att-value="line.id"
+                                                        class="btn btn-link text-danger p-0 small" title="Remove">
+                                                    <i class="oi" data-icon="delete" role="presentation"/> <span class="d-md-none">Remove</span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="d-flex flex-wrap gap-2 justify-content-between mt-3">
+                                        <a href="/shop" class="btn btn-outline-primary"><i class="oi me-1" data-icon="arrow_back"/> Continue browsing</a>
+                                        <button type="submit" name="update" value="1" class="btn btn-outline-secondary tl_quote_update_btn">
+                                            <i class="oi me-1" data-icon="refresh"/> Update quantities
+                                        </button>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="tl_quote_aside border rounded p-4 bg-white">
+                                    <h2 class="h5">Next step</h2>
+                                    <p class="text-muted small mb-3">
+                                        Tell us who you are and where the equipment will be used. A specialist will
+                                        prepare a quotation including delivery, installation and calibration options.
+                                    </p>
+                                    <ul class="list-unstyled small mb-4 tl_check_list">
+                                        <li>No payment or commitment</li>
+                                        <li>Response within one working day</li>
+                                        <li>Installation &amp; service options on request</li>
+                                    </ul>
+                                    <a href="/shop/quote/request" class="btn btn-primary w-100 btn-lg tl_request_quote_btn">Request quotation</a>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                    <t t-else="">
+                        <div class="text-center py-5 tl_quote_empty">
+                            <i class="oi display-4 text-primary" data-icon="assignment" role="presentation"/>
+                            <h2 class="h4 mt-3">Your quote request is empty</h2>
+                            <p class="text-muted">Browse our equipment and use "Add to quote" on the products you are interested in.</p>
+                            <a href="/shop" class="btn btn-primary">Browse products</a>
+                        </div>
+                    </t>
+                </div>
+                <div class="oe_structure" id="oe_structure_tl_quote_cart"/>
+            </div>
+        </t>
+    </template>
+
+    <template id="quote_field" name="DFS: Quote form field">
+        <div t-attf-class="mb-3 #{col or 'col-md-6'}">
+            <label class="form-label" t-att-for="'tl_' + fname">
+                <t t-out="label"/><span t-if="fname in required_fields" class="text-danger"> *</span>
+            </label>
+            <input t-att-type="ftype or 'text'" t-att-name="fname" t-att-id="'tl_' + fname"
+                   t-attf-class="form-control #{'is-invalid' if errors.get(fname) else ''}"
+                   t-att-value="form.get(fname) or ''"
+                   t-att-autocomplete="autocomplete"
+                   t-att-required="fname in required_fields or None"/>
+            <div t-if="errors.get(fname)" class="invalid-feedback" t-out="errors.get(fname)"/>
+        </div>
+    </template>
+
+    <!-- /shop/quote/request -->
+    <template id="quote_request_form" name="DFS: Quote request form">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Request a quotation</t>
+            <div id="wrap" class="tl_quote_page">
+                <section class="tl_page_band py-4 py-lg-5">
+                    <div class="container">
+                        <h1 class="h2 mb-1">Request a quotation</h1>
+                        <p class="lead mb-0">A few details and we will prepare a tailored quotation for you.</p>
+                    </div>
+                </section>
+                <div class="container py-4 py-lg-5">
+                    <t t-call="tl_dfs_website_quote.quote_steps" step="2"/>
+                    <div class="row g-4">
+                        <div class="col-lg-8">
+                            <form action="/shop/quote/submit" method="post" class="tl_quote_request_form border rounded p-3 p-md-4 bg-white" novalidate="novalidate">
+                                <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                <div t-if="errors" class="alert alert-danger" role="alert">Please check the highlighted fields.</div>
+                                <h2 class="h5 mb-3">Contact</h2>
+                                <div class="row">
+                                    <t t-call="tl_dfs_website_quote.quote_field" fname="'name'" label.translate="Contact name" autocomplete="'name'"/>
+                                    <t t-call="tl_dfs_website_quote.quote_field" fname="'company'" label.translate="Company / laboratory" autocomplete="'organization'"/>
+                                    <t t-call="tl_dfs_website_quote.quote_field" fname="'email'" label.translate="E-mail" ftype="'email'" autocomplete="'email'"/>
+                                    <t t-call="tl_dfs_website_quote.quote_field" fname="'phone'" label.translate="Phone" ftype="'tel'" autocomplete="'tel'"/>
+                                </div>
+                                <h2 class="h5 mb-3 mt-2">Site address</h2>
+                                <div class="row">
+                                    <t t-call="tl_dfs_website_quote.quote_field" fname="'street'" label.translate="Address" col="'col-12'" autocomplete="'street-address'"/>
+                                    <t t-call="tl_dfs_website_quote.quote_field" fname="'city'" label.translate="Town / city" col="'col-md-5'" autocomplete="'address-level2'"/>
+                                    <t t-call="tl_dfs_website_quote.quote_field" fname="'zip'" label.translate="Postcode" col="'col-md-3'" autocomplete="'postal-code'"/>
+                                    <div class="mb-3 col-md-4">
+                                        <label class="form-label" for="tl_country_id">Country</label>
+                                        <select name="country_id" id="tl_country_id" class="form-select">
+                                            <t t-foreach="countries" t-as="country">
+                                                <option t-att-value="country.id" t-att-selected="country.id == form.get('country_id') or None" t-out="country.name"/>
+                                            </t>
+                                        </select>
+                                    </div>
+                                </div>
+                                <h2 class="h5 mb-3 mt-2">Your request</h2>
+                                <div class="row">
+                                    <t t-call="tl_dfs_website_quote.quote_field" fname="'reference'" label.translate="Your reference (optional)"/>
+                                    <div class="mb-3 col-12">
+                                        <label class="form-label" for="tl_notes">Notes - application, timescale, installation or calibration needs</label>
+                                        <textarea name="notes" id="tl_notes" rows="4" class="form-control" t-out="form.get('notes') or ''"/>
+                                    </div>
+                                </div>
+                                <div class="tl_hp" aria-hidden="true">
+                                    <label for="tl_website_url">Leave this field empty</label>
+                                    <input type="text" name="website_url" id="tl_website_url" tabindex="-1" autocomplete="off"/>
+                                </div>
+                                <p class="small text-muted">
+                                    We use these details only to prepare and follow up your quotation.
+                                </p>
+                                <div class="d-flex flex-wrap gap-2 justify-content-between">
+                                    <a href="/shop/cart" class="btn btn-outline-primary"><i class="oi me-1" data-icon="arrow_back"/> Back to quote list</a>
+                                    <button type="submit" class="btn btn-primary btn-lg tl_submit_quote_btn">Submit quote request</button>
+                                </div>
+                            </form>
+                        </div>
+                        <div class="col-lg-4">
+                            <div class="tl_quote_aside border rounded p-4 bg-white">
+                                <h2 class="h5 mb-3">Requested items</h2>
+                                <ul class="list-unstyled mb-3">
+                                    <li t-foreach="quote_lines" t-as="line" class="d-flex justify-content-between gap-3 py-2 border-bottom small">
+                                        <span t-out="line.product_id.with_context(display_default_code=False).display_name"/>
+                                        <span class="text-nowrap fw-semibold">&#215; <t t-out="int(line.product_uom_qty)"/></span>
+                                    </li>
+                                </ul>
+                                <a href="/shop/cart" class="small">Edit quantities</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+
+    <!-- /shop/quote/thank-you -->
+    <template id="quote_thank_you" name="DFS: Quote request sent">
+        <t t-call="website.layout">
+            <t t-set="additional_title">Thank you</t>
+            <div id="wrap" class="tl_quote_page">
+                <div class="container py-5">
+                    <t t-call="tl_dfs_website_quote.quote_steps" step="3"/>
+                    <div class="row justify-content-center">
+                        <div class="col-lg-8 text-center">
+                            <i class="oi display-3 text-primary" data-icon="check_circle" role="presentation"/>
+                            <h1 class="h2 mt-3">Thank you, your quote request has been sent</h1>
+                            <t t-if="quote_order">
+                                <p class="lead">Your reference: <strong class="tl_quote_ref" t-out="quote_order.name"/></p>
+                                <p class="text-muted">
+                                    A confirmation e-mail is on its way. One of our specialists will contact you,
+                                    usually within one working day, with a tailored quotation.
+                                </p>
+                                <div class="text-start border rounded p-3 p-md-4 bg-white my-4">
+                                    <h2 class="h6 text-uppercase text-muted">Requested items</h2>
+                                    <ul class="list-unstyled mb-0">
+                                        <li t-foreach="quote_order.order_line.filtered(lambda l: not l.display_type and l.product_id)" t-as="line" class="d-flex justify-content-between gap-3 py-2 border-bottom">
+                                            <span t-out="line.product_id.with_context(display_default_code=False).display_name"/>
+                                            <span class="text-nowrap fw-semibold">&#215; <t t-out="int(line.product_uom_qty)"/></span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </t>
+                            <t t-else="">
+                                <p class="text-muted">We will contact you shortly.</p>
+                            </t>
+                            <div class="d-flex flex-wrap gap-2 justify-content-center">
+                                <a href="/shop" class="btn btn-primary">Continue browsing</a>
+                                <a t-if="not request.env.user._is_public()" href="/my/quote-requests" class="btn btn-outline-primary">My quote requests</a>
+                                <a href="/services" class="btn btn-outline-primary">Our services</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="oe_structure" id="oe_structure_tl_quote_thanks"/>
+            </div>
+        </t>
+    </template>
+</odoo>

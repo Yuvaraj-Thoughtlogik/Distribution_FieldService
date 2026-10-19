@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Product category tiles: data driven (public categories), rendered outside editable areas -->
+    <template id="home_category_tiles" name="DFS: Home category tiles">
+        <t t-set="fallback_images" t-value="['cat_analysers', 'cat_sample_prep', 'cat_temperature', 'cat_microbiology', 'cat_weighing', 'cat_consumables']"/>
+        <t t-set="tl_categories" t-value="request.env['product.public.category'].sudo().search([('website_id', 'in', [False, website.id]), ('parent_id', '=', False), ('has_published_products', '=', True)], limit=6)"/>
+        <div class="row g-3 g-lg-4 tl_category_tiles">
+            <t t-if="tl_categories">
+                <div t-foreach="tl_categories" t-as="categ" class="col-6 col-lg-4">
+                    <a t-att-href="categ.website_url" class="tl_tile d-block h-100 text-decoration-none">
+                        <div class="tl_tile_img ratio ratio-4x3">
+                            <img t-if="categ.cover_image" t-att-src="'/web/image/product.public.category/%s/cover_image/512x384' % categ.id" t-att-alt="categ.name" loading="lazy" class="object-fit-cover"/>
+                            <img t-else="" t-att-src="'/tl_dfs_website_quote/static/src/img/%s.jpg' % fallback_images[categ_index % 6]" t-att-alt="categ.name" loading="lazy" class="object-fit-cover"/>
+                        </div>
+                        <div class="tl_tile_body">
+                            <h3 class="h6 mb-0" t-out="categ.name"/>
+                            <i class="oi" data-icon="arrow_forward" role="presentation"/>
+                        </div>
+                    </a>
+                </div>
+            </t>
+            <t t-else="">
+                <t t-foreach="[('Food &amp; feed analysers', 'cat_analysers'), ('Sample preparation', 'cat_sample_prep'), ('Temperature control', 'cat_temperature'), ('Microbiology', 'cat_microbiology'), ('Weighing &amp; moisture', 'cat_weighing'), ('Consumables &amp; reagents', 'cat_consumables')]" t-as="tile">
+                    <div class="col-6 col-lg-4">
+                        <a href="/shop" class="tl_tile d-block h-100 text-decoration-none">
+                            <div class="tl_tile_img ratio ratio-4x3">
+                                <img t-att-src="'/tl_dfs_website_quote/static/src/img/%s.jpg' % tile[1]" t-att-alt="tile[0]" loading="lazy" class="object-fit-cover"/>
+                            </div>
+                            <div class="tl_tile_body">
+                                <h3 class="h6 mb-0" t-out="tile[0]"/>
+                                <i class="oi" data-icon="arrow_forward" role="presentation"/>
+                            </div>
+                        </a>
+                    </div>
+                </t>
+            </t>
+        </div>
+    </template>
+
+    <template id="homepage" inherit_id="website.homepage" name="DFS: Homepage">
+        <xpath expr="//div[@id='wrap']" position="replace">
+            <div id="wrap" class="tl_home">
+                <div class="oe_structure" id="oe_structure_tl_home_top">
+                    <!-- Hero -->
+                    <section class="s_cover tl_hero o_cc o_cc5 pt128 pb128 oe_img_bg o_bg_img_center" data-snippet="s_cover" data-name="Hero"
+                             style="background-image: url('/tl_dfs_website_quote/static/src/img/hero_lab.jpg');">
+                        <div class="o_we_bg_filter tl_hero_filter"/>
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-lg-7">
+                                    <p class="tl_eyebrow text-uppercase small fw-bold mb-3">Food testing &amp; laboratory equipment</p>
+                                    <h1 class="display-4 fw-bold mb-4">Precision instruments for confident food safety decisions</h1>
+                                    <p class="lead mb-4">
+                                        We supply, install and look after analytical equipment for food producers and testing
+                                        laboratories across the UK - from sample preparation to accredited calibration.
+                                    </p>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a href="/shop" class="btn btn-primary btn-lg">Explore products</a>
+                                        <a href="/services" class="btn btn-outline-light btn-lg">Service &amp; calibration</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Key figures -->
+                    <section class="s_numbers tl_figures o_cc o_cc1 pt32 pb32" data-snippet="s_numbers" data-name="Key figures">
+                        <div class="container">
+                            <div class="row text-center g-3">
+                                <div class="col-6 col-lg-3"><span class="tl_figure">25+</span><p class="small text-muted mb-0">years supporting UK laboratories</p></div>
+                                <div class="col-6 col-lg-3"><span class="tl_figure">1,800</span><p class="small text-muted mb-0">instruments under service</p></div>
+                                <div class="col-6 col-lg-3"><span class="tl_figure">48h</span><p class="small text-muted mb-0">typical engineer response</p></div>
+                                <div class="col-6 col-lg-3"><span class="tl_figure">ISO 17025</span><p class="small text-muted mb-0">traceable calibration</p></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+
+                <!-- Product categories (data driven) -->
+                <section class="tl_section tl_categories o_cc o_cc2 pt80 pb80">
+                    <div class="container">
+                        <div class="d-flex flex-wrap justify-content-between align-items-end gap-3 mb-4">
+                            <div>
+                                <p class="tl_eyebrow text-uppercase small fw-bold mb-2">Products</p>
+                                <h2 class="mb-0">Equipment for every step of the analysis</h2>
+                            </div>
+                            <a href="/shop" class="btn btn-outline-primary">View all products</a>
+                        </div>
+                        <t t-call="tl_dfs_website_quote.home_category_tiles"/>
+                    </div>
+                </section>
+
+                <div class="oe_structure" id="oe_structure_tl_home_bottom">
+                    <!-- Industries / applications -->
+                    <section class="s_three_columns tl_section tl_industries o_cc o_cc1 pt80 pb80" data-snippet="s_three_columns" data-name="Industries">
+                        <div class="container">
+                            <p class="tl_eyebrow text-uppercase small fw-bold mb-2">Applications</p>
+                            <h2 class="mb-4">Industries we serve</h2>
+                            <div class="row g-4">
+                                <div class="col-md-6 col-lg">
+                                    <a href="/industries#dairy" class="tl_industry_card d-block text-decoration-none">
+                                        <img src="/tl_dfs_website_quote/static/src/img/ind_dairy.jpg" class="img-fluid" alt="Dairy" loading="lazy"/>
+                                        <h3 class="h6 mt-3 mb-1">Dairy</h3><p class="small text-muted mb-0">Fat, protein and solids analysis, phosphatase and hygiene testing.</p>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-lg">
+                                    <a href="/industries#meat" class="tl_industry_card d-block text-decoration-none">
+                                        <img src="/tl_dfs_website_quote/static/src/img/ind_meat.jpg" class="img-fluid" alt="Meat and fish" loading="lazy"/>
+                                        <h3 class="h6 mt-3 mb-1">Meat &amp; fish</h3><p class="small text-muted mb-0">Fat, moisture and salt control from intake to finished product.</p>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-lg">
+                                    <a href="/industries#cereals" class="tl_industry_card d-block text-decoration-none">
+                                        <img src="/tl_dfs_website_quote/static/src/img/ind_cereals.jpg" class="img-fluid" alt="Cereals and bakery" loading="lazy"/>
+                                        <h3 class="h6 mt-3 mb-1">Cereals &amp; bakery</h3><p class="small text-muted mb-0">Grain quality, flour properties, moisture and fibre determination.</p>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-lg">
+                                    <a href="/industries#beverages" class="tl_industry_card d-block text-decoration-none">
+                                        <img src="/tl_dfs_website_quote/static/src/img/ind_beverages.jpg" class="img-fluid" alt="Beverages" loading="lazy"/>
+                                        <h3 class="h6 mt-3 mb-1">Beverages</h3><p class="small text-muted mb-0">Sugar, alcohol, density and colour measurement on the line.</p>
+                                    </a>
+                                </div>
+                                <div class="col-md-6 col-lg">
+                                    <a href="/industries#contract-labs" class="tl_industry_card d-block text-decoration-none">
+                                        <img src="/tl_dfs_website_quote/static/src/img/ind_contract_labs.jpg" class="img-fluid" alt="Contract laboratories" loading="lazy"/>
+                                        <h3 class="h6 mt-3 mb-1">Contract labs</h3><p class="small text-muted mb-0">High-throughput, accredited methods with full traceability.</p>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Service teaser -->
+                    <section class="s_text_image tl_section tl_service_teaser o_cc o_cc5 pt80 pb80" data-snippet="s_text_image" data-name="Service teaser">
+                        <div class="container">
+                            <div class="row align-items-center g-5">
+                                <div class="col-lg-6">
+                                    <img src="/tl_dfs_website_quote/static/src/img/svc_calibration.jpg" class="img-fluid rounded" alt="Calibration service" loading="lazy"/>
+                                </div>
+                                <div class="col-lg-6">
+                                    <p class="tl_eyebrow text-uppercase small fw-bold mb-2">Service &amp; support</p>
+                                    <h2 class="mb-3">Your instruments, always audit-ready</h2>
+                                    <p class="lead opacity-75">Our own field engineers install, calibrate and maintain your equipment on site, nationwide.</p>
+                                    <ul class="list-unstyled tl_check_list mb-4">
+                                        <li>Installation, commissioning and operator training</li>
+                                        <li>Traceable calibration with certificates</li>
+                                        <li>Planned preventive maintenance visits</li>
+                                        <li>Service contracts with guaranteed response times</li>
+                                    </ul>
+                                    <div class="d-flex flex-wrap gap-2">
+                                        <a href="/services" class="btn btn-primary">Discover our services</a>
+                                        <a href="/helpdesk" class="btn btn-outline-light">Log a support request</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- News / trust strip -->
+                    <section class="s_features tl_section tl_trust o_cc o_cc2 pt64 pb64" data-snippet="s_features" data-name="Trust strip">
+                        <div class="container">
+                            <div class="row g-4">
+                                <div class="col-md-6 col-lg-3 tl_trust_item">
+                                    <i class="oi" data-icon="verified" role="presentation"/>
+                                    <h3 class="h6 mt-2">Accredited calibration</h3>
+                                    <p class="small text-muted mb-0">Traceable to national standards, certificates with every visit.</p>
+                                </div>
+                                <div class="col-md-6 col-lg-3 tl_trust_item">
+                                    <i class="oi" data-icon="local_shipping" role="presentation"/>
+                                    <h3 class="h6 mt-2">UK-wide coverage</h3>
+                                    <p class="small text-muted mb-0">Engineers based across England, Scotland and Wales.</p>
+                                </div>
+                                <div class="col-md-6 col-lg-3 tl_trust_item">
+                                    <i class="oi" data-icon="science" role="presentation"/>
+                                    <h3 class="h6 mt-2">Application expertise</h3>
+                                    <p class="small text-muted mb-0">Specialists who speak the language of your laboratory.</p>
+                                </div>
+                                <div class="col-md-6 col-lg-3 tl_trust_item">
+                                    <i class="oi" data-icon="newspaper" role="presentation"/>
+                                    <h3 class="h6 mt-2">News</h3>
+                                    <p class="small text-muted mb-0">New rapid-moisture range now available for demonstration. <a href="/contactus">Book a demo</a></p>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Final call to action -->
+                    <section class="s_call_to_action tl_cta o_cc o_cc1 pt64 pb64" data-snippet="s_call_to_action" data-name="Call to action">
+                        <div class="container">
+                            <div class="row align-items-center g-3">
+                                <div class="col-lg-8">
+                                    <h2 class="h3 mb-1">Need a quotation for your laboratory?</h2>
+                                    <p class="text-muted mb-0">Add products to your quote list and our specialists will reply within one working day.</p>
+                                </div>
+                                <div class="col-lg-4 text-lg-end">
+                                    <a href="/shop" class="btn btn-primary btn-lg">Start a quote request</a>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </xpath>
+    </template>
+</odoo>

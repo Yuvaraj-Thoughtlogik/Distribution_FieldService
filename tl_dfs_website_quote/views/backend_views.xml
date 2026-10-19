@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_order_form_dfs_quote" model="ir.ui.view">
+        <field name="name">sale.order.form.dfs.quote</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//div[hasclass('oe_title')]" position="before">
+                <widget name="web_ribbon" title="Website request" bg_color="text-bg-info" invisible="not dfs_quote_request"/>
+                <field name="dfs_quote_request" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_quotation_search_dfs_quote" model="ir.ui.view">
+        <field name="name">sale.order.search.dfs.quote</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_sales_order_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter string="Website quote requests" name="dfs_quote_request" domain="[('dfs_quote_request', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_lead_view_search_dfs_quote" model="ir.ui.view">
+        <field name="name">crm.lead.search.dfs.quote</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+        <field name="arch" type="xml">
+            <xpath expr="//search" position="inside">
+                <separator/>
+                <filter string="Website quote requests" name="dfs_quote_request" domain="[('dfs_is_quote_request', '=', True)]"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="website_form_dfs_quote" model="ir.ui.view">
+        <field name="name">website.form.dfs.quote</field>
+        <field name="model">website</field>
+        <field name="inherit_id" ref="website.view_website_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//sheet" position="inside">
+                <group string="Quote-only eCommerce" name="dfs_quote">
+                    <field name="dfs_quote_mode"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

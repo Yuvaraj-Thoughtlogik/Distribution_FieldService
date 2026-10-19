@@ -1,0 +1,151 @@
+// Northbrook-style corporate look: white / light grey surfaces, one strong brand blue.
+// Colours come from the website palette (o-color-1 = brand blue), set by the module hook
+// and editable in the website builder.
+$tl-blue: var(--o-color-1, #0057B8);
+$tl-navy: var(--o-color-2, #0B2545);
+$tl-grey: var(--o-color-3, #F2F4F7);
+
+// Header
+header#top {
+    .tl_brand_name {
+        font-weight: 700;
+        letter-spacing: .01em;
+        font-size: 1.05rem;
+        white-space: nowrap;
+    }
+    .navbar-brand.logo img { max-height: 40px; width: auto; }
+    @media (min-width: 992px) and (max-width: 1399.98px) {
+        .navbar-nav .nav-link { padding-left: .45rem; padding-right: .45rem; font-size: .95rem; }
+        .tl_brand_name { font-size: .95rem; }
+    }
+    .navbar-nav .nav-link {
+        font-weight: 500;
+        border-bottom: 2px solid transparent;
+        &.active, &:hover { border-bottom-color: $tl-blue; }
+    }
+}
+@media (max-width: 575.98px) {
+    header#top .tl_brand_name { font-size: .9rem; white-space: normal; line-height: 1.1; max-width: 9rem; }
+}
+
+// Generic
+.tl_eyebrow { color: $tl-blue; letter-spacing: .12em; }
+.o_cc5 .tl_eyebrow, .tl_hero .tl_eyebrow, .tl_page_header .tl_eyebrow { color: #7cc4ff; }
+.tl_section h2 { font-weight: 700; }
+.tl_check_list li {
+    position: relative;
+    padding-left: 1.6rem;
+    margin-bottom: .4rem;
+    &::before {
+        content: "";
+        position: absolute; left: 0; top: .35em;
+        width: 1rem; height: 1rem; border-radius: 50%;
+        background: $tl-blue;
+    }
+    &::after {
+        content: "";
+        position: absolute; left: .32rem; top: .5em;
+        width: .35rem; height: .6rem;
+        border: solid #fff; border-width: 0 2px 2px 0;
+        transform: rotate(45deg);
+    }
+}
+
+// Hero & page headers
+.tl_hero, .tl_page_header {
+    position: relative;
+    background-size: cover;
+    .tl_hero_filter { background: linear-gradient(90deg, rgba(11, 37, 69, .92) 0%, rgba(11, 37, 69, .65) 55%, rgba(11, 37, 69, .1) 100%); }
+    .container { position: relative; }
+}
+@media (max-width: 991.98px) {
+    .tl_hero { padding-top: 64px !important; padding-bottom: 64px !important; }
+    .tl_hero .tl_hero_filter { background: rgba(11, 37, 69, .85); }
+    .tl_hero .display-4 { font-size: 2.1rem; }
+}
+.tl_figures .tl_figure { display: block; font-size: 1.9rem; font-weight: 700; color: $tl-blue; }
+
+// Category tiles
+.tl_tile {
+    background: #fff;
+    border: 1px solid rgba(0, 0, 0, .08);
+    border-radius: .5rem;
+    overflow: hidden;
+    color: inherit;
+    transition: box-shadow .2s, transform .2s;
+    .tl_tile_img img { width: 100%; height: 100%; }
+    .tl_tile_body {
+        display: flex; justify-content: space-between; align-items: center; gap: .5rem;
+        padding: .85rem 1rem;
+        border-top: 3px solid $tl-blue;
+        .oi { color: $tl-blue; }
+    }
+    &:hover { box-shadow: 0 10px 28px rgba(11, 37, 69, .15); transform: translateY(-2px); }
+}
+.tl_industry_card {
+    color: inherit;
+    img { border-radius: .5rem; aspect-ratio: 3 / 2; object-fit: cover; width: 100%; }
+    &:hover h3 { color: $tl-blue; }
+}
+.tl_trust_item .oi { font-size: 2rem; color: $tl-blue; }
+.tl_service_teaser .tl_check_list li::before { background: #4aa8ff; }
+
+// Footer
+.tl_footer {
+    a { color: inherit; opacity: .85; text-decoration: none; &:hover { opacity: 1; text-decoration: underline; } }
+    .btn { opacity: 1; text-decoration: none !important; }
+    .tl_footer_links li { margin-bottom: .35rem; }
+    .tl_footer_contact address { margin-bottom: 0; }
+}
+
+// Shop: quote hints instead of prices
+.oe_website_sale .tl_quote_hint { white-space: nowrap; }
+.tl_quote_info { background: $tl-grey; border-left: 4px solid $tl-blue; }
+
+// Quote pages
+.tl_page_band { background: $tl-grey; border-bottom: 1px solid rgba(0, 0, 0, .06); }
+.tl_quote_steps {
+    li { display: flex; align-items: center; gap: .4rem; color: #6c757d; }
+    li span {
+        display: inline-flex; align-items: center; justify-content: center;
+        width: 1.6rem; height: 1.6rem; border-radius: 50%;
+        border: 2px solid currentColor; font-weight: 700; font-size: .8rem;
+    }
+    li.active { color: $tl-blue; font-weight: 600; }
+    li.done { color: #198754; }
+}
+.tl_quote_table .tl_quote_row {
+    padding: 1rem;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, .07);
+    &:last-child { border-bottom: 0; }
+    .tl_col_product { flex: 1 1 auto; min-width: 0; }
+    .tl_col_qty { flex: 0 0 9.5rem; }
+    .tl_col_action { flex: 0 0 3rem; }
+}
+.tl_quote_head { background: $tl-grey; padding-top: .6rem !important; padding-bottom: .6rem !important; }
+.tl_quote_line_img { width: 64px; height: 64px; object-fit: contain; }
+.tl_qty_input { max-width: 4rem; -moz-appearance: textfield;
+    &::-webkit-outer-spin-button, &::-webkit-inner-spin-button { -webkit-appearance: none; margin: 0; } }
+@media (max-width: 767.98px) {
+    .tl_quote_table .tl_quote_row {
+        .tl_col_product { flex: 1 1 100%; }
+        .tl_col_qty { flex: 1 1 auto; }
+        .tl_col_action { flex: 0 0 auto; }
+    }
+}
+.tl_quote_aside { position: sticky; top: 6rem; }
+.tl_hp { position: absolute; left: -10000px; width: 1px; height: 1px; overflow: hidden; }
+
+// Contact / support
+.tl_contact_card address { margin-bottom: 0; }
+
+// Quote-only safety net: hide any price markup that a third-party template might still render.
+.oe_website_sale .product_price .oe_currency_value,
+.o_wsale_product_sub .product_price,
+.o_sale_product_configurator_dialog .o_sale_product_configurator_price,
+.o_sale_product_configurator_dialog [name="sale_product_configurator_formatted_price"],
+.o_sale_product_configurator_dialog .oe_striked_price,
+.o_sale_combo_configurator_dialog .o_sale_combo_configurator_price {
+    display: none !important;
+}

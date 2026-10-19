@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ============================================================ -->
+    <!-- Header: the cart becomes the quote request list               -->
+    <!-- ============================================================ -->
+    <template id="header_cart_link" inherit_id="website_sale.header_cart_link" name="DFS: Quote list link">
+        <xpath expr="//a[@href='/shop/cart']" position="attributes">
+            <attribute name="aria-label">Quote request list</attribute>
+            <attribute name="title">Quote request list</attribute>
+        </xpath>
+        <xpath expr="//i[@data-icon='shopping_cart']" position="attributes">
+            <attribute name="data-icon">assignment</attribute>
+        </xpath>
+        <xpath expr="//span[@t-if='_text']" position="replace">
+            <span t-if="_text" t-attf-class="#{_text_class}">My Quote</span>
+        </xpath>
+    </template>
+
+    <!-- No pricelist selector at all -->
+    <template id="pricelist_selector" inherit_id="website_sale.pricelist_selector" name="DFS: No pricelist selector">
+        <xpath expr="//div[@name='pricelist_selector']" position="attributes">
+            <attribute name="t-if">not website.dfs_quote_mode and not hide_pricelist_selector and website_sale_pricelists and len(website_sale_pricelists) &gt; 1</attribute>
+        </xpath>
+    </template>
+
+    <!-- No price range filter -->
+    <template id="filter_products_price" inherit_id="website_sale.filter_products_price" name="DFS: No price filter">
+        <xpath expr="//div[@id='o_wsale_price_range_option']" position="attributes">
+            <attribute name="t-if">not website.dfs_quote_mode and not is_disabled</attribute>
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Shop grid / product tiles                                     -->
+    <!-- ============================================================ -->
+    <template id="products_item" inherit_id="website_sale.products_item" name="DFS: Tile without price">
+        <xpath expr="//div[hasclass('product_price')]" position="attributes">
+            <attribute name="t-if">not website.dfs_quote_mode</attribute>
+        </xpath>
+        <xpath expr="//div[hasclass('product_price')]" position="after">
+            <div t-if="website.dfs_quote_mode" class="tl_quote_hint small text-muted" aria-label="Quotation on request">
+                <i class="oi oi-fw" data-icon="assignment" role="presentation"/> Quotation on request
+            </div>
+        </xpath>
+    </template>
+
+    <template id="shop_product_buttons" inherit_id="website_sale.shop_product_buttons" name="DFS: Add to quote (tile)">
+        <xpath expr="//button[@name='add_to_cart']" position="attributes">
+            <attribute name="aria-label">Add to quote</attribute>
+            <attribute name="title">Add to quote</attribute>
+        </xpath>
+        <xpath expr="//button[@name='add_to_cart']//span[hasclass('o_label')]" position="replace">
+            <span class="o_label small ms-1">Add to quote</span>
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Product page                                                  -->
+    <!-- ============================================================ -->
+    <template id="product_price" inherit_id="website_sale.product_price" name="DFS: No product price">
+        <xpath expr="//div[@name='product_price']" position="attributes">
+            <attribute name="t-if">not website.dfs_quote_mode</attribute>
+        </xpath>
+    </template>
+
+    <template id="badge_extra_price" inherit_id="website_sale.badge_extra_price" name="DFS: No extra price badge">
+        <xpath expr="//t[@t-set='price_extra']" position="after">
+            <t t-if="website.dfs_quote_mode" t-set="price_extra" t-value="0"/>
+        </xpath>
+    </template>
+
+    <template id="packaging_title" inherit_id="website_sale.packaging_title" name="DFS: No packaging price">
+        <xpath expr="//span[@name='packaging_price']" position="attributes">
+            <attribute name="t-if">not website.dfs_quote_mode</attribute>
+        </xpath>
+    </template>
+
+    <template id="cta_wrapper" inherit_id="website_sale.cta_wrapper" name="DFS: Add to quote (product page)">
+        <xpath expr="//button[@name='add_to_cart'][@data-action='add_to_cart']" position="replace">
+            <button
+                name="add_to_cart"
+                t-attf-class="btn btn-primary flex-grow-1"
+                data-action="add_to_cart"
+                data-animation-selector=".o_wsale_product_images"
+                t-att-data-product-category-id="product.public_categ_ids.ids and product.public_categ_ids.ids[0]"
+                t-att-data-product-id="product_variant.id"
+                t-att-data-product-template-id="product.id"
+                t-att-data-product-type="product.type"
+                t-att-data-show-quantity="is_view_active('website_sale.product_quantity')"
+            >
+                <i class="oi me-2" data-icon="assignment"/>
+                <span>Add to quote</span>
+            </button>
+        </xpath>
+        <xpath expr="//div[@id='o_wsale_cta_wrapper']" position="after">
+            <div t-if="website.dfs_quote_mode" class="tl_quote_info d-flex gap-3 align-items-start p-3 mb-4 rounded">
+                <i class="oi fs-3 text-primary" data-icon="verified" role="presentation"/>
+                <div class="small">
+                    <strong class="d-block mb-1">Prices on request - tailored B2B quotation</strong>
+                    Add this product to your quote request. Our application specialists will send you a
+                    quotation including delivery, installation and calibration options.
+                </div>
+            </div>
+        </xpath>
+    </template>
+
+    <template id="cta_wrapper_boxed" inherit_id="website_sale.cta_wrapper_boxed" name="DFS: No boxed price">
+        <xpath expr="//div[@id='o_wsale_cta_wrapper_boxed_price']" position="attributes">
+            <attribute name="t-if">not website.dfs_quote_mode</attribute>
+        </xpath>
+    </template>
+
+    <template id="product_buy_now" inherit_id="website_sale.product_buy_now" name="DFS: No buy now">
+        <xpath expr="//button[@data-action='buy_now']" position="attributes">
+            <attribute name="t-if">not website.dfs_quote_mode</attribute>
+        </xpath>
+    </template>
+
+    <!-- ============================================================ -->
+    <!-- Wishlist / comparison / snippets                              -->
+    <!-- ============================================================ -->
+    <template id="product_wishlist" inherit_id="website_sale.product_wishlist" name="DFS: Wishlist add to quote">
+        <xpath expr="//button[@name='add_to_cart']//span[hasclass('o_label')]" position="replace">
+            <span class="o_label small ms-1">Add to quote</span>
+        </xpath>
+    </template>
+
+    <template id="product_compare" inherit_id="website_sale.product_compare" name="DFS: Comparison add to quote">
+        <xpath expr="//button[@name='add_to_cart']/i" position="attributes">
+            <attribute name="data-icon">assignment</attribute>
+        </xpath>
+        <xpath expr="//button[@name='add_to_cart']" position="attributes">
+            <attribute name="title">Add to quote</attribute>
+        </xpath>
+    </template>
+
+    <template id="s_add_to_cart" inherit_id="website_sale.s_add_to_cart" name="DFS: Add to quote snippet">
+        <xpath expr="//button[@name='add_to_cart']/i" position="attributes">
+            <attribute name="data-icon">assignment</attribute>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="page_header" name="DFS: Page header band">
+        <section class="s_title tl_page_header o_cc o_cc5 pt80 pb80 oe_img_bg o_bg_img_center" data-snippet="s_title" data-name="Page header"
+                 style="background-image: url('/tl_dfs_website_quote/static/src/img/page_header.jpg');">
+            <div class="o_we_bg_filter tl_hero_filter"/>
+            <div class="container">
+                <p class="tl_eyebrow text-uppercase small fw-bold mb-2" t-out="eyebrow"/>
+                <h1 class="display-5 fw-bold mb-3" t-out="title"/>
+                <p class="lead mb-0 col-lg-8 opacity-75" t-out="subtitle"/>
+            </div>
+        </section>
+    </template>
+
+    <template id="page_about" name="About">
+        <t t-call="website.layout">
+            <div id="wrap" class="tl_page">
+                <t t-call="tl_dfs_website_quote.page_header" eyebrow.translate="About us" title="res_company.name" subtitle.translate="Independent UK specialist in food-testing and laboratory equipment, sales and field service."/>
+                <div class="oe_structure" id="oe_structure_tl_about">
+                    <section class="s_text_image tl_section o_cc o_cc1 pt80 pb80" data-snippet="s_text_image" data-name="Who we are">
+                        <div class="container">
+                            <div class="row align-items-center g-5">
+                                <div class="col-lg-6">
+                                    <h2 class="mb-3">Partners to food quality laboratories</h2>
+                                    <p>We help food manufacturers, ingredient suppliers and contract laboratories choose,
+                                        install and maintain the analytical equipment their quality decisions depend on.</p>
+                                    <p>Our team combines application chemists, product specialists and factory-trained
+                                        field engineers. We stay with you for the whole life of the instrument - from the
+                                        first application discussion to calibration, preventive maintenance and upgrades.</p>
+                                    <a href="/contactus" class="btn btn-primary mt-2">Talk to a specialist</a>
+                                </div>
+                                <div class="col-lg-6">
+                                    <img src="/tl_dfs_website_quote/static/src/img/about_team.jpg" class="img-fluid rounded" alt="Our laboratory specialists" loading="lazy"/>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <section class="s_features tl_section o_cc o_cc2 pt80 pb80" data-snippet="s_features" data-name="Values">
+                        <div class="container">
+                            <h2 class="mb-4">What we stand for</h2>
+                            <div class="row g-4">
+                                <div class="col-md-4 tl_trust_item"><i class="oi" data-icon="science"/><h3 class="h6 mt-2">Application first</h3><p class="small text-muted">We start from your method, matrix and throughput - not from a catalogue.</p></div>
+                                <div class="col-md-4 tl_trust_item"><i class="oi" data-icon="build"/><h3 class="h6 mt-2">Service for life</h3><p class="small text-muted">Our engineers know every instrument we supply and support it for years.</p></div>
+                                <div class="col-md-4 tl_trust_item"><i class="oi" data-icon="verified"/><h3 class="h6 mt-2">Compliance built in</h3><p class="small text-muted">Documentation, IQ/OQ and calibration records ready for your auditors.</p></div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

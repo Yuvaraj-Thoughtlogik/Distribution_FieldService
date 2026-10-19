@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="support_hero" name="DFS: Support hero">
+        <section class="tl_page_header tl_support_hero o_cc o_cc5 pt64 pb64 oe_img_bg o_bg_img_center"
+                 style="background-image: url('/tl_dfs_website_quote/static/src/img/support_banner.jpg');">
+            <div class="o_we_bg_filter tl_hero_filter"/>
+            <div class="container">
+                <p class="tl_eyebrow text-uppercase small fw-bold mb-2">Service &amp; support</p>
+                <h1 class="display-6 fw-bold mb-2">How can our service team help?</h1>
+                <p class="lead mb-0 opacity-75 col-lg-8">Report a breakdown, book a calibration or ask our application specialists.
+                    Include the instrument model and serial number to speed things up.</p>
+            </div>
+        </section>
+        <section class="tl_support_strip o_cc o_cc2 pt24 pb24 border-bottom">
+            <div class="container">
+                <div class="row g-3 small">
+                    <div class="col-md-4 d-flex gap-2 align-items-center"><i class="oi text-primary fs-4" data-icon="schedule"/>Service desk: Mon-Fri, 8:00-17:30</div>
+                    <div class="col-md-4 d-flex gap-2 align-items-center"><i class="oi text-primary fs-4" data-icon="local_shipping"/>Engineers on site across the UK</div>
+                    <div class="col-md-4 d-flex gap-2 align-items-center"><i class="oi text-primary fs-4" data-icon="verified"/>Contract customers: priority response</div>
+                </div>
+            </div>
+        </section>
+    </template>
+
+    <template id="helpdesk_team" inherit_id="website_helpdesk.team" name="DFS: On-brand support page">
+        <xpath expr="//div[@id='wrap']" position="before">
+            <t t-call="tl_dfs_website_quote.support_hero"/>
+        </xpath>
+        <xpath expr="//div[@id='wrap']" position="attributes">
+            <attribute name="class">container mt-4 tl_support_wrap</attribute>
+        </xpath>
+    </template>
+
+    <template id="helpdesk_all_team" inherit_id="website_helpdesk.helpdesk_all_team" name="DFS: On-brand support team list">
+        <xpath expr="//div[hasclass('team_list_columns')]/.." position="before">
+            <t t-call="tl_dfs_website_quote.support_hero"/>
+        </xpath>
+    </template>
+</odoo>
