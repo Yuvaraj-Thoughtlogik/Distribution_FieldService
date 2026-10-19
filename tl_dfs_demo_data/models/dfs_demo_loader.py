@@ -8,7 +8,7 @@ import logging
 from datetime import date, datetime, time, timedelta
 from zoneinfo import ZoneInfo
 
-from odoo import Command, fields, models
+from odoo import Command, api, fields, models
 
 _logger = logging.getLogger(__name__)
 
@@ -360,7 +360,7 @@ class TlDfsDemoLoader(models.AbstractModel):
         )
         for step in (
             "_setup_company", "_setup_settings", "_setup_users", "_setup_master_misc", "_setup_stock",
-            "_setup_legacy_base", "_setup_purchases", "_setup_sales", "_setup_subscriptions", "_setup_crm",
+            "_setup_legacy_base", "_setup_purchases", "_setup_sales", "_setup_subscriptions", "_setup_crm", "_setup_quote_templates",
             "_setup_helpdesk", "_setup_interventions", "_setup_shifts", "_setup_skills", "_setup_repair",
         ):
             _logger.info("tl_dfs_demo_data: %s", step)
@@ -846,6 +846,72 @@ class TlDfsDemoLoader(models.AbstractModel):
                 lead.action_set_lost(lost_reason_id=self._ref("crm_lost_reason_budget").id)
 
     # ------------------------------------------------------------------ helpdesk
+    # PDF Quote Builder: (template key, name, quotation documents, lines, optional lines, extra vals)
+    QUOTE_TEMPLATES = [
+        ("quote_tmpl_protein", "Protein Analysis Lab Package (Kjeldahl)",
+         ("cover", "about", "service", "terms"),
+         [("kd40", 1), ("db20", 1), ("sc4", 1), ("tubes250", 2), ("cat_tabs", 1), ("boric", 2),
+          ("svc_install", 1), ("svc_training", 1)],
+         ["kt8", "svc_extw", "svc_cal"], {}),
+        ("quote_tmpl_fat_fibre", "Fat & Fibre Analysis Package",
+         ("cover", "about", "service", "terms"),
+         [("fx6", 1), ("fb6", 1), ("thimbles", 4), ("pet_ether", 2), ("filter_bags", 1),
+          ("svc_install", 2), ("svc_training", 1)],
+         ["thimble_holder", "hy6", "svc_extw"], {}),
+        ("quote_tmpl_service_visit", "Calibration & Preventive Maintenance Visit",
+         ("cover", "service", "terms"),
+         [("svc_pm", 1), ("svc_cal", 1)],
+         ["svc_callout", "heater_kd", "lamp_mb", "svc_training"], {"number_of_days": 14}),
+        ("quote_tmpl_contract_gold", "Annual Service Contract - Gold",
+         ("cover", "service", "terms"),
+         [("sc_gold", 1)],
+         ["svc_training"], {"plan": "sale_subscription.subscription_plan_year"}),
+    ]
+
+    @api.model
+    def _setup_quote_templates(self):
+        """Quotation templates using the PDF Quote Builder documents, applied to open demo quotes.
+
+        Also called from data/quote_builder_data.xml so module updates pick it up. Idempotent.
+        """
+        self = self.sudo()  # noqa: PLW0642
+        Template = self.env["sale.order.template"]
+        docs = {k: self._ref("quote_doc_" + k) for k in ("cover", "about", "service", "terms")}
+        if not all(docs.values()):
+            return
+        note = ("<p>Prices are in GBP and exclude VAT. Delivery DAP to your UK site. Payment 30 days end of month. "
+                "Full terms of sale are included at the end of this quotation.</p>")
+        for key, name, doc_keys, lines, optional, extra in self.QUOTE_TEMPLATES:
+            if self._ref(key) or not all(self._product(p) for p, _q in lines):
+                continue
+            vals = {
+                "name": name,
+                "note": note,
+                "number_of_days": extra.get("number_of_days", 30),
+                "require_signature": True,
+                "quotation_document_ids": [Command.set([docs[d].id for d in doc_keys])],
+                "sale_order_template_line_ids": [
+                    Command.create({"product_id": self._product(p).id, "product_uom_qty": q}) for p, q in lines
+                ] + [
+                    Command.create({"product_id": self._product(p).id, "product_uom_qty": 1, "is_optional": True})
+                    for p in optional if self._product(p)
+                ],
+            }
+            plan = extra.get("plan") and self.env.ref(extra["plan"], raise_if_not_found=False)
+            if plan and "plan_id" in Template._fields:
+                vals["plan_id"] = plan.id
+            self._bind(key, Template.create(vals))
+
+        # Open demo quotations get the cover/about/service/terms pages and the datasheets of their instruments.
+        doc_ids = [d.id for d in docs.values()]
+        orders = self._our_records("sale.order").filtered(lambda o: o.state in ("draft", "sent"))
+        for order in orders:
+            order.quotation_document_ids = [Command.link(i) for i in doc_ids]
+            for line in order.order_line:
+                sheets = line.available_product_document_ids.filtered(lambda d: d.name.startswith("Datasheet"))
+                if sheets:
+                    line.product_document_ids = [Command.link(i) for i in sheets.ids]
+
     def _setup_helpdesk(self):
         team = self.env.ref("helpdesk.helpdesk_team1")
         tags = {
