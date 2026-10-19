@@ -54,5 +54,308 @@
             <field name="compute_price">discount</field>
             <field name="price_discount" eval="15"/>
         </record>
+
+        <!-- Dalesway Dairies: negotiated net prices per product (fixed, not discounts) -->
+        <record id="pricelist_dalesway" model="product.pricelist">
+            <field name="name">Dalesway Dairies - Contract Prices (GBP)</field>
+            <field name="sequence">10</field>
+            <field name="currency_id" ref="base.GBP"/>
+        </record>
+        <record id="pricelist_dalesway_item_fx6" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_fx6"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="15650"/>
+        </record>
+        <record id="pricelist_dalesway_item_fx2" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_fx2"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="7350"/>
+        </record>
+        <record id="pricelist_dalesway_item_kd40" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_kd40"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="13900"/>
+        </record>
+        <record id="pricelist_dalesway_item_kt8" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_kt8"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="5795"/>
+        </record>
+        <record id="pricelist_dalesway_item_db20" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_db20"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="5450"/>
+        </record>
+        <record id="pricelist_dalesway_item_sc4" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_sc4"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="2095"/>
+        </record>
+        <record id="pricelist_dalesway_item_mb120" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_mb120"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="2450"/>
+        </record>
+        <record id="pricelist_dalesway_item_dm50" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_dm50"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="17650"/>
+        </record>
+        <record id="pricelist_dalesway_item_wb22" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_wb22"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="835"/>
+        </record>
+        <record id="pricelist_dalesway_item_do110" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_do110"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="2275"/>
+        </record>
+        <record id="pricelist_dalesway_item_cf16" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_cf16"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="2750"/>
+        </record>
+        <record id="pricelist_dalesway_item_heater_kd" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_heater_kd"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="225"/>
+        </record>
+        <record id="pricelist_dalesway_item_thimble_holder" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_thimble_holder"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="152"/>
+        </record>
+        <record id="pricelist_dalesway_item_thimbles" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_thimbles"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="37.5"/>
+        </record>
+        <record id="pricelist_dalesway_item_pet_ether" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_pet_ether"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="39.95"/>
+        </record>
+        <record id="pricelist_dalesway_item_cat_tabs" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_cat_tabs"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="148"/>
+        </record>
+        <record id="pricelist_dalesway_item_tubes250" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_tubes250"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="86"/>
+        </record>
+        <record id="pricelist_dalesway_item_boric" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_boric"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="33.5"/>
+        </record>
+        <record id="pricelist_dalesway_item_svc_pm" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_svc_pm"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="445"/>
+        </record>
+        <record id="pricelist_dalesway_item_svc_cal" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_dalesway"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_svc_cal"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="355"/>
+        </record>
+
+        <!-- Pennine Meat Processors: negotiated net prices per product (fixed, not discounts) -->
+        <record id="pricelist_pennine" model="product.pricelist">
+            <field name="name">Pennine Meat Processors - Contract Prices (GBP)</field>
+            <field name="sequence">11</field>
+            <field name="currency_id" ref="base.GBP"/>
+        </record>
+        <record id="pricelist_pennine_item_dn100" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_dn100"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="34950"/>
+        </record>
+        <record id="pricelist_pennine_item_kd20" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_kd20"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="7650"/>
+        </record>
+        <record id="pricelist_pennine_item_db8" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_db8"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="3125"/>
+        </record>
+        <record id="pricelist_pennine_item_sc4" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_sc4"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="2025"/>
+        </record>
+        <record id="pricelist_pennine_item_fx6" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_fx6"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="15200"/>
+        </record>
+        <record id="pricelist_pennine_item_hy6" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_hy6"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="8395"/>
+        </record>
+        <record id="pricelist_pennine_item_mb60" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_mb60"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="1295"/>
+        </record>
+        <record id="pricelist_pennine_item_mf9" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_mf9"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="3250"/>
+        </record>
+        <record id="pricelist_pennine_item_vo50" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_vo50"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="3795"/>
+        </record>
+        <record id="pricelist_pennine_item_lm200" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_lm200"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="5395"/>
+        </record>
+        <record id="pricelist_pennine_item_km10" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_km10"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="6150"/>
+        </record>
+        <record id="pricelist_pennine_item_hg400" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_hg400"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="2850"/>
+        </record>
+        <record id="pricelist_pennine_item_comb_tube" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_comb_tube"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="279"/>
+        </record>
+        <record id="pricelist_pennine_item_screen_1mm" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_screen_1mm"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="108"/>
+        </record>
+        <record id="pricelist_pennine_item_splash_kd" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_splash_kd"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="168"/>
+        </record>
+        <record id="pricelist_pennine_item_tin_caps" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_tin_caps"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="84"/>
+        </record>
+        <record id="pricelist_pennine_item_cat_tabs" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_cat_tabs"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="145"/>
+        </record>
+        <record id="pricelist_pennine_item_thimbles" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_thimbles"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="36.5"/>
+        </record>
+        <record id="pricelist_pennine_item_svc_install" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_svc_install"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="765"/>
+        </record>
+        <record id="pricelist_pennine_item_svc_callout" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">1_product</field>
+            <field name="product_tmpl_id" ref="product_svc_callout"/>
+            <field name="compute_price">fixed</field>
+            <field name="fixed_price" eval="85"/>
+        </record>
+        <!-- anything not on the contract keeps the Key Accounts terms -->
+        <record id="pricelist_pennine_item_fallback" model="product.pricelist.item">
+            <field name="pricelist_id" ref="pricelist_pennine"/>
+            <field name="applied_on">3_global</field>
+            <field name="compute_price">discount</field>
+            <field name="price_discount" eval="0"/>
+            <field name="base">pricelist</field>
+            <field name="base_pricelist_id" ref="pricelist_key"/>
+        </record>
     </data>
 </odoo>

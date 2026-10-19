@@ -1,6 +1,6 @@
 {
     "name": "DFS Demo Data - Northbrook Analytical (UK lab equipment distribution & field service)",
-    "version": "20.0.1.4.0",
+    "version": "20.0.1.5.0",
     "category": "Hidden/Tools",
     "summary": "Configures a fresh database for a UK distributor of food-testing laboratory "
                "equipment with field service, and loads realistic sample data.",

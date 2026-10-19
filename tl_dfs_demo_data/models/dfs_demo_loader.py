@@ -19,13 +19,13 @@ DEMO_PASSWORD = "northbrook"
 
 # customer key -> (pricelist key, salesperson employee key, sales team xml id)
 CUSTOMER_ACCOUNTS = {
-    "dalesway": ("trade", "tfletcher", "sales_team.team_sales_department"),
+    "dalesway": ("dalesway", "tfletcher", "sales_team.team_sales_department"),
     "cotswold": ("trade", "psharma", "sales_team.team_sales_department"),
     "highland": ("trade", "tfletcher", "sales_team.team_sales_department"),
     "fenland": ("key", "hprice", "crm_team_key_accounts"),
     "ironbridge": ("trade", "psharma", "sales_team.team_sales_department"),
     "thamesvalley": ("trade", "psharma", "sales_team.team_sales_department"),
-    "pennine": ("key", "hprice", "crm_team_key_accounts"),
+    "pennine": ("pennine", "hprice", "crm_team_key_accounts"),
     "severn": ("trade", "psharma", "sales_team.team_sales_department"),
     "albion": ("key", "hprice", "crm_team_key_accounts"),
     "northgate": ("trade", "tfletcher", "sales_team.team_sales_department"),
@@ -461,7 +461,7 @@ class TlDfsDemoLoader(models.AbstractModel):
 
     # ------------------------------------------------------------------ misc master data
     def _setup_master_misc(self):
-        pricelists = {k: self._ref("pricelist_" + k) for k in ("trade", "key", "edu")}
+        pricelists = {k: self._ref("pricelist_" + k) for k in ("trade", "key", "edu", "dalesway", "pennine")}
         payment_60 = self._ref("payment_term_60")
         for cust, (pl, sp, team) in CUSTOMER_ACCOUNTS.items():
             partner = self._partner(cust)
