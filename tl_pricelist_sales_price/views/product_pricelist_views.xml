@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="product_pricelist_view_inherit_sales_price" model="ir.ui.view">
+        <field name="name">product.pricelist.form.sales.price</field>
+        <field name="model">product.pricelist</field>
+        <field name="inherit_id" ref="product.product_pricelist_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='item_ids']/list/field[@name='price']" position="before">
+                <field name="currency_id" column_invisible="True"/>
+                <field name="product_sales_price" invisible="applied_on not in ('0_product_variant', '1_product')"/>
+                <field name="pricelist_unit_price" invisible="applied_on not in ('0_product_variant', '1_product')"/>
+            </xpath>
+            <xpath expr="//field[@name='item_ids']/list/field[@name='price']" position="attributes">
+                <attribute name="string">Rule</attribute>
+                <attribute name="optional">hide</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="product_pricelist_item_tree_view_inherit_sales_price" model="ir.ui.view">
+        <field name="name">product.pricelist.item.list.sales.price</field>
+        <field name="model">product.pricelist.item</field>
+        <field name="inherit_id" ref="product.product_pricelist_item_tree_view"/>
+        <field name="arch" type="xml">
+            <field name="price" position="before">
+                <field name="applied_on" column_invisible="True"/>
+                <field name="currency_id" column_invisible="True"/>
+                <field name="product_sales_price" invisible="applied_on not in ('0_product_variant', '1_product')"/>
+                <field name="pricelist_unit_price" invisible="applied_on not in ('0_product_variant', '1_product')"/>
+            </field>
+            <field name="price" position="attributes">
+                <attribute name="string">Rule</attribute>
+                <attribute name="optional">hide</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>
