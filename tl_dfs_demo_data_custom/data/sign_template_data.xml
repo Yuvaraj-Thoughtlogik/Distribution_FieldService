@@ -202,44 +202,20 @@
         <field name="height" type="float">0.020</field>
         <field name="required" eval="True"/>
     </record>
-    <record id="sign_item_sa_user_signature" model="sign.item">
-        <field name="document_id" ref="sign_document_service_agreement"/>
-        <field name="type_id" ref="sign.sign_item_type_signature"/>
-        <field name="responsible_id" ref="tl_field_service_customisation.sign_role_user"/>
-        <field name="name">Signature</field>
-        <field name="page" type="int">3</field>
-        <field name="posX" type="float">0.552</field>
-        <field name="posY" type="float">0.401</field>
-        <field name="width" type="float">0.329</field>
-        <field name="height" type="float">0.088</field>
-        <field name="required" eval="True"/>
-    </record>
-    <record id="sign_item_sa_user_name" model="sign.item">
+    <record id="sign_item_sa_issue_date" model="sign.item">
         <field name="document_id" ref="sign_document_service_agreement"/>
         <field name="type_id" ref="sign.sign_item_type_text"/>
-        <field name="responsible_id" ref="tl_field_service_customisation.sign_role_user"/>
-        <field name="name">Name and position</field>
-        <field name="page" type="int">3</field>
-        <field name="posX" type="float">0.552</field>
-        <field name="posY" type="float">0.530</field>
-        <field name="width" type="float">0.329</field>
-        <field name="height" type="float">0.020</field>
-        <field name="required" eval="True"/>
-        <field name="key">user_name_job</field>
-        <field name="auto_fill" eval="True"/>
-        <field name="by_system" eval="True"/>
-    </record>
-    <record id="sign_item_sa_user_date" model="sign.item">
-        <field name="document_id" ref="sign_document_service_agreement"/>
-        <field name="type_id" ref="sign.sign_item_type_date"/>
-        <field name="responsible_id" ref="tl_field_service_customisation.sign_role_user"/>
-        <field name="name">Date</field>
+        <field name="responsible_id" ref="tl_field_service_customisation.sign_role_customer"/>
+        <field name="name">Issue date</field>
         <field name="page" type="int">3</field>
         <field name="posX" type="float">0.552</field>
         <field name="posY" type="float">0.591</field>
         <field name="width" type="float">0.155</field>
         <field name="height" type="float">0.020</field>
-        <field name="required" eval="True"/>
+        <field name="required" eval="False"/>
+        <field name="key">issue_date</field>
+        <field name="auto_fill" eval="True"/>
+        <field name="by_system" eval="True"/>
     </record>
 </data>
 </odoo>

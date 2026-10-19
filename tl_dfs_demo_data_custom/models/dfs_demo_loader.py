@@ -32,9 +32,14 @@ class TlDfsDemoLoader(models.AbstractModel):
             return
         Contract = self.env["service.contract"]
         order = line.sale_id
+        # One signer per role on the template (the agreement is pre-signed, so normally just the Customer).
+        partner_by_role = {
+            Contract._get_sign_role("customer"): order.partner_id,
+            Contract._get_sign_role("user"): (order.user_id or self.env.user).partner_id,
+        }
         signers = [
-            {"partner_id": order.partner_id.id, "role_id": Contract._get_sign_role("customer").id},
-            {"partner_id": (order.user_id or self.env.user).partner_id.id, "role_id": Contract._get_sign_role("user").id},
+            {"partner_id": partner_by_role.get(role, order.partner_id).id, "role_id": role.id}
+            for role in template.sign_item_ids.responsible_id
         ]
         request = line.create_sign_request(signers)
         _logger.info("tl_dfs_demo_data_custom: sample signature request %s for %s", request.reference, line.contract_id.name)

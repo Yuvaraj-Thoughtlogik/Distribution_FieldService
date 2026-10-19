@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<data noupdate="1">
+    <!-- Quotation e-mail with a "View your quotation" button to the customer portal.
+         Used instead of sale.email_template_edi_sale for quotations (see models/sale_order.py). -->
+    <record id="mail_template_quotation" model="mail.template">
+        <field name="name">Northbrook: Send Quotation</field>
+        <field name="model_id" ref="sale.model_sale_order"/>
+        <field name="subject">{{ object.company_id.name }} Quotation {{ object.name or 'n/a' }}{{ object.client_order_ref and (' (' + object.client_order_ref + ')') or '' }}</field>
+        <field name="email_from">{{ (object.user_id.email_formatted or object.company_id.email_formatted or user.email_formatted) }}</field>
+        <field name="partner_to" eval="False"/>
+        <field name="use_default_to" eval="True"/>
+        <field name="description">Quotation e-mail with a button to view, download and accept the quotation in the customer portal</field>
+        <field name="email_layout_xmlid">mail.mail_notification_light</field>
+        <field name="report_template_ids" eval="[Command.link(ref('sale.action_report_saleorder'))]"/>
+        <field name="lang">{{ object.partner_id.lang }}</field>
+        <field name="body_html" type="html">
+<div style="margin: 0px; padding: 0px; font-size: 13px; color: #1F2937;">
+    <t t-set="portal_url" t-value="object.get_base_url() + object.get_portal_url()"/>
+    <p style="margin: 0px 0px 12px 0px;">
+        Dear <t t-out="object.partner_id.name or ''">Customer</t>,
+    </p>
+    <p style="margin: 0px 0px 16px 0px;">
+        Thank you for your enquiry. Please find our quotation
+        <strong t-out="object.name or ''">S00001</strong>
+        <t t-if="object.client_order_ref">(your reference <t t-out="object.client_order_ref or ''">PO-123</t>)</t>
+        attached and available online.
+    </p>
+
+    <table cellspacing="0" cellpadding="0" border="0" style="width: 100%; max-width: 520px; border-collapse: separate; background-color: #F3F6F9; border-radius: 6px; margin: 0px 0px 20px 0px;">
+        <tr>
+            <td style="padding: 14px 18px 4px 18px; color: #6B7280; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;">Quotation</td>
+            <td style="padding: 14px 18px 4px 18px; color: #6B7280; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;">Total</td>
+            <td style="padding: 14px 18px 4px 18px; color: #6B7280; font-size: 11px; text-transform: uppercase; letter-spacing: 0.04em;" t-if="object.validity_date">Valid until</td>
+        </tr>
+        <tr>
+            <td style="padding: 0px 18px 14px 18px; font-size: 15px; font-weight: bold; color: #16365C;" t-out="object.name or ''">S00001</td>
+            <td style="padding: 0px 18px 14px 18px; font-size: 15px; font-weight: bold; color: #16365C;" t-out="format_amount(object.amount_total, object.currency_id) or ''">£ 18,000.00</td>
+            <td style="padding: 0px 18px 14px 18px; font-size: 15px; font-weight: bold; color: #16365C;" t-if="object.validity_date" t-out="format_date(object.validity_date) or ''">30/11/2026</td>
+        </tr>
+    </table>
+
+    <div style="margin: 0px 0px 20px 0px;">
+        <a t-att-href="portal_url" target="_blank"
+           style="display: inline-block; background-color: #16365C; color: #FFFFFF; text-decoration: none; font-size: 14px; font-weight: bold; padding: 12px 26px; border-radius: 6px; border-bottom: 3px solid #009688;">
+            View your quotation
+        </a>
+    </div>
+    <p style="margin: 0px 0px 16px 0px; color: #4B5563;">
+        From the secure link above you can review every line, download the PDF and ask us questions.
+        <t t-if="object.require_signature">When you are happy, you can accept the quotation online with your signature.</t>
+        <t t-elif="object.require_payment">When you are happy, you can confirm the order online.</t>
+    </p>
+
+    <t t-set="documents" t-value="object._get_product_documents()"/>
+    <t t-if="documents">
+        <p style="margin: 0px 0px 6px 0px;"><strong>Product information</strong></p>
+        <ul style="margin: 0px 0px 16px 0px; padding-left: 18px;">
+            <t t-foreach="documents" t-as="document">
+                <li style="font-size: 13px;">
+                    <a t-out="document.ir_attachment_id.name" t-att-href="object.get_base_url() + object.get_portal_url('/document/' + str(document.id))" style="color: #009688;">Datasheet</a>
+                </li>
+            </t>
+        </ul>
+    </t>
+
+    <p style="margin: 0px 0px 16px 0px;">
+        If you have any questions, simply reply to this e-mail or call us on
+        <t t-out="object.company_id.phone or ''">+44 1908 555 100</t>.
+    </p>
+    <p style="margin: 0px;">
+        Kind regards,<br/>
+        <t t-if="not is_html_empty(object.user_id.signature)">
+            <t t-out="object.user_id.signature or ''">Priya Sharma</t>
+        </t>
+        <t t-else="">
+            <t t-out="object.user_id.name or ''">Priya Sharma</t><br/>
+            <t t-out="object.company_id.name or ''">Northbrook Analytical Ltd</t>
+        </t>
+    </p>
+</div>
+        </field>
+    </record>
+</data>
+</odoo>

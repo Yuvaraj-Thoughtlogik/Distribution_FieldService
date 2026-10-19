@@ -1,7 +1,10 @@
 """Generate the Service Agreement PDF and its Sign template data for tl_dfs_demo_data_custom.
 
 Usage (Odoo venv, reportlab required):
-    python gen_sign_contract.py <tl_dfs_demo_data_custom dir> <tl_dfs_demo_data dir>
+    python gen_sign_contract.py <tl_dfs_demo_data_custom dir> <tl_dfs_demo_data dir> <signature .ttf>
+
+The signature font is Odoo's own La Belle Aurore (web/static/fonts/sign/LaBelleAurore-Regular.ttf).
+Northbrook's side is pre-signed in the PDF, so the template only has the Customer role.
 
 Writes:
   static/pdf/service_agreement.pdf  - 3-page agreement (details, terms, signatures)
@@ -18,9 +21,15 @@ from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4
 from reportlab.lib.units import mm
 from reportlab.lib.utils import ImageReader
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from reportlab.pdfgen import canvas
 
-MOD, DEMO = sys.argv[1], sys.argv[2]
+MOD, DEMO, SIGNATURE_FONT = sys.argv[1], sys.argv[2], sys.argv[3]
+pdfmetrics.registerFont(TTFont("Signature", SIGNATURE_FONT))
+
+# Authorised signatory who pre-signs every agreement for Northbrook.
+SIGNATORY = ("David Whitfield", "Managing Director")
 PDF = os.path.join(MOD, "static", "pdf", "service_agreement.pdf")
 XML = os.path.join(MOD, "data", "sign_template_data.xml")
 LOGO = os.path.join(DEMO, "static", "img", "company", "northbrook_logo.png")
@@ -231,21 +240,46 @@ def page_terms(c):
     footer(c, 2, 3)
 
 
-def signature_panel(c, x, y_top, w, title, role, key_job, prefix):
+def panel(c, x, y_top, w, title):
     c.setFillColor(SOFT)
     c.roundRect(x, H - y_top - 92 * mm, w, 92 * mm, 2 * mm, stroke=0, fill=1)
     c.setFillColor(NAVY)
     c.setFont("Helvetica-Bold", 10.5)
     c.drawString(x + 5 * mm, H - y_top - 8 * mm, title)
-    iw = w - 10 * mm
+    return w - 10 * mm
+
+
+def customer_panel(c, x, y_top, w):
+    iw = panel(c, x, y_top, w, "Signed for the Customer")
     box(c, x + 5 * mm, y_top + 17 * mm, iw, 30 * mm, "Signature")
-    item(f"sign_item_sa_{prefix}_signature", 3, "signature", role, "Signature", x + 7 * mm, y_top + 19 * mm, iw - 4 * mm,
-         26 * mm)
+    item("sign_item_sa_customer_signature", 3, "signature", "customer", "Signature", x + 7 * mm, y_top + 19 * mm,
+         iw - 4 * mm, 26 * mm)
     box(c, x + 5 * mm, y_top + 56 * mm, iw, 9 * mm, "Name and position")
-    item(f"sign_item_sa_{prefix}_name", 3, "text", role, "Name and position", x + 7 * mm, y_top + 57.5 * mm, iw - 4 * mm,
-         6 * mm, key=key_job, auto=True)
+    item("sign_item_sa_customer_name", 3, "text", "customer", "Name and position", x + 7 * mm, y_top + 57.5 * mm,
+         iw - 4 * mm, 6 * mm, key="customer_name_job", auto=True)
     box(c, x + 5 * mm, y_top + 74 * mm, iw / 2, 9 * mm, "Date")
-    item(f"sign_item_sa_{prefix}_date", 3, "date", role, "Date", x + 7 * mm, y_top + 75.5 * mm, iw / 2 - 4 * mm, 6 * mm)
+    item("sign_item_sa_customer_date", 3, "date", "customer", "Date", x + 7 * mm, y_top + 75.5 * mm, iw / 2 - 4 * mm,
+         6 * mm)
+
+
+def northbrook_panel(c, x, y_top, w):
+    """Pre-signed by the authorised signatory: printed signature and name, issue date filled by the system."""
+    iw = panel(c, x, y_top, w, "Signed for Northbrook Analytical Ltd")
+    box(c, x + 5 * mm, y_top + 17 * mm, iw, 30 * mm, "Signature")
+    c.setFillColor(colors.HexColor("#1B2A6B"))
+    size = min(30, 30 * (iw - 16 * mm) / pdfmetrics.stringWidth(SIGNATORY[0], "Signature", 30))
+    c.setFont("Signature", size)
+    c.drawCentredString(x + 5 * mm + iw / 2, H - y_top - 37 * mm, SIGNATORY[0])
+    box(c, x + 5 * mm, y_top + 56 * mm, iw, 9 * mm, "Name and position")
+    c.setFillColor(INK)
+    c.setFont("Helvetica", 10)
+    c.drawString(x + 7 * mm, H - y_top - 61.8 * mm, f"{SIGNATORY[0]}, {SIGNATORY[1]}")
+    box(c, x + 5 * mm, y_top + 74 * mm, iw / 2, 9 * mm, "Signed and issued")
+    item("sign_item_sa_issue_date", 3, "text", "customer", "Issue date", x + 7 * mm, y_top + 75.5 * mm, iw / 2 - 4 * mm,
+         6 * mm, key="issue_date", auto=True, required=False)
+    c.setFont("Helvetica-Oblique", 7.5)
+    c.setFillColor(MUTED)
+    c.drawString(x + 5 * mm, H - y_top - 88 * mm, "Pre-signed by our authorised signatory.")
 
 
 def page_signatures(c):
@@ -254,8 +288,9 @@ def page_signatures(c):
     x0 = 18 * mm
     heading(c, 50 * mm, "13. Agreement")
     wrap(c, ("By signing below, the parties agree to the services and terms set out in this Service Agreement, "
-             "including the equipment listed in clause 3 and the terms of service in clauses 4 to 12. Electronic "
-             "signatures are binding; a copy of the completed document is sent to both parties."),
+             "including the equipment listed in clause 3 and the terms of service in clauses 4 to 12. The agreement "
+             "is pre-signed by Northbrook and takes effect once signed by the Customer; a copy of the completed "
+             "document is sent to both parties."),
          x0, H - 58 * mm, full, size=9.5)
 
     box(c, x0, 80 * mm, 80 * mm, 9 * mm, "Customer purchase order no. (optional)")
@@ -263,9 +298,8 @@ def page_signatures(c):
          required=False)
 
     col = (full - 8 * mm) / 2
-    signature_panel(c, x0, 100 * mm, col, "Signed for the Customer", "customer", "customer_name_job", "customer")
-    signature_panel(c, x0 + col + 8 * mm, 100 * mm, col, "Signed for Northbrook Analytical Ltd", "user",
-                    "user_name_job", "user")
+    customer_panel(c, x0, 100 * mm, col)
+    northbrook_panel(c, x0 + col + 8 * mm, 100 * mm, col)
     c.setFont("Helvetica-Oblique", 8)
     c.setFillColor(MUTED)
     c.drawString(x0, H - 202 * mm, "The completed agreement is stored against your service contract and asset records.")
@@ -283,8 +317,7 @@ def build_pdf():
     c.save()
 
 
-ROLE_REF = {"customer": "tl_field_service_customisation.sign_role_customer",
-            "user": "tl_field_service_customisation.sign_role_user"}
+ROLE_REF = {"customer": "tl_field_service_customisation.sign_role_customer"}
 TYPE_REF = {"text": "sign.sign_item_type_text", "textarea": "sign.sign_item_type_multiline_text",
             "signature": "sign.sign_item_type_signature", "initial": "sign.sign_item_type_initial",
             "date": "sign.sign_item_type_date"}

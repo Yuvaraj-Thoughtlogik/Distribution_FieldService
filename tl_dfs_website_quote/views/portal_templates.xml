@@ -39,4 +39,13 @@
             </t>
         </t>
     </template>
+
+    <!-- Odoo shows "Down payment: 0.00" whenever the prepayment is not 100 %, even when no payment is
+         required at all (0 %). B2B quotations are accepted by signature only, so hide it in that case. -->
+    <template id="sale_order_portal_no_zero_down_payment" inherit_id="sale.sale_order_portal_template"
+              name="DFS: hide zero down payment">
+        <xpath expr="//div[@role='alert'][contains(@t-if, 'prepayment_percent != 1.0')]" position="attributes">
+            <attribute name="t-if">sale_order.state in ('draft', 'sent') and sale_order.prepayment_percent not in (0.0, 1.0)</attribute>
+        </xpath>
+    </template>
 </odoo>

@@ -513,6 +513,7 @@ class ServiceContractLine(models.Model):
             'address': address,
             'start_date': format_date(self.env, self.start_date, lang_code=lang_code) if self.start_date else '',
             'end_date': format_date(self.env, self.end_date, lang_code=lang_code) if self.end_date else '',
+            'issue_date': format_date(self.env, fields.Date.context_today(self), lang_code=lang_code),
             'no_of_services': self.contract_id.product_id.number_of_services_per_year,
             'equipments': equipment_list,
             'user_name_job': name_job(self.sale_id.user_id.partner_id),
