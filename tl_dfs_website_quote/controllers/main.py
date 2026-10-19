@@ -109,10 +109,8 @@ class DfsQuoteCart(Cart):
             commercial = partner.commercial_partner_id
             values.update({
                 "name": partner.name if not partner.is_company else "",
-                "company": (
-                    commercial.name if commercial != partner or partner.is_company
-                    else partner.company_name or ""
-                ),
+                # res.partner.company_name no longer exists in Odoo 20
+                "company": commercial.name if commercial != partner or partner.is_company else "",
                 "email": partner.email or "",
                 "phone": partner.phone or "",
                 "street": partner.street or "",
