@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Softhealer Technologies.
 
-from datetime import date, datetime
+from datetime import date
 from odoo import models, fields, api
 
 
@@ -11,7 +11,7 @@ class BackdateWizard(models.TransientModel):
 
     purchase_order_ids = fields.Many2many('purchase.order')
     date_planned = fields.Datetime(
-        string="Receipt Date", required=True, default=datetime.now())
+        string="Receipt Date", required=True, default=fields.Datetime.now)
     company_id = fields.Many2one(
         'res.company', default=lambda self: self.env.company)
     remarks = fields.Text(string="Remarks")
@@ -33,7 +33,7 @@ class BackdateWizard(models.TransientModel):
         active_ids = self.env.context.get('active_ids')
 
         return {
-            'name': 'Assign Backdate',
+            'name': self.env._('Assign Backdate'),
             'res_model': 'sh.purchase.backdate.wizard',
             'view_mode': 'form',
             'view_id': self.env.ref('sh_all_in_one_backdate.purchase_order_backdate_wizard_view_form').id,
@@ -45,55 +45,24 @@ class BackdateWizard(models.TransientModel):
         }
 
     def assign_backdate(self):
-
+        remarks = self.remarks or ''
         for purchase_order in self.purchase_order_ids:
 
             if self.company_id.backdate_for_purchase_order:
                 purchase_order.write({
                     'date_planned': self.date_planned,
                     'date_approve': self.date_planned,
-                    'remarks': self.remarks if self.remarks else ''
+                    'remarks': remarks,
                 })
 
             if self.company_id.backdate_for_bill:
-                for bill in purchase_order.invoice_ids:
-                    bill.with_context(skip_readonly_check=True).write({
-                    'invoice_date' : self.date_planned,
-                    'date' : self.date_planned,
-                    'remarks_for_purchase' : self.remarks if self.remarks else ''
-
-                })
+                purchase_order.invoice_ids._sh_backdate(self.date_planned, {'remarks_for_purchase': remarks})
 
             if self.company_id.backdate_for_stock_move:
                 for picking in purchase_order.picking_ids:
                     picking.scheduled_date = self.date_planned
-                    picking.date_done = self.date_planned
-                    picking.remarks_for_purchase = self.remarks if self.remarks else ''
-
-                    stock_moves = self.env['stock.move'].search(
-                        [('picking_id', '=', picking.id)])
-                    product_moves = self.env['stock.move.line'].search(
-                        [('move_id', 'in', stock_moves.ids)])
-
-                    account_moves = self.env['account.move'].search(
-                        [('stock_move_id', 'in', stock_moves.ids)])
-                    valuation_layers = self.env['stock.valuation.layer'].search(
-                        [('stock_move_id', 'in', stock_moves.ids)])
-
-                    for account_move in account_moves:
-                        account_move.button_draft()
-                        account_move.name = '/'
-                        account_move.date = self.date_planned
-                        account_move.action_post()
-
-                    for move in stock_moves:
-                        move.date = self.date_planned
-                        move.remarks_for_purchase = self.remarks if self.remarks else ''
-
-                    for move in product_moves:
-                        move.date = self.date_planned
-
-                    for layer in valuation_layers:
-                        self.env.cr.execute("""
-                            Update stock_valuation_layer set create_date='%s' where id=%s;
-                        """ % (self.date_planned, layer.id))
+                    if picking.state == 'done':
+                        picking.date_done = self.date_planned
+                    # Odoo 20: writing the move date replays the valuation
+                    # (stock_account), then the stock journal entries are re-dated.
+                    picking.move_ids._sh_set_backdate(self.date_planned)

@@ -1,0 +1,2 @@
+id,name,model_id,group_id/id,operation,domain
+access_sh_purchase_backdate_wizard,access_sh_purchase_backdate_wizard,sh.purchase.backdate.wizard,base.group_user,crud,

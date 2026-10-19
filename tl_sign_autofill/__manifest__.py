@@ -11,12 +11,12 @@ Long description of module's purpose
     'author': 'Thoughtlogik Solutions',
     'website': 'www.thoughtlogik.com',
     'category': 'Uncategorized',
-    'version': '0.1',
+    'version': '20.0.0.1.0',
     "license": "LGPL-3",
     'depends': ['sign'],
 
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'data/data.xml',
         'views/sign_template.xml',
         'views/sign_template_templates.xml',

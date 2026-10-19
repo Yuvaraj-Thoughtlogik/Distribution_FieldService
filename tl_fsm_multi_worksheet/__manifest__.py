@@ -1,35 +1,30 @@
 {
     'name': 'FSM Multi Worksheet',
-    'version': '18.0.1.0.0',
-    'category': 'Field Service',
-    'summary': 'Manage multiple worksheets in Field Service',
+    'version': '20.0.1.0.0',
+    'category': 'Services/Field Service',
+    'summary': 'Manage multiple worksheets per Field Service intervention',
     'description': """
 FSM Multi Worksheet
 ===================
-Allows multiple worksheets to be created and managed for Field Service tasks.
+Allows multiple worksheets (one per worksheet template / customer asset) to be
+filled for a single Field Service intervention (planning.slot).
     """,
     'author': 'Thoughtlogik Technology Solutions',
     'website': 'https://www.thoughtlogik.com',
     'license': 'LGPL-3',
     'depends': [
-        'industry_fsm',
-        'industry_fsm_report',
+        'planning_field_service_worksheet',
         'cguk_customer_asset',
         'tl_worksheet_form_report',
     ],
     'data': [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/worksheet_template_views.xml',
-        'views/project_task_form.xml',
-        'views/project_task_worksheet_views.xml',
+        'views/planning_slot_worksheet_views.xml',
+        'views/planning_slot_form.xml',
         'views/worksheet_custom_report_templates.xml',
-        'views/project_portal_templates.xml',
+        'views/planning_slot_portal_templates.xml',
     ],
-    'assets': {
-        'web.assets_backend': [
-            'tl_fsm_multi_worksheet/static/src/js/FsmWorksheetListRenderer.js',
-        ],
-    },
     'installable': True,
     'application': False,
 }

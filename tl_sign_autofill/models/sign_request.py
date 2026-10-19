@@ -1,6 +1,5 @@
 from odoo.exceptions import ValidationError
 from odoo import models, fields, api
-from odoo.tools import _
 
 class SignRequest(models.Model):
     _inherit = 'sign.request'
@@ -25,9 +24,9 @@ class SignRequest(models.Model):
                 value = auto_fills.get(item.key)
 
                 if not value:
-                    raise ValidationError(_(
-                        "Please provide a value for required readonly field: %s"
-                    ) % item.key)
+                    raise ValidationError(self.env._(
+                        "Please provide a value for required readonly field: %s", item.key
+                    ))
 
             vals['sign_autofill_ids'] = template.get_auto_fill_values()
 
@@ -79,7 +78,7 @@ class SignItem(models.Model):
     by_system = fields.Boolean(default=True)
     key = fields.Char(compute='_compute_key',store=True,readonly=False)
 
-    @api.constrains('key', 'template_id', 'responsible_id')
+    @api.constrains('key', 'document_id', 'responsible_id')
     def _check_unique_key(self):
 
         for record in self:

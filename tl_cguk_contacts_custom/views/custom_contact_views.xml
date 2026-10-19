@@ -9,7 +9,7 @@
                 <xpath expr="//field[@name='function']" position="after">
                     <field name="equipment_type" widget="many2many_tags"/>
                 </xpath>
-                <xpath expr="//div[@class='o_address_format']" position="after">
+                <xpath expr="//div[hasclass('o_address_format')]" position="after">
                     <field name="department" colspan="2"/>
                     <field name="email_opt_out"/>
                     <field name="still_in_business" invisible="not is_company"/>
@@ -39,9 +39,9 @@
 
 
                 </xpath>
-                <xpath expr="//field[@name='title']" position="after">
+                <!-- Odoo 20: res.partner `title` field removed -->
+                <xpath expr="//field[@name='function']" position="before">
                     <field name="secondary_email" invisible="is_company"/>
-
                 </xpath>
                 <xpath expr="//span[@name='address_name']" position="before">
                     <field name='first_name'/>
@@ -52,10 +52,7 @@
                     <field name="rating" invisible="not is_company"/>
 
                 </xpath>
-                <xpath expr="//field[@name='mobile']" position="replace">
-                    <!--                    <attribute name="invisible">is_company</attribute>-->
-                    <field name="mobile" widget="phone" readonly="false" nolabel="1" invisible="is_company"/>
-                </xpath>
+                <!-- Odoo 20: res.partner `mobile` field removed (only `phone` remains) -->
                 <xpath expr="//field[@name='website']" position="attributes">
                     <attribute name="invisible">not is_company</attribute>
                 </xpath>
@@ -66,7 +63,7 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_tree"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='complete_name']" position="after">
+                <xpath expr="//field[@name='display_name']" position="after">
                     <field name="first_name"/>
                     <field name="last_name"/>
                 </xpath>

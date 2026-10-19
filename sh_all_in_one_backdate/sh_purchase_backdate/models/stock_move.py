@@ -11,25 +11,5 @@ class StockMove(models.Model):
     is_remarks_for_purchase = fields.Boolean(
         related="company_id.remark_for_purchase_order", string="Is Remarks for Purchase")
 
-    def write(self, vals):
-        for rec in self:
-            if rec.company_id.backdate_for_stock_move:
-                if rec.picking_id:
-                    vals['date'] = rec.picking_id.scheduled_date
-        return super().write(vals)
-
-    def _prepare_account_move_vals(self, credit_account_id, debit_account_id, journal_id, qty, description, svl_id, cost):
-        self.ensure_one()
-
-        move_lines = self._prepare_account_move_line(
-            qty, cost, credit_account_id, debit_account_id, svl_id, description)
-
-        return {
-            'journal_id': journal_id,
-            'line_ids': move_lines,
-            'date': self.date,
-            'ref': description,
-            'stock_move_id': self.id,
-            'stock_valuation_layer_ids': [(6, None, [svl_id])],
-            'move_type': 'entry',
-        }
+    # Odoo 20: the forced move date (write override) lives in sh_stock_backdate,
+    # journal entry dating in sh_stock_account_backdate (_create_account_move).

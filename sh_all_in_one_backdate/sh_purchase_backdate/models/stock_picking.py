@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # Part of Softhealer Technologies.
-from odoo import fields, models, api
+from odoo import fields, models
 
 
 class StockPicking(models.Model):
@@ -12,12 +12,14 @@ class StockPicking(models.Model):
         related="company_id.remark_for_purchase_order", string="Is Remarks for Purchase")
 
     def write(self, vals):
-        for rec in self:
-            if rec.purchase_id and 'date_done' in vals and rec.company_id.backdate_for_stock_move:
-                vals['date_done'] = rec.purchase_id.date_approve
-
-            return super().write(vals)
-
-    def _set_scheduled_date(self):
-        for picking in self:
-            picking.move_ids.write({'date': picking.scheduled_date})
+        if vals.get('date_done'):
+            po_pickings = self.filtered(
+                lambda p: p.purchase_id and p.purchase_id.date_approve and p.company_id.backdate_for_stock_move)
+            if po_pickings:
+                for date_approve, pickings in po_pickings.grouped(lambda p: p.purchase_id.date_approve).items():
+                    super(StockPicking, pickings).write(dict(vals, date_done=date_approve))
+                others = self - po_pickings
+                if others:
+                    super(StockPicking, others).write(vals)
+                return True
+        return super().write(vals)

@@ -1,29 +1,23 @@
-# -*- coding: utf-8 -*-
 {
     'name': 'FSM Worksheet Form Report',
-    'summary': 'Generate worksheet reports from FSM form views',
-
+    'summary': 'Generate styled worksheet reports for Field Service interventions',
     'description': """
-Convert FSM worksheet form views into HTML reports
+Render Field Service (planning.slot) worksheets with the CGUK report layout
 and print them in PDF documents.
     """,
-
     'author': 'Thoughtlogik',
     'website': 'https://www.thoughtlogik.com',
-
     'category': 'Services/Field Service',
-    'version': '18.0.1.0.0',
-
+    'version': '20.0.1.0.0',
     'depends': [
-        'project','industry_fsm','industry_fsm_report',
+        'planning_field_service',
+        'planning_field_service_worksheet',
     ],
-
     'data': [
         'views/custom_fsm_layout.xml',
         'views/worksheet_custom_report_templates.xml',
         'views/external_layout_bold.xml',
     ],
-
     'installable': True,
     'application': False,
     'auto_install': False,

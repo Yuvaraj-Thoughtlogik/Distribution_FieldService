@@ -1,4 +1,4 @@
-from odoo import _, api, fields, models, Command, tools
+from odoo import fields, models
 from markupsafe import Markup
 
 

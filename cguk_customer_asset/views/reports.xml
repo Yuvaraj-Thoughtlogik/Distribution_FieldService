@@ -1,91 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-    <record id="sale_order_form_inherit_add_total_price" model="ir.ui.view">
-        <field name="name">sale.order.form.inherit.total_price</field>
-        <field name="model">sale.order</field>
-        <field name="inherit_id" ref="sale.view_order_form"/>
-        <field name="arch" type="xml">
-
-            <!-- Insert total_price into list view -->
-            <xpath expr="//field[@name='sale_order_option_ids']/list/field[@name='discount']" position="after">
-                <field name="total_price" readonly="1" invisible="1" column_invisible="1"/>
-            </xpath>
-        </field>
-    </record>
-
     <record id="sale_order_line_view_inherit_total_price" model="ir.ui.view">
         <field name="name">sale.order.line.inherit.total.price</field>
         <field name="model">sale.order</field>
         <field name="inherit_id" ref="sale.view_order_form"/>
         <field name="arch" type="xml">
-            <!-- Insert into order lines tree view -->
-            <xpath expr="//field[@name='order_line']/list/field[@name='price_total']" position="after">
-                <field name="order_line_total_price" readonly="1" invisible="1" column_invisible="1"/>
+            <xpath expr="//field[@name='order_line']/list/field[@name='tax_ids']" position="after">
+                <field name="order_line_total_price" readonly="1" column_invisible="1"/>
+                <field name="cost_price" readonly="1" column_invisible="1"/>
             </xpath>
-
         </field>
     </record>
-    
+
     <record id="view_order_form_inherit_partner_fields" model="ir.ui.view">
-      <field name="name">sale.order.form.inherit.partner.details</field>
-      <field name="model">sale.order</field>
-      <field name="inherit_id" ref="sale.view_order_form"/>
-      <field name="arch" type="xml">
-      <!-- Insert after partner_id -->
-      <xpath expr="//field[@name='partner_id']" position="after">
-      <field name="individual_name" readonly="1" invisible="1"/>
-      <field name="related_address" widget="text" invisible="1"/>
-      <field name="company_name" readonly="1" invisible="1"/>
-      <field name="contact_address" widget="text" readonly="1" invisible="1"/>
-      </xpath>
-  </field>
-  </record>
-  
-  <record id="view_company_form_inherit_footer_logo" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.partner.details</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="individual_name" readonly="1" invisible="1"/>
+                <field name="related_address" widget="text" invisible="1"/>
+                <field name="company_name" readonly="1" invisible="1"/>
+                <field name="contact_address" widget="text" readonly="1" invisible="1"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_company_form_inherit_footer_logo" model="ir.ui.view">
         <field name="name">res.company.form.footer.logo</field>
         <field name="model">res.company</field>
         <field name="inherit_id" ref="base.view_company_form"/>
         <field name="arch" type="xml">
-        <xpath expr="//field[@name='logo']" position="after">
-        <field name="footer_logo" widget="image" class="oe_avatar" options="{'preview_image': 'footer_logo'}" invisible="0"/>
-        <field name="fritsch_logo" widget="image" class="oe_avatar" options="{'preview_image': 'fritsch_logo'}" invisible="0"/>
-        <field name="continuation_logo" widget="image" class="oe_avatar" options="{'preview_image': 'continuation_logo'}" invisible="0"/>
-        </xpath>
+            <xpath expr="//field[@name='logo']" position="after">
+                <field name="footer_logo" widget="image" class="oe_avatar" options="{'preview_image': 'footer_logo'}"/>
+                <field name="fritsch_logo" widget="image" class="oe_avatar" options="{'preview_image': 'fritsch_logo'}"/>
+                <field name="continuation_logo" widget="image" class="oe_avatar" options="{'preview_image': 'continuation_logo'}"/>
+            </xpath>
         </field>
-  </record>
-  
-  <record id="view_order_form_inherit_report_type" model="ir.ui.view">
-      <field name="name">sale.order.form.inherit.report.type</field>
-      <field name="model">sale.order</field>
-      <field name="inherit_id" ref="sale.view_order_form"/>
-      <field name="arch" type="xml">
-      <xpath expr="//field[@name='payment_term_id']" position="after">
-      <field name="report_type" required="1"/>
-      </xpath>
-      </field>
-</record>
+    </record>
 
- <record id="view_order_form_inherit_cost_price" model="ir.ui.view">
-    <field name="name">sale.order.form.inherit.cost.price</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">
-    <!-- Insert cost_price column right after Unit Price -->
-    <xpath expr="//field[@name='order_line']/list/field[@name='price_unit']" position="after">
-    <field name="cost_price" readonly="1" invisible="1" column_invisible="1"/>
-    </xpath>
-    </field>
-</record>
-
-<record id="view_order_form_inherit_cost_price_option" model="ir.ui.view">
-    <field name="name">sale.order.form.inherit.cost.price.option</field>
-    <field name="model">sale.order</field>
-    <field name="inherit_id" ref="sale.view_order_form"/>
-    <field name="arch" type="xml">
-    <xpath expr="//field[@name='sale_order_option_ids']/list/field[@name='discount']" position="after">
-    <field name="cost_price" readonly="1" invisible="1" column_invisible="1"/>
-    </xpath>
-    </field>
-</record>
-
+    <record id="view_order_form_inherit_report_type" model="ir.ui.view">
+        <field name="name">sale.order.form.inherit.report.type</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_term_id']" position="after">
+                <field name="report_type" required="1"/>
+            </xpath>
+        </field>
+    </record>
 </odoo>

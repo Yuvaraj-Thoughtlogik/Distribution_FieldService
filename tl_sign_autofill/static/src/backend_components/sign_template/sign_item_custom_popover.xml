@@ -1,58 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <templates xml:space="preserve">
-
-    <t
-            t-name="tl_sign_autofill.SignItemCustomPopover"
-            t-inherit="sign.SignItemCustomPopover"
-            t-inherit-mode="extension"
-    >
-
-        <xpath expr="//Record[@t-props='recordProps']" position="after">
-
-            <div class="mb-2" t-if="isAutoFillSupported">
-                <div class="checkbox">
-
-                    <label for="o_sign_auto_fill_field">
-
-                        <input
-                                type="checkbox"
-                                id="o_sign_auto_fill_field"
-                                t-att-checked="state.auto_fill"
-                                t-on-change="(e) => this.onChange('auto_fill', e.target.checked)"
-                        />
-
-                        Auto Fill
-
-                    </label>
-
+    <t t-name="tl_sign_autofill.SignItemCustomPopover" t-inherit="sign.SignItemCustomPopover" t-inherit-mode="extension">
+        <xpath expr="//input[@id='o_sign_required_field']/../.." position="after">
+            <div class="mb-3" t-if="this.isAutoFillSupported">
+                <div class="form-check">
+                    <input type="checkbox" id="o_sign_auto_fill_field" class="form-check-input"
+                           t-att-checked="this.state.auto_fill"
+                           t-on-change="(e) => this.onChange('auto_fill', e.target.checked)"/>
+                    <label class="form-check-label" for="o_sign_auto_fill_field">Auto Fill</label>
+                </div>
+                <div class="form-check" t-if="this.state.auto_fill">
+                    <input type="checkbox" id="o_sign_by_system_field" class="form-check-input"
+                           t-att-checked="this.state.by_system"
+                           t-on-change="(e) => this.onChange('by_system', e.target.checked)"/>
+                    <label class="form-check-label" for="o_sign_by_system_field">Read only (filled by system)</label>
                 </div>
             </div>
-            <div class="mb-2" t-if="state.auto_fill">
-                <div class="checkbox">
-
-                    <label for="o_sign_by_system_field">
-
-                        <input
-                                type="checkbox"
-                                id="o_sign_by_system_field"
-                                t-att-checked="state.by_system"
-                                t-on-change="(e) => this.onChange('by_system', e.target.checked)"
-                        />
-
-                        Read only
-
-                    </label>
-
-                </div>
-            </div>
-            <div class="mb-1 clearfix o_popover_key" id="o_popover_key" t-if="state.auto_fill">
+            <div class="mb-3 clearfix o_popover_key" id="o_popover_key" t-if="this.state.auto_fill">
                 <label for="o_sign_key" class="form-label fw-bold">Key</label>
-                <input type="text" class="form-control o_input" id="o_sign_key" t-att-required="state.auto_fill" t-att-value="state.key" t-on-change="(e) => this.onChange('key', e.target.value)"/>
+                <input type="text" class="form-control o_input" id="o_sign_key"
+                       t-att-required="this.state.auto_fill"
+                       t-att-value="this.state.key"
+                       t-on-change="(e) => this.onChange('key', e.target.value)"/>
             </div>
         </xpath>
-
     </t>
-
-
 </templates>

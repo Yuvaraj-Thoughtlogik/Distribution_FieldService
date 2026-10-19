@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="portal_my_field_service_report_form" inherit_id="planning_field_service.portal_my_field_service_report_form">
+        <xpath expr="//li[@id='nav-chat']" position="before">
+            <li t-if="intervention.multiple_worksheet and intervention.fsm_worksheet_completed_count" class="nav-item">
+                <a class="nav-link p-0" href="#intervention_worksheets">Worksheets</a>
+            </li>
+        </xpath>
+        <xpath expr="//div[@id='intervention_worksheet']" position="after">
+            <div id="intervention_worksheets" class="container" t-if="intervention.multiple_worksheet and intervention.fsm_worksheet_completed_count">
+                <hr class="mt-4 mb-4"/>
+                <h5 class="mt-2 mb-3" data-anchor="true">Worksheets</h5>
+                <t t-foreach="intervention.sudo()._get_multi_worksheets_props()" t-as="worksheet_data">
+                    <t t-set="fsm_worksheet" t-value="worksheet_data[0]"/>
+                    <div class="mb-4" style="page-break-inside: avoid">
+                        <h6 class="fw-bold mb-1" t-out="fsm_worksheet.name"/>
+                        <div class="text-muted small mb-2" t-if="fsm_worksheet.customer_asset_id">
+                            Customer Asset: <span class="fw-semibold text-dark" t-out="fsm_worksheet.customer_asset_id.display_name"/>
+                        </div>
+                        <t t-out="intervention.sudo()._render_worksheet_html(worksheet_data[1])"/>
+                    </div>
+                </t>
+            </div>
+        </xpath>
+    </template>
+</odoo>

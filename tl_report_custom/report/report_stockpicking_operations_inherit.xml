@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <odoo>
     <template id="report_picking_inherit" inherit_id="stock.report_picking">
-        <xpath expr="//t/t/t/div/table[1]/thead/tr/th[@name='th_product']" position="after">
+        <xpath expr="//table[hasclass('o_main_table')]/thead/tr/th[@name='th_product']" position="after">
             <th name="th_product_image">
                 <div><strong>Image</strong></div>
             </th>
         </xpath>
-        <xpath expr="//t/t/t/div/table[1]/tbody/tr/td[1]" position="after">
+        <!-- Odoo 20: one summary row per move (variable `move`) -->
+        <xpath expr="//table[hasclass('o_main_table')]/tbody/t/tr/td[1]" position="after">
             <td>
-                <t t-if="ml.product_id.image_1920">
-                    <img t-att-src="image_data_uri(ml.product_id.image_1920)" style="height:50px;width:50px;" alt="Product Image"/>
+                <t t-if="move.product_id.image_1920">
+                    <img t-att-src="image_data_uri(move.product_id.image_1920)" style="height:50px;width:50px;" alt="Product Image"/>
                 </t>
             </td>
+        </xpath>
+        <!-- keep the move line breakdown rows aligned with the extra column -->
+        <xpath expr="//table[hasclass('o_main_table')]/tbody/t/t/tr/td[1]" position="after">
+            <td/>
         </xpath>
     </template>
 </odoo>

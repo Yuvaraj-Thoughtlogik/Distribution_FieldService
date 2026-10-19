@@ -51,14 +51,14 @@ class Lead(models.Model):
             ("new_business","New Business"),
             ("replacement_of_existing_system","Replacement of existing system"),
             ("consumables_accessories","Consumables/ Accessories")]
-        ,string="Type")
+        ,string="Business Type")
     last_name = fields.Char(string="Last Name")
     secondary_email = fields.Char(string="Secondary Email")
     created_by = fields.Char(string="Created By")
     modified_by = fields.Char(string="Modified By")
     manufacturer_ids = fields.Many2many(
         'crm.lead.manufacture',
-        string="Manufacturer"
+        string="Manufacturers"
     )
     industry = fields.Selection(
         selection=[
@@ -95,19 +95,19 @@ class Lead(models.Model):
     )
     # email_opt_out = fields.Boolean(string="Email Opt Out")
     exchange_rate = fields.Float(string="Exchange Rate")
-    currency = fields.Many2one(comodel_name="res.currency",string="Currency")
+    currency = fields.Many2one(comodel_name="res.currency",string="Lead Currency")
     description = fields.Text(string="Description")
 
     #Application Information
     sample_material_ids = fields.Many2many(
         'crm.lead.sample_material_option',
-        string='Sample Material'
+        string='Sample Material Options'
     )
     sample_material_special = fields.Char(string="Sample material Special")
 
     analysis_ids = fields.Many2many(
         'crm.lead.analysis_option',
-        string='Analysis'
+        string='Analysis Options'
     )
     analysis_further_information = fields.Char(string="Analysis future information")
 
@@ -115,7 +115,7 @@ class Lead(models.Model):
 
     sample_preparation_ids = fields.Many2many(
         'crm.lead.sample_preparation_option',
-        string='Sample Preparation Requirements'
+        string='Sample Preparation Options'
     )
     sample_material1_ids = fields.Many2many(
         'sample.material',
@@ -184,13 +184,13 @@ class Lead(models.Model):
                 })
 
     @api.model_create_multi
-    def create(self, vals):
-        record = super(Lead, self).create(vals)
-        record._update_partner_fields()
-        return record
+    def create(self, vals_list):
+        records = super().create(vals_list)
+        records._update_partner_fields()
+        return records
 
     def write(self, vals):
-        res = super(Lead, self).write(vals)
+        res = super().write(vals)
         self._update_partner_fields()
         return res
 

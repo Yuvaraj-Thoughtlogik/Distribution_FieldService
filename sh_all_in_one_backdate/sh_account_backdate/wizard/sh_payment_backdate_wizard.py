@@ -22,7 +22,7 @@ class PaymentBackdateWizard(models.TransientModel):
 
     @api.onchange('date')
     def onchange_date(self):
-        if str(self.date) < str(date.today()):
+        if self.date and str(self.date) < str(date.today()):
             self.is_boolean = True
         else:
             self.is_boolean = False
@@ -31,7 +31,7 @@ class PaymentBackdateWizard(models.TransientModel):
         active_ids = self.env.context.get('active_ids')
 
         return {
-            'name': 'Assign Backdate',
+            'name': self.env._('Assign Backdate'),
             'res_model': 'sh.payment.backdate.wizard',
             'view_mode': 'form',
             'view_id': self.env.ref('sh_all_in_one_backdate.payment_backdate_wizard_view_form').id,
@@ -43,44 +43,21 @@ class PaymentBackdateWizard(models.TransientModel):
         }
 
     def assign_backdate(self):
-
-        if self.company_id.enable_backdate_for_payment:
-
-            for payment in self.account_payment_ids:
-
-                if payment.state == 'posted':
-
-                    payment.action_draft()
-                    payment.name = False
-
-                    payment.write({
-                        'date': self.date,
-                        'remarks': self.remarks
-                    })
-
-                    payment.action_post()
-
-                    payment.move_id.write({
-                        'remarks': self.remarks
-                    })
-
-                elif payment.state == 'cancel':
-
-                    payment.action_draft()
-                    payment.name = False
-
-                    payment.write({
-                        'date': self.date,
-                        'remarks': self.remarks
-                    })
-
-                    payment.action_cancel()
-
-                else:
-
-                    payment.name = False
-
-                    payment.write({
-                        'date': self.date,
-                        'remarks': self.remarks
-                    })
+        if not self.company_id.enable_backdate_for_payment:
+            return
+        new_date = fields.Date.to_date(self.date)
+        for payment in self.account_payment_ids:
+            # Odoo 20 payment states: draft / paid / reconciled / canceled / rejected.
+            # The journal entry follows the payment date (_synchronize_to_moves).
+            move = payment.move_id
+            was_posted = move.state == 'posted'
+            if was_posted:
+                move.button_draft()
+            payment.write({
+                'date': new_date,
+                'remarks': self.remarks,
+            })
+            if move:
+                move.write({'remarks': self.remarks})
+            if was_posted:
+                move.action_post()

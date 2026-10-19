@@ -5,11 +5,11 @@
             <field name="model">sign.template</field>
             <field name="inherit_id" ref="sign.sign_template_view_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='sign_item_ids']" position="attributes">
-                    <attribute name="readonly">False</attribute>
-                </xpath>
-                <xpath expr="//field[@name='sign_item_ids']" position="inside">
-                    <list default_order="page,posY,posX,id" editable="bottom">
+                <!-- Odoo 20: sign items are not displayed on the template form anymore -->
+                <xpath expr="//notebook" position="inside">
+                    <page name="auto_fill_items" string="Sign Items">
+                        <field name="sign_item_ids" readonly="0">
+                    <list default_order="page,posY,posX,id" editable="bottom" create="0" delete="0">
                         <field name="name" optional="show"/>
                         <field name="key" optional="show" invisible="not auto_fill"/>
 
@@ -24,6 +24,8 @@
                         <field name="width" readonly="1"/>
                         <field name="height" readonly="1"/>
                     </list>
+                        </field>
+                    </page>
                 </xpath>
             </field>
         </record>

@@ -16,7 +16,7 @@ class AccountPayment(models.Model):
 
     @api.onchange('date')
     def onchange_date(self):
-        if str(self.date) < str(date.today()):
+        if self.date and str(self.date) < str(date.today()):
             self.is_boolean = True
         else:
             self.is_boolean = False

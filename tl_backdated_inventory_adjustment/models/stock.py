@@ -1,87 +1,66 @@
-from odoo import models, fields, api
+from odoo import api, fields, models
 
 
-class Stock_Move(models.Model):
+class StockMove(models.Model):
     _inherit = 'stock.move'
 
     inv_backdated = fields.Date(string="Inventory Backdate", copy=False)
 
     def _action_done(self, cancel_backorder=False):
-        res = super(Stock_Move, self)._action_done(cancel_backorder=cancel_backorder)
-        for move in self:
-            if move.inv_backdated:
-                move.write({'date': move.inv_backdated})
-                move.move_line_ids.write({'date': move.inv_backdated,
-                                          'origin': move.origin})
+        res = super()._action_done(cancel_backorder=cancel_backorder)
+        for move in self.filtered('inv_backdated'):
+            # Odoo 20: writing the date of a valued move replays its valuation;
+            # move lines `date` is related to the move date. The journal entry is
+            # already dated through stock.quant.accounting_date (force_period_date).
+            move.with_context(skip_backdate_validation=True).write({'date': move.inv_backdated})
         return res
 
+    def _tl_backdate_account_moves(self, new_date):
+        """Re-date the stock journal entries (stock.move.account_move_id)."""
+        accounting_date = fields.Date.context_today(self, fields.Datetime.to_datetime(new_date))
+        for account_move in self.sudo().account_move_id.filtered(
+                lambda m: m.state != 'cancel' and m.date != accounting_date):
+            was_posted = account_move.state == 'posted'
+            if was_posted:
+                account_move.button_draft()
+            if account_move.name and account_move.name != '/':
+                account_move.name = False  # new number matching the new period
+            account_move.date = accounting_date
+            if was_posted:
+                account_move.action_post()
 
-class stock_quant(models.Model):
+
+class StockQuant(models.Model):
     _inherit = 'stock.quant'
 
     inv_backdated = fields.Date(string="Inventory Backdate", copy=True)
     backdated_remark = fields.Char(string="Notes", copy=False)
 
-    def _get_inventory_move_values(
-        self, qty, location_id, location_dest_id,
-        package_id=False, package_dest_id=False
-        
-    ):
-        res = super(stock_quant, self)._get_inventory_move_values(
-            qty=qty,
-            location_id=location_id,
-            location_dest_id=location_dest_id,
-            #owner_id=owner_id,
-            package_id=package_id,
-            package_dest_id=package_dest_id,
-            #lot_id=lot_id,
-            #product_uom_id=product_uom_id,
-            #out=out
-        )
+    def _get_inventory_move_values(self, qty, location_id, location_dest_id, package_id=False, package_dest_id=False):
+        res = super()._get_inventory_move_values(
+            qty, location_id, location_dest_id, package_id=package_id, package_dest_id=package_dest_id)
         if self.inv_backdated:
             res.update({
                 'inv_backdated': self.inv_backdated,
                 'date_deadline': self.inv_backdated,
-                'origin': self.backdated_remark
+                'origin': self.backdated_remark,
             })
         return res
 
-
-    def _apply_inventory(self):
-        for inventory in self.filtered(lambda l: l.inv_backdated):
+    def _apply_inventory(self, date=None):
+        # stock_account dates the valuation journal entries with `accounting_date`
+        for inventory in self.filtered('inv_backdated'):
             inventory.accounting_date = inventory.inv_backdated
-
-        res = super(stock_quant, self)._apply_inventory()
-
-        #  Remove this if you want to retain backdated values
-        # for inventory in self.filtered(lambda l: l.inv_backdated):
-        #     inventory.write({'inv_backdated': False, 'backdated_remark': False})
-
-        return res
+        return super()._apply_inventory(date=date)
 
     @api.model
     def _get_inventory_fields_create(self):
-        res = super(stock_quant,self)._get_inventory_fields_create()
-        res += ['inv_backdated','backdated_remark']
-        return res
+        return super()._get_inventory_fields_create() + ['inv_backdated', 'backdated_remark']
 
     @api.model
     def _get_inventory_fields_write(self):
-        res = super(stock_quant,self)._get_inventory_fields_write()
-        res += ['inv_backdated','backdated_remark']
-        return res
+        return super()._get_inventory_fields_write() + ['inv_backdated', 'backdated_remark']
 
-
-class stock_valuation_layer(models.Model):
-    _inherit = 'stock.valuation.layer'
-
-    @api.model_create_multi
-    def create(self, vals_list):
-        res = super(stock_valuation_layer, self).create(vals_list)
-        if self._context.get('force_period_date'):
-            for each_rec in res:
-                self.env.cr.execute("update stock_valuation_layer set create_date = %s where id = %s", (self._context.get('force_period_date'), each_rec.id))
-        return res
 
 class BulkInventoryBackdateWizard(models.TransientModel):
     _name = 'bulk.inventory.backdate.wizard'
@@ -97,52 +76,27 @@ class BulkInventoryBackdateWizard(models.TransientModel):
             'inv_backdated': self.inv_backdated,
             'backdated_remark': self.backdated_remark,
         })
-        
-        
+
+
 class StockPicking(models.Model):
     _inherit = 'stock.picking'
 
     def button_validate(self):
         res = super().button_validate()
-
+        if 'sale.order' not in self.env:
+            return res
         for picking in self:
             if picking.picking_type_code != 'outgoing' or picking.state != 'done':
                 continue
-
-            # Get related Sale Order
             sale_order = self.env['sale.order'].search([('name', '=', picking.origin)], limit=1)
             if not sale_order or not sale_order.commitment_date:
                 continue
-
             commitment_date = sale_order.commitment_date
-
-            # Update picking effective date
-            picking.with_context(skip_backdate_validation=True).write({
-                'date_done': commitment_date
-            })
-
-            # Update stock moves
-            picking.move_ids_without_package.with_context(skip_backdate_validation=True).write({
-                'date': commitment_date
-            })
-
-           
-            picking.move_line_ids.with_context(skip_backdate_validation=True).write({
-                'date': commitment_date
-            })
-
-            # Update valuation layer
-            valuation_layers = self.env['stock.valuation.layer'].search([
-                ('stock_move_id', 'in', picking.move_ids_without_package.ids)
-            ])
-            for valuation in valuation_layers:
-                if valuation.create_date.date() != commitment_date.date():
-                    self.env.cr.execute("""
-                        UPDATE stock_valuation_layer
-                        SET create_date = %s, write_date = %s
-                        WHERE id = %s
-                    """, (commitment_date, commitment_date, valuation.id))
-
+            picking = picking.with_context(skip_backdate_validation=True)
+            # Odoo 20: on a done picking, writing date_done also sets the moves date
+            # (which replays the valuation); move lines date is related to the move.
+            picking.write({'date_done': commitment_date})
+            picking.move_ids.write({'date': commitment_date})
+            # replaces the former stock.valuation.layer create_date SQL update
+            picking.move_ids._tl_backdate_account_moves(commitment_date)
         return res
-
-        

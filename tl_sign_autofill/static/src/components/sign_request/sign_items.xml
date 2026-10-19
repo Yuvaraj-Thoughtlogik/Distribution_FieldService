@@ -3,18 +3,16 @@
 <templates xml:space="preserve">
 
     <t t-name="tl_sign_autofill.signItem" t-inherit="sign.signItem" t-inherit-mode="extension">
-        <xpath expr="//input[@t-if=&quot;type == 'text'&quot;]"
-               position="replace">
-
-            <input t-if="type == 'text'"
+        <xpath expr="//input[@t-if=&quot;type == 'text' || type == 'date'&quot;]" position="replace">
+            <input t-if="type == 'text' || type == 'date'"
                    t-att-title="role"
                    type="text"
                    t-attf-class="{{classes}} o_sign_sign_item"
                    t-att-style="style"
-                   t-att-placeholder="placeholder"
+                   t-att-placeholder="constant ? '': placeholder"
                    t-attf-value="{{value}}"
+                   t-att-disabled="constant"
             />
-
         </xpath>
         <xpath expr="//t[@t-if='!readonly']"
                position="inside">

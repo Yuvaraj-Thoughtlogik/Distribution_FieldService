@@ -3,7 +3,6 @@ import re
 
 from odoo import models, fields, api, Command
 from odoo.exceptions import ValidationError
-from odoo.tools import _
 
 # class SignTemplate(models.Model):
 #     _inherit = 'sign.template'

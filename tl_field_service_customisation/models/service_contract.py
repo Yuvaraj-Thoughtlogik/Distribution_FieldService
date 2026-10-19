@@ -1,7 +1,7 @@
 from dateutil.relativedelta import relativedelta
 from odoo import models, fields, api, Command
 from markupsafe import Markup
-from odoo.tools import _
+
 from odoo.exceptions import UserError, ValidationError
 
 import logging
@@ -88,14 +88,19 @@ class ServiceContract(models.Model):
     )
     signed_document = fields.Binary(
         string="Signed Document",
-        related='current_sign_id.completed_document',
-        store=True
+        compute='_compute_signed_document',
     )
     signed_document_filename = fields.Char(
-        string="Signed Document",
+        string="Signed Document Name",
         related='current_sign_id.reference',
         store=True
     )
+
+    @api.depends('current_sign_id.completed_document_attachment_ids')
+    def _compute_signed_document(self):
+        for rec in self:
+            attachment = rec.current_sign_id.sudo().completed_document_attachment_ids[:1]
+            rec.signed_document = attachment.datas if attachment else False
 
     @api.depends('sale_id', 'sale_id.start_date', 'sale_id.next_recurring_date')
     def _compute_contract_dates(self):
@@ -145,6 +150,21 @@ class ServiceContract(models.Model):
                 if lines else False
             )
 
+    @api.model
+    def _get_sign_role(self, kind):
+        """Return the 'customer' / 'user' sign role. The standard xmlids
+        sign.sign_item_role_customer / sign.sign_item_role_user do not exist anymore in
+        Odoo 20, so fall back on the roles shipped by this module."""
+        xmlids = {
+            'customer': ('sign.sign_item_role_customer', 'tl_field_service_customisation.sign_role_customer'),
+            'user': ('sign.sign_item_role_user', 'tl_field_service_customisation.sign_role_user'),
+        }[kind]
+        for xmlid in xmlids:
+            role = self.env.ref(xmlid, raise_if_not_found=False)
+            if role:
+                return role
+        return self.env['sign.item.role']
+
     def open_subscription_history(self):
         self.ensure_one()
         return self.sale_id.open_subscription_history()
@@ -175,7 +195,7 @@ class ServiceContract(models.Model):
         self.ensure_one()
         if self.current_subscription_id.state != 'sale':
             raise ValidationError(
-                _("Please confirm the Subscription before creating a sign request.")
+                self.env._("Please confirm the Subscription before creating a sign request.")
             )
         return {
             'name': 'Assign Sign Role',
@@ -194,7 +214,7 @@ class ServiceContract(models.Model):
         self.ensure_one()
         if self.current_subscription_id.state != 'sale':
             raise ValidationError(
-                _("Please confirm the Subscription before creating a sign request mail.")
+                self.env._("Please confirm the Subscription before creating a sign request mail.")
             )
 
         recipients = []
@@ -215,7 +235,7 @@ class ServiceContract(models.Model):
         )
         if self.current_sign_id.state == 'signed':
             body = f'Signed Document Resent to the Recipients: {recipient_text}'
-            self.current_sign_id._send_completed_document()
+            self.current_sign_id._send_completed_documents()
 
 
         self.message_post(body=body)
@@ -275,9 +295,15 @@ class ServiceContractLine(models.Model):
         'sign.request',
         string='Sign Request',store=True
     )
-    sign_status = fields.Selection(selection=[('not_shared','Not Shared'),('shared','Shared'),('sent','To Sign'),('signed','Fully Signed'),('canceled','Canceled'),('expired','Expired')], string="Sign Status",store=True,compute='_compute_sign_state')
-    signed_document = fields.Binary(string="Signed Document",related='sign_request_id.completed_document',store=True)
-    signed_document_filename = fields.Char(string="Signed Document",related='sign_request_id.reference',store=True)
+    sign_status = fields.Selection(selection=[('not_shared', 'Not Shared'), ('shared', 'Shared'), ('scheduled', 'Scheduled'), ('sent', 'To Sign'), ('signed', 'Fully Signed'), ('canceled', 'Canceled'), ('expired', 'Expired')], string="Sign Status", store=True, compute='_compute_sign_state')
+    signed_document = fields.Binary(string="Signed Document", compute='_compute_signed_document')
+    signed_document_filename = fields.Char(string="Signed Document Name", related='sign_request_id.reference', store=True)
+
+    @api.depends('sign_request_id.completed_document_attachment_ids')
+    def _compute_signed_document(self):
+        for rec in self:
+            attachment = rec.sign_request_id.sudo().completed_document_attachment_ids[:1]
+            rec.signed_document = attachment.datas if attachment else False
 
     state = fields.Selection(string="Status",selection=[
         ('draft', 'Draft'),
@@ -422,7 +448,7 @@ class ServiceContractLine(models.Model):
             return self.sign_request_id
         if not template or not self.sale_id.state == 'sale':
             raise ValidationError(
-                _("Please confirm the Subscription before creating a sign request.")
+                self.env._("Please confirm the Subscription before creating a sign request.")
             )
 
         sign_request = self.env['sign.request'].with_context(
@@ -499,9 +525,7 @@ class ServiceContractLine(models.Model):
     def send_non_customer_emails(self):
         self.ensure_one()
 
-        role_customer_id = self.env['ir.model.data']._xmlid_to_res_id(
-            'sign.sign_item_role_customer'
-        )
+        role_customer_id = self.env['service.contract']._get_sign_role('customer').id
 
         for item in self.sign_request_id.request_item_ids:
             if item.state not in ['completed','canceled'] and item.role_id.id != role_customer_id:

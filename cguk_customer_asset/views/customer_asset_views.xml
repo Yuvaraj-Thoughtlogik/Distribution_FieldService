@@ -3,7 +3,10 @@
     <field name="name">customer.asset.form</field>
     <field name="model">customer.asset</field>
     <field name="arch" type="xml">
-      <form string="Customer Asset" >
+      <form string="Customer Asset">
+        <header>
+          <button name="action_plan_intervention" type="object" string="Plan Intervention" class="btn-primary" groups="planning.group_planning_user"/>
+        </header>
         <sheet>
           <div class="oe_button_box" name="button_box">
             <button name="action_view_subscription"
@@ -34,22 +37,14 @@
                     type="object"
                     class="oe_stat_button"
                     icon="fa-life-ring">
-              <field name="helpdesk_ticket_ids"
-                     widget="statinfo"
-                     string="Helpdesk"
-                     invisible="1"/>
+              <span class="o_stat_text">Helpdesk</span>
             </button>
-            <button name="action_view_fsm"
-                    string="FSM Task"
-                    invisible="not fsm_task_ids"
+            <button name="action_view_interventions"
+                    groups="planning.group_planning_user"
                     type="object"
                     class="oe_stat_button"
                     icon="fa-tasks">
-              <field name="fsm_task_ids"
-                     widget="statinfo"
-                     string="FSM"
-                     invisible="1"
-              />
+              <field name="intervention_count" widget="statinfo" string="Interventions"/>
             </button>
             <button name="action_view_delivery_order"
                     string="Delivery Order"
@@ -62,9 +57,7 @@
                      string="Delivery Order"
               />
             </button>
-            <button name="action_view_repair_order" string="Repair Order" invisible="not repair_order_ids" type="object" class="oe_stat_button" icon="fa-wrench">
-              <!--              <field name="repair_order_ids" widget="statinfo" string="Repair Order"/>-->
-            </button>
+            <button name="action_view_repair_order" string="Repair Order" invisible="not repair_order_ids" type="object" class="oe_stat_button" icon="fa-wrench"/>
           </div>
           <div class="oe_title">
             <h1>
@@ -114,7 +107,8 @@
                  }" widget="many2many_tags"/>
               <field name="subscription_id" readonly="1"/>
               <field name="sale_order_id"/>
-              <field name="fsm_task_ids" widget="many2many_tags"/>
+              <field name="intervention_ids" widget="many2many_tags" groups="planning.group_planning_user"
+                     context="{'default_partner_id': delivery_address_id or contact_id or customer_company_id}"/>
               <field name="stock_picking_id"/>
               <field name="repair_order_ids" widget="many2many_tags"/>
             </group>
@@ -161,6 +155,27 @@
         <field name="sale_date"/>
         <field name="customer_company_id"/>
       </list>
+    </field>
+  </record>
+
+  <record id="view_customer_asset_search" model="ir.ui.view">
+    <field name="name">customer.asset.search</field>
+    <field name="model">customer.asset</field>
+    <field name="arch" type="xml">
+      <search>
+        <field name="name"/>
+        <field name="product_id"/>
+        <field name="product_serial_No"/>
+        <field name="customer_company_id"/>
+        <field name="contact_id"/>
+        <field name="sale_order_id"/>
+        <field name="subscription_id"/>
+        <filter name="filter_active_asset" string="Active" domain="[('active_asset', '=', True)]"/>
+        <filter name="filter_under_warranty" string="Under Warranty" domain="[('under_warranty', '=', True)]"/>
+        <separator/>
+        <filter name="groupby_company" string="Company" context="{'group_by': 'customer_company_id'}"/>
+        <filter name="groupby_product" string="Product" context="{'group_by': 'product_id'}"/>
+      </search>
     </field>
   </record>
 

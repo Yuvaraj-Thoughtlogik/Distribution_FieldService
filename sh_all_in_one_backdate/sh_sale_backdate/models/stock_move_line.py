@@ -11,8 +11,5 @@ class StockMoveLine(models.Model):
     is_remarks_for_sale = fields.Boolean(
         related="company_id.remark_for_sale_order", string="Is Remarks for sale")
 
-    def _action_done(self):
-        res = super()._action_done()
-        if self.picking_id.sale_id:
-            self.date = self.picking_id.sale_id.date_order
-        return res
+    # Odoo 20: stock.move.line.date is related to stock.move.date, the move
+    # date is forced to the sale date through the picking scheduled date.

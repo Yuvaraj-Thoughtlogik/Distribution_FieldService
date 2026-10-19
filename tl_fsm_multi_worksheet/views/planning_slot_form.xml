@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="planning_view_form_multi_worksheet" model="ir.ui.view">
+        <field name="name">planning.slot.form.multi.worksheet</field>
+        <field name="model">planning.slot</field>
+        <field name="inherit_id" ref="planning.planning_view_form"/>
+        <field name="priority">60</field>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='worksheet_template_id']" position="attributes">
+                <attribute name="invisible">multiple_worksheet</attribute>
+            </xpath>
+            <xpath expr="//field[@name='worksheet_template_id']" position="after">
+                <field name="multiple_worksheet" invisible="not partner_id" readonly="not can_edit" groups="planning.group_planning_manager"/>
+            </xpath>
+            <xpath expr="//page[@name='worksheet']" position="attributes">
+                <attribute name="invisible">not worksheet_template_id or multiple_worksheet</attribute>
+            </xpath>
+            <xpath expr="//page[@name='worksheet']/group" position="before">
+                <group string="Asset Details" name="asset_details" invisible="not worksheet_has_asset_details">
+                    <group>
+                        <field name="worksheet_serial_number" readonly="not can_edit"/>
+                        <field name="worksheet_service_contract_number" readonly="not can_edit"/>
+                    </group>
+                    <group/>
+                </group>
+            </xpath>
+            <xpath expr="//page[@name='worksheet']" position="after">
+                <page string="Worksheets" name="fsm_worksheets" invisible="not multiple_worksheet">
+                    <button name="action_generate_asset_worksheets" type="object" string="One Worksheet per Asset"
+                            class="btn-secondary mb-2" invisible="not customer_assets_ids or not can_edit"/>
+                    <field name="fsm_worksheet_ids" mode="list" readonly="not can_edit"
+                           context="{'default_planning_slot_id': id}">
+                        <list editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="worksheet_template_id" readonly="state == 'completed'"
+                                   options="{'no_open': True, 'no_quick_create': True}"
+                                   context="{'default_res_model': 'planning.slot'}"/>
+                            <field name="name" readonly="state == 'completed'"/>
+                            <field name="customer_asset_id"
+                                   domain="[('id', 'in', parent.customer_assets_ids)]"
+                                   options="{'no_quick_create': True, 'no_create': True}"/>
+                            <field name="state" widget="badge" readonly="1"
+                                   decoration-muted="state == 'draft'" decoration-success="state == 'completed'"/>
+                            <button name="open_fsm_worksheet" type="object" string="Fill" icon="fa-fw fa-pencil"/>
+                        </list>
+                    </field>
+                </page>
+            </xpath>
+            <xpath expr="//div[@name='button_box']" position="inside">
+                <button name="action_open_fsm_worksheets" type="object" class="oe_stat_button" icon="fa-fw fa-pencil"
+                        invisible="not multiple_worksheet or fsm_worksheet_completed">
+                    <field name="fsm_worksheet_count" widget="statinfo" string="Worksheets"/>
+                </button>
+                <button name="action_open_fsm_worksheets" type="object" class="oe_stat_button text-success" icon="fa-check"
+                        invisible="not multiple_worksheet or not fsm_worksheet_completed">
+                    <div class="o_stat_info">
+                        <span class="o_stat_text">Worksheets</span>
+                        <span class="o_stat_text">Complete</span>
+                    </div>
+                </button>
+            </xpath>
+        </field>
+    </record>
+</odoo>

@@ -1,6 +1,6 @@
 {
     'name': 'Disable Email Notifications',
-    'version': '1.0',
+    'version': '20.0.1.0.0',
     'summary': 'Blocks only email notifications while keeping in-app notifications active.',
     'category': 'Tools',
     'author': 'Yuvi',
@@ -9,5 +9,4 @@
     'data': [],
     'installable': True,
     'application': False,
-    "license": "LGPL-3",
 }

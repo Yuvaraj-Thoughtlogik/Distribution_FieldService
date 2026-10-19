@@ -28,7 +28,7 @@
                            statusbar_visible="draft,active,upcoming,pending,done,cancelled,terminated"/>
                 </header>
                 <sheet>
-                    <div class="oe_stat_button" name="button_box">
+                    <div class="oe_button_box" name="button_box">
                         <button name="open_current_subscription"
                                 type="object"
                                 class="oe_stat_button"

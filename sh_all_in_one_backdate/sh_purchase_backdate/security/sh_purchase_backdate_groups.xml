@@ -2,7 +2,6 @@
 <odoo>
     <record id="group_mass_assign_purchase_backdate" model="res.groups">
         <field name="name">Mass Assign Backdate(Purchase)</field>
-        <field name="category_id" ref="base.module_category_hidden"/>
     </record>
 </odoo>
  

@@ -1,5 +1,5 @@
 <odoo>
-    <template id="web.external_layout_bold">
+    <template id="external_layout_bold" name="CGUK Bold Layout">
         <div t-attf-class="header o_company_#{company.id}_layout" t-att-style="report_header_style">
             <div class="row o_first_page_letterhead">
                 <div class="row">
@@ -206,4 +206,9 @@
         </div>
     </template>
 
+    <record id="report_layout_cguk_bold" model="report.layout">
+        <field name="name">CGUK Bold</field>
+        <field name="sequence">50</field>
+        <field name="view_id" ref="tl_worksheet_form_report.external_layout_bold"/>
+    </record>
 </odoo>

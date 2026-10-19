@@ -1,4 +1,13 @@
 <odoo>
+    <data noupdate="1">
+        <record id="sign_role_customer" model="sign.item.role">
+            <field name="name">Customer</field>
+        </record>
+        <record id="sign_role_user" model="sign.item.role">
+            <field name="name">User</field>
+        </record>
+    </data>
+
     <record id="crm_team_service_contracts" model="crm.team">
         <field name="name">Service Contracts</field>
         <field name="active">True</field>

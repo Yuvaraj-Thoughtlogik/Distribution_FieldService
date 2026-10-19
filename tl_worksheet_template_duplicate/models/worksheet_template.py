@@ -1,5 +1,6 @@
 from odoo import models
 
+
 class WorksheetTemplate(models.Model):
     _inherit = 'worksheet.template'
 
@@ -7,6 +8,4 @@ class WorksheetTemplate(models.Model):
         for record in self:
             record.copy()
         # Do not change the view, stay on the same list view
-        return None
-        
-   
+        return {'type': 'ir.actions.client', 'tag': 'soft_reload'}

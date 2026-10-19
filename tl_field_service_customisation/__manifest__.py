@@ -1,14 +1,25 @@
 {
     "name": "TL Field Service Customisation",
-    "version": "1.0",
-    "depends": ['cguk_customer_asset','sign','crm','sale_subscription','tl_cguk_crm_custom','industry_fsm_report','stock','industry_fsm_sale','product','industry_fsm'],
+    "version": "20.0.1.1.0",
+    "depends": [
+        'cguk_customer_asset',
+        'tl_cguk_crm_custom',
+        'sign',
+        'crm',
+        'sale_subscription',
+        'stock',
+        'product',
+        # Odoo 20 Field Service = planning.slot interventions
+        'planning_field_service_sale_worksheet',
+        'planning_field_service_sale_stock',
+    ],
     'author': 'Thoughtlogik Solutions',
     'website': 'www.thoughtlogik.com',
     "category": "custom",
     "license": "LGPL-3",
-    "summary": "Custom module for Task and project management",
+    "summary": "Service contracts, renewal and yearly field service interventions",
     "data": [
-        'security/ir.model.access.csv',
+        'security/ir.access.csv',
         'views/sale_order_views.xml',
         'views/service_contract_views.xml',
         'views/warehouse_product_and_fsm.xml',
@@ -16,11 +27,6 @@
         'wizard/share_sign_wizard.xml',
         'wizard/send_contract_sign_views.xml',
     ],
-    "assets":{
-      'web.assets_backend':[
-
-      ]
-    },
     "installable": True,
-    "application": True
+    "application": True,
 }

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="planning_slot_worksheet_view_list" model="ir.ui.view">
+        <field name="name">planning.slot.worksheet.view.list</field>
+        <field name="model">planning.slot.worksheet</field>
+        <field name="arch" type="xml">
+            <list string="Worksheets" create="false">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="planning_slot_id" optional="hide"/>
+                <field name="customer_asset_id"/>
+                <field name="worksheet_template_id" options="{'no_open': True, 'no_quick_create': True}"/>
+                <field name="state" widget="badge" decoration-muted="state == 'draft'" decoration-success="state == 'completed'"/>
+                <button name="open_fsm_worksheet" type="object" string="Worksheet" icon="fa-fw fa-pencil"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="planning_slot_worksheet_view_form" model="ir.ui.view">
+        <field name="name">planning.slot.worksheet.view.form</field>
+        <field name="model">planning.slot.worksheet</field>
+        <field name="arch" type="xml">
+            <form string="Worksheet">
+                <header>
+                    <button name="action_mark_completed" type="object" string="Mark as Completed" class="btn-primary" invisible="state == 'completed'"/>
+                    <button name="action_reset_draft" type="object" string="Reset to Draft" invisible="state != 'completed'"/>
+                    <field name="state" widget="statusbar"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1><field name="name" placeholder="e.g. Annual Service"/></h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="planning_slot_id" readonly="1"/>
+                            <field name="worksheet_template_id" readonly="state == 'completed'"
+                                   context="{'default_res_model': 'planning.slot'}" options="{'no_quick_create': True}"/>
+                            <field name="company_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="customer_asset_id" options="{'no_create': True}"/>
+                        </group>
+                    </group>
+                    <group string="Asset Details" name="asset_details" invisible="not has_asset_details">
+                        <group>
+                            <field name="serial_number"/>
+                            <field name="service_contract_number"/>
+                        </group>
+                        <group/>
+                    </group>
+                    <group col="1" string="Worksheet" invisible="not worksheet_template_id">
+                        <field name="worksheet_properties" widget="field_service_worksheet_properties" nolabel="1" colspan="2"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

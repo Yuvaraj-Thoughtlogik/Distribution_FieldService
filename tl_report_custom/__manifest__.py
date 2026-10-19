@@ -1,6 +1,6 @@
 {
     'name': 'Tl_report_custom',
-    'version': '1.0',
+    'version': '20.0.1.0.0',
     'author': 'Felix',
     'category': 'Custom',
     'summary': 'Custom Reports for Inventory',

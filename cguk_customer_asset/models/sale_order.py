@@ -16,7 +16,7 @@ class SaleOrder(models.Model):
     parent_company = fields.Many2one(string='Parent Company', related='partner_id.parent_id')
     sale_customer_assets_ids = fields.One2many(
         comodel_name="customer.asset",
-        string="Customer Assets",
+        string="Sold Customer Assets",
         inverse_name="sale_order_id",
     )
     subscription_customer_assets_ids = fields.Many2many(
@@ -60,7 +60,7 @@ class SaleOrder(models.Model):
     renewal_date = fields.Date(string="Renewal Date")
 
     sale_customer_assets_count = fields.Integer(string="Customer Assets Count", compute="_compute_sale_customer_assets_count")
-    subscription_customer_assets_count = fields.Integer(string="Customer Assets", compute="_compute_subscription_customer_assets_count")
+    subscription_customer_assets_count = fields.Integer(string="Subscription Customer Assets Count", compute="_compute_subscription_customer_assets_count")
 
     @api.depends('sale_customer_assets_ids')
     def _compute_sale_customer_assets_count(self):

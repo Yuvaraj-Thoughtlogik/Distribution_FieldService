@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <odoo>
-    <record id="view_task_form2_warehouse_inherit" model="ir.ui.view">
-        <field name="name">project.task.form.warehouse</field>
-        <field name="model">project.task</field>
-        <field name="inherit_id" ref="project.view_task_form2"/>
+    <record id="planning_view_form_warehouse_inherit" model="ir.ui.view">
+        <field name="name">planning.slot.form.warehouse</field>
+        <field name="model">planning.slot</field>
+        <field name="inherit_id" ref="planning.planning_view_form"/>
+        <field name="priority">50</field>
         <field name="arch" type="xml">
-
-            <xpath expr="//field[@name='tag_ids']" position="after">
-                <field name="customer_assets_ids" widget="many2many_tags"  />
-                <field name="warehouse_id" options="{'no_create': True}" placeholder="Visible to all"/>
+            <xpath expr="//group[@name='slot_info_right']" position="inside">
+                <field name="warehouse_id" options="{'no_create': True}" placeholder="Visible to all"
+                       invisible="not partner_id" groups="stock.group_stock_user"/>
             </xpath>
         </field>
     </record>
@@ -18,7 +18,6 @@
         <field name="model">product.template</field>
         <field name="inherit_id" ref="product.product_template_form_view"/>
         <field name="arch" type="xml">
-
             <xpath expr="//group[@name='group_standard_price']//field[@name='company_id']" position="after">
                 <field name="warehouse_id" options="{'no_create': True}" placeholder="Visible to all"/>
             </xpath>

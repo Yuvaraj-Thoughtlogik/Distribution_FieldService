@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_service_contract_user,access.service.contract,service.contract,base.group_user,crud,
+access_service_contract_line_user,access.service.contract.line,service.contract.line,base.group_user,crud,
+access_share_sign_wizard,access.share.sign.wizard,share.sign.wizard,base.group_user,crud,
+access_send_contract_sign,access.send.contract.sign,send.contract.sign,base.group_user,crud,

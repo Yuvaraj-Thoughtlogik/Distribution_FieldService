@@ -12,6 +12,23 @@ class MailActivitySchedule(models.TransientModel):
 
 
     def _action_schedule_activities(self):
+        activities = super()._action_schedule_activities()
+        if activities:
+            activities.write({'status': self.status, 'priority': self.priority})
+        return activities
+
+
+class MailActivitySchedule(models.TransientModel):
+    _inherit = "mail.activity.schedule"
+
+
+    status = fields.Selection([("not_started" ,"Not Started") ,("started" ,"Started") ,("completed" ,"Completed")]
+                              ,string="Status" ,default="not_started")
+    priority = fields.Selection([("high" ,"High") ,("normal" ,"Normal") ,("low" ,"Low")] ,string="Priority"
+                                ,default="normal")
+
+
+    def _action_schedule_activities(self):
         return self._get_applied_on_records().activity_schedule(
             activity_type_id=self.activity_type_id.id,
             automated=False,

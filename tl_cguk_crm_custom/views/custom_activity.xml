@@ -1,30 +1,37 @@
 <odoo>
-    <!--  Inherit Form View to Modify it  -->
     <record id="mail_activity_schedule_view_form_inherit" model="ir.ui.view">
         <field name="name">Activity schedule</field>
         <field name="model">mail.activity.schedule</field>
         <field name="inherit_id" ref="mail.mail_activity_schedule_view_form"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='summary']" position="after">
-                <!--  Add your fields or attributes here  -->
-                <field name="status"/>
+            <xpath expr="//field[@name='summary']/.." position="after">
+                <div class="o_outlined d-flex align-items-baseline mb-2 gap-2">
+                    <i class="oi" data-icon="flag" title="Status"/>
+                    <field name="status" nolabel="1" class="w-100"/>
+                </div>
             </xpath>
-            <xpath expr="//field[@name='activity_user_id']" position="after">
-                <!--  Add your fields or attributes here  -->
-                <field name="priority"/>
+            <xpath expr="//field[@name='activity_user_id']/.." position="after">
+                <div class="o_outlined d-flex align-items-baseline mb-2 gap-2">
+                    <i class="oi" data-icon="priority_high" title="Priority"/>
+                    <field name="priority" nolabel="1" class="w-100"/>
+                </div>
             </xpath>
         </field>
     </record>
-    <!--  Inherit Form View to Modify it  -->
     <record id="mail_activity_view_form_popup_inherit" model="ir.ui.view">
         <field name="name">mail.activity.view.form.popup.inherit</field>
         <field name="model">mail.activity</field>
         <field name="inherit_id" ref="mail.mail_activity_view_form_popup"/>
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='summary']" position="after">
-                <!--  Add your fields or attributes here  -->
-                <field name="status"/>
-                <field name="priority"/>
+            <xpath expr="//field[@name='summary']/.." position="after">
+                <div class="o_outlined d-flex align-items-baseline mb-2 gap-2">
+                    <i class="oi" data-icon="flag" title="Status"/>
+                    <field name="status" nolabel="1" class="w-100"/>
+                </div>
+                <div class="o_outlined d-flex align-items-baseline mb-2 gap-2">
+                    <i class="oi" data-icon="priority_high" title="Priority"/>
+                    <field name="priority" nolabel="1" class="w-100"/>
+                </div>
             </xpath>
         </field>
     </record>

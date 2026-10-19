@@ -1,6 +1,6 @@
 from markupsafe import Markup
 
-from odoo import api, fields, models, tools
+from odoo import api, fields, models
 
 class ShareSignWizard(models.TransientModel):
     _name = 'share.sign.wizard'
@@ -15,7 +15,7 @@ class ShareSignWizard(models.TransientModel):
     #     )
     #
     #     lines = []
-    #     base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
+    #     base_url = self.get_base_url()
     #
     #     for item in sign_request.request_item_ids:
     #         lines.append((0, 0, {
@@ -23,7 +23,7 @@ class ShareSignWizard(models.TransientModel):
     #             'signer_id': item.partner_id.id,
     #             'request_item_id': item.id,
     #             'role': item.role_id.name,
-    #             'url': f"{base_url}/sign/document/{sign_request.id}/{item.access_token}",
+    #             'url': f"{base_url}/sign/document/{sign_request.id}/{item.sudo().access_token}",
     #         }))
     #
     #     res['line_ids'] = lines
@@ -65,6 +65,5 @@ class SignRequestItem(models.Model):
 
     @api.depends('sign_request_id')
     def _compute_request_url(self):
-        base_url = self.env['ir.config_parameter'].sudo().get_param('web.base.url')
         for rec in self:
-            rec.request_url = f"{base_url}/sign/document/{rec.sign_request_id.id}/{rec.access_token}"
+            rec.request_url = f"{rec.get_base_url()}/sign/document/{rec.sign_request_id.id}/{rec.sudo().access_token}"

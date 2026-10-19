@@ -1,0 +1,3 @@
+id,name,model_id,group_id/id,operation,domain
+access_sh_picking_backdate_wizard,access_sh_picking_backdate_wizard,sh.picking.backdate.wizard,base.group_user,crud,
+access_sh_scrap_backdate_wizard,access_sh_scrap_backdate_wizard,sh.scrap.backdate.wizard,base.group_user,crud,

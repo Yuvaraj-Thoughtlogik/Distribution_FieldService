@@ -19,7 +19,7 @@
         </record>
 
         <!-- Assign the custom paperformat to Field Service report action -->
-        <record id="industry_fsm.task_custom_report" model="ir.actions.report">
+        <record id="planning_field_service.intervention_report" model="ir.actions.report">
             <field name="paperformat_id" ref="tl_worksheet_form_report.paperformat_fsm_report" />
         </record>
 

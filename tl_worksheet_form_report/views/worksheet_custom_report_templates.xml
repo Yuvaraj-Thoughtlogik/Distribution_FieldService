@@ -1,27 +1,23 @@
 <odoo>
     <data>
-
         <!-- Use dedicated custom FSM layout with custom header -->
-        <template id="worksheet_custom" inherit_id="industry_fsm.worksheet_custom">
+        <template id="worksheet_custom" inherit_id="planning_field_service.worksheet_custom">
             <xpath expr="//t[@t-call='web.external_layout']" position="attributes">
                 <attribute name="t-call">tl_worksheet_form_report.custom_fsm_layout</attribute>
             </xpath>
         </template>
 
-        <template id="tl_worksheet_form_report.worksheet_custom_page"
-            inherit_id="industry_fsm_report.worksheet_custom_page">
-            <xpath expr="//div[@name='worksheet_map']" position="attributes">
+        <!-- Render the intervention worksheet (properties) with the CGUK styled layout -->
+        <template id="worksheet_custom_page" inherit_id="planning_field_service_worksheet.worksheet_custom_page">
+            <xpath expr="//div[@id='intevention_worksheet']" position="attributes">
                 <attribute name="style">margin-top: 25px; padding-top: 5px;</attribute>
             </xpath>
-            <xpath expr="//div[@name='worksheet_map']//br" position="replace" />
-            <xpath expr="//div[@name='worksheet_map']//h2" position="replace">
-                <h4 style="margin: 20px 0 2px 0;">Worksheet</h4>
-            </xpath>
-            <xpath expr="//t[@t-call='#{doc.worksheet_template_id.report_view_id.id}']"
-                position="replace">
-                <t t-raw="doc.generate_worksheet_html(doc.worksheet_template_id.id)" />
+            <xpath expr="//div[@id='intevention_worksheet']/t[@t-call='planning_field_service_worksheet.planning_slot_worksheet_properties_display']" position="replace">
+                <div class="col-12">
+                    <h4 style="margin: 20px 0 2px 0;">Worksheet</h4>
+                    <t t-out="doc.generate_worksheet_html()"/>
+                </div>
             </xpath>
         </template>
-
     </data>
 </odoo>

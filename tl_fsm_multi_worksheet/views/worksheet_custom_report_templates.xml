@@ -1,48 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
-
-    <template
-        id="worksheet_custom_page"
-        inherit_id="industry_fsm.worksheet_custom_page"
-    >
-
-        <!-- Hide the standard single worksheet -->
-        <xpath
-            expr="//div[@name='worksheet_signature']/preceding-sibling::t[1]"
-            position="attributes"
-        >
-            <attribute name="t-if">
-                doc.worksheet_count and doc.worksheet_template_id.report_view_id and
-                worksheet_map.get(doc.id) and not doc.multiple_worksheet
-            </attribute>
+    <!-- Hide the single worksheet when the intervention uses multiple worksheets -->
+    <template id="worksheet_custom_page_single_hide" inherit_id="planning_field_service_worksheet.worksheet_custom_page">
+        <xpath expr="//div[@id='intevention_worksheet']" position="attributes">
+            <attribute name="t-if">not doc.multiple_worksheet and doc.worksheet_template_id and (any(doc.worksheet_properties.values()) or doc.has_studio_worksheet_fields)</attribute>
         </xpath>
-
-        <!-- Add multiple worksheets -->
-        <xpath expr="//div[@name='worksheet_signature']" position="before">
-
-            <t t-if="doc.multiple_worksheet and doc.fsm_worksheet_ids">
-                <t t-set="completed_fsm_worksheets" t-value="doc.fsm_worksheet_ids.filtered(lambda w: w.state == 'completed')" />
-                <h2  style="margin-top: 25px; padding-top: 5px;"  t-if="completed_fsm_worksheets">Worksheets</h2>
-                    <t t-foreach="completed_fsm_worksheets" t-as="fsm_worksheet">
-
-                        <div
-                            name="worksheets_map"
-                            style=" padding-top: 5px;"
-                        >
-                            <h4 style="margin: 4px 0 2px 0;" t-out="fsm_worksheet.name" />
-                            <h6 style="margin: 2px 0 4px 0;" t-if="fsm_worksheet.customer_asset_id"> Customer Asset: <span
-                                    t-out="fsm_worksheet.customer_asset_id.display_name" />
-                            </h6>
-                            <t
-                                t-raw="doc.generate_worksheet_html(fsm_worksheet.worksheet_template_id.id, fsm_worksheet.worksheet_id)" />
-                            <div style="page-break-after: always;" t-if="not fsm_worksheet_last" />
-                        </div>
-
-                    </t>
-            </t>
-
-        </xpath>
-
     </template>
 
+    <!-- Add multiple worksheets -->
+    <template id="worksheet_custom_page" inherit_id="planning_field_service.worksheet_custom_page">
+        <xpath expr="//div[@name='worksheet_signature']" position="before">
+            <t t-if="doc.multiple_worksheet and doc.fsm_worksheet_ids">
+                <t t-set="completed_fsm_worksheets" t-value="doc._get_multi_worksheets_props()"/>
+                <h2 style="margin-top: 25px; padding-top: 5px;" t-if="completed_fsm_worksheets">Worksheets</h2>
+                <t t-foreach="completed_fsm_worksheets" t-as="worksheet_data">
+                    <t t-set="fsm_worksheet" t-value="worksheet_data[0]"/>
+                    <div name="worksheets_map" style="padding-top: 5px;">
+                        <h4 style="margin: 4px 0 2px 0;" t-out="fsm_worksheet.name"/>
+                        <h6 style="margin: 2px 0 4px 0;" t-if="fsm_worksheet.customer_asset_id">Customer Asset: <span t-out="fsm_worksheet.customer_asset_id.display_name"/></h6>
+                        <t t-out="doc._render_worksheet_html(worksheet_data[1])"/>
+                        <div style="page-break-after: always;" t-if="not worksheet_data_last"/>
+                    </div>
+                </t>
+            </t>
+        </xpath>
+    </template>
 </odoo>

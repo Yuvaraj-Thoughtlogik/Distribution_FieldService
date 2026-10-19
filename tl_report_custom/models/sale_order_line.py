@@ -4,7 +4,7 @@ from odoo import models,fields,api
 class SaleOrderLine(models.Model):
     _inherit = 'sale.order.line'
 
-    description = fields.Text(string="Description")
+    description = fields.Text(string="Line Description")
 
     @api.onchange('product_template_id')
     def _onchange_get_description(self):

@@ -1,0 +1,5 @@
+id,name,model_id,group_id/id,operation,domain
+access_equipment_type,access.equipment_type,equipment.type,base.group_user,crud,
+access_sample_material,access.sample_material,sample.material,base.group_user,crud,
+access_analysis_analysis,access.analysis_analysis,analysis.analysis,base.group_user,crud,
+access_preparation_requirements,access.preparation_requirements,preparation.requirements,base.group_user,crud,

@@ -1,0 +1,6 @@
+id,name,model_id,group_id/id,operation,domain
+access_manufacturer_user,access.crm.lead.manufacture,crm.lead.manufacture,base.group_user,crud,
+access_sample_material_option_user,access.crm.lead.sample_material_option,crm.lead.sample_material_option,base.group_user,crud,
+access_analysis_option_user,access.crm.lead.analysis_option,crm.lead.analysis_option,base.group_user,crud,
+access_sample_preparation_option_user,access.crm.lead.sample_preparation_option,crm.lead.sample_preparation_option,base.group_user,crud,
+access_calendar_type_visit_user,access.calendar.type.visit,calendar.type.visit,base.group_user,crud,

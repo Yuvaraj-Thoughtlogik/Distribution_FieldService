@@ -85,7 +85,7 @@
                     <field name="sale_id" string="Current Subscription" widget="statinfo"/>
                 </button>
             </xpath>
-            <xpath expr="//page[@name='lead']//group[@name='Misc']//field[@name='team_id']" position="after">
+            <xpath expr="//group[@name='Misc']/field[@name='team_id']" position="after">
                 <field name="sale_id" readonly="1"/>
             </xpath>
 

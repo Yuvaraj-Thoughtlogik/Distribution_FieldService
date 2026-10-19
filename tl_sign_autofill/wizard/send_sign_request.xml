@@ -7,9 +7,11 @@
       <field name="inherit_id" ref="sign.sign_send_request_view_form"/>
       <field name="arch" type="xml">
 
-         <xpath expr="//page[@name='signature_request']" position="after">
-            <page name="Auto Fill Fields">
-               <field name="request_item_value_ids">
+         <!-- Odoo 20: the wizard has no notebook anymore -->
+         <xpath expr="//field[@name='message_cc']" position="after">
+            <div invisible="not template_id or not request_item_value_ids" colspan="2">
+               <separator string="Auto Fill Fields"/>
+               <field name="request_item_value_ids" nolabel="1">
                   <list create="false">
                      <field name="name"/>
                      <field name="role_id"/>
@@ -26,7 +28,7 @@
                      </group>
                   </form>
                </field>
-            </page>
+            </div>
 
          </xpath>
 

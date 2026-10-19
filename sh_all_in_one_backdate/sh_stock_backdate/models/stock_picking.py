@@ -16,11 +16,17 @@ class StockPicking(models.Model):
 
     @api.onchange('scheduled_date')
     def onchange_scheduled_date(self):
-        if str(self.scheduled_date.date()) < str(date.today()):
+        if self.scheduled_date and str(self.scheduled_date.date()) < str(date.today()):
             self.is_boolean = True
         else:
             self.is_boolean = False
 
     def _set_scheduled_date(self):
-        for picking in self:
-            picking.move_ids.write({'date': picking.scheduled_date})
+        # Core skips done pickings; with backdate enabled the done moves also follow
+        # the scheduled date (stock_account replays the valuation on date change).
+        done_backdated = self.filtered(
+            lambda p: p.state == 'done'
+            and (p.company_id.backdate_for_picking or p.company_id.backdate_for_stock_move))
+        super(StockPicking, self - done_backdated)._set_scheduled_date()
+        for picking in done_backdated:
+            picking.move_ids.with_context(sh_skip_backdate=True).write({'date': picking.scheduled_date})

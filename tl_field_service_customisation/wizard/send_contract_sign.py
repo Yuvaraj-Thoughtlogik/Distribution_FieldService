@@ -1,4 +1,4 @@
-from odoo import api, fields, models, tools
+from odoo import api, fields, models
 
 
 class SendContractSign(models.TransientModel):
@@ -13,8 +13,8 @@ class SendContractSign(models.TransientModel):
         if not template:
             return []
         template._check_send_ready()
-        user_role_id = self.env['ir.model.data']._xmlid_to_res_id('sign.sign_item_role_user')
-        role_customer_id = self.env['ir.model.data']._xmlid_to_res_id('sign.sign_item_role_customer')
+        user_role_id = self.env['service.contract']._get_sign_role('user').id
+        role_customer_id = self.env['service.contract']._get_sign_role('customer').id
 
         order_id = self.env['sale.order'].browse(self.env.context.get('default_order_id'))
 
@@ -63,16 +63,14 @@ class SendContractSign(models.TransientModel):
 
                 sign_url = ""
                 if sign_request and sign_request.request_item_ids:
-                    base_url = order.env['ir.config_parameter'].sudo().get_param('web.base.url')
-                    role_customer_id = self.env['ir.model.data']._xmlid_to_res_id(
-                        'sign.sign_item_role_customer'
-                    )
+                    base_url = order.get_base_url()
+                    role_customer_id = self.env['service.contract']._get_sign_role('customer').id
                     item = sign_request.request_item_ids.filtered(
                         lambda r: r.role_id.id == role_customer_id
                     )[:1]
 
                     item = item and item[0] or False
-                    sign_url = f"{base_url}/sign/document/{sign_request.id}/{item.access_token}"
+                    sign_url = f"{base_url}/sign/document/{sign_request.id}/{item.sudo().access_token}"
 
                 ctx.update({
                     'default_send_with_service_contract': True,
